@@ -91,7 +91,14 @@ export default function Home() {
                   Marketing digital, personal branding, SEO y sistemas de crecimiento para emprendedores y empresas que quieren verse y vender como una marca premium.
                 </p>
                 <div className="hero-actions">
-                  <button className="cta-primary">Iniciar Consultoría Gratuita</button>
+                  <a
+                    className="cta-primary"
+                    href="https://api.whatsapp.com/send?phone=573193677929&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Iniciar Consultoría Gratuita
+                  </a>
                   <Link href="/servicios" className="cta-secondary">
                     Ver Servicios
                   </Link>

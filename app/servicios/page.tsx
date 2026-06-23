@@ -79,7 +79,14 @@ export default function ServicesPage() {
                 No vendemos servicios. Construimos sistemas de posicionamiento, visibilidad y conversión que trabajan de forma integrada. Cada solución está diseñada para escalar tu percepción de valor, atraer clientes de alto perfil y convertir tu presencia digital en el activo más rentable de tu negocio.
               </p>
               <div className="hero-actions">
-                <Link href="/contacto" className="cta-primary">Iniciar Consultoría Gratuita</Link>
+                <a
+                  className="cta-primary"
+                  href="https://api.whatsapp.com/send?phone=573193677929&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Iniciar Consultoría Gratuita
+                </a>
                 <Link href="/casos-de-exito" className="cta-secondary">Ver Casos de Éxito</Link>
               </div>
               <div className="chip-row" style={{ marginTop: '24px' }}>
