@@ -87,7 +87,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                   gap: '30px',
                   cursor: 'pointer',
                   transition: 'box-shadow 0.3s ease',
-                  boxShadow: '0 14px 40px rgba(0,0,0,0.22)',
                 }}
               >
                 <img
