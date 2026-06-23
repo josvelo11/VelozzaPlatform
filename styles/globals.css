@@ -74,6 +74,67 @@ a {
   box-shadow: var(--shadow);
 }
 
+.americas-map-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.americas-map-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+.americas-land path {
+  fill: rgba(212, 175, 55, 0.11);
+  stroke: rgba(244, 207, 99, 0.42);
+  stroke-width: 2;
+}
+
+.americas-grid path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+.ops-dot circle {
+  fill: #f4cf63;
+  stroke: rgba(123, 98, 32, 0.7);
+  stroke-width: 2;
+}
+
+.ops-dot-main circle {
+  fill: #d4af37;
+  stroke: #f4cf63;
+}
+
+.ops-pulse {
+  fill: rgba(244, 207, 99, 0.18);
+  stroke: rgba(244, 207, 99, 0.35);
+  transform-origin: center;
+  animation: opsPulse 2.8s ease-out infinite;
+}
+
+.ops-label {
+  fill: rgba(248, 245, 237, 0.86);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+@keyframes opsPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
 .hero-shell::before,
 .hero-shell::after {
   content: '';
@@ -306,6 +367,10 @@ a {
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ops-label {
+    font-size: 14px;
   }
 }
 
