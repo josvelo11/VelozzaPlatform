@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { organizationSchema } from '@/lib/seo/schema';
+import AmericasOperationsMap from '@/components/AmericasOperationsMap';
 
 export const metadata: Metadata = {
   title: 'Velozza Creative Works | Marketing Digital y Personal Branding',
@@ -81,49 +82,7 @@ export default function Home() {
       <main>
         <section className="section-shell">
           <div className="hero-shell">
-            <div className="americas-map-bg" aria-hidden="true">
-              <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
-                <g className="americas-land">
-                  <path d="M181 118l38 20 9 27 31 14 23 40 35 10 16 18-8 16-34 8-23 20-2 17 17 24-16 19-34-1-17 9 6 22-21 10-24-2-8 18-19 11-16-10-11-22-30-16-6-30 18-15-5-17 12-16 24-7 17-20 15-5 6-29 17-9z" />
-                  <path d="M451 333l29 8 28 26 30 8 10 22 34 19 9 17-9 17-27 8-26-5-26 14-8 25 6 24-11 15-23 2-17-16-13-32-19-13-8-28-18-18-12-34 12-25 19-9z" />
-                  <path d="M557 489l27 5 15 20 16 7 6 19-13 22 3 21-16 31 9 20-19 28-16 49-19 13-20-24-11-34 5-24-14-31 4-26 18-20 2-18 14-27 9-31z" />
-                </g>
-
-                <g className="americas-grid">
-                  <path d="M80 600h1040" />
-                  <path d="M80 500h1040" />
-                  <path d="M80 400h1040" />
-                  <path d="M80 300h1040" />
-                  <path d="M80 200h1040" />
-                </g>
-
-                <g>
-                  <g className="ops-dot ops-dot-main" transform="translate(525,470)">
-                    <circle r="9" />
-                    <circle className="ops-pulse" r="9" />
-                  </g>
-                  <text x="545" y="475" className="ops-label">Colombia HQ</text>
-
-                  <g className="ops-dot" transform="translate(494,376)"><circle r="7" /></g>
-                  <text x="512" y="381" className="ops-label">US Hispanic</text>
-
-                  <g className="ops-dot" transform="translate(395,383)"><circle r="7" /></g>
-                  <text x="413" y="388" className="ops-label">México</text>
-
-                  <g className="ops-dot" transform="translate(497,451)"><circle r="7" /></g>
-                  <text x="515" y="456" className="ops-label">Centroamérica</text>
-
-                  <g className="ops-dot" transform="translate(548,536)"><circle r="7" /></g>
-                  <text x="566" y="541" className="ops-label">Perú</text>
-
-                  <g className="ops-dot" transform="translate(590,617)"><circle r="7" /></g>
-                  <text x="608" y="622" className="ops-label">Chile</text>
-
-                  <g className="ops-dot" transform="translate(649,650)"><circle r="7" /></g>
-                  <text x="667" y="655" className="ops-label">Argentina</text>
-                </g>
-              </svg>
-            </div>
+            <AmericasOperationsMap />
             <div className="hero-grid">
               <div>
                 <div className="eyebrow">Velozza Creative Works</div>
