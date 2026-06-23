@@ -42,7 +42,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 display: 'inline-block',
                 padding: '8px 16px',
                 backgroundColor: !selectedCategory ? '#f4cf63' : 'rgba(255,255,255,0.04)',
-                color: !selectedCategory ? 'white' : '#333',
+                color: !selectedCategory ? '#0b0b0b' : '#efe9d6',
                 borderRadius: '4px',
               }}
             >
@@ -57,7 +57,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 textDecoration: 'none',
                 padding: '8px 16px',
                 backgroundColor: selectedCategory === category ? '#f4cf63' : 'rgba(255,255,255,0.04)',
-                color: selectedCategory === category ? 'white' : '#333',
+                color: selectedCategory === category ? '#0b0b0b' : '#efe9d6',
                 borderRadius: '4px',
                 display: 'inline-block',
               }}
@@ -86,13 +86,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                   gridTemplateColumns: '200px 1fr',
                   gap: '30px',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 16px 48px rgba(212,175,55,0.12)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 14px 40px rgba(0,0,0,0.22)';
+                  transition: 'box-shadow 0.3s ease',
+                  boxShadow: '0 14px 40px rgba(0,0,0,0.22)',
                 }}
               >
                 <img
