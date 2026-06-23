@@ -4,15 +4,16 @@ import { getAllBlogPosts, getAllBlogCategories } from '@/lib/blog';
 import Link from 'next/link';
 
 type BlogPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     category?: string;
-  };
+  }>;
 };
 
-export default function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage({ searchParams }: BlogPageProps) {
   const posts = getAllBlogPosts();
   const categories = getAllBlogCategories();
-  const selectedCategory = searchParams?.category ?? null;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const selectedCategory = resolvedSearchParams?.category ?? null;
 
   const filteredPosts = selectedCategory
     ? posts.filter((post) => post.category === selectedCategory)
@@ -52,8 +53,8 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
             <Link
               key={category}
               href={`/blog?category=${encodeURIComponent(category)}`}
-              style={{ textDecoration: 'none' }}
               style={{
+                textDecoration: 'none',
                 padding: '8px 16px',
                 backgroundColor: selectedCategory === category ? '#f4cf63' : 'rgba(255,255,255,0.04)',
                 color: selectedCategory === category ? 'white' : '#333',

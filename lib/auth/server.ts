@@ -1,16 +1,40 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+async function createSupabaseServerClient() {
+  const cookieStore = await cookies();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    '';
+
+  return createServerClient(supabaseUrl, supabaseKey, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
+        } catch {
+          // Read-only contexts cannot mutate cookies.
+        }
+      },
+    },
+  });
+}
+
 export async function getSession() {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  
   try {
+    const supabase = await createSupabaseServerClient();
     const {
       data: { session },
     } = await supabase.auth.getSession();
-    
+
     return session;
   } catch (error) {
     console.error('Error getting session:', error);
@@ -20,14 +44,13 @@ export async function getSession() {
 
 export async function getUserWithProfile() {
   const session = await getSession();
-  
+
   if (!session?.user) {
     return null;
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  
+  const supabase = await createSupabaseServerClient();
+
   const { data: user } = await supabase
     .from('users')
     .select('*')
@@ -42,7 +65,7 @@ export async function getUserWithProfile() {
 
 export async function requireAuth(requiredRole?: string | string[]) {
   const user = await getUserWithProfile();
-  
+
   if (!user) {
     redirect('/login');
   }
@@ -59,14 +82,13 @@ export async function requireAuth(requiredRole?: string | string[]) {
 
 export async function getOrganization() {
   const user = await getUserWithProfile();
-  
+
   if (!user?.profile?.organization_id) {
     return null;
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  
+  const supabase = await createSupabaseServerClient();
+
   const { data: org } = await supabase
     .from('organizations')
     .select('*')

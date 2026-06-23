@@ -325,7 +325,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     const header = ['id', 'title', 'owner', 'status', 'due_date', 'priority'];
     const lines = records.map((r) => [r.id, r.title, r.owner, r.status, r.dueDate || '', r.priority || '']);
     const csv = [header, ...lines]
-      .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(','))
+      .map((row) => row.map((cell) => `"${String(cell).split('"').join('""')}"`).join(','))
       .join('\n');
 
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });

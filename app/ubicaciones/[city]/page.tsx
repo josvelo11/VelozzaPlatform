@@ -5,16 +5,17 @@ import path from 'path';
 import { notFound } from 'next/navigation';
 
 interface Props {
-  params: { city: string };
+  params: Promise<{ city: string }>;
 }
 
 export function generateStaticParams() {
   return ['bogota', 'medellin'].map((city) => ({ city }));
 }
 
-export default function LocationPage({ params }: Props) {
+export default async function LocationPage({ params }: Props) {
   try {
-    const filePath = path.join(process.cwd(), `content/locations/${params.city}.json`);
+    const { city } = await params;
+    const filePath = path.join(process.cwd(), `content/locations/${city}.json`);
     const content = fs.readFileSync(filePath, 'utf8');
     const location = JSON.parse(content);
 

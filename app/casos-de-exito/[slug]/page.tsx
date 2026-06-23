@@ -4,15 +4,16 @@ import { FAQ } from '@/components/seo/FAQ';
 import { getCaseStudyBySlug, getCaseStudySchema } from '@/lib/case-studies';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
   return ['brandlift-co', 'law-firm-la'].map((slug) => ({ slug }));
 }
 
-export default function CaseStudyDetailPage({ params }: Props) {
-  const study = getCaseStudyBySlug(params.slug);
+export default async function CaseStudyDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const study = getCaseStudyBySlug(slug);
 
   if (!study) notFound();
 

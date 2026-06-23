@@ -6,15 +6,16 @@ import { getIndustryBySlug } from '@/lib/industries';
 import { serviceSchema } from '@/lib/seo/schema';
 
 interface Props {
-  params: { industry: string };
+  params: Promise<{ industry: string }>;
 }
 
 export function generateStaticParams() {
   return ['insurance-agencies', 'realtors'].map((industry) => ({ industry }));
 }
 
-export default function IndustryPage({ params }: Props) {
-  const industry = getIndustryBySlug(params.industry);
+export default async function IndustryPage({ params }: Props) {
+  const { industry: industrySlug } = await params;
+  const industry = getIndustryBySlug(industrySlug);
 
   if (!industry) notFound();
 

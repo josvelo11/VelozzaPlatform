@@ -6,7 +6,7 @@ import path from 'path';
 import { notFound } from 'next/navigation';
 
 interface Props {
-  params: { service: string };
+  params: Promise<{ service: string }>;
 }
 
 export function generateStaticParams() {
@@ -15,9 +15,10 @@ export function generateStaticParams() {
   );
 }
 
-export default function ServicePage({ params }: Props) {
+export default async function ServicePage({ params }: Props) {
   try {
-    const filePath = path.join(process.cwd(), `content/services/${params.service}.json`);
+    const { service: serviceSlug } = await params;
+    const filePath = path.join(process.cwd(), `content/services/${serviceSlug}.json`);
     const content = fs.readFileSync(filePath, 'utf8');
     const service = JSON.parse(content);
 
@@ -25,7 +26,7 @@ export default function ServicePage({ params }: Props) {
       service.title,
       service.longDescription,
       '/service-image.jpg',
-      `https://velozzaworks.com/servicios/${params.service}`
+      `https://velozzaworks.com/servicios/${serviceSlug}`
     );
 
   return (
