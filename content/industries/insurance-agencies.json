@@ -1,0 +1,11 @@
+{
+  "slug": "insurance-agencies",
+  "name": "Agencias de Seguros",
+  "title": "Marketing para Agencias de Seguros",
+  "description": "Arquitectura programática para posicionar agencias de seguros en búsquedas locales y temáticas.",
+  "pillar": "SEO Services",
+  "intent": ["lead generation", "local SEO", "authority building"],
+  "keywords": ["marketing para agencias de seguros", "seo para seguros", "leads seguros"],
+  "cities": ["bogota", "medellin"],
+  "services": ["seo-services", "lead-generation", "content-marketing"]
+}

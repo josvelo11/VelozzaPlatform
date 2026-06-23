@@ -1,0 +1,33 @@
+{
+  "name": "velozza-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.15.0",
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.108.2",
+    "clsx": "^2.1.1",
+    "gray-matter": "^4.0.3",
+    "next": "15.0.0",
+    "next-intl": "^4.13.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "sharp": "^0.35.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "15.0.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.next/
+Disallow: /private/
+Disallow: /dashboard/
+
+# Sitemaps
+Sitemap: https://velozzaworks.com/sitemap.xml
+Sitemap: https://velozzaworks.com/sitemap-es.xml
+Sitemap: https://velozzaworks.com/sitemap-en.xml
+
+# Crawl delay (respetuoso)
+Crawl-delay: 1
+
+# Rules for specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

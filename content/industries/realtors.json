@@ -1,0 +1,11 @@
+{
+  "slug": "realtors",
+  "name": "Agentes Inmobiliarios",
+  "title": "Marketing para Realtors",
+  "description": "Plantilla programática para captar leads inmobiliarios orgánicos en múltiples ciudades.",
+  "pillar": "Personal Branding",
+  "intent": ["lead generation", "personal branding", "local SEO"],
+  "keywords": ["marketing para agentes inmobiliarios", "seo para realtors", "leads inmobiliarios"],
+  "cities": ["bogota", "medellin"],
+  "services": ["personal-branding", "seo-services", "lead-generation"]
+}
