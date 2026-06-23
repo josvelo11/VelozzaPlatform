@@ -18,15 +18,13 @@ export default function ClienteAccessPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem('sb-auth-token');
-    const role = localStorage.getItem('sb-user-role');
-    if (token && role) {
-      if (role === 'client') {
-        router.replace('/client/publication-planner');
-      } else {
-        router.replace('/admin/dashboard');
-      }
-    }
+    // Force manual authentication on this entry page.
+    // This avoids direct auto-access from stale local session values.
+    localStorage.removeItem('sb-auth-token');
+    localStorage.removeItem('sb-user-email');
+    localStorage.removeItem('sb-user-role');
+    document.cookie = 'sb-auth-token=; Path=/; Max-Age=0; SameSite=Lax';
+    void supabase.auth.signOut();
   }, [router]);
 
   const handleClientAccess = async (e: React.FormEvent) => {
