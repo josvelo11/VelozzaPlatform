@@ -96,7 +96,7 @@ export default function RootLayout({
             <div className="footer-grid" style={{ marginBottom: '40px' }}>
               <div>
                 <h4>Velozza Creative Works</h4>
-                <p style={{ color: 'rgba(248,245,237,0.68)' }}>Transformando empresas a través del marketing digital estratégico.</p>
+                <p style={{ color: 'rgba(248,245,237,0.68)' }}>Ingeniería visual y posicionamiento premium para marcas y líderes que exigen dominar su mercado.</p>
               </div>
               <div>
                 <h4>Servicios</h4>
@@ -104,6 +104,9 @@ export default function RootLayout({
                   <li><a href="/servicios/personal-branding" style={{ color: '#f4cf63' }}>Personal Branding</a></li>
                   <li><a href="/servicios/social-media-management" style={{ color: '#f4cf63' }}>Social Media</a></li>
                   <li><a href="/servicios/seo-services" style={{ color: '#f4cf63' }}>SEO Services</a></li>
+                                  <li><a href="/servicios/video-marketing" style={{ color: '#f4cf63' }}>Video Marketing</a></li>
+                                  <li><a href="/servicios" style={{ color: '#f4cf63' }}>Fotografía Corporativa</a></li>
+                                  <li><a href="/servicios" style={{ color: '#f4cf63' }}>Eventos Élite</a></li>
                 </ul>
               </div>
               <div>

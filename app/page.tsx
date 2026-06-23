@@ -26,24 +26,40 @@ const schema = organizationSchema();
 
 const services = [
   {
-    title: 'Personal Branding',
+    title: 'Personal Branding & Legacy',
     icon: '👤',
-    description: 'Construye autoridad en tu industria',
+    description: 'Transformamos expertos en íconos de su industria. Arquitectura de persuasión e identidad visual minimalista para atraer clientes high-ticket y convertir tu nombre en un activo de alto valor que trabaja solo.',
+    href: '/servicios/personal-branding',
   },
   {
-    title: 'Social Media',
+    title: 'Social Media Management',
     icon: '📱',
-    description: 'Crecimiento y engagement garantizado',
+    description: 'Ecosistemas de conversión, no de vanidad. Embudos de contenido estratégico con gatillos psicológicos que capturan atención, educan a tu audiencia y transforman el tráfico frío en comunidad leal y rentable.',
+    href: '/servicios/social-media-management',
   },
   {
-    title: 'SEO Services',
+    title: 'Posicionamiento SEO',
     icon: '🔎',
-    description: 'Posicionamiento en Google',
+    description: 'Construimos bienes raíces digitales. Mientras tu competencia paga por visibilidad efímera, estructuramos tu autoridad orgánica para que seas la única opción lógica cuando tu cliente ideal esté listo para comprar.',
+    href: '/servicios/seo-services',
   },
   {
-    title: 'Video Marketing',
+    title: 'Video Marketing & Cinematografía',
     icon: '🎥',
-    description: 'Contenido viral y conversión',
+    description: 'No grabamos videos, producimos activos digitales. Iluminación de alto contraste, color grading cinematográfico y dirección de arte para crear piezas que paralizan el scroll y fuerzan la retención.',
+    href: '/servicios/video-marketing',
+  },
+  {
+    title: 'Fotografía Corporativa',
+    icon: '📷',
+    description: 'Retratos de autoridad para perfiles C-Level y equipos ejecutivos. Tu imagen debe proyectar el mismo nivel de excelencia que tu empresa. Dominamos la luz y la dirección de arte para transmitir poder, confianza y exclusividad.',
+    href: '/servicios',
+  },
+  {
+    title: 'Eventos Sociales Élite',
+    icon: '⭐',
+    description: 'Cobertura documental y cinematográfica para galas corporativas, lanzamientos de alto perfil y celebraciones privadas. Discreción absoluta y una estética visual inmaculada que preserva el legado de cada evento.',
+    href: '/servicios',
   },
 ];
 
@@ -102,16 +118,20 @@ export default function Home() {
 
         <section className="section-shell">
           <h2 className="section-title">Nuestros Servicios</h2>
+          <h2 className="section-title">Ecosistemas de Crecimiento</h2>
           <p className="section-lead muted">
-            Un sistema completo de crecimiento con branding, adquisición orgánica, contenido y conversión.
+            No vendemos servicios aislados. Cada solución forma parte de un sistema integrado de posicionamiento, visibilidad y conversión diseñado para marcas que operan en la categoría premium.
           </p>
           <div className="feature-grid">
             {services.map((service) => (
-              <article key={service.title} className="feature-card">
-                <div className="feature-icon">{service.icon}</div>
-                <h3 style={{ margin: '0 0 10px' }}>{service.title}</h3>
-                <p style={{ margin: 0 }}>{service.description}</p>
-              </article>
+              <Link key={service.title} href={service.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <article className="feature-card" style={{ minHeight: '220px', cursor: 'pointer' }}>
+                  <div className="feature-icon">{service.icon}</div>
+                  <h3 style={{ margin: '0 0 10px' }}>{service.title}</h3>
+                  <p style={{ margin: 0 }}>{service.description}</p>
+                  <div style={{ marginTop: '18px', color: 'var(--accent-strong)', fontWeight: 700, fontSize: '0.9rem' }}>Ver detalle →</div>
+                </article>
+              </Link>
             ))}
           </div>
         </section>
@@ -134,15 +154,15 @@ export default function Home() {
               }}
             >
               <h2 className="section-title" style={{ color: 'white', marginBottom: 0 }}>
-                ¿Listo para Crecer?
+                ¿Listo para Escalar tu Percepción de Marca?
               </h2>
               <p style={{ color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                Agenda tu consultoría gratuita y revisamos cómo tu marca debe verse, posicionarse y convertir.
+                Agenda una sesión estratégica de 30 minutos y construyamos juntos el mapa exacto para posicionarte como el referente absoluto de tu sector. Sin plantillas genéricas, sin paquetes predefinidos: arquitectura de marca a medida.
               </p>
               <div className="hero-actions" style={{ justifyContent: 'center', marginTop: '8px' }}>
-                <button className="cta-primary">Agendar Consultoría</button>
+                <button className="cta-primary">Agendar Consultoría Privada</button>
                 <Link href="/casos-de-exito" className="cta-secondary">
-                  Ver Casos de Éxito
+                  Ver Resultados Reales
                 </Link>
               </div>
             </div>
@@ -151,12 +171,55 @@ export default function Home() {
 
         <section className="section-shell">
           <h2 className="section-title">Últimos Artículos del Blog</h2>
+          <h2 className="section-title">La Bóveda de Inteligencia</h2>
           <p className="section-lead muted">
-            Ideas, estrategia y posicionamiento para crecer en búsqueda orgánica y autoridad de marca.
+            Tácticas de retención, neuromarketing y análisis de algoritmos. Las estrategias exactas que aplicamos con nuestros clientes de élite.
           </p>
+          <div style={{ display: 'grid', gap: '22px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', marginBottom: '36px' }}>
+            {[
+              {
+                badge: 'Neuromarketing',
+                title: 'El Lujo Silencioso en el Diseño Digital: Cómo Vender High-Ticket Sin Levantar la Voz.',
+                excerpt: 'En un mercado saturado de ruido, el espacio negativo y el contraste son el nuevo lujo. Las paletas sobrias y la tipografía estructurada elevan subconscientemente el precio que tus clientes están dispuestos a pagar.',
+                date: 'Junio 2025',
+                readTime: '8 min de lectura',
+                href: '/blog/personal-branding-2025',
+              },
+              {
+                badge: 'Cinematografía',
+                title: 'La Psicología de la Luz: Por Qué tu Video 4K No Está Convirtiendo.',
+                excerpt: 'Una cámara costosa no genera deseo; el contraste sí. El uso estratégico de luces bi-color, direccionalidad de sombras y color grading separan un video corporativo aburrido de un activo digital que vende.',
+                date: 'Mayo 2025',
+                readTime: '6 min de lectura',
+                href: '/blog/seo-tendencias-2025',
+              },
+              {
+                badge: 'Estrategia SEO',
+                title: 'Sobreviviendo al Algoritmo: La Arquitectura de un Dominio Inquebrantable.',
+                excerpt: 'Las redes sociales alquilan tu audiencia, el SEO la hace tuya. Guía para estructurar tu sitio como un ecosistema de autoridad que captura demanda orgánica mes a mes sin depender de pauta.',
+                date: 'Abril 2025',
+                readTime: '10 min de lectura',
+                href: '/blog/seo-tendencias-2025',
+              },
+            ].map((art) => (
+              <Link key={art.title} href={art.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <article className="feature-card" style={{ minHeight: '260px', cursor: 'pointer' }}>
+                  <span style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '999px', background: 'rgba(212,175,55,0.12)', border: '1px solid rgba(212,175,55,0.22)', color: '#f4cf63', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '14px' }}>{art.badge}</span>
+                  <h3 style={{ margin: '0 0 12px', fontSize: '1.05rem', lineHeight: '1.4' }}>{art.title}</h3>
+                  <p style={{ margin: '0 0 16px', fontSize: '0.93rem' }}>{art.excerpt}</p>
+                  <div style={{ display: 'flex', gap: '12px', fontSize: '0.82rem', color: 'var(--text-soft)', marginBottom: '16px' }}>
+                    <span>{art.date}</span>
+                    <span>·</span>
+                    <span>{art.readTime}</span>
+                  </div>
+                  <div style={{ color: 'var(--accent-strong)', fontWeight: 700, fontSize: '0.9rem' }}>Leer Análisis Completo →</div>
+                </article>
+              </Link>
+            ))}
+          </div>
           <div style={{ textAlign: 'center' }}>
             <Link href="/blog" className="cta-primary">
-              Leer blog completo
+              Acceder a La Bóveda
             </Link>
           </div>
         </section>

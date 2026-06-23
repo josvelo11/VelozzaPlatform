@@ -29,9 +29,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       />
 
       <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-        <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Blog</h1>
-        <p style={{ fontSize: '18px', color: '#a7a7a7', marginBottom: '40px' }}>
-          Artículos y recursos sobre marketing digital, SEO y branding
+        <h1 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', marginBottom: '16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>La Bóveda de Inteligencia</h1>
+        <p style={{ fontSize: '1.08rem', color: '#a7a7a7', marginBottom: '40px', maxWidth: '68ch' }}>
+          Tácticas de retención, neuromarketing y análisis de algoritmos. Las estrategias exactas de arquitectura de marca que aplicamos con nuestros clientes de élite, publicadas para quienes saben aprovecharlas.
         </p>
 
         {/* Categorías */}
@@ -77,10 +77,11 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             >
               <article
                 style={{
-                  backgroundColor: 'white',
-                  borderRadius: '12px',
+                  backgroundColor: 'rgba(18,18,18,0.92)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '22px',
                   padding: '30px',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                  boxShadow: '0 14px 40px rgba(0,0,0,0.22)',
                   display: 'grid',
                   gridTemplateColumns: '200px 1fr',
                   gap: '30px',
@@ -88,10 +89,10 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                  e.currentTarget.style.boxShadow = '0 16px 48px rgba(212,175,55,0.12)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                  e.currentTarget.style.boxShadow = '0 14px 40px rgba(0,0,0,0.22)';
                 }}
               >
                 <img
@@ -118,13 +119,15 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     {post.category}
                   </span>
                   <h2 style={{ fontSize: '24px', marginTop: '10px', marginBottom: '10px' }}>
+
                     {post.title}
                   </h2>
-                  <p style={{ color: '#a7a7a7', marginBottom: '10px' }}>{post.description}</p>
+                  <p style={{ color: '#a7a7a7', marginBottom: '12px' }}>{post.description}</p>
                   <div style={{ display: 'flex', gap: '15px', fontSize: '14px', color: '#808080' }}>
                     <span>{post.author}</span>
                     <span>{new Date(post.date).toLocaleDateString('es-CO')}</span>
                     <span>{post.readTime} min de lectura</span>
+                    <span style={{ color: 'var(--accent-strong)', fontWeight: 700 }}>Leer Análisis Completo →</span>
                   </div>
                 </div>
               </article>
