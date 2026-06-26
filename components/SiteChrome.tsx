@@ -21,8 +21,13 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
         @media (max-width: 760px) {
           .site-chrome-nav {
             flex-wrap: wrap;
-            gap: 10px;
-            padding: 14px 0;
+            gap: 12px;
+            padding: 12px 0 14px;
+            align-items: flex-start;
+          }
+
+          .site-chrome-nav > a:first-child {
+            width: 100%;
           }
 
           .site-chrome-actions {
@@ -32,12 +37,17 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             justify-content: flex-start;
             flex-wrap: nowrap;
             gap: 12px;
+            -webkit-overflow-scrolling: touch;
           }
 
           .site-chrome-actions a,
           .site-chrome-actions button {
             white-space: nowrap;
             flex: 0 0 auto;
+          }
+
+          .site-chrome-actions a:last-child {
+            padding: 12px 18px !important;
           }
 
           .site-chrome-footer {
@@ -47,6 +57,27 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
           .site-chrome-footer-grid {
             gap: 28px !important;
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .site-chrome-nav {
+            gap: 10px;
+          }
+
+          .site-chrome-actions {
+            gap: 10px;
+          }
+
+          .site-chrome-actions a,
+          .site-chrome-actions button {
+            font-size: 10px !important;
+            letter-spacing: .11em !important;
+          }
+
+          .site-chrome-actions a:last-child {
+            padding: 10px 14px !important;
           }
         }
       `}</style>

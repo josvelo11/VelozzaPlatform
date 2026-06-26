@@ -412,6 +412,107 @@ export default function ServicesPage() {
             min-height: 260px;
           }
         }
+
+        @media (max-width: 640px) {
+          .hero-shell {
+            border-radius: 22px;
+          }
+
+          .hero-grid {
+            padding: 28px 18px 24px !important;
+          }
+
+          .hero-title {
+            max-width: 100% !important;
+            font-size: clamp(2.2rem, 13vw, 3.2rem);
+          }
+
+          .hero-copy {
+            font-size: 0.98rem;
+            line-height: 1.7;
+          }
+
+          .hero-actions {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+          }
+
+          .hero-actions a,
+          .hero-actions button {
+            width: 100%;
+          }
+
+          .service-panel {
+            min-height: auto;
+          }
+
+          .service-media {
+            min-height: 220px;
+          }
+
+          .service-copy {
+            padding: 22px 18px 24px;
+            gap: 14px;
+          }
+
+          .service-copy h2 {
+            font-size: 1.55rem;
+          }
+
+          .service-bullets {
+            gap: 8px;
+          }
+
+          .service-bullets li {
+            align-items: flex-start;
+          }
+
+          .service-link-cta {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 16px;
+            border-radius: 999px;
+            background: rgba(244, 207, 99, 0.10);
+            border: 1px solid rgba(244, 207, 99, 0.18);
+          }
+
+          .process-shell,
+          .service-cta {
+            padding: 22px 18px !important;
+          }
+
+          .process-grid {
+            gap: 18px;
+          }
+
+          .process-step {
+            padding-top: 6px;
+          }
+
+          .process-number {
+            top: -34px;
+            font-size: clamp(3.2rem, 16vw, 4.5rem);
+          }
+
+          .process-step h3 {
+            font-size: 1.08rem;
+          }
+
+          .process-step p,
+          .service-cta p {
+            font-size: 0.96rem;
+            line-height: 1.7;
+          }
+
+          .service-cta .hero-actions {
+            margin-top: 18px;
+          }
+
+          .service-cta .hero-actions a {
+            width: 100%;
+          }
+        }
       `}</style>
     </main>
   );

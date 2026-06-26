@@ -295,8 +295,19 @@ export default function Home() {
 
         <section className="brands">
           <div className="wrap">
-            <div className="brand-copy">Confían en nosotros líderes y empresas en toda Latinoamérica y EE. UU.</div>
-            <div className="brand-list"><span>MAPFRE</span><span>Keller Williams</span><span>Bancolombia</span><span>eXp Realty</span><span>MetLife</span><span>Prudential</span><span>SURA</span></div>
+            <div className="brand-copy">Clientes y aliados que han confiado en nuestro trabajo.</div>
+            <div className="brand-list">
+              <span>Ávila Internacional</span>
+              <span>Lucy Moreno</span>
+              <span>Dr. Juan Marulanda</span>
+              <span>Adriana Ortega</span>
+              <span>Dicolseg LTDA</span>
+              <span>Star Light Garden and Farm</span>
+              <span>Andes Energy</span>
+              <span>Congreso de la República</span>
+              <span>Banquetes Lili Mac Fontibón</span>
+              <span>Premium Services Express</span>
+            </div>
           </div>
         </section>
 
