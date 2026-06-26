@@ -14,17 +14,15 @@ export function organizationSchema(): SchemaConfig {
     logo: 'https://velozzaworks.com/logo.png',
     description: 'Agencia de marketing digital, personal branding y crecimiento empresarial en Latinoamérica',
     sameAs: [
-      'https://www.facebook.com/velozzaworks',
-      'https://www.instagram.com/velozzaworks',
-      'https://www.linkedin.com/company/velozzaworks',
-      'https://www.youtube.com/@velozzaworks',
-      'https://twitter.com/velozzaworks',
+      'https://www.instagram.com/velozzacws',
+      'https://www.linkedin.com/company/velozzacws',
+      'https://www.youtube.com/@velozzacws',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      telephone: '+57-300-000-0000',
-      email: 'hola@velozzaworks.com',
+      telephone: '+57-319-367-7929',
+      email: 'ceo@velozzacws.com',
     },
     address: {
       '@type': 'PostalAddress',

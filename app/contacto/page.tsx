@@ -155,29 +155,29 @@ export default function ContactPage() {
 
             <div style={{ marginBottom: '30px' }}>
               <h4>Teléfono</h4>
-              <a href="tel:+573001234567" style={{ color: '#f4cf63', textDecoration: 'none' }}>
-                +57 300 123 4567
+              <a href="tel:+573193677929" style={{ color: '#f4cf63', textDecoration: 'none' }}>
+                +57 319 367 7929
               </a>
             </div>
 
             <div style={{ marginBottom: '30px' }}>
               <h4>Email</h4>
-              <a href="mailto:hola@velozzaworks.com" style={{ color: '#f4cf63', textDecoration: 'none' }}>
-                hola@velozzaworks.com
+              <a href="mailto:ceo@velozzacws.com" style={{ color: '#f4cf63', textDecoration: 'none' }}>
+                ceo@velozzacws.com
               </a>
             </div>
 
             <div style={{ marginBottom: '30px' }}>
               <h4>Redes Sociales</h4>
-              <div style={{ display: 'flex', gap: '15px' }}>
-                <a href="https://instagram.com/velozzaworks" style={{ color: '#f4cf63' }}>
-                  Instagram
+              <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <a href="https://instagram.com/velozzacws" style={{ color: '#f4cf63' }}>
+                  @velozzacws
                 </a>
-                <a href="https://linkedin.com/company/velozzaworks" style={{ color: '#f4cf63' }}>
-                  LinkedIn
+                <a href="https://linkedin.com/company/velozzacws" style={{ color: '#f4cf63' }}>
+                  LinkedIn @velozzacws
                 </a>
-                <a href="https://youtube.com/@velozzaworks" style={{ color: '#f4cf63' }}>
-                  YouTube
+                <a href="https://youtube.com/@velozzacws" style={{ color: '#f4cf63' }}>
+                  YouTube @velozzacws
                 </a>
               </div>
             </div>

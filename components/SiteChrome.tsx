@@ -108,6 +108,11 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             <div>
               <h4>Velozza Creative Works</h4>
               <p style={{ color: '#7a7870' }}>Ingeniería visual y posicionamiento premium para marcas y líderes que exigen dominar su mercado.</p>
+              <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
+                <a href="tel:+573193677929" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 319 367 7929</a>
+                <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
+                <a href="https://instagram.com/velozzacws" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>@velozzacws</a>
+              </div>
             </div>
             <div>
               <h4>Servicios</h4>
