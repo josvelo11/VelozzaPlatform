@@ -1,6 +1,7 @@
 import { serviceSchema } from '@/lib/seo/schema';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
+import { PremiumIcon, type PremiumIconName } from '@/components/PremiumIcon';
 import fs from 'fs';
 import path from 'path';
 import { notFound } from 'next/navigation';
@@ -46,7 +47,9 @@ export default async function ServicePage({ params }: Props) {
 
         <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
           <div style={{ marginBottom: '40px' }}>
-            <div style={{ fontSize: '64px', marginBottom: '20px' }}>{service.icon}</div>
+            <div style={{ width: '72px', height: '72px', borderRadius: '20px', display: 'grid', placeItems: 'center', marginBottom: '20px', background: 'linear-gradient(135deg, rgba(244,207,99,0.18), rgba(15,23,42,0.06))', border: '1px solid rgba(244,207,99,0.26)' }}>
+              <PremiumIcon name={service.icon as PremiumIconName} size={30} />
+            </div>
             <h1 style={{ fontSize: '36px', marginBottom: '20px' }}>{service.title}</h1>
             <p style={{ fontSize: '18px', color: '#a7a7a7', lineHeight: '1.6' }}>
               {service.longDescription}

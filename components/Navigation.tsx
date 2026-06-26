@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import styles from './Navigation.module.css';
+import { PremiumIcon } from './PremiumIcon';
 
 export function Navigation() {
   const router = useRouter();
@@ -14,12 +15,12 @@ export function Navigation() {
   };
 
   const menuItems = [
-    { label: 'Dashboard', href: '/dashboard', icon: '📊' },
-    { label: 'SEO', href: '/dashboard/seo', icon: '📈' },
-    { label: 'Servicios', href: '/dashboard/services', icon: '⚙️' },
-    { label: 'Reportes', href: '/dashboard/reports', icon: '📈' },
-    { label: 'Configuración', href: '/dashboard/settings', icon: '⚙️' },
-    { label: 'Soporte', href: '/dashboard/support', icon: '💬' },
+    { label: 'Dashboard', href: '/dashboard', icon: 'dashboard' },
+    { label: 'SEO', href: '/dashboard/seo', icon: 'search' },
+    { label: 'Servicios', href: '/dashboard/services', icon: 'services' },
+    { label: 'Reportes', href: '/dashboard/reports', icon: 'reports' },
+    { label: 'Configuración', href: '/dashboard/settings', icon: 'settings' },
+    { label: 'Soporte', href: '/dashboard/support', icon: 'support' },
   ];
 
   const handleNavigation = (href: string) => {
@@ -41,7 +42,7 @@ export function Navigation() {
             className={styles.toggleBtn}
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? '◀' : '▶'}
+            <PremiumIcon name={isOpen ? 'chevron-left' : 'chevron-right'} size={16} />
           </button>
         </div>
 
@@ -57,7 +58,7 @@ export function Navigation() {
                 color: pathname === item.href ? '#1a1a2e' : '#fff',
               }}
             >
-              <span className={styles.icon}>{item.icon}</span>
+              <span className={styles.icon}><PremiumIcon name={item.icon as any} size={18} /></span>
               {isOpen && <span className={styles.label}>{item.label}</span>}
             </button>
           ))}
@@ -65,7 +66,7 @@ export function Navigation() {
 
         <div className={styles.sidebarFooter}>
           <button className={styles.logoutBtn} onClick={handleLogout}>
-            {isOpen ? '🚪 Cerrar sesión' : '🚪'}
+            {isOpen ? <><PremiumIcon name="logout" size={16} /> Cerrar sesión</> : <PremiumIcon name="logout" size={16} />}
           </button>
         </div>
       </aside>
@@ -76,7 +77,7 @@ export function Navigation() {
           <h1 className={styles.pageTitle}>{getPageTitle()}</h1>
           <div className={styles.userInfo}>
             <span className={styles.userName}>Usuario</span>
-            <div className={styles.avatar}>👤</div>
+            <div className={styles.avatar}><PremiumIcon name="user" size={18} /></div>
           </div>
         </div>
       </header>

@@ -1,41 +1,42 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
+import { PremiumIcon } from '@/components/PremiumIcon';
 import Link from 'next/link';
 
 const services = [
   {
     title: 'Personal Branding & Legacy',
-    icon: '👤',
+    icon: 'target',
     description: 'Transformamos expertos en íconos de su industria. Diseñamos tu identidad visual, narrativa de autoridad y arquitectura de persuasión para que tu nombre se convierta en sinónimo de excelencia. Sistema diseñado para profesionales, ejecutivos y emprendedores que necesitan que su presencia genere confianza y conversión antes de cualquier conversación de ventas.',
     href: '/servicios/personal-branding',
   },
   {
     title: 'Social Media Management',
-    icon: '📱',
+    icon: 'social',
     description: 'Ecosistemas de conversión, no de vanidad. La mayoría de agencias gestionan redes para conseguir likes; nosotros las gestionamos para construir autoridad y generar pipeline de ventas. Embudos de contenido estratégico con gatillos psicológicos que educan a tu audiencia, generan confianza progresiva y transforman el tráfico frío en una comunidad que compra, refiere y regresa.',
     href: '/servicios/social-media-management',
   },
   {
     title: 'Posicionamiento SEO (Búsqueda)',
-    icon: '🔍',
+    icon: 'search',
     description: 'Construimos bienes raíces digitales. El SEO es la inversión con mayor retorno compuesto: cada artículo, cada página optimizada y cada enlace de autoridad que construimos hoy genera tráfico calificado durante años. Mientras tu competencia paga por visibilidad efímera, estructuramos tu ecosistema en Google para que seas la primera y única opción cuando tu cliente esté listo para comprar.',
     href: '/servicios/seo-services',
   },
   {
     title: 'Video Marketing & Cinematografía',
-    icon: '🎥',
+    icon: 'video',
     description: 'No grabamos videos, producimos activos digitales de alto rendimiento. Iluminación bi-color de alto contraste, monitoreo profesional en campo y color grading avanzado para entregar piezas con estándar cinematográfico que paralizan el scroll, comunican autoridad y fuerzan la retención hasta el call to action.',
     href: '/servicios/video-marketing',
   },
   {
     title: 'Fotografía Corporativa',
-    icon: '📷',
+    icon: 'camera',
     description: 'Tu imagen dice más que cualquier texto en tu sitio web. Retratos de autoridad para C-Level, equipos ejecutivos y marcas personales que necesitan transmitir poder, confianza y exclusividad en cada punto de contacto visual. Dominamos la luz, la composición y la dirección de arte para crear imágenes que elevan subconscientemente la percepción de valor de quienes las ven.',
     href: '/servicios',
   },
   {
     title: 'Eventos Sociales Élite',
-    icon: '⭐',
+    icon: 'star',
     description: 'Los momentos de mayor prestigio merecen una documentación a su altura. Cobertura documental y cinematográfica para galas corporativas, lanzamientos de alto perfil y celebraciones privadas. Operamos con absoluta discreción para capturar los momentos que definen el legado de tu marca. Cada imagen y video es un activo de contenido que usarás durante meses.',
     href: '/servicios',
   },
@@ -109,7 +110,7 @@ export default function ServicesPage() {
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <article className="feature-card" style={{ minHeight: '220px' }}>
-                <div className="feature-icon">{service.icon}</div>
+                <div className="feature-icon"><PremiumIcon name={service.icon as any} size={22} /></div>
                 <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{service.title}</h3>
                 <p style={{ color: 'var(--text-soft)', lineHeight: '1.7', margin: 0 }}>{service.description}</p>
                 <div style={{ marginTop: '18px', color: 'var(--accent-strong)', fontWeight: 700 }}>Ver detalle →</div>

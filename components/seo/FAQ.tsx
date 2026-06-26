@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { faqSchema } from '@/lib/seo/schema';
+import { PremiumIcon } from '@/components/PremiumIcon';
 
 interface FAQItem {
   question: string;
@@ -67,7 +68,10 @@ export function FAQ({ items, title = 'Preguntas Frecuentes' }: FAQProps) {
                   transition: 'all 0.3s ease',
                 }}
               >
-                {expanded[index] ? '▼' : '▶'} {item.question}
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                  <PremiumIcon name={expanded[index] ? 'down' : 'chevron-right'} size={16} />
+                  <span>{item.question}</span>
+                </span>
               </button>
               {expanded[index] && (
                 <div

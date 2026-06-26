@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { organizationSchema } from '@/lib/seo/schema';
+import { PremiumIcon } from '@/components/PremiumIcon';
 
 export const metadata: Metadata = {
   title: 'Velozza Creative Works™',
@@ -10,12 +11,12 @@ export const metadata: Metadata = {
 const schema = organizationSchema();
 
 const services = [
-  ['🎯', 'Marca Personal & Ejecutivo', 'Posicionamos tu autoridad y te convertimos en la referencia de tu industria.'],
-  ['📱', 'Gestión de Redes Sociales', 'Contenido estratégico que atrae, conecta y convierte tu audiencia.'],
-  ['🎬', 'Producción de Contenido', 'Videos, fotos y contenido de alto impacto que comunica tu valor.'],
-  ['📈', 'Estrategia & Marketing Digital', 'Estrategias basadas en datos para generar demanda y crecimiento sostenible.'],
-  ['⚡', 'Publicidad Digital', 'Campañas que convierten clics en clientes y maximizan tu retorno de inversión.'],
-  ['🤖', 'Automatización & IA', 'Sistemas inteligentes que automatizan, optimizan y escalan tu negocio.'],
+  ['target', 'Marca Personal & Ejecutivo', 'Posicionamos tu autoridad y te convertimos en la referencia de tu industria.'],
+  ['social', 'Gestión de Redes Sociales', 'Contenido estratégico que atrae, conecta y convierte tu audiencia.'],
+  ['video', 'Producción de Contenido', 'Videos, fotos y contenido de alto impacto que comunica tu valor.'],
+  ['analytics', 'Estrategia & Marketing Digital', 'Estrategias basadas en datos para generar demanda y crecimiento sostenible.'],
+  ['bolt', 'Publicidad Digital', 'Campañas que convierten clics en clientes y maximizan tu retorno de inversión.'],
+  ['ai', 'Automatización & IA', 'Sistemas inteligentes que automatizan, optimizan y escalan tu negocio.'],
 ];
 
 const results = [
@@ -53,7 +54,7 @@ export default function Home() {
           .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #f4f2ec; }
           .brand-name { display: block; font-family: Montserrat, sans-serif; font-size: 16px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
           .brand-sub { display: block; margin-top: 2px; font-family: Montserrat, sans-serif; font-size: 7.5px; letter-spacing: .22em; text-transform: uppercase; color: #f0d98a; }
-          .button { border: 0; cursor: pointer; font-family: Montserrat, sans-serif; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+          .button { border: 0; cursor: pointer; font-family: Montserrat, sans-serif; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; justify-content: center; }
           .gold { background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; padding: 14px 24px; }
           .ghost { background: transparent; color: #f4f2ec; border: 1px solid rgba(244,242,236,.22); padding: 14px 24px; }
           .links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
@@ -240,7 +241,7 @@ export default function Home() {
               <p className="hero-copy">Estrategias de marca personal y marketing digital diseñadas para posicionar tu autoridad, atraer clientes ideales y generar crecimiento medible y sostenible.</p>
               <div className="actions">
                 <button className="button gold">Agenda tu Consulta Gratuita →</button>
-                <button className="button ghost">⊙ Ver Casos de Éxito</button>
+                <button className="button ghost"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</button>
               </div>
             </div>
 
@@ -276,7 +277,7 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="arrow">⌄</div>
+        <div className="arrow"><PremiumIcon name="down" size={24} /></div>
 
         <section className="brands">
           <div className="wrap">
@@ -295,7 +296,7 @@ export default function Home() {
             <div className="services-grid">
               {services.map(([icon, title, copy]) => (
                 <article className="service" key={title}>
-                  <div className="icon">{icon}</div>
+                  <div className="icon"><PremiumIcon name={icon as any} size={22} /></div>
                   <h3>{title}</h3>
                   <p>{copy}</p>
                   <a href="#" className="link">Saber más →</a>
@@ -336,7 +337,7 @@ export default function Home() {
               {results.map(([value, label], index) => (
                 <article className="result" key={label}>
                   <div className="thumb" style={{ background: index === 1 ? 'linear-gradient(160deg,#1a1e14 0%,#0e0c08 100%)' : index === 2 ? 'linear-gradient(160deg,#1a1214 0%,#0e0c08 100%)' : index === 3 ? 'linear-gradient(160deg,#141a1a 0%,#0e0c08 100%)' : 'linear-gradient(160deg,#1e1c14 0%,#0e0c08 100%)' }}>
-                    <div className="play">▶</div>
+                    <div className="play"><PremiumIcon name="play" size={18} /></div>
                   </div>
                   <div className="meta">
                     <div className="result-metric">{value}</div>
@@ -403,12 +404,12 @@ export default function Home() {
             </div>
             <ul className="cta-list">
               {[
-                ['🎯', 'Consulta Estratégica 1 a 1', 'Hablamos de tus objetivos.'],
-                ['📊', 'Análisis de tu Marca', 'Evaluación personalizada.'],
-                ['🚀', 'Plan de Acción Personalizado', 'Estrategia diseñada para ti.'],
+                ['target', 'Consulta Estratégica 1 a 1', 'Hablamos de tus objetivos.'],
+                ['analytics', 'Análisis de tu Marca', 'Evaluación personalizada.'],
+                ['sparkles', 'Plan de Acción Personalizado', 'Estrategia diseñada para ti.'],
               ].map(([icon, title, copy]) => (
                 <li className="cta-item" key={title}>
-                  <div className="cta-icon">{icon}</div>
+                  <div className="cta-icon"><PremiumIcon name={icon as any} size={18} /></div>
                   <div>
                     <div className="cta-name">{title}</div>
                     <div className="cta-detail">{copy}</div>
@@ -442,7 +443,7 @@ export default function Home() {
               </a>
               <p>Construimos marcas que lideran y generan resultados.</p>
               <div className="powered">Powered by LoZaRa Intelligence™</div>
-              <div className="socials"><a href="#" className="social">📷</a><a href="#" className="social">💬</a></div>
+              <div className="socials"><a href="#" className="social"><PremiumIcon name="instagram" size={16} /></a><a href="#" className="social"><PremiumIcon name="chat" size={16} /></a></div>
             </div>
             <div>
               <h4>Servicios</h4>
@@ -463,7 +464,7 @@ export default function Home() {
           </div>
         </footer>
 
-        <button className="wa" aria-label="WhatsApp">💬</button>
+        <button className="wa" aria-label="WhatsApp"><PremiumIcon name="chat" size={22} /></button>
       </main>
     </>
   );

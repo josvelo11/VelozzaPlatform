@@ -2,6 +2,7 @@
 
 import { Navigation } from '@/components/Navigation';
 import styles from '../dashboard.module.css';
+import { PremiumIcon } from '@/components/PremiumIcon';
 
 export default function Reports() {
   return (
@@ -17,28 +18,28 @@ export default function Reports() {
 
           <div className={styles.cardsGrid}>
             <div className={styles.card}>
-              <div className={styles.cardIcon}>📈</div>
+              <div className={styles.cardIcon}><PremiumIcon name="analytics" size={20} /></div>
               <h3>Crecimiento</h3>
               <p className={styles.cardValue}>+23%</p>
               <p className={styles.cardDescription}>Comparado con mes anterior</p>
             </div>
 
             <div className={styles.card}>
-              <div className={styles.cardIcon}>👥</div>
+              <div className={styles.cardIcon}><PremiumIcon name="users" size={20} /></div>
               <h3>Nuevos Usuarios</h3>
               <p className={styles.cardValue}>156</p>
               <p className={styles.cardDescription}>Este mes</p>
             </div>
 
             <div className={styles.card}>
-              <div className={styles.cardIcon}>⏱️</div>
+              <div className={styles.cardIcon}><PremiumIcon name="clock" size={20} /></div>
               <h3>Tiempo Promedio</h3>
               <p className={styles.cardValue}>4.2h</p>
               <p className={styles.cardDescription}>Por sesión</p>
             </div>
 
             <div className={styles.card}>
-              <div className={styles.cardIcon}>⭐</div>
+              <div className={styles.cardIcon}><PremiumIcon name="star" size={20} /></div>
               <h3>Satisfacción</h3>
               <p className={styles.cardValue}>4.8/5</p>
               <p className={styles.cardDescription}>Calificación promedio</p>

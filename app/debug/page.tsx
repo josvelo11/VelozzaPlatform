@@ -1,5 +1,6 @@
 'use client';
 
+import { PremiumIcon } from '@/components/PremiumIcon';
 import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
@@ -9,7 +10,7 @@ export default function SupabaseDebugPage() {
 
   const testConnection = async () => {
     setLoading(true);
-    setStatus('🔄 Conectando con Supabase...');
+    setStatus('Conectando con Supabase...');
 
     try {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -76,7 +77,10 @@ export default function SupabaseDebugPage() {
       }}
     >
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <h1 style={{ color: '#f4cf63', marginBottom: '30px' }}>🔧 Verificador de Conexión Supabase</h1>
+        <h1 style={{ color: '#f4cf63', marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <PremiumIcon name="settings" size={22} />
+          Verificador de Conexión Supabase
+        </h1>
 
         <button
           onClick={testConnection}
@@ -112,13 +116,16 @@ export default function SupabaseDebugPage() {
         </div>
 
         <div style={{ marginTop: '30px', fontSize: '12px', color: 'rgba(248,245,237,0.6)' }}>
-          <h3>📋 Checklist:</h3>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <PremiumIcon name="check" size={16} />
+            Checklist:
+          </h3>
           <ul>
-            <li>✅ Credenciales configuradas en .env.local</li>
-            <li>⏳ Conexión a Supabase verificada</li>
-            <li>⏳ Base de datos creada</li>
-            <li>⏳ Migraciones ejecutadas</li>
-            <li>⏳ Usuarios test creados</li>
+            <li><PremiumIcon name="check" size={14} /> Credenciales configuradas en .env.local</li>
+            <li><PremiumIcon name="clock" size={14} /> Conexión a Supabase verificada</li>
+            <li><PremiumIcon name="clock" size={14} /> Base de datos creada</li>
+            <li><PremiumIcon name="clock" size={14} /> Migraciones ejecutadas</li>
+            <li><PremiumIcon name="clock" size={14} /> Usuarios test creados</li>
           </ul>
         </div>
       </div>
