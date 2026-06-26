@@ -78,7 +78,7 @@ export default function Support() {
               style={{
                 padding: '12px 24px',
                 backgroundColor: '#f4cf63',
-                color: 'white',
+                color: '#0b0b0b',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',

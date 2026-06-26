@@ -47,10 +47,12 @@ export default async function LocationPage({ params }: Props) {
 
           <div
             style={{
-              backgroundColor: 'white',
+              backgroundColor: '#0f0f0f',
               borderRadius: '12px',
               padding: '30px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+              border: '1px solid rgba(244, 207, 99, 0.16)',
+              color: '#f8f5ed',
             }}
           >
             <p style={{ fontSize: '18px', lineHeight: '1.6', marginBottom: '30px' }}>
@@ -84,8 +86,8 @@ export default async function LocationPage({ params }: Props) {
                 style={{
                   padding: '12px 24px',
                   backgroundColor: '#f4cf63',
-                  color: 'white',
-                  border: 'none',
+                  color: '#0b0b0b',
+                  border: '1px solid rgba(244, 207, 99, 0.2)',
                   borderRadius: '4px',
                   fontSize: '16px',
                   cursor: 'pointer',

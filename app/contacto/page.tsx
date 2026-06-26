@@ -137,7 +137,7 @@ export default function ContactPage() {
                 width: '100%',
                 padding: '12px',
                 backgroundColor: '#f4cf63',
-                color: 'white',
+                color: '#0b0b0b',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '16px',
@@ -182,7 +182,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div style={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '8px' }}>
+            <div style={{ backgroundColor: '#0f0f0f', padding: '20px', borderRadius: '8px', border: '1px solid rgba(244, 207, 99, 0.16)', color: '#f8f5ed' }}>
               <h4>Horario de Atención</h4>
               <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>
               <p>Sábado: 10:00 AM - 2:00 PM</p>

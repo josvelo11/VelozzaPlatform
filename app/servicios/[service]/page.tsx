@@ -76,7 +76,9 @@ export default async function ServicePage({ params }: Props) {
                     display: 'flex',
                     gap: '15px',
                     padding: '15px',
-                    backgroundColor: '#f0f0f0',
+                    backgroundColor: '#0f0f0f',
+                    color: '#f8f5ed',
+                    border: '1px solid rgba(244, 207, 99, 0.16)',
                     borderRadius: '8px',
                   }}
                 >
@@ -90,8 +92,9 @@ export default async function ServicePage({ params }: Props) {
           {/* CTA */}
           <section
             style={{
-              backgroundColor: '#f4cf63',
-              color: 'white',
+              backgroundColor: '#0f0f0f',
+              color: '#f8f5ed',
+              border: '1px solid rgba(244, 207, 99, 0.18)',
               padding: '40px',
               borderRadius: '12px',
               marginBottom: '60px',
@@ -102,9 +105,9 @@ export default async function ServicePage({ params }: Props) {
             <button
               style={{
                 padding: '12px 30px',
-                backgroundColor: 'white',
-                color: '#f4cf63',
-                border: 'none',
+                backgroundColor: '#f4cf63',
+                color: '#0b0b0b',
+                border: '1px solid rgba(244, 207, 99, 0.2)',
                 borderRadius: '4px',
                 fontSize: '16px',
                 fontWeight: '600',

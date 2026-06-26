@@ -93,11 +93,12 @@ export default async function BlogPostPage({ params }: Props) {
                   key={tag}
                   href={`/blog?tag=${tag}`}
                   style={{
-                    backgroundColor: '#f0f0f0',
+                    backgroundColor: '#0f0f0f',
                     padding: '8px 16px',
                     borderRadius: '4px',
                     textDecoration: 'none',
-                    color: '#333',
+                    color: '#f8f5ed',
+                    border: '1px solid rgba(244, 207, 99, 0.16)',
                   }}
                 >
                   {tag}

@@ -131,7 +131,7 @@ export default function Settings() {
               style={{
                 padding: '12px 24px',
                 backgroundColor: '#f4cf63',
-                color: 'white',
+                color: '#0b0b0b',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
@@ -144,9 +144,9 @@ export default function Settings() {
             <button
               style={{
                 padding: '12px 24px',
-                backgroundColor: '#f0f0f0',
-                color: '#333',
-                border: '1px solid #ddd',
+                backgroundColor: '#0f0f0f',
+                color: '#f8f5ed',
+                border: '1px solid rgba(244, 207, 99, 0.16)',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '16px'
