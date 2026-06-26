@@ -306,6 +306,7 @@ export default function ServicesPage() {
           margin: 0;
           font-size: clamp(1.7rem, 2.6vw, 2.35rem);
           line-height: 1.05;
+          font-family: Cormorant Garamond, serif;
           color: #f8f5ed;
         }
 
@@ -380,6 +381,7 @@ export default function ServicesPage() {
           position: relative;
           z-index: 1;
           margin: 0 0 8px;
+          font-family: Cormorant Garamond, serif;
           color: #f8f5ed;
           font-size: 1.2rem;
         }
@@ -393,6 +395,16 @@ export default function ServicesPage() {
           text-align: center;
           background: linear-gradient(135deg, rgba(14, 14, 14, 0.98), rgba(6, 6, 6, 0.98));
           border: 1px solid rgba(244, 207, 99, 0.18);
+        }
+
+        .hero-title,
+        .section-title {
+          font-family: Cormorant Garamond, serif;
+        }
+
+        .eyebrow,
+        .service-link-cta {
+          font-family: Montserrat, sans-serif;
         }
 
         @media (max-width: 900px) {
