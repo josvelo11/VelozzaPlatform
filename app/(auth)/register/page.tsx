@@ -77,9 +77,31 @@ export default function RegisterPage() {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#0b0b0b' }}>
+    <>
+      <style>{`
+        @media (max-width: 900px) {
+          .auth-shell { flex-direction: column !important; }
+          .auth-hero, .auth-form { width: 100% !important; flex: none !important; padding: 28px 20px !important; }
+          .auth-hero { min-height: 0 !important; }
+          .auth-hero h1 { font-size: 38px !important; margin-bottom: 14px !important; }
+          .auth-hero p { font-size: 15px !important; }
+          .auth-form { align-items: stretch !important; }
+          .auth-card { max-width: none !important; }
+        }
+
+        @media (max-width: 640px) {
+          .auth-shell { min-height: auto !important; }
+          .auth-hero, .auth-form { padding: 22px 16px !important; }
+          .auth-hero h1 { font-size: 32px !important; }
+          .auth-card h2 { font-size: 24px !important; }
+          .auth-card input, .auth-card button { font-size: 16px !important; }
+          .auth-links { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
+      `}</style>
+      <div className="auth-shell" style={{ display: 'flex', minHeight: '100vh', background: '#0b0b0b' }}>
       {/* Left side - Branding */}
       <div
+        className="auth-hero"
         style={{
           flex: 1,
           display: 'flex',
@@ -105,6 +127,7 @@ export default function RegisterPage() {
 
       {/* Right side - Register Form */}
       <div
+        className="auth-form"
         style={{
           flex: 1,
           display: 'flex',
@@ -116,7 +139,7 @@ export default function RegisterPage() {
           overflowY: 'auto',
         }}
       >
-        <div style={{ width: '100%', maxWidth: '400px' }}>
+        <div className="auth-card" style={{ width: '100%', maxWidth: '400px' }}>
           <h2 style={{ fontSize: '28px', color: '#f8f5ed', marginBottom: '10px', fontWeight: 'bold' }}>
             Create Account
           </h2>
@@ -281,6 +304,7 @@ export default function RegisterPage() {
           </form>
 
           <p
+            className="auth-links"
             style={{
               textAlign: 'center',
               color: '#a7a7a7',
@@ -303,5 +327,6 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
