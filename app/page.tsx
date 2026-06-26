@@ -533,7 +533,7 @@ export default function Home() {
               <p>Construimos marcas que lideran y generan resultados.</p>
               <div className="powered">Powered by LoZaRa Intelligence™</div>
               <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
-                <a href="tel:+573193677929" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 319 367 7929</a>
+                <a href="tel:+573213478076" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 321 347 8076</a>
                 <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
                 <a href="https://instagram.com/velozzacws" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>@velozzacws</a>
               </div>

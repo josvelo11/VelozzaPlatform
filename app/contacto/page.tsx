@@ -165,8 +165,8 @@ export default function ContactPage() {
 
             <div style={{ marginBottom: '30px' }}>
               <h4>Teléfono</h4>
-              <a href="tel:+573193677929" style={{ color: '#f4cf63', textDecoration: 'none' }}>
-                +57 319 367 7929
+              <a href="tel:+573213478076" style={{ color: '#f4cf63', textDecoration: 'none' }}>
+                +57 321 347 8076
               </a>
             </div>
 
@@ -192,7 +192,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div style={{ backgroundColor: '#0f0f0f', padding: '20px', borderRadius: '8px', border: '1px solid rgba(244, 207, 99, 0.16)', color: '#f8f5ed' }}>
             <div style={{ backgroundColor: '#10100d', padding: '20px', borderRadius: '12px', border: '1px solid rgba(212,175,55,0.16)', color: '#f8f5ed' }}>
               <h4 style={{ color: '#f8f5ed' }}>Horario de Atención</h4>
               <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>

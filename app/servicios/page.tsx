@@ -136,7 +136,7 @@ export default function ServicesPage() {
               <div className="hero-actions" style={{ justifyContent: 'center' }}>
                 <a
                   className="cta-primary"
-                  href="https://api.whatsapp.com/send?phone=573193677929&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
+                  href="https://api.whatsapp.com/send?phone=573213478076&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
                   target="_blank"
                   rel="noreferrer"
                 >
