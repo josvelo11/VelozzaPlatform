@@ -27,12 +27,14 @@ const results = [
   ['+320%', 'ROI en Campañas'],
 ];
 
-type Plan = [string, string, string, string[]];
+type PlanPrice = string | { cop: string; usd: string };
+
+type Plan = [string, string, PlanPrice, string[]];
 
 const plans: Plan[] = [
-  ['DIY Starter', 'Para quienes comienzan su presencia digital.', 'USD $400 · COP $1.200.000', ['Estrategia Inicial', 'Gestión de Redes Básica', 'Reportes Mensuales']],
-  ['Growth', 'Para marcas que quieren crecer de forma constante.', 'USD $600 · COP $1.700.000', ['Estrategia Avanzada', 'Contenido Mensual', 'Publicidad Básica', 'Reportes Avanzados']],
-  ['Professional', 'Para marcas que quieren escalar y destacar.', 'USD $800 · COP $2.000.000', ['Estrategia Premium', 'Contenido Ilimitado', 'Publicidad Avanzada', 'Automatización', 'Reportes Completos']],
+  ['DIY Starter', 'Para quienes comienzan su presencia digital.', { cop: 'COP $1.200.000', usd: 'USD $400' }, ['Estrategia Inicial', 'Gestión de Redes Básica', 'Reportes Mensuales']],
+  ['Growth', 'Para marcas que quieren crecer de forma constante.', { cop: 'COP $1.700.000', usd: 'USD $600' }, ['Estrategia Avanzada', 'Contenido Mensual', 'Publicidad Básica', 'Reportes Avanzados']],
+  ['Professional', 'Para marcas que quieren escalar y destacar.', { cop: 'COP $2.000.000', usd: 'USD $800' }, ['Estrategia Premium', 'Contenido Ilimitado', 'Publicidad Avanzada', 'Automatización', 'Reportes Completos']],
   ['Authority Brand', 'Para líderes que quieren dominio total de su industria.', 'USD $2,997', ['Estrategia Personalizada', 'Contenido Premium', 'Publicidad Ilimitada', 'LinkedIn Growth', 'Posicionamiento Ejecutivo']],
   ['Elite', 'Soluciones a la medida para visión y resultados.', 'A medida', ['Estrategia 1 a 1', 'Equipo Dedicado', 'Soluciones Integrales', 'Crecimiento Exponencial']],
 ];
@@ -151,6 +153,50 @@ export default function Home() {
           .plan.featured { box-shadow: inset 0 0 0 1px #c9a84c; }
           .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; padding: 4px 16px; }
           .price { margin: 2px 0; font-size: 30px; font-weight: 700; }
+          .price-stack {
+            display: grid;
+            gap: 12px;
+            padding: 12px 14px;
+            margin: 8px 0 2px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(240, 217, 138, 0.10);
+            border-radius: 18px;
+          }
+          .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+          }
+          .price-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 46px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            font-family: Montserrat, sans-serif;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: #1a1200;
+            background: linear-gradient(135deg, #f0d98a, #c9a84c);
+          }
+          .price-value {
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1;
+            color: #f8f5ed;
+            text-align: right;
+          }
+          .price-value-usd { color: #f0d98a; }
+          .price-divider {
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(240,217,138,.35), transparent);
+          }
           .period { font-size: 10px; color: #7a7870; margin-bottom: 20px; }
           .features { list-style: none; margin: 0 0 24px; padding: 0; }
           .features li { padding: 7px 0; color: #c8c6be; border-bottom: 1px solid rgba(255,255,255,.04); }
@@ -412,7 +458,23 @@ export default function Home() {
                   <h3 className="plan-title">{name}</h3>
                   <p>{copy}</p>
                   <div style={{ fontSize: 9.5, color: '#7a7870' }}>Desde</div>
-                  <div className="price">{price}</div>
+                  <div className="price">
+                    {typeof price === 'string' ? (
+                      <span>{price}</span>
+                    ) : (
+                      <div className="price-stack" aria-label={`${price.cop} y ${price.usd}`}>
+                        <div className="price-row price-row-cop">
+                          <span className="price-chip">COP</span>
+                          <span className="price-value">{price.cop}</span>
+                        </div>
+                        <div className="price-divider" />
+                        <div className="price-row price-row-usd">
+                          <span className="price-chip">USD</span>
+                          <span className="price-value price-value-usd">{price.usd}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="period">/mes</div>
                   <ul className="features">{features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
                   <Link href="/contacto" className="btn-plan">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</Link>
