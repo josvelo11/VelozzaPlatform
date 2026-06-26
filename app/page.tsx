@@ -462,15 +462,15 @@ export default function Home() {
                     {typeof price === 'string' ? (
                       <span>{price}</span>
                     ) : (
-                      <div className="price-stack" aria-label={`${price.cop} y ${price.usd}`}>
-                        <div className="price-row price-row-cop">
-                          <span className="price-chip">COP</span>
-                          <span className="price-value">{price.cop}</span>
-                        </div>
-                        <div className="price-divider" />
+                      <div className="price-stack" aria-label={`${price.usd} y ${price.cop}`}>
                         <div className="price-row price-row-usd">
                           <span className="price-chip">USD</span>
                           <span className="price-value price-value-usd">{price.usd}</span>
+                        </div>
+                        <div className="price-divider" />
+                        <div className="price-row price-row-cop">
+                          <span className="price-chip">COP</span>
+                          <span className="price-value">{price.cop}</span>
                         </div>
                       </div>
                     )}
