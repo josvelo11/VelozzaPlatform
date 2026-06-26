@@ -30,9 +30,9 @@ const results = [
 type Plan = [string, string, string, string[]];
 
 const plans: Plan[] = [
-  ['DIY Starter', 'Para quienes comienzan su presencia digital.', 'USD $497', ['Estrategia Inicial', 'Gestión de Redes Básica', 'Reportes Mensuales']],
-  ['Growth', 'Para marcas que quieren crecer de forma constante.', 'USD $997', ['Estrategia Avanzada', 'Contenido Mensual', 'Publicidad Básica', 'Reportes Avanzados']],
-  ['Professional', 'Para marcas que quieren escalar y destacar.', 'USD $1,997', ['Estrategia Premium', 'Contenido Ilimitado', 'Publicidad Avanzada', 'Automatización', 'Reportes Completos']],
+  ['DIY Starter', 'Para quienes comienzan su presencia digital.', 'USD $400 · COP $1.200.000', ['Estrategia Inicial', 'Gestión de Redes Básica', 'Reportes Mensuales']],
+  ['Growth', 'Para marcas que quieren crecer de forma constante.', 'USD $600 · COP $1.700.000', ['Estrategia Avanzada', 'Contenido Mensual', 'Publicidad Básica', 'Reportes Avanzados']],
+  ['Professional', 'Para marcas que quieren escalar y destacar.', 'USD $800 · COP $2.000.000', ['Estrategia Premium', 'Contenido Ilimitado', 'Publicidad Avanzada', 'Automatización', 'Reportes Completos']],
   ['Authority Brand', 'Para líderes que quieren dominio total de su industria.', 'USD $2,997', ['Estrategia Personalizada', 'Contenido Premium', 'Publicidad Ilimitada', 'LinkedIn Growth', 'Posicionamiento Ejecutivo']],
   ['Elite', 'Soluciones a la medida para visión y resultados.', 'A medida', ['Estrategia 1 a 1', 'Equipo Dedicado', 'Soluciones Integrales', 'Crecimiento Exponencial']],
 ];
