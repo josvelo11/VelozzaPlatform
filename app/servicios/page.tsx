@@ -1,59 +1,106 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
-import { FAQ } from '@/components/seo/FAQ';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import Link from 'next/link';
 
-const services = [
+type ServiceBlock = {
+  number: string;
+  title: string;
+  icon: Parameters<typeof PremiumIcon>[0]['name'];
+  description: string;
+  bullets: string[];
+  href: string;
+  image: string;
+  imagePosition: string;
+  reverse?: boolean;
+};
+
+const services: ServiceBlock[] = [
   {
-    title: 'Personal Branding & Legacy',
+    number: '01',
+    title: 'Marca Personal & Ejecutivo',
     icon: 'target',
-    description: 'Transformamos expertos en íconos de su industria. Diseñamos tu identidad visual, narrativa de autoridad y arquitectura de persuasión para que tu nombre se convierta en sinónimo de excelencia. Sistema diseñado para profesionales, ejecutivos y emprendedores que necesitan que su presencia genere confianza y conversión antes de cualquier conversación de ventas.',
+    description:
+      'Posicionamos tu autoridad con identidad visual, narrativa de liderazgo y arquitectura de persuasión. El objetivo es que tu nombre inspire confianza y genere conversaciones de venta de mayor valor antes del primer contacto comercial.',
+    bullets: ['Auditoría de marca personal', 'Narrativa y posicionamiento', 'Identidad visual ejecutiva'],
     href: '/servicios/personal-branding',
+    image: '/founder-arms.jpg',
+    imagePosition: 'center 18%',
   },
   {
-    title: 'Social Media Management',
+    number: '02',
+    title: 'Gestión de Redes Sociales',
     icon: 'social',
-    description: 'Ecosistemas de conversión, no de vanidad. La mayoría de agencias gestionan redes para conseguir likes; nosotros las gestionamos para construir autoridad y generar pipeline de ventas. Embudos de contenido estratégico con gatillos psicológicos que educan a tu audiencia, generan confianza progresiva y transforman el tráfico frío en una comunidad que compra, refiere y regresa.',
+    description:
+      'Construimos ecosistemas de conversión, no vitrinas de vanidad. Diseñamos contenido estratégico para atraer, educar y convertir audiencia fría en una comunidad que confía, compra y regresa con consistencia.',
+    bullets: ['Calendario de contenido', 'Community management', 'Crecimiento orgánico'],
     href: '/servicios/social-media-management',
+    image: '/founder-fulllength.jpg',
+    imagePosition: 'center 28%',
+    reverse: true,
   },
   {
-    title: 'Posicionamiento SEO (Búsqueda)',
-    icon: 'search',
-    description: 'Construimos bienes raíces digitales. El SEO es la inversión con mayor retorno compuesto: cada artículo, cada página optimizada y cada enlace de autoridad que construimos hoy genera tráfico calificado durante años. Mientras tu competencia paga por visibilidad efímera, estructuramos tu ecosistema en Google para que seas la primera y única opción cuando tu cliente esté listo para comprar.',
-    href: '/servicios/seo-services',
-  },
-  {
-    title: 'Video Marketing & Cinematografía',
+    number: '03',
+    title: 'Producción de Contenido',
     icon: 'video',
-    description: 'No grabamos videos, producimos activos digitales de alto rendimiento. Iluminación bi-color de alto contraste, monitoreo profesional en campo y color grading avanzado para entregar piezas con estándar cinematográfico que paralizan el scroll, comunican autoridad y fuerzan la retención hasta el call to action.',
+    description:
+      'No grabamos videos: producimos activos digitales de alto rendimiento. Desde iluminación y dirección creativa hasta edición final, cada pieza está pensada para paralizar el scroll, elevar percepción y empujar a la acción.',
+    bullets: ['Producción cinematográfica', 'Fotografía de marca', 'Podcast y reels'],
     href: '/servicios/video-marketing',
+    image: '/founder-arms.jpg',
+    imagePosition: 'center 45%',
   },
   {
-    title: 'Fotografía Corporativa',
-    icon: 'camera',
-    description: 'Tu imagen dice más que cualquier texto en tu sitio web. Retratos de autoridad para C-Level, equipos ejecutivos y marcas personales que necesitan transmitir poder, confianza y exclusividad en cada punto de contacto visual. Dominamos la luz, la composición y la dirección de arte para crear imágenes que elevan subconscientemente la percepción de valor de quienes las ven.',
-    href: '/servicios/fotografia-corporativa',
+    number: '04',
+    title: 'Estrategia & Marketing Digital',
+    icon: 'analytics',
+    description:
+      'Integramos estrategia, analítica y ejecución para sostener el crecimiento. Construimos campañas y sistemas que convierten tu presencia digital en una máquina de demanda medible y escalable.',
+    bullets: ['Estrategia basada en datos', 'Embudos de conversión', 'Analítica y reportes'],
+    href: '/servicios/seo-services',
+    image: '/founder-fulllength.jpg',
+    imagePosition: 'center top',
+    reverse: true,
   },
   {
-    title: 'Eventos Sociales Élite',
-    icon: 'star',
-    description: 'Los momentos de mayor prestigio merecen una documentación a su altura. Cobertura documental y cinematográfica para galas corporativas, lanzamientos de alto perfil y celebraciones privadas. Operamos con absoluta discreción para capturar los momentos que definen el legado de tu marca. Cada imagen y video es un activo de contenido que usarás durante meses.',
-    href: '/servicios/eventos-sociales-elite',
+    number: '05',
+    title: 'Publicidad Digital',
+    icon: 'bolt',
+    description:
+      'Diseñamos campañas de intención alta con segmentación precisa, mensajes persuasivos y optimización continua para convertir inversión en clientes reales, no solo en clics o tráfico aislado.',
+    bullets: ['Meta & Google Ads', 'Creativos de alto impacto', 'Optimización de ROAS'],
+    href: '/servicios/publicidad-digital',
+    image: '/founder-arms.jpg',
+    imagePosition: 'center 18%',
+  },
+  {
+    number: '06',
+    title: 'Automatización & IA',
+    icon: 'ai',
+    description:
+      'Creamos sistemas inteligentes que ahorran tiempo, califican leads y sostienen tu crecimiento con procesos escalables. La automatización correcta reduce fricción y le permite a tu equipo enfocarse en oportunidades de mayor valor.',
+    bullets: ['Automatización de marketing', 'CRM e IA', 'Sistemas que escalan'],
+    href: '/servicios/automatizacion-ia',
+    image: '/founder-fulllength.jpg',
+    imagePosition: 'center 28%',
+    reverse: true,
   },
 ];
 
-const faqs = [
+const processSteps = [
   {
-    question: '¿Cuál es el proceso de trabajo de Velozza?',
-    answer: 'Trabajamos en tres fases. Diagnóstico Estratégico: auditamos tu posicionamiento actual, analizamos tu competencia e identificamos las brechas de percepción que te están costando clientes premium. Arquitectura de Ecosistema: diseñamos tu sistema de marca a medida, integrando identidad visual, narrativa de autoridad, mapa de contenidos SEO y producción audiovisual en un plan coherente. Ejecución Continua: implementamos, medimos y optimizamos mes a mes, generando un efecto compuesto que crece con el tiempo. No iniciamos ningún proyecto sin una sesión estratégica previa.',
+    number: '01',
+    title: 'Auditoría & Análisis',
+    copy: 'Desglosamos tu identidad y competidores para encontrar oportunidades.',
   },
   {
-    question: '¿Cuánto tiempo tarda en ver resultados?',
-    answer: 'Los plazos varían por servicio. El branding visual y las redes sociales muestran resultados perceptibles en las primeras 3 a 4 semanas. El SEO orgánico comienza a traccionar entre los meses 3 y 6, con crecimiento compuesto y acelerado a partir de ese punto. Los proyectos de video y fotografía generan impacto inmediato desde el primer día de publicación. Los clientes que integran todos los servicios en un ecosistema completo reportan un cambio visible en la percepción de su mercado antes de los 90 días.',
+    number: '02',
+    title: 'Ingeniería de Marca',
+    copy: 'Desarrollamos el lenguaje visual y narrativo que te posiciona.',
   },
   {
-    question: '¿Cuál es el presupuesto mínimo?',
-    answer: 'Trabajamos con inversiones desde $1,500 USD/mes para servicios individuales y desde $3,500 USD/mes para ecosistemas integrados de dos o más servicios. No manejamos paquetes predefinidos porque cada proyecto se construye sobre el diagnóstico estratégico de tu negocio, tu competencia y tus objetivos. El costo exacto se define en la sesión estratégica inicial, que es completamente gratuita.',
+    number: '03',
+    title: 'Ejecución & Escala',
+    copy: 'Desplegamos campañas con optimización continua basada en datos.',
   },
 ];
 
@@ -68,18 +115,25 @@ export default function ServicesPage() {
       />
 
       <section className="section-shell">
-        <div className="hero-shell">
-          <div className="hero-grid" style={{ gridTemplateColumns: '1fr' }}>
-            <div style={{ maxWidth: '840px' }}>
-              <div className="eyebrow">Arquitectura de servicios</div>
-              <div className="eyebrow">ECOSISTEMAS DE DOMINIO ABSOLUTO</div>
-              <h1 className="hero-title" style={{ maxWidth: '14ch' }}>
-                Ecosistemas de Crecimiento
+        <div
+          className="hero-shell"
+          style={{ background: 'linear-gradient(180deg, rgba(12,12,10,0.98), rgba(8,8,8,0.98))' }}
+        >
+          <div
+            className="hero-grid"
+            style={{ gridTemplateColumns: '1fr', justifyItems: 'center', textAlign: 'center' }}
+          >
+            <div style={{ maxWidth: '820px' }}>
+              <div className="eyebrow" style={{ justifyContent: 'center' }}>
+                Nuestros Servicios
+              </div>
+              <h1 className="hero-title" style={{ maxWidth: '15ch', marginLeft: 'auto', marginRight: 'auto' }}>
+                Todo lo que tu marca necesita, en un solo lugar
               </h1>
-              <p className="hero-copy">
-                No vendemos servicios. Construimos sistemas de posicionamiento, visibilidad y conversión que trabajan de forma integrada. Cada solución está diseñada para escalar tu percepción de valor, atraer clientes de alto perfil y convertir tu presencia digital en el activo más rentable de tu negocio.
+              <p className="hero-copy" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+                Estrategias integrales, ejecución impecable y tecnología inteligente. Diseñamos cada servicio para sumar autoridad, claridad y conversión sin alterar el lenguaje visual que ya define la marca.
               </p>
-              <div className="hero-actions">
+              <div className="hero-actions" style={{ justifyContent: 'center' }}>
                 <a
                   className="cta-primary"
                   href="https://api.whatsapp.com/send?phone=573193677929&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
@@ -88,82 +142,277 @@ export default function ServicesPage() {
                 >
                   Iniciar Consultoría Gratuita
                 </a>
-                <Link href="/casos-de-exito" className="cta-secondary">Ver Casos de Éxito</Link>
-              </div>
-              <div className="chip-row" style={{ marginTop: '24px' }}>
-                <span className="chip">Branding</span>
-                <span className="chip">SEO</span>
-                <span className="chip">Social Media</span>
-                <span className="chip">Video</span>
-                <span className="chip">Fotografía</span>
-                <span className="chip">Eventos</span>
+                <Link href="/casos-de-exito" className="cta-secondary">
+                  Ver Casos de Éxito
+                </Link>
               </div>
             </div>
           </div>
         </div>
 
-        <style>{`
-          .feature-card {
-            transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease;
-          }
-
-          .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(244, 207, 99, 0.34) !important;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(18, 18, 18, 0.96)) !important;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34), inset 0 0 0 1px rgba(244, 207, 99, 0.08);
-          }
-
-          .feature-card:hover .feature-icon {
-            background: linear-gradient(135deg, rgba(240, 217, 138, 0.22), rgba(212, 175, 55, 0.10));
-            border-color: rgba(244, 207, 99, 0.30);
-          }
-        `}</style>
-
-        <div style={{ marginTop: '36px' }} className="feature-grid">
-          {services.map((service, index) => (
-            <Link
-              key={index}
-              href={service.href}
-              style={{ textDecoration: 'none', color: 'inherit' }}
+        <div style={{ marginTop: '36px', display: 'grid', gap: '18px' }}>
+          {services.map((service) => (
+            <section
+              key={service.number}
+              className={`panel service-panel ${service.reverse ? 'reverse' : ''}`}
+              style={{ overflow: 'hidden' }}
             >
-              <article className="feature-card" style={{ minHeight: '220px' }}>
-                <div className="feature-icon"><PremiumIcon name={service.icon as any} size={22} /></div>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{service.title}</h3>
-                <p style={{ color: 'var(--text-soft)', lineHeight: '1.7', margin: 0 }}>{service.description}</p>
-                <div style={{ marginTop: '18px', color: 'var(--accent-strong)', fontWeight: 700 }}>Ver detalle →</div>
-              </article>
-            </Link>
+              <div className="service-media">
+                <img src={service.image} alt={service.title} style={{ objectPosition: service.imagePosition }} />
+                <div className="service-media-overlay" />
+                <span className="service-number">{service.number}</span>
+              </div>
+              <div className="service-copy">
+                <div className="service-icon-wrap">
+                  <PremiumIcon name={service.icon} size={22} />
+                </div>
+                <h2>{service.title}</h2>
+                <p>{service.description}</p>
+                <ul className="service-bullets">
+                  {service.bullets.map((bullet) => (
+                    <li key={bullet}>
+                      <PremiumIcon name="check" size={18} />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={service.href} className="service-link-cta">
+                  Ver detalle
+                  <PremiumIcon name="arrow-right" size={16} />
+                </Link>
+              </div>
+            </section>
           ))}
         </div>
 
-        <div className="section-shell" style={{ paddingTop: '56px' }}>
-          <div className="panel panel-pad" style={{ background: 'linear-gradient(135deg, rgba(8,47,73,0.98), rgba(15,23,42,0.94))', color: 'white' }}>
-            <div style={{ display: 'grid', gap: '14px', textAlign: 'center', maxWidth: '760px', margin: '0 auto' }}>
-              <h2 className="section-title" style={{ color: 'white', marginBottom: 0 }}>Diseño pensado para conversión</h2>
-              <h2 className="section-title" style={{ color: 'white', marginBottom: 0 }}>Cada servicio es un sistema, no un entregable.</h2>
-              <p style={{ margin: 0, color: 'rgba(255,255,255,0.78)' }}>
-                No ejecutamos tareas sueltas. Cada pieza que producimos está diseñada para integrarse en tu ecosistema de marca y potenciar el resto de los canales. Eso convierte el marketing en un activo compuesto que crece con el tiempo.
-              </p>
+        <section className="section-shell" style={{ paddingTop: '64px', paddingBottom: '32px' }}>
+          <div className="process-shell panel panel-pad" style={{ background: '#0b0b0b' }}>
+            <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+              <div className="eyebrow" style={{ display: 'inline-flex' }}>
+                Nuestro Método
+              </div>
+              <h2 className="section-title" style={{ marginBottom: 0, color: '#f4cf63' }}>
+                El Proceso Velozza
+              </h2>
+            </div>
+            <div className="process-grid">
+              {processSteps.map((step) => (
+                <div key={step.number} className="process-step">
+                  <div className="process-number">{step.number}</div>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        </section>
+
+        <section className="section-shell" style={{ paddingTop: '12px' }}>
+          <div className="service-cta panel panel-pad">
+            <h2 className="section-title" style={{ marginBottom: '12px', color: '#f4cf63' }}>
+              Hablemos de tu visión y construyamos tu próximo nivel.
+            </h2>
+            <p className="muted" style={{ margin: '0 auto', maxWidth: '720px' }}>
+              Una estrategia personalizada puede cambiar el rumbo de tu marca. Si quieres mantener intacta tu identidad visual, esta página ya está configurada para sumar información sin alterar el sistema de color de Velozza.
+            </p>
+            <div className="hero-actions" style={{ justifyContent: 'center', marginTop: '24px' }}>
+              <Link href="/contacto" className="cta-primary">
+                Agendar Ahora
+              </Link>
+              <Link href="/industrias" className="cta-secondary">
+                Ver Industrias que Atendemos
+              </Link>
+            </div>
+          </div>
+        </section>
       </section>
 
-      <FAQ items={faqs} title="Preguntas Frecuentes sobre Nuestros Servicios" />
+      <style>{`
+        .service-panel {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          min-height: 320px;
+        }
 
-          <section className="section-shell">
-            <div className="panel panel-pad" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.10), rgba(244,207,99,0.05))', border: '1px solid rgba(212,175,55,0.22)', textAlign: 'center' }}>
-              <div style={{ maxWidth: '680px', margin: '0 auto', display: 'grid', gap: '18px' }}>
-                <h2 className="section-title" style={{ marginBottom: 0 }}>¿Cuál de Estos Sistemas Necesita tu Marca?</h2>
-                <p style={{ margin: 0, fontSize: '1.05rem' }}>Agenda una sesión estratégica gratuita de 30 minutos. Analizamos tu situación actual y diseñamos el mapa para posicionarte como la referencia indiscutible de tu sector.</p>
-                <div className="hero-actions" style={{ justifyContent: 'center', marginTop: '8px' }}>
-                  <Link href="/contacto" className="cta-primary">Agendar Consultoría Privada</Link>
-                  <Link href="/industrias" className="cta-secondary">Ver Industrias que Atendemos</Link>
-                </div>
-              </div>
-            </div>
-          </section>
+        .service-panel.reverse {
+          direction: rtl;
+        }
+
+        .service-panel.reverse .service-copy,
+        .service-panel.reverse .service-media {
+          direction: ltr;
+        }
+
+        .service-media {
+          position: relative;
+          min-height: 320px;
+          overflow: hidden;
+          background: #050505;
+          border-right: 1px solid rgba(244, 207, 99, 0.08);
+        }
+
+        .service-panel.reverse .service-media {
+          border-right: 0;
+          border-left: 1px solid rgba(244, 207, 99, 0.08);
+        }
+
+        .service-media img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0.68;
+        }
+
+        .service-media-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(11, 11, 11, 0.18), rgba(11, 11, 11, 0.92));
+        }
+
+        .service-number {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          z-index: 1;
+          font-family: Cormorant Garamond, serif;
+          font-size: clamp(3rem, 5vw, 4.5rem);
+          line-height: 1;
+          color: rgba(244, 207, 99, 0.34);
+        }
+
+        .service-copy {
+          padding: 32px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 16px;
+          background: rgba(12, 12, 10, 0.98);
+        }
+
+        .service-icon-wrap {
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          display: grid;
+          place-items: center;
+          background: rgba(244, 207, 99, 0.10);
+          border: 1px solid rgba(244, 207, 99, 0.16);
+          color: #f4cf63;
+        }
+
+        .service-copy h2 {
+          margin: 0;
+          font-size: clamp(1.7rem, 2.6vw, 2.35rem);
+          line-height: 1.05;
+          color: #f8f5ed;
+        }
+
+        .service-copy p {
+          margin: 0;
+          color: #c8c6be;
+          line-height: 1.8;
+        }
+
+        .service-bullets {
+          margin: 6px 0 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 10px;
+        }
+
+        .service-bullets li {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #f8f5ed;
+        }
+
+        .service-bullets svg {
+          color: #f4cf63;
+          flex: 0 0 auto;
+        }
+
+        .service-link-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          width: fit-content;
+          margin-top: 6px;
+          color: #f4cf63;
+          text-decoration: none;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          font-size: 0.82rem;
+        }
+
+        .process-shell {
+          display: grid;
+          gap: 20px;
+        }
+
+        .process-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 22px;
+        }
+
+        .process-step {
+          position: relative;
+          padding-top: 10px;
+        }
+
+        .process-number {
+          position: absolute;
+          top: -44px;
+          left: -4px;
+          font-family: Cormorant Garamond, serif;
+          font-size: clamp(4rem, 7vw, 5.8rem);
+          line-height: 1;
+          color: rgba(244, 207, 99, 0.10);
+          user-select: none;
+        }
+
+        .process-step h3 {
+          position: relative;
+          z-index: 1;
+          margin: 0 0 8px;
+          color: #f8f5ed;
+          font-size: 1.2rem;
+        }
+
+        .process-step p {
+          margin: 0;
+          color: #a7a7a7;
+        }
+
+        .service-cta {
+          text-align: center;
+          background: linear-gradient(135deg, rgba(14, 14, 14, 0.98), rgba(6, 6, 6, 0.98));
+          border: 1px solid rgba(244, 207, 99, 0.18);
+        }
+
+        @media (max-width: 900px) {
+          .service-panel,
+          .process-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .service-panel.reverse {
+            direction: ltr;
+          }
+
+          .service-media,
+          .service-panel.reverse .service-media {
+            border-left: 0;
+            border-right: 0;
+            min-height: 260px;
+          }
+        }
+      `}</style>
     </main>
   );
 }
