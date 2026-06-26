@@ -16,8 +16,8 @@ const services = [
   { icon: 'social', title: 'Gestión de Redes Sociales', copy: 'Contenido estratégico que atrae, conecta y convierte tu audiencia.', slug: 'social-media-management' },
   { icon: 'video', title: 'Producción de Contenido', copy: 'Videos, fotos y contenido de alto impacto que comunica tu valor.', slug: 'video-marketing' },
   { icon: 'analytics', title: 'Estrategia & Marketing Digital', copy: 'Estrategias basadas en datos para generar demanda y crecimiento sostenible.', slug: 'seo-services' },
-  { icon: 'bolt', title: 'Publicidad Digital', copy: 'Campañas que convierten clics en clientes y maximizan tu retorno de inversión.', slug: 'contacto' },
-  { icon: 'ai', title: 'Automatización & IA', copy: 'Sistemas inteligentes que automatizan, optimizan y escalan tu negocio.', slug: 'contacto' },
+  { icon: 'bolt', title: 'Publicidad Digital', copy: 'Diseñamos campañas de intención alta con segmentación, mensajes y optimización para convertir inversión en clientes reales.', slug: 'publicidad-digital' },
+  { icon: 'ai', title: 'Automatización & IA', copy: 'Creamos sistemas inteligentes que ahorran tiempo, califican leads y sostienen tu crecimiento con procesos escalables.', slug: 'automatizacion-ia' },
 ];
 
 const results = [

@@ -11,7 +11,16 @@ interface Props {
 }
 
 export function generateStaticParams() {
-  return ['personal-branding', 'social-media-management', 'seo-services', 'video-marketing'].map(
+  return [
+    'personal-branding',
+    'social-media-management',
+    'seo-services',
+    'video-marketing',
+    'publicidad-digital',
+    'automatizacion-ia',
+    'fotografia-corporativa',
+    'eventos-sociales-elite',
+  ].map(
     (service) => ({ service })
   );
 }

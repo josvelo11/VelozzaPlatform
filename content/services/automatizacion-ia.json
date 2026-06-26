@@ -1,0 +1,15 @@
+{
+  "title": "Automatización & IA",
+  "description": "Sistemas inteligentes para ahorrar tiempo, ordenar procesos y escalar tu operación",
+  "slug": "automatizacion-ia",
+  "icon": "ai",
+  "longDescription": "Implementamos automatizaciones que reducen fricción operativa, responden más rápido y convierten mejor los leads que llegan a tu negocio. Integramos IA, flujos internos y lógica comercial para que el equipo deje de ejecutar tareas repetitivas y se concentre en oportunidades de alto valor.",
+  "benefits": [
+    "Automatización de seguimiento comercial",
+    "Calificación inteligente de leads",
+    "Reducción del trabajo manual repetitivo",
+    "Respuesta más rápida a clientes potenciales",
+    "Escalabilidad sin aumentar la carga operativa"
+  ],
+  "keywords": ["automatización", "IA", "workflow", "CRM", "procesos"]
+}

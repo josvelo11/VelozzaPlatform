@@ -32,13 +32,13 @@ const services = [
     title: 'Fotografía Corporativa',
     icon: 'camera',
     description: 'Tu imagen dice más que cualquier texto en tu sitio web. Retratos de autoridad para C-Level, equipos ejecutivos y marcas personales que necesitan transmitir poder, confianza y exclusividad en cada punto de contacto visual. Dominamos la luz, la composición y la dirección de arte para crear imágenes que elevan subconscientemente la percepción de valor de quienes las ven.',
-    href: '/servicios',
+    href: '/servicios/fotografia-corporativa',
   },
   {
     title: 'Eventos Sociales Élite',
     icon: 'star',
     description: 'Los momentos de mayor prestigio merecen una documentación a su altura. Cobertura documental y cinematográfica para galas corporativas, lanzamientos de alto perfil y celebraciones privadas. Operamos con absoluta discreción para capturar los momentos que definen el legado de tu marca. Cada imagen y video es un activo de contenido que usarás durante meses.',
-    href: '/servicios',
+    href: '/servicios/eventos-sociales-elite',
   },
 ];
 
