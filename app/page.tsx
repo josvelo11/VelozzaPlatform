@@ -377,7 +377,7 @@ export default function Home() {
             </div>
             <div className="plans-grid">
               {plans.map(([name, copy, price, features], index) => (
-                <article className={`plan ${index === 2 ? 'featured' : ''}`} key={name}>
+                <article className={`plan ${index === 2 ? 'featured' : ''}`} key={`${name}-${index}`}>
                   {index === 2 ? <div className="badge">Más Popular</div> : null}
                   <h3 className="plan-title">{name}</h3>
                   <p>{copy}</p>
