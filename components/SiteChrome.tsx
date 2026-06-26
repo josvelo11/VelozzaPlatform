@@ -90,8 +90,8 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                 <li><a href="/servicios/social-media-management" style={{ color: '#f4cf63' }}>Social Media</a></li>
                 <li><a href="/servicios/seo-services" style={{ color: '#f4cf63' }}>SEO Services</a></li>
                 <li><a href="/servicios/video-marketing" style={{ color: '#f4cf63' }}>Video Marketing</a></li>
-                <li><a href="/servicios" style={{ color: '#f4cf63' }}>Fotografía Corporativa</a></li>
-                <li><a href="/servicios" style={{ color: '#f4cf63' }}>Eventos Élite</a></li>
+                <li><a href="/servicios/fotografia-corporativa" style={{ color: '#f4cf63' }}>Fotografía Corporativa</a></li>
+                <li><a href="/servicios/eventos-sociales-elite" style={{ color: '#f4cf63' }}>Eventos Élite</a></li>
               </ul>
             </div>
             <div>
