@@ -102,6 +102,24 @@ export default function ServicesPage() {
           </div>
         </div>
 
+        <style>{`
+          .feature-card {
+            transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease;
+          }
+
+          .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(244, 207, 99, 0.34) !important;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(18, 18, 18, 0.96)) !important;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34), inset 0 0 0 1px rgba(244, 207, 99, 0.08);
+          }
+
+          .feature-card:hover .feature-icon {
+            background: linear-gradient(135deg, rgba(240, 217, 138, 0.22), rgba(212, 175, 55, 0.10));
+            border-color: rgba(244, 207, 99, 0.30);
+          }
+        `}</style>
+
         <div style={{ marginTop: '36px' }} className="feature-grid">
           {services.map((service, index) => (
             <Link

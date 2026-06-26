@@ -12,6 +12,12 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
   return (
     <>
       <style>{`
+        .site-chrome-actions a:hover,
+        .site-chrome-footer a:hover {
+          color: #f4cf63 !important;
+          text-shadow: 0 0 12px rgba(244, 207, 99, 0.25);
+        }
+
         @media (max-width: 760px) {
           .site-chrome-nav {
             flex-wrap: wrap;

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { organizationSchema } from '@/lib/seo/schema';
 import { PremiumIcon } from '@/components/PremiumIcon';
 
@@ -11,12 +12,12 @@ export const metadata: Metadata = {
 const schema = organizationSchema();
 
 const services = [
-  ['target', 'Marca Personal & Ejecutivo', 'Posicionamos tu autoridad y te convertimos en la referencia de tu industria.'],
-  ['social', 'Gestión de Redes Sociales', 'Contenido estratégico que atrae, conecta y convierte tu audiencia.'],
-  ['video', 'Producción de Contenido', 'Videos, fotos y contenido de alto impacto que comunica tu valor.'],
-  ['analytics', 'Estrategia & Marketing Digital', 'Estrategias basadas en datos para generar demanda y crecimiento sostenible.'],
-  ['bolt', 'Publicidad Digital', 'Campañas que convierten clics en clientes y maximizan tu retorno de inversión.'],
-  ['ai', 'Automatización & IA', 'Sistemas inteligentes que automatizan, optimizan y escalan tu negocio.'],
+  { icon: 'target', title: 'Marca Personal & Ejecutivo', copy: 'Posicionamos tu autoridad y te convertimos en la referencia de tu industria.', slug: 'personal-branding' },
+  { icon: 'social', title: 'Gestión de Redes Sociales', copy: 'Contenido estratégico que atrae, conecta y convierte tu audiencia.', slug: 'social-media-management' },
+  { icon: 'video', title: 'Producción de Contenido', copy: 'Videos, fotos y contenido de alto impacto que comunica tu valor.', slug: 'video-marketing' },
+  { icon: 'analytics', title: 'Estrategia & Marketing Digital', copy: 'Estrategias basadas en datos para generar demanda y crecimiento sostenible.', slug: 'seo-services' },
+  { icon: 'bolt', title: 'Publicidad Digital', copy: 'Campañas que convierten clics en clientes y maximizan tu retorno de inversión.', slug: 'contacto' },
+  { icon: 'ai', title: 'Automatización & IA', copy: 'Sistemas inteligentes que automatizan, optimizan y escalan tu negocio.', slug: 'contacto' },
 ];
 
 const results = [
@@ -54,11 +55,13 @@ export default function Home() {
           .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #f4f2ec; }
           .brand-name { display: block; font-family: Montserrat, sans-serif; font-size: 16px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
           .brand-sub { display: block; margin-top: 2px; font-family: Montserrat, sans-serif; font-size: 7.5px; letter-spacing: .22em; text-transform: uppercase; color: #f0d98a; }
-          .button { border: 0; cursor: pointer; font-family: Montserrat, sans-serif; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; justify-content: center; }
+          .button { border: 0; cursor: pointer; font-family: Montserrat, sans-serif; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; justify-content: center; text-decoration: none; }
+          .button, .service, .result, .plan, .cta-item, .photo, .brand-list span, .links a, .social, .footer a { transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease, filter 180ms ease; }
           .gold { background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; padding: 14px 24px; }
           .ghost { background: transparent; color: #f4f2ec; border: 1px solid rgba(244,242,236,.22); padding: 14px 24px; }
           .links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
           .links a { color: rgba(244,242,236,.66); text-decoration: none; font-family: Montserrat, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+          .links a:hover, .footer a:hover, .link:hover { color: #f0d98a; }
           .hero { position: relative; overflow: hidden; }
           .hero::before {
             content: ''; position: absolute; inset: 0;
@@ -106,8 +109,19 @@ export default function Home() {
           .subtitle { margin: 10px 0 0; color: #7a7870; font-size: 14px; max-width: 720px; }
           .services-grid, .results-grid, .plans-grid { display: grid; gap: 1px; background: #2a2a22; }
           .services-grid { grid-template-columns: repeat(3, 1fr); }
-          .service, .result, .plan { background: #181813; }
+          .service, .result, .plan { background: #181813; cursor: pointer; }
           .service { padding: 32px 28px; min-height: 220px; }
+          .service-link { display: block; color: inherit; text-decoration: none; }
+          .service:hover, .result:hover, .plan:hover, .cta-item:hover, .photo:hover {
+            transform: translateY(-4px);
+            border-color: rgba(201,168,76,.42);
+            background: linear-gradient(135deg, rgba(201,168,76,.10), rgba(255,255,255,.02));
+            box-shadow: 0 20px 48px rgba(0,0,0,.34), inset 0 0 0 1px rgba(244,207,99,.10);
+          }
+          .service:hover .icon, .result:hover .play, .plan:hover .badge, .cta-item:hover .cta-icon {
+            background: linear-gradient(135deg, rgba(240,217,138,.26), rgba(201,168,76,.16));
+            border-color: rgba(240,217,138,.38);
+          }
           .icon { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 18px; background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.16); }
           .service h3, .plan-title { margin: 0 0 10px; font-size: 21px; }
           .service p, .plan p, .about-copy { color: #7a7870; line-height: 1.65; }
@@ -196,7 +210,7 @@ export default function Home() {
         `}</style>
 
         <header className="nav wrap">
-          <a href="#" className="brand">
+          <Link href="/" className="brand">
             <span className="brand-mark">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -213,7 +227,7 @@ export default function Home() {
               <span className="brand-name">Velozza</span>
               <span className="brand-sub">Creative Works™</span>
             </span>
-          </a>
+          </Link>
           <ul className="links">
             <li><a href="/servicios">Servicios</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -224,7 +238,7 @@ export default function Home() {
             <li><a href="/cliente">Cliente</a></li>
             <li><a href="/login">Ingresar</a></li>
           </ul>
-          <button className="button gold">Agenda tu Consulta →</button>
+          <Link href="/contacto" className="button gold">Agenda tu Consulta →</Link>
         </header>
 
         <section className="hero">
@@ -240,8 +254,8 @@ export default function Home() {
               </h1>
               <p className="hero-copy">Estrategias de marca personal y marketing digital diseñadas para posicionar tu autoridad, atraer clientes ideales y generar crecimiento medible y sostenible.</p>
               <div className="actions">
-                <button className="button gold">Agenda tu Consulta Gratuita →</button>
-                <button className="button ghost"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</button>
+                <Link href="/contacto" className="button gold">Agenda tu Consulta Gratuita →</Link>
+                <Link href="/casos-de-exito" className="button ghost"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</Link>
               </div>
             </div>
 
@@ -294,13 +308,15 @@ export default function Home() {
               <p className="subtitle">Estrategias integrales, ejecución impecable y tecnología inteligente.</p>
             </div>
             <div className="services-grid">
-              {services.map(([icon, title, copy]) => (
-                <article className="service" key={title}>
-                  <div className="icon"><PremiumIcon name={icon as any} size={22} /></div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                  <a href="#" className="link">Saber más →</a>
-                </article>
+              {services.map(({ icon, title, copy, slug }) => (
+                <Link href={slug === 'contacto' ? '/contacto' : `/servicios/${slug}`} className="service-link" key={title}>
+                  <article className="service">
+                    <div className="icon"><PremiumIcon name={icon as any} size={22} /></div>
+                    <h3>{title}</h3>
+                    <p>{copy}</p>
+                    <span className="link">Saber más →</span>
+                  </article>
+                </Link>
               ))}
             </div>
           </div>
@@ -331,7 +347,7 @@ export default function Home() {
                 <h2 className="title">Resultados que hablan<br />por <span className="accent">nosotros</span></h2>
                 <p className="subtitle">Historias reales de marcas que crecieron con Velozza.</p>
               </div>
-              <button className="button gold">Ver Casos de Éxito →</button>
+              <Link href="/casos-de-exito" className="button gold">Ver Casos de Éxito →</Link>
             </div>
             <div className="results-grid">
               {results.map(([value, label], index) => (
@@ -366,7 +382,7 @@ export default function Home() {
                 <li>Autor y Entrenador</li>
                 <li>Empresario &amp; Visionario</li>
               </ul>
-              <button className="button ghost">Más sobre David →</button>
+              <Link href="/contacto" className="button ghost">Más sobre David →</Link>
             </div>
           </div>
         </section>
@@ -388,7 +404,7 @@ export default function Home() {
                   <div className="price">{price}</div>
                   <div className="period">/mes</div>
                   <ul className="features">{features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-                  <button className="btn-plan">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</button>
+                  <Link href="/contacto" className="btn-plan">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</Link>
                 </article>
               ))}
             </div>
@@ -400,7 +416,7 @@ export default function Home() {
             <div>
               <h2 className="cta-title">Hablemos de tu visión y construyamos tu próximo nivel.</h2>
               <p className="cta-copy">Una estrategia personalizada puede cambiar el rumbo de tu marca.</p>
-              <button className="button ghost" style={{ marginTop: 28, borderColor: 'rgba(26,18,0,.2)', color: '#1a1200' }}>Agendar Ahora →</button>
+              <Link href="/contacto" className="button ghost" style={{ marginTop: 28, borderColor: 'rgba(26,18,0,.2)', color: '#1a1200' }}>Agendar Ahora →</Link>
             </div>
             <ul className="cta-list">
               {[
@@ -423,7 +439,7 @@ export default function Home() {
         <footer className="footer">
           <div className="wrap footer-grid">
             <div className="footer-brand">
-              <a href="#" className="brand" style={{ textDecoration: 'none' }}>
+              <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
                 <span className="brand-mark">
                   <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -440,27 +456,27 @@ export default function Home() {
                   <span className="brand-name">Velozza</span>
                   <span className="brand-sub">Creative Works™</span>
                 </span>
-              </a>
+              </Link>
               <p>Construimos marcas que lideran y generan resultados.</p>
               <div className="powered">Powered by LoZaRa Intelligence™</div>
-              <div className="socials"><a href="#" className="social"><PremiumIcon name="instagram" size={16} /></a><a href="#" className="social"><PremiumIcon name="chat" size={16} /></a></div>
+              <div className="socials"><Link href="/contacto" className="social"><PremiumIcon name="instagram" size={16} /></Link><Link href="/contacto" className="social"><PremiumIcon name="chat" size={16} /></Link></div>
             </div>
             <div>
               <h4>Servicios</h4>
-              <ul><li><a href="#">Marca Personal &amp; Ejecutivo</a></li><li><a href="#">Gestión de Redes Sociales</a></li><li><a href="#">Producción de Contenido</a></li><li><a href="#">Estrategia &amp; Marketing Digital</a></li><li><a href="#">Academy</a></li></ul>
+              <ul><li><Link href="/servicios/personal-branding">Marca Personal &amp; Ejecutivo</Link></li><li><Link href="/servicios/social-media-management">Gestión de Redes Sociales</Link></li><li><Link href="/servicios/video-marketing">Producción de Contenido</Link></li><li><Link href="/servicios/seo-services">Estrategia &amp; Marketing Digital</Link></li><li><Link href="/servicios">Academy</Link></li></ul>
             </div>
             <div>
               <h4>Recursos</h4>
-              <ul><li><a href="#">Recursos</a></li><li><a href="#">Resultados</a></li><li><a href="#">Planes</a></li><li><a href="#">Autoridad de Marca</a></li></ul>
+              <ul><li><Link href="/blog">Recursos</Link></li><li><Link href="/#resultados">Resultados</Link></li><li><Link href="/#planes">Planes</Link></li><li><Link href="/servicios">Autoridad de Marca</Link></li></ul>
             </div>
             <div>
               <h4>Empresa</h4>
-              <ul><li><a href="#">Nosotros</a></li><li><a href="#">Contacto</a></li><li><a href="#">Acceder</a></li></ul>
+              <ul><li><Link href="/#nosotros">Nosotros</Link></li><li><Link href="/contacto">Contacto</Link></li><li><Link href="/login">Acceder</Link></li></ul>
             </div>
           </div>
           <div className="wrap bottom">
             <p>© 2026 Velozza Creative Works™. Todos los derechos reservados.</p>
-            <div className="legal"><a href="#">Política de Privacidad</a><a href="#">Términos de Servicio</a><a href="#">Aviso Legal</a></div>
+            <div className="legal"><Link href="/contacto">Política de Privacidad</Link><Link href="/contacto">Términos de Servicio</Link><Link href="/contacto">Aviso Legal</Link></div>
           </div>
         </footer>
 
