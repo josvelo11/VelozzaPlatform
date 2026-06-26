@@ -47,7 +47,7 @@ export default function Home() {
         <style>{`
           * { box-sizing: border-box; }
           html { scroll-behavior: smooth; }
-          body { margin: 0; background: #0c0c0a; color: #f4f2ec; font-family: Inter, sans-serif; }
+          body { margin: 0; background: #0c0c0a; color: #f4f2ec; font-family: var(--font-sans); }
           .home { background: #0c0c0a; }
           .wrap { width: min(1240px, calc(100% - 40px)); margin: 0 auto; }
           .nav {

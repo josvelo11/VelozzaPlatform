@@ -49,8 +49,10 @@ export default function ContactPage() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
+                  border: '1px solid rgba(212,175,55,0.18)',
+                  borderRadius: '10px',
+                  background: '#13130f',
+                  color: '#f8f5ed',
                   fontSize: '14px',
                 }}
               />
@@ -68,8 +70,10 @@ export default function ContactPage() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
+                  border: '1px solid rgba(212,175,55,0.18)',
+                  borderRadius: '10px',
+                  background: '#13130f',
+                  color: '#f8f5ed',
                   fontSize: '14px',
                 }}
               />
@@ -86,8 +90,10 @@ export default function ContactPage() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
+                  border: '1px solid rgba(212,175,55,0.18)',
+                  borderRadius: '10px',
+                  background: '#13130f',
+                  color: '#f8f5ed',
                   fontSize: '14px',
                 }}
               />
@@ -104,8 +110,10 @@ export default function ContactPage() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
+                  border: '1px solid rgba(212,175,55,0.18)',
+                  borderRadius: '10px',
+                  background: '#13130f',
+                  color: '#f8f5ed',
                   fontSize: '14px',
                 }}
               />
@@ -122,11 +130,13 @@ export default function ContactPage() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
+                  border: '1px solid rgba(212,175,55,0.18)',
+                  borderRadius: '10px',
+                  background: '#13130f',
+                  color: '#f8f5ed',
                   fontSize: '14px',
                   minHeight: '150px',
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'var(--font-sans)',
                 }}
               />
             </div>
@@ -183,7 +193,8 @@ export default function ContactPage() {
             </div>
 
             <div style={{ backgroundColor: '#0f0f0f', padding: '20px', borderRadius: '8px', border: '1px solid rgba(244, 207, 99, 0.16)', color: '#f8f5ed' }}>
-              <h4>Horario de Atención</h4>
+            <div style={{ backgroundColor: '#10100d', padding: '20px', borderRadius: '12px', border: '1px solid rgba(212,175,55,0.16)', color: '#f8f5ed' }}>
+              <h4 style={{ color: '#f8f5ed' }}>Horario de Atención</h4>
               <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>
               <p>Sábado: 10:00 AM - 2:00 PM</p>
               <p>Domingo: Cerrado</p>

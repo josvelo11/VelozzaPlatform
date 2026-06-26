@@ -64,11 +64,13 @@ export default function Support() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
+                  border: '1px solid rgba(212,175,55,0.18)',
+                  borderRadius: '10px',
+                  background: '#13130f',
+                  color: '#f8f5ed',
                   fontSize: '14px',
                   minHeight: '150px',
-                  fontFamily: 'Inter, sans-serif'
+                  fontFamily: 'var(--font-sans)'
                 }}
               />
             </div>
@@ -95,7 +97,7 @@ export default function Support() {
             
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr style={{ borderBottom: '2px solid #ddd' }}>
+                <tr style={{ borderBottom: '2px solid rgba(212,175,55,0.18)' }}>
                   <th style={{ textAlign: 'left', padding: '12px' }}>ID</th>
                   <th style={{ textAlign: 'left', padding: '12px' }}>Asunto</th>
                   <th style={{ textAlign: 'left', padding: '12px' }}>Estado</th>
@@ -105,15 +107,15 @@ export default function Support() {
               </thead>
               <tbody>
                 {tickets.map((ticket) => (
-                  <tr key={ticket.id} style={{ borderBottom: '1px solid #eee' }}>
+                  <tr key={ticket.id} style={{ borderBottom: '1px solid rgba(212,175,55,0.10)' }}>
                     <td style={{ padding: '12px', fontWeight: '600' }}>{ticket.id}</td>
                     <td style={{ padding: '12px' }}>{ticket.subject}</td>
                     <td style={{ padding: '12px' }}>
                       <span style={{
                         padding: '4px 8px',
-                        backgroundColor: ticket.status === 'Resuelto' ? 'rgba(212,175,55,0.15)' : ticket.status === 'En progreso' ? 'rgba(255,200,87,0.15)' : 'rgba(229,57,53,0.15)',
-                        color: ticket.status === 'Resuelto' ? '#7ec699' : ticket.status === 'En progreso' ? '#ffc857' : '#ff6b6b',
-                        borderRadius: '4px',
+                        backgroundColor: ticket.status === 'Resuelto' ? 'rgba(244,207,99,0.15)' : ticket.status === 'En progreso' ? 'rgba(201,168,76,0.14)' : 'rgba(123,98,32,0.20)',
+                        color: ticket.status === 'Resuelto' ? '#f4cf63' : ticket.status === 'En progreso' ? '#f8f5ed' : '#a7a7a7',
+                        borderRadius: '999px',
                         fontSize: '12px'
                       }}>
                         {ticket.status}
@@ -121,7 +123,7 @@ export default function Support() {
                     </td>
                     <td style={{ padding: '12px' }}>{ticket.date}</td>
                     <td style={{ padding: '12px' }}>
-                      <button style={{ padding: '4px 8px', fontSize: '12px', cursor: 'pointer' }}>
+                      <button style={{ padding: '4px 8px', fontSize: '12px', cursor: 'pointer', background: 'transparent', color: '#f4cf63', border: '1px solid rgba(212,175,55,0.18)', borderRadius: '8px' }}>
                         Ver
                       </button>
                     </td>
