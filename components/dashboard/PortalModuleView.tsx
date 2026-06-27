@@ -144,7 +144,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
   const [newCalendarPost, setNewCalendarPost] = useState('');
   const [newCalendarStatus, setNewCalendarStatus] = useState<PortalRecord['status']>('draft');
   const [socialProfiles, setSocialProfiles] = useState<SocialProfile[]>([]);
-  const [socialClient, setSocialClient] = useState('Acme Foods');
+  const [socialClient, setSocialClient] = useState('');
   const [socialPlatform, setSocialPlatform] = useState('Instagram');
   const [socialUsername, setSocialUsername] = useState('');
   const [socialPassword, setSocialPassword] = useState('');
@@ -215,6 +215,15 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
       });
     }
   }, [module.slug]);
+
+  useEffect(() => {
+    if (module.slug !== 'social-accounts' || socialClient) return;
+    const storedEmail = typeof window !== 'undefined' ? localStorage.getItem('sb-user-email') || '' : '';
+    const profile = getClientProfileByEmail(storedEmail);
+    if (profile?.companyName) {
+      setSocialClient(profile.companyName);
+    }
+  }, [module.slug, socialClient]);
 
   useEffect(() => {
     if (module.slug !== 'publication-planner') return;
@@ -1060,8 +1069,29 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     if (module.slug === 'publication-planner') {
       const ownerEmail = typeof window !== 'undefined' ? localStorage.getItem('sb-user-email') || '' : '';
       const clientProfile = getClientProfileByEmail(ownerEmail);
-      const clientName = clientInfoDraft.companyName || clientProfile?.companyName || 'Cliente activo';
+      const clientSummary = {
+        companyName: clientInfoDraft.companyName || clientProfile?.companyName || 'Cliente activo',
+        contactName: clientInfoDraft.contactName || clientProfile?.contactName || 'Contacto pendiente',
+        sector: clientInfoDraft.sector || clientProfile?.sector || 'Sector por definir',
+        plan: clientInfoDraft.plan || clientProfile?.plan || 'Plan por definir',
+        accountManager: clientInfoDraft.accountManager || clientProfile?.accountManager || 'Sin asignar',
+      };
       const clientNetworks = clientProfile?.managedNetworks?.length ? clientProfile.managedNetworks : ['Facebook', 'Instagram', 'TikTok', 'YouTube'];
+      const monthNames = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre',
+      ];
+      const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
       const tabOptions = [
         { key: 'informacion', label: 'Información' },
         { key: 'crm', label: 'CRM' },
@@ -1084,6 +1114,14 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
         { name: 'Reporte mensual de contenido', detail: 'Resumen ejecutivo de publicaciones, aprobaciones y resultados.' },
         { name: 'Reporte social CRM', detail: 'Conversaciones activas, leads y oportunidades por canal.' },
         { name: 'Documento de marca', detail: 'Lineamientos visuales, tono y mensajes por red.' },
+      ];
+      const calendarFocusDate = selectedCalendarDay || module.records.find((record) => record.dueDate)?.dueDate || new Date().toISOString().slice(0, 10);
+      const [calendarYear, calendarMonth] = calendarFocusDate.split('-').map(Number);
+      const daysInMonth = new Date(calendarYear, calendarMonth, 0).getDate();
+      const firstDayOffset = (new Date(calendarYear, calendarMonth - 1, 1).getDay() + 6) % 7;
+      const calendarCells = [
+        ...Array.from({ length: firstDayOffset }, () => null),
+        ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
       ];
 
       const updateClientInfo = (field: keyof typeof clientInfoDraft, value: string) => {
@@ -1171,8 +1209,27 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
           <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Portal del Cliente</h3>
           <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
-            Todo está en español, separado por pestañas, editable y pensado para que el cliente no vea el dashboard interno.
+            Todo está en español, separado por pestañas, editable y ahora ligado al perfil real del cliente activo.
           </p>
+
+          <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', marginBottom: '14px' }}>
+            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+              <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Cliente activo</h4>
+              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Empresa:</strong> {clientSummary.companyName}</p>
+              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Contacto:</strong> {clientSummary.contactName}</p>
+              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Sector:</strong> {clientSummary.sector}</p>
+              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Plan:</strong> {clientSummary.plan}</p>
+              <p style={{ margin: 0, color: '#f8f5ed' }}><strong>Account Manager:</strong> {clientSummary.accountManager}</p>
+            </div>
+            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+              <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Contexto operativo</h4>
+              <p style={{ margin: '0 0 6px', color: 'rgba(248,245,237,0.72)' }}>
+                La información de cada pestaña se adapta al cliente seleccionado para evitar bloques genéricos.
+              </p>
+              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}>Redes priorizadas: {clientNetworks.join(', ')}</p>
+              <p style={{ margin: 0, color: '#f4cf63' }}>Enfoque sugerido: personalizar contenido, accesos y calendario según el sector.</p>
+            </div>
+          </div>
 
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
             {tabOptions.map((tab) => renderTabButton(tab.key, tab.label))}
@@ -1181,7 +1238,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
           {clientTab === 'informacion' && (
             <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
               <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
-                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Información personal y sector</h4>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Editar datos reales del cliente</h4>
                 <div style={{ display: 'grid', gap: '8px' }}>
                   {(
                     [
@@ -1203,16 +1260,16 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
                   ))}
                 </div>
                 <p style={{ margin: '10px 0 0', color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>
-                  Los cambios quedan guardados en el navegador para una edición rápida.
+                  Los cambios quedan guardados en el navegador para que cada cliente conserve su propio contexto.
                 </p>
               </div>
               <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
                 <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Acceso visual del cliente</h4>
-                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Empresa:</strong> {clientInfoDraft.companyName || clientProfile?.companyName || '-'}</p>
-                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Contacto:</strong> {clientInfoDraft.contactName || clientProfile?.contactName || '-'}</p>
-                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Sector:</strong> {clientInfoDraft.sector || clientProfile?.sector || '-'}</p>
-                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Plan:</strong> {clientInfoDraft.plan || clientProfile?.plan || '-'}</p>
-                <p style={{ margin: 0, color: '#f8f5ed' }}><strong>Account Manager:</strong> {clientInfoDraft.accountManager || clientProfile?.accountManager || '-'}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Empresa:</strong> {clientSummary.companyName}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Contacto:</strong> {clientSummary.contactName}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Sector:</strong> {clientSummary.sector}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Plan:</strong> {clientSummary.plan}</p>
+                <p style={{ margin: 0, color: '#f8f5ed' }}><strong>Account Manager:</strong> {clientSummary.accountManager}</p>
               </div>
             </div>
           )}
@@ -1220,7 +1277,10 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
           {clientTab === 'crm' && (
             <div style={{ display: 'grid', gap: '14px' }}>
               <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
-                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Social CRM</h4>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>CRM de {clientSummary.companyName}</h4>
+                <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
+                  Seguimiento de oportunidades y actividad alineado con el sector {clientSummary.sector}.
+                </p>
                 <div style={{ display: 'grid', gap: '8px', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
                   {metrics.map((metric) => (
                     <div key={metric.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
@@ -1269,6 +1329,12 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
 
           {clientTab === 'redes' && (
             <div style={{ display: 'grid', gap: '14px' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed' }}>
+                <h4 style={{ marginTop: 0 }}>Cuentas vinculadas a {clientSummary.companyName}</h4>
+                <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)' }}>
+                  Aquí se guarda usuario, clave y enlace de cada red con el nombre real del cliente.
+                </p>
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px' }}>
                 {clientNetworks.map((network) => {
                   const saved = seedProfile(network);
@@ -1326,28 +1392,59 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
           {clientTab === 'calendario' && (
             <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'minmax(290px, 1.2fr) minmax(260px, 1fr)' }}>
               <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
-                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Calendario mensual</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(32px, 1fr))', gap: '6px' }}>
-                  {calendarDays.map((day) => {
-                    const dayKey = `${new Date().getFullYear()}-07-${String(day).padStart(2, '0')}`;
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
+                  <div>
+                    <h4 style={{ margin: 0, color: '#f8f5ed' }}>Calendario mensual de {clientSummary.companyName}</h4>
+                    <p style={{ margin: '6px 0 0', color: 'rgba(248,245,237,0.72)' }}>
+                      Vista clásica del mes completo con todos los días ordenados por semana.
+                    </p>
+                  </div>
+                  <div style={{ color: '#f4cf63', fontWeight: 800, fontSize: '18px' }}>
+                    {monthNames[calendarMonth - 1]} {calendarYear}
+                  </div>
+                </div>
+                <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
+                  Selecciona un día para ver publicaciones y aprobaciones del cliente activo.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '6px', marginBottom: '8px' }}>
+                  {weekDays.map((day) => (
+                    <div key={day} style={{ textAlign: 'center', color: '#f4cf63', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
+                      {day}
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '6px' }}>
+                  {calendarCells.map((day, index) => {
+                    if (!day) {
+                      return <div key={`empty-${index}`} style={{ minHeight: '78px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px dashed rgba(212,175,55,0.08)' }} />;
+                    }
+
+                    const dayKey = `${calendarYear}-${String(calendarMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     const hasContent = Boolean(recordsByDate[dayKey]?.length);
                     const active = selectedCalendarDay === dayKey;
+
                     return (
                       <button
-                        key={day}
+                        key={dayKey}
                         onClick={() => setSelectedCalendarDay(dayKey)}
                         style={{
-                          textAlign: 'center',
-                          padding: '8px 4px',
-                          borderRadius: '8px',
+                          minHeight: '78px',
+                          textAlign: 'left',
+                          padding: '10px',
+                          borderRadius: '10px',
                           fontSize: '13px',
                           color: '#f8f5ed',
                           background: active ? '#f4cf63' : hasContent ? 'rgba(125,255,179,0.18)' : 'rgba(255,255,255,0.06)',
                           border: active ? '1px solid #f4cf63' : hasContent ? '1px solid rgba(125,255,179,0.45)' : '1px solid transparent',
                           cursor: 'pointer',
+                          display: 'grid',
+                          alignContent: 'space-between',
                         }}
                       >
-                        {day}
+                        <span style={{ fontWeight: 800, fontSize: '16px', color: active ? '#0b0b0b' : '#f8f5ed' }}>{day}</span>
+                        <span style={{ fontSize: '11px', color: active ? '#0b0b0b' : 'rgba(248,245,237,0.68)' }}>
+                          {hasContent ? `${recordsByDate[dayKey].length} piezas` : 'Sin publicaciones'}
+                        </span>
                       </button>
                     );
                   })}
@@ -1381,6 +1478,12 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
 
           {clientTab === 'metricas' && (
             <div style={{ display: 'grid', gap: '12px' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed' }}>
+                <h4 style={{ marginTop: 0 }}>Indicadores de {clientSummary.companyName}</h4>
+                <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)' }}>
+                  Los KPIs se presentan con el contexto del cliente y no como métricas genéricas.
+                </p>
+              </div>
               <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(180px,1fr))' }}>
                 {metrics.map((metric, index) => (
                   <div key={metric.label} style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
@@ -1420,7 +1523,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
           {clientTab === 'documentos' && (
             <div style={{ display: 'grid', gap: '14px' }}>
               <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
-                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Reportes y documentos</h4>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Reportes y documentos de {clientSummary.companyName}</h4>
                 <div style={{ display: 'grid', gap: '8px' }}>
                   {clientDocuments.map((doc) => {
                     const style = getStatusStyle(doc.status);
