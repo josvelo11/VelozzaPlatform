@@ -723,14 +723,30 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
       ];
 
       const ownerEmail = typeof window !== 'undefined' ? localStorage.getItem('sb-user-email') || '' : '';
-      const lockedClient = portal === 'client' ? (ownerEmail.split('@')[0] || 'Client Account') : socialClient;
-      const clients = Array.from(new Set([...baseClients, ...socialProfiles.map((item) => item.client), lockedClient]));
-      const filteredProfiles = socialProfiles.filter((item) => (portal === 'client' ? item.client === lockedClient : item.client === socialClient));
+      const clientName = portal === 'client' ? (ownerEmail.split('@')[0] || 'Client Account') : socialClient;
+      const clients = Array.from(new Set([...baseClients, ...socialProfiles.map((item) => item.client), clientName]));
+      const filteredProfiles = socialProfiles.filter((item) => item.client === clientName);
+      const currentClientDirectory = portal === 'client' ? getClientProfileByEmail(ownerEmail) : null;
 
       const normalizeUrl = (value: string) => {
         const trimmed = value.trim();
         if (!trimmed) return '';
         return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+      };
+
+      const seedProfile = (platform: string) => {
+        const stored = filteredProfiles.find((item) => item.platform === platform);
+        const directory = currentClientDirectory?.networkProfiles?.find((item) => item.platform.toLowerCase() === platform.toLowerCase());
+        return stored || (directory
+          ? {
+              id: `seed-${platform.toLowerCase()}`,
+              client: clientName,
+              platform,
+              handle: directory.handle,
+              profileUrl: directory.url,
+              status: 'connected' as const,
+            }
+          : null);
       };
 
       const addProfile = () => {
@@ -739,23 +755,33 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
 
         const next: SocialProfile = {
           id: `soc-${Date.now()}`,
-          client: lockedClient,
+          client: clientName,
           platform: socialPlatform,
           handle: socialHandle || '@pending',
           profileUrl,
           status: 'connected',
         };
 
-        setSocialProfiles((prev) => [next, ...prev]);
+        setSocialProfiles((prev) => [next, ...prev.filter((item) => !(item.client === clientName && item.platform === socialPlatform))]);
         setSocialHandle('');
         setSocialUrl('');
+      };
+
+      const removeProfile = (id: string) => {
+        setSocialProfiles((prev) => prev.filter((item) => item.id !== id));
+      };
+
+      const editProfile = (profile: SocialProfile) => {
+        setSocialPlatform(profile.platform);
+        setSocialHandle(profile.handle);
+        setSocialUrl(profile.profileUrl.replace(/^https?:\/\//i, ''));
       };
 
       return (
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
           <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Redes Sociales por Cliente</h3>
           <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
-            Registra y gestiona los perfiles sociales de cada cliente con enlace directo para el equipo.
+            Cada red queda separada por plataforma, con su enlace directo y estado propio.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px', marginBottom: '12px' }}>
@@ -767,7 +793,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
               </select>
             ) : (
               <div style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }}>
-                Cliente: {lockedClient}
+                Cliente: {currentClientDirectory?.companyName || clientName}
               </div>
             )}
 
@@ -807,15 +833,59 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
             Guardar perfil social
           </button>
 
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '10px', marginBottom: '14px' }}>
+            {platforms.map((platform) => {
+              const saved = seedProfile(platform);
+              const isConnected = Boolean(saved?.profileUrl);
+
+              return (
+                <div key={platform} style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.12)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', alignItems: 'center' }}>
+                    <strong>{platform}</strong>
+                    <span style={{ color: isConnected ? '#7dffb3' : '#f4cf63' }}>{isConnected ? 'Conectada' : 'Pendiente'}</span>
+                  </div>
+                  <p style={{ margin: '8px 0 0', color: 'rgba(248,245,237,0.72)' }}>
+                    {saved?.handle || 'Sin usuario cargado'}
+                  </p>
+                  <p style={{ margin: '6px 0 0', fontSize: '12px', color: 'rgba(248,245,237,0.62)' }}>
+                    {saved?.profileUrl || 'Todavía no hay enlace guardado'}
+                  </p>
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+                    {saved?.profileUrl && (
+                      <a href={saved.profileUrl} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline', fontSize: '12px' }}>
+                        Abrir perfil
+                      </a>
+                    )}
+                    {saved && 'id' in saved && saved.id.startsWith('soc-') && (
+                      <>
+                        <button onClick={() => editProfile(saved)} style={{ background: 'transparent', border: '1px solid rgba(212,175,55,0.25)', color: '#f8f5ed', borderRadius: '8px', padding: '6px 10px', cursor: 'pointer', fontSize: '12px' }}>
+                          Editar
+                        </button>
+                        <button onClick={() => removeProfile(saved.id)} style={{ background: 'transparent', border: '1px solid rgba(255,143,143,0.35)', color: '#ff8f8f', borderRadius: '8px', padding: '6px 10px', cursor: 'pointer', fontSize: '12px' }}>
+                          Quitar
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
           <div style={{ display: 'grid', gap: '8px' }}>
             {filteredProfiles.map((acc) => (
-              <div key={acc.id} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr 120px', gap: '10px', alignItems: 'center', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
+              <div key={acc.id} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr 140px', gap: '10px', alignItems: 'center', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
                 <span>{acc.platform}</span>
                 <span>{acc.handle}</span>
                 <a href={acc.profileUrl} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline' }}>
                   {acc.profileUrl}
                 </a>
-                <span style={{ color: acc.status === 'connected' ? '#7dffb3' : '#f4cf63' }}>{acc.status}</span>
+                <span style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
+                  <span style={{ color: acc.status === 'connected' ? '#7dffb3' : '#f4cf63' }}>{acc.status}</span>
+                  <button onClick={() => removeProfile(acc.id)} style={{ background: 'transparent', border: '1px solid rgba(255,143,143,0.35)', color: '#ff8f8f', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', fontSize: '12px' }}>
+                    Quitar
+                  </button>
+                </span>
               </div>
             ))}
             {!filteredProfiles.length && (
