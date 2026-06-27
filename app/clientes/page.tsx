@@ -1,5 +1,9 @@
 export default function ClientesPage() {
-  const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'http://localhost:4000';
+  const crmUrl =
+    process.env.NEXT_PUBLIC_CRM_URL ||
+    (process.env.NODE_ENV === 'development'
+      ? 'http://localhost:4000'
+      : 'https://disciplined-wisdom-production-82b0.up.railway.app');
 
   return (
     <main style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #090909 0%, #121212 100%)', color: '#f8f5ed' }}>
