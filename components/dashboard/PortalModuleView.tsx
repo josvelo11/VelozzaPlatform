@@ -15,9 +15,19 @@ type SocialProfile = {
   id: string;
   client: string;
   platform: string;
-  handle: string;
+  username: string;
+  password: string;
   profileUrl: string;
   status: 'connected' | 'needs-reauthorization' | 'manual-required';
+};
+
+type ClientDocument = {
+  id: string;
+  title: string;
+  type: string;
+  status: PortalRecord['status'];
+  url: string;
+  note: string;
 };
 
 type PublicationType = 'reel' | 'carrusel' | 'flyer';
@@ -57,6 +67,23 @@ type ModuleRealtimeState = {
   advertisingAccounts?: AdvertisingAccountProfile[];
   advertisingCalendar?: AdvertisingCalendarEntry[];
   selectedAdvertisingAccountId?: string;
+  clientTab?: 'informacion' | 'crm' | 'redes' | 'calendario' | 'metricas' | 'documentos';
+  selectedCalendarDay?: string;
+  clientInfoDraft?: {
+    companyName: string;
+    contactName: string;
+    sector: string;
+    plan: string;
+    accountManager: string;
+  };
+  clientDocuments?: Array<{
+    id: string;
+    title: string;
+    type: string;
+    status: PortalRecord['status'];
+    url: string;
+    note: string;
+  }>;
 };
 
 export default function PortalModuleView({ module, portal }: PortalModuleViewProps) {
@@ -119,8 +146,24 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
   const [socialProfiles, setSocialProfiles] = useState<SocialProfile[]>([]);
   const [socialClient, setSocialClient] = useState('Acme Foods');
   const [socialPlatform, setSocialPlatform] = useState('Instagram');
-  const [socialHandle, setSocialHandle] = useState('');
+  const [socialUsername, setSocialUsername] = useState('');
+  const [socialPassword, setSocialPassword] = useState('');
   const [socialUrl, setSocialUrl] = useState('');
+  const [socialEditingId, setSocialEditingId] = useState<string | null>(null);
+  const [clientTab, setClientTab] = useState<'informacion' | 'crm' | 'redes' | 'calendario' | 'metricas' | 'documentos'>('informacion');
+  const [selectedCalendarDay, setSelectedCalendarDay] = useState('');
+  const [clientInfoDraft, setClientInfoDraft] = useState({
+    companyName: '',
+    contactName: '',
+    sector: '',
+    plan: '',
+    accountManager: '',
+  });
+  const [clientDocuments, setClientDocuments] = useState<ClientDocument[]>([
+    { id: 'doc-1', title: 'Brief creativo', type: 'PDF', status: 'active', url: '#', note: 'Documento base cargado por Velozza' },
+    { id: 'doc-2', title: 'Reporte mensual', type: 'PDF', status: 'review' as const, url: '#', note: 'Pendiente de validacion' },
+    { id: 'doc-3', title: 'Lineamientos de marca', type: 'DOCX', status: 'active' as const, url: '#', note: 'Uso interno y cliente' },
+  ]);
   const [settingsState, setSettingsState] = useState({
     emailAlerts: true,
     weeklySummary: true,
@@ -140,6 +183,10 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     if (typeof next.selectedAdvertisingAccountId === 'string') {
       setSelectedAdvertisingAccountId(next.selectedAdvertisingAccountId);
     }
+    if (typeof next.clientTab === 'string') setClientTab(next.clientTab);
+    if (typeof next.selectedCalendarDay === 'string') setSelectedCalendarDay(next.selectedCalendarDay);
+    if (next.clientInfoDraft) setClientInfoDraft(next.clientInfoDraft);
+    if (Array.isArray(next.clientDocuments)) setClientDocuments(next.clientDocuments);
   };
 
   useEffect(() => {
@@ -153,6 +200,28 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     setAdvertisingCalendar(buildInitialAdvertisingCalendar(module.records));
     setSelectedAdvertisingAccountId(initialAccounts[0]?.id || '');
   }, [module]);
+
+  useEffect(() => {
+    if (module.slug !== 'publication-planner') return;
+    const storedEmail = typeof window !== 'undefined' ? localStorage.getItem('sb-user-email') || '' : '';
+    const profile = getClientProfileByEmail(storedEmail);
+    if (profile) {
+      setClientInfoDraft({
+        companyName: profile.companyName,
+        contactName: profile.contactName,
+        sector: profile.sector || 'Marketing y redes',
+        plan: profile.plan,
+        accountManager: profile.accountManager,
+      });
+    }
+  }, [module.slug]);
+
+  useEffect(() => {
+    if (module.slug !== 'publication-planner') return;
+    if (selectedCalendarDay) return;
+    const firstDate = module.records.find((record) => record.dueDate)?.dueDate || new Date().toISOString().slice(0, 10);
+    setSelectedCalendarDay(firstDate);
+  }, [module.slug, module.records, selectedCalendarDay]);
 
   useEffect(() => {
     try {
@@ -176,6 +245,10 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
       advertisingAccounts,
       advertisingCalendar,
       selectedAdvertisingAccountId,
+      clientTab,
+      selectedCalendarDay,
+      clientInfoDraft,
+      clientDocuments,
     };
     localStorage.setItem(moduleStateKey, JSON.stringify(nextState));
 
@@ -742,7 +815,8 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
               id: `seed-${platform.toLowerCase()}`,
               client: clientName,
               platform,
-              handle: directory.handle,
+              username: directory.handle.replace(/^@/, ''),
+              password: '',
               profileUrl: directory.url,
               status: 'connected' as const,
             }
@@ -751,19 +825,26 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
 
       const addProfile = () => {
         const profileUrl = normalizeUrl(socialUrl);
-        if (!profileUrl) return;
+        const username = socialUsername.trim();
+        if (!profileUrl || !username) return;
 
         const next: SocialProfile = {
-          id: `soc-${Date.now()}`,
+          id: socialEditingId || `soc-${Date.now()}`,
           client: clientName,
           platform: socialPlatform,
-          handle: socialHandle || '@pending',
+          username,
+          password: socialPassword,
           profileUrl,
           status: 'connected',
         };
 
-        setSocialProfiles((prev) => [next, ...prev.filter((item) => !(item.client === clientName && item.platform === socialPlatform))]);
-        setSocialHandle('');
+        setSocialProfiles((prev) => {
+          const withoutCurrent = prev.filter((item) => item.id !== next.id && !(item.client === clientName && item.platform === socialPlatform));
+          return [next, ...withoutCurrent];
+        });
+        setSocialEditingId(null);
+        setSocialUsername('');
+        setSocialPassword('');
         setSocialUrl('');
       };
 
@@ -773,15 +854,24 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
 
       const editProfile = (profile: SocialProfile) => {
         setSocialPlatform(profile.platform);
-        setSocialHandle(profile.handle);
+        setSocialUsername(profile.username);
+        setSocialPassword(profile.password);
         setSocialUrl(profile.profileUrl.replace(/^https?:\/\//i, ''));
+        setSocialEditingId(profile.id.startsWith('seed-') ? null : profile.id);
+      };
+
+      const clearForm = () => {
+        setSocialEditingId(null);
+        setSocialUsername('');
+        setSocialPassword('');
+        setSocialUrl('');
       };
 
       return (
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
           <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Redes Sociales por Cliente</h3>
           <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
-            Cada red queda separada por plataforma, con su enlace directo y estado propio.
+            Cada red queda separada por plataforma y se edita con usuario, clave y enlace propios.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px', marginBottom: '12px' }}>
@@ -804,9 +894,16 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
             </select>
 
             <input
-              value={socialHandle}
-              onChange={(e) => setSocialHandle(e.target.value)}
-              placeholder='@usuario o nombre perfil'
+              value={socialUsername}
+              onChange={(e) => setSocialUsername(e.target.value)}
+              placeholder='Usuario de la red'
+              style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }}
+            />
+            <input
+              value={socialPassword}
+              onChange={(e) => setSocialPassword(e.target.value)}
+              placeholder='Clave o token'
+              type='password'
               style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }}
             />
             <input
@@ -817,21 +914,36 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
             />
           </div>
 
-          <button
-            onClick={addProfile}
-            style={{
-              background: '#f4cf63',
-              color: '#0b0b0b',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '10px 14px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              marginBottom: '12px',
-            }}
-          >
-            Guardar perfil social
-          </button>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+            <button
+              onClick={addProfile}
+              style={{
+                background: '#f4cf63',
+                color: '#0b0b0b',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              {socialEditingId ? 'Actualizar perfil' : 'Guardar perfil social'}
+            </button>
+            <button
+              onClick={clearForm}
+              style={{
+                background: 'transparent',
+                color: '#f8f5ed',
+                border: '1px solid rgba(212,175,55,0.25)',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              Limpiar formulario
+            </button>
+          </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '10px', marginBottom: '14px' }}>
             {platforms.map((platform) => {
@@ -845,7 +957,10 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
                     <span style={{ color: isConnected ? '#7dffb3' : '#f4cf63' }}>{isConnected ? 'Conectada' : 'Pendiente'}</span>
                   </div>
                   <p style={{ margin: '8px 0 0', color: 'rgba(248,245,237,0.72)' }}>
-                    {saved?.handle || 'Sin usuario cargado'}
+                    Usuario: {saved?.username || 'Sin usuario cargado'}
+                  </p>
+                  <p style={{ margin: '6px 0 0', color: 'rgba(248,245,237,0.72)' }}>
+                    Clave: {saved?.password ? '••••••••' : 'No guardada'}
                   </p>
                   <p style={{ margin: '6px 0 0', fontSize: '12px', color: 'rgba(248,245,237,0.62)' }}>
                     {saved?.profileUrl || 'Todavía no hay enlace guardado'}
@@ -876,12 +991,15 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
             {filteredProfiles.map((acc) => (
               <div key={acc.id} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr 140px', gap: '10px', alignItems: 'center', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
                 <span>{acc.platform}</span>
-                <span>{acc.handle}</span>
+                <span>{acc.username}</span>
                 <a href={acc.profileUrl} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline' }}>
                   {acc.profileUrl}
                 </a>
                 <span style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
                   <span style={{ color: acc.status === 'connected' ? '#7dffb3' : '#f4cf63' }}>{acc.status}</span>
+                  <button onClick={() => editProfile(acc)} style={{ background: 'transparent', border: '1px solid rgba(212,175,55,0.35)', color: '#f8f5ed', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', fontSize: '12px' }}>
+                    Editar
+                  </button>
                   <button onClick={() => removeProfile(acc.id)} style={{ background: 'transparent', border: '1px solid rgba(255,143,143,0.35)', color: '#ff8f8f', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', fontSize: '12px' }}>
                     Quitar
                   </button>
@@ -942,146 +1060,414 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     if (module.slug === 'publication-planner') {
       const ownerEmail = typeof window !== 'undefined' ? localStorage.getItem('sb-user-email') || '' : '';
       const clientProfile = getClientProfileByEmail(ownerEmail);
-      const monthDays = Array.from({ length: 30 }, (_, idx) => idx + 1);
-      const fallbackDays = [1, 3, 5, 8, 10, 12, 15, 17, 19, 22, 24, 26, 29];
-      const plannedDays = new Set(
-        records
-          .map((record) => {
-            if (!record.dueDate) return null;
-            const parsed = new Date(record.dueDate);
-            return Number.isNaN(parsed.getTime()) ? null : parsed.getDate();
-          })
-          .filter((day): day is number => typeof day === 'number')
+      const clientName = clientInfoDraft.companyName || clientProfile?.companyName || 'Cliente activo';
+      const clientNetworks = clientProfile?.managedNetworks?.length ? clientProfile.managedNetworks : ['Facebook', 'Instagram', 'TikTok', 'YouTube'];
+      const tabOptions = [
+        { key: 'informacion', label: 'Información' },
+        { key: 'crm', label: 'CRM' },
+        { key: 'redes', label: 'Redes' },
+        { key: 'calendario', label: 'Calendario' },
+        { key: 'metricas', label: 'Métricas' },
+        { key: 'documentos', label: 'Reportes y documentos' },
+      ] as const;
+
+      const calendarDays = Array.from({ length: 31 }, (_, idx) => idx + 1);
+      const recordsByDate = records.reduce<Record<string, PortalRecord[]>>((acc, record) => {
+        if (!record.dueDate) return acc;
+        acc[record.dueDate] = acc[record.dueDate] || [];
+        acc[record.dueDate].push(record);
+        return acc;
+      }, {});
+
+      const selectedCalendarItems = selectedCalendarDay ? recordsByDate[selectedCalendarDay] || [] : [];
+      const clientReports = [
+        { name: 'Reporte mensual de contenido', detail: 'Resumen ejecutivo de publicaciones, aprobaciones y resultados.' },
+        { name: 'Reporte social CRM', detail: 'Conversaciones activas, leads y oportunidades por canal.' },
+        { name: 'Documento de marca', detail: 'Lineamientos visuales, tono y mensajes por red.' },
+      ];
+
+      const updateClientInfo = (field: keyof typeof clientInfoDraft, value: string) => {
+        setClientInfoDraft((prev) => ({ ...prev, [field]: value }));
+      };
+
+      const normalizeUrl = (value: string) => {
+        const trimmed = value.trim();
+        if (!trimmed) return '';
+        return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+      };
+
+      const seedProfile = (platform: string) => {
+        const stored = socialProfiles.find((item) => item.client === clientName && item.platform === platform);
+        const directory = clientProfile?.networkProfiles?.find((item) => item.platform.toLowerCase() === platform.toLowerCase());
+        return stored || (directory
+          ? {
+              id: `seed-${platform.toLowerCase()}`,
+              client: clientName,
+              platform,
+              username: directory.handle.replace(/^@/, ''),
+              password: '',
+              profileUrl: directory.url,
+              status: 'connected' as const,
+            }
+          : null);
+      };
+
+      const saveSocialProfile = () => {
+        const profileUrl = normalizeUrl(socialUrl);
+        const username = socialUsername.trim();
+        if (!profileUrl || !username) return;
+
+        const next = {
+          id: socialEditingId || `soc-${Date.now()}`,
+          client: clientName,
+          platform: socialPlatform,
+          username,
+          password: socialPassword,
+          profileUrl,
+          status: 'connected' as const,
+        };
+
+        setSocialProfiles((prev) => {
+          const withoutCurrent = prev.filter((item) => item.id !== next.id && !(item.client === clientName && item.platform === socialPlatform));
+          return [next, ...withoutCurrent];
+        });
+        setSocialEditingId(null);
+        setSocialUsername('');
+        setSocialPassword('');
+        setSocialUrl('');
+      };
+
+      const editSocialProfile = (profile: SocialProfile) => {
+        setSocialPlatform(profile.platform);
+        setSocialUsername(profile.username);
+        setSocialPassword(profile.password);
+        setSocialUrl(profile.profileUrl.replace(/^https?:\/\//i, ''));
+        setSocialEditingId(profile.id.startsWith('seed-') ? null : profile.id);
+      };
+
+      const removeSocialProfile = (id: string) => {
+        setSocialProfiles((prev) => prev.filter((item) => item.id !== id));
+      };
+
+      const renderTabButton = (key: typeof clientTab, label: string) => (
+        <button
+          key={key}
+          onClick={() => setClientTab(key)}
+          style={{
+            background: clientTab === key ? '#f4cf63' : 'rgba(0,0,0,0.18)',
+            color: clientTab === key ? '#0b0b0b' : '#f8f5ed',
+            border: '1px solid rgba(212,175,55,0.2)',
+            borderRadius: '999px',
+            padding: '9px 12px',
+            fontWeight: 700,
+            cursor: 'pointer',
+          }}
+        >
+          {label}
+        </button>
       );
-      if (!plannedDays.size) {
-        fallbackDays.forEach((day) => plannedDays.add(day));
-      }
-
-      const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'] as const;
-      const weekHours = ['10:00', '14:00', '09:30', '17:00', '12:30'] as const;
-      const weeklyPlan = records.slice(0, 5).map((record, idx) => ({
-        day: weekDays[idx] || `Dia ${idx + 1}`,
-        network: 'Social Media',
-        piece: record.title,
-        status: record.status,
-        hour: weekHours[idx] || '11:00',
-      }));
-
-      if (!weeklyPlan.length) {
-        weeklyPlan.push({
-          day: 'Lunes',
-          network: 'Social Media',
-          piece: 'Sin publicaciones programadas aun',
-          status: 'pending',
-          hour: '10:00',
-        });
-      }
-
-      const activityFeed = timeline.slice(0, 3).map((event) => ({
-        date: event.date,
-        detail: event.title,
-      }));
-
-      if (!activityFeed.length) {
-        activityFeed.push({
-          date: 'Sin actividad',
-          detail: 'Aun no hay movimientos recientes en este cliente.',
-        });
-      }
-
-      const managedNetworks =
-        clientProfile?.managedNetworks.length
-          ? clientProfile.managedNetworks
-          : ['Facebook', 'Instagram', 'TikTok', 'YouTube'];
 
       return (
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
-          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Calendario y Programacion del Cliente</h3>
+          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Portal del Cliente</h3>
           <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
-            Vista exclusiva para cliente con calendario mensual, actividad reciente y programacion semanal de publicaciones.
+            Todo está en español, separado por pestañas, editable y pensado para que el cliente no vea el dashboard interno.
           </p>
 
-          <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'minmax(240px, 1fr) minmax(260px, 1.2fr)', marginBottom: '14px' }}>
-            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
-              <h4 style={{ margin: '0 0 10px', color: '#f8f5ed' }}>Perfil del Cliente</h4>
-              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Empresa:</strong> {clientProfile?.companyName || 'Cliente activo'}</p>
-              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Contacto:</strong> {clientProfile?.contactName || 'Usuario autorizado'}</p>
-              <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Plan:</strong> {clientProfile?.plan || 'Plan activo'}</p>
-              <p style={{ margin: 0, color: '#f8f5ed' }}><strong>Account Manager:</strong> {clientProfile?.accountManager || 'Equipo Velozza'}</p>
-            </div>
-
-            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
-              <h4 style={{ margin: '0 0 10px', color: '#f8f5ed' }}>Redes que Gestionamos</h4>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
-                {managedNetworks.map((network) => (
-                  <span key={network} style={{ border: '1px solid rgba(212,175,55,0.3)', borderRadius: '999px', padding: '4px 10px', color: '#f4cf63', fontSize: '12px' }}>
-                    {network}
-                  </span>
-                ))}
-              </div>
-              <div style={{ display: 'grid', gap: '6px' }}>
-                {(clientProfile?.networkProfiles || []).map((profile) => (
-                  <a key={profile.platform} href={profile.url} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline' }}>
-                    {profile.platform}: {profile.handle}
-                  </a>
-                ))}
-              </div>
-            </div>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+            {tabOptions.map((tab) => renderTabButton(tab.key, tab.label))}
           </div>
 
-          <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'minmax(280px, 1.2fr) minmax(260px, 1fr)' }}>
-            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
-              <h4 style={{ margin: '0 0 10px', color: '#f8f5ed' }}>Calendario Mensual</h4>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(30px, 1fr))', gap: '6px' }}>
-                {monthDays.map((day) => (
-                  <div
-                    key={day}
-                    style={{
-                      textAlign: 'center',
-                      padding: '8px 4px',
-                      borderRadius: '8px',
-                      fontSize: '13px',
-                      color: '#f8f5ed',
-                      background: plannedDays.has(day) ? 'rgba(125,255,179,0.18)' : 'rgba(255,255,255,0.06)',
-                      border: plannedDays.has(day) ? '1px solid rgba(125,255,179,0.45)' : '1px solid transparent',
-                    }}
-                  >
-                    {day}
+          {clientTab === 'informacion' && (
+            <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Información personal y sector</h4>
+                <div style={{ display: 'grid', gap: '8px' }}>
+                  {(
+                    [
+                      ['companyName', 'Empresa'],
+                      ['contactName', 'Contacto'],
+                      ['sector', 'Sector'],
+                      ['plan', 'Plan'],
+                      ['accountManager', 'Account Manager'],
+                    ] as const
+                  ).map(([field, label]) => (
+                    <label key={field} style={{ display: 'grid', gap: '6px', color: '#f8f5ed' }}>
+                      <span>{label}</span>
+                      <input
+                        value={clientInfoDraft[field]}
+                        onChange={(e) => updateClientInfo(field, e.target.value)}
+                        style={{ padding: '10px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                      />
+                    </label>
+                  ))}
+                </div>
+                <p style={{ margin: '10px 0 0', color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>
+                  Los cambios quedan guardados en el navegador para una edición rápida.
+                </p>
+              </div>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Acceso visual del cliente</h4>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Empresa:</strong> {clientInfoDraft.companyName || clientProfile?.companyName || '-'}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Contacto:</strong> {clientInfoDraft.contactName || clientProfile?.contactName || '-'}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Sector:</strong> {clientInfoDraft.sector || clientProfile?.sector || '-'}</p>
+                <p style={{ margin: '0 0 6px', color: '#f8f5ed' }}><strong>Plan:</strong> {clientInfoDraft.plan || clientProfile?.plan || '-'}</p>
+                <p style={{ margin: 0, color: '#f8f5ed' }}><strong>Account Manager:</strong> {clientInfoDraft.accountManager || clientProfile?.accountManager || '-'}</p>
+              </div>
+            </div>
+          )}
+
+          {clientTab === 'crm' && (
+            <div style={{ display: 'grid', gap: '14px' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Social CRM</h4>
+                <div style={{ display: 'grid', gap: '8px', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+                  {metrics.map((metric) => (
+                    <div key={metric.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
+                      <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{metric.label}</p>
+                      <p style={{ margin: '4px 0', fontSize: '24px', fontWeight: 800 }}>{metric.value}</p>
+                      <p style={{ margin: 0, color: '#f4cf63', fontSize: '12px' }}>{metric.trend || 'Sin variación'}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ overflowX: 'auto', border: '1px solid rgba(212,175,55,0.12)', borderRadius: '10px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '760px' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(212,175,55,0.08)', color: '#f8f5ed' }}>
+                      <th style={{ textAlign: 'left', padding: '12px' }}>ID</th>
+                      <th style={{ textAlign: 'left', padding: '12px' }}>Título</th>
+                      <th style={{ textAlign: 'left', padding: '12px' }}>Propietario</th>
+                      <th style={{ textAlign: 'left', padding: '12px' }}>Estado</th>
+                      <th style={{ textAlign: 'left', padding: '12px' }}>Vence</th>
+                      <th style={{ textAlign: 'left', padding: '12px' }}>Prioridad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {records.map((record) => {
+                      const statusStyle = getStatusStyle(record.status);
+                      return (
+                        <tr key={record.id} style={{ borderTop: '1px solid rgba(212,175,55,0.08)' }}>
+                          <td style={{ padding: '12px', color: '#f4cf63', fontWeight: 600 }}>{record.id}</td>
+                          <td style={{ padding: '12px', color: '#f8f5ed' }}>{record.title}</td>
+                          <td style={{ padding: '12px', color: 'rgba(248,245,237,0.84)' }}>{record.owner}</td>
+                          <td style={{ padding: '12px' }}>
+                            <span style={{ background: statusStyle.bg, color: statusStyle.color, borderRadius: '999px', padding: '4px 10px', fontSize: '12px', fontWeight: 700, textTransform: 'capitalize' }}>
+                              {record.status}
+                            </span>
+                          </td>
+                          <td style={{ padding: '12px', color: 'rgba(248,245,237,0.84)' }}>{record.dueDate || '-'}</td>
+                          <td style={{ padding: '12px', color: 'rgba(248,245,237,0.84)', textTransform: 'capitalize' }}>{record.priority || '-'}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {clientTab === 'redes' && (
+            <div style={{ display: 'grid', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px' }}>
+                {clientNetworks.map((network) => {
+                  const saved = seedProfile(network);
+                  return (
+                    <div key={network} style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', border: '1px solid rgba(212,175,55,0.12)', color: '#f8f5ed' }}>
+                      <strong>{network}</strong>
+                      <p style={{ margin: '8px 0 0', color: 'rgba(248,245,237,0.72)' }}>Usuario: {saved?.username || 'Sin usuario'}</p>
+                      <p style={{ margin: '6px 0 0', color: 'rgba(248,245,237,0.72)' }}>Clave: {saved?.password ? '••••••••' : 'Sin definir'}</p>
+                      <p style={{ margin: '6px 0 0', fontSize: '12px', color: 'rgba(248,245,237,0.62)' }}>{saved?.profileUrl || 'Sin enlace'}</p>
+                      {saved?.profileUrl && (
+                        <a href={saved.profileUrl} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline', fontSize: '12px' }}>
+                          Abrir perfil
+                        </a>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Editar conexión por red</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px', marginBottom: '12px' }}>
+                  <select value={socialPlatform} onChange={(e) => setSocialPlatform(e.target.value)} style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }}>
+                    {clientNetworks.map((platform) => <option key={platform} value={platform}>{platform}</option>)}
+                  </select>
+                  <input value={socialUsername} onChange={(e) => setSocialUsername(e.target.value)} placeholder='Usuario' style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }} />
+                  <input value={socialPassword} onChange={(e) => setSocialPassword(e.target.value)} placeholder='Clave o token' type='password' style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }} />
+                  <input value={socialUrl} onChange={(e) => setSocialUrl(e.target.value)} placeholder='Enlace del perfil' style={{ background: 'rgba(0,0,0,0.22)', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.22)', borderRadius: '8px', padding: '10px' }} />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <button onClick={saveSocialProfile} style={{ background: '#f4cf63', color: '#0b0b0b', border: 'none', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+                    {socialEditingId ? 'Actualizar conexión' : 'Guardar conexión'}
+                  </button>
+                  <button onClick={() => { setSocialEditingId(null); setSocialUsername(''); setSocialPassword(''); setSocialUrl(''); }} style={{ background: 'transparent', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.25)', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+                    Limpiar
+                  </button>
+                </div>
+                <div style={{ display: 'grid', gap: '8px', marginTop: '12px' }}>
+                  {socialProfiles.filter((item) => item.client === clientName).map((item) => (
+                    <div key={item.id} style={{ display: 'grid', gridTemplateColumns: '150px 1fr 1fr 140px', gap: '10px', alignItems: 'center', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
+                      <strong>{item.platform}</strong>
+                      <span>{item.username}</span>
+                      <a href={item.profileUrl} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline' }}>{item.profileUrl}</a>
+                      <span style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        <button onClick={() => editSocialProfile(item)} style={{ background: 'transparent', border: '1px solid rgba(212,175,55,0.35)', color: '#f8f5ed', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', fontSize: '12px' }}>Editar</button>
+                        <button onClick={() => removeSocialProfile(item.id)} style={{ background: 'transparent', border: '1px solid rgba(255,143,143,0.35)', color: '#ff8f8f', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', fontSize: '12px' }}>Quitar</button>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {clientTab === 'calendario' && (
+            <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'minmax(290px, 1.2fr) minmax(260px, 1fr)' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Calendario mensual</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(32px, 1fr))', gap: '6px' }}>
+                  {calendarDays.map((day) => {
+                    const dayKey = `${new Date().getFullYear()}-07-${String(day).padStart(2, '0')}`;
+                    const hasContent = Boolean(recordsByDate[dayKey]?.length);
+                    const active = selectedCalendarDay === dayKey;
+                    return (
+                      <button
+                        key={day}
+                        onClick={() => setSelectedCalendarDay(dayKey)}
+                        style={{
+                          textAlign: 'center',
+                          padding: '8px 4px',
+                          borderRadius: '8px',
+                          fontSize: '13px',
+                          color: '#f8f5ed',
+                          background: active ? '#f4cf63' : hasContent ? 'rgba(125,255,179,0.18)' : 'rgba(255,255,255,0.06)',
+                          border: active ? '1px solid #f4cf63' : hasContent ? '1px solid rgba(125,255,179,0.45)' : '1px solid transparent',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Contenido del día</h4>
+                <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>{selectedCalendarDay || 'Selecciona un día del calendario'}</p>
+                <div style={{ display: 'grid', gap: '8px' }}>
+                  {selectedCalendarItems.length ? selectedCalendarItems.map((record) => {
+                    const style = getStatusStyle(record.status);
+                    return (
+                      <div key={record.id} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
+                        <p style={{ margin: 0, fontWeight: 700 }}>{record.title}</p>
+                        <p style={{ margin: '4px 0 0', fontSize: '12px', color: 'rgba(248,245,237,0.72)' }}>{record.owner}</p>
+                        <span style={{ display: 'inline-block', marginTop: '8px', background: style.bg, color: style.color, borderRadius: '999px', padding: '4px 10px', fontSize: '12px', fontWeight: 700 }}>
+                          {record.status}
+                        </span>
+                      </div>
+                    );
+                  }) : (
+                    <div style={{ color: 'rgba(248,245,237,0.72)', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px' }}>
+                      No hay publicaciones para este día.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {clientTab === 'metricas' && (
+            <div style={{ display: 'grid', gap: '12px' }}>
+              <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(180px,1fr))' }}>
+                {metrics.map((metric, index) => (
+                  <div key={metric.label} style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                    <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{metric.label}</p>
+                    {editMode ? (
+                      <>
+                        <input
+                          value={metric.value}
+                          onChange={(e) => setMetrics((prev) => prev.map((item, idx) => (idx === index ? { ...item, value: e.target.value } : item)))}
+                          style={{ width: '100%', margin: '8px 0 6px', padding: '8px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.25)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                        />
+                        <input
+                          value={metric.trend || ''}
+                          onChange={(e) => setMetrics((prev) => prev.map((item, idx) => (idx === index ? { ...item, trend: e.target.value } : item)))}
+                          placeholder='Tendencia'
+                          style={{ width: '100%', padding: '8px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.25)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <p style={{ margin: '8px 0 2px', fontSize: '28px', fontWeight: 800, color: '#f8f5ed' }}>{metric.value}</p>
+                        <p style={{ margin: 0, color: '#f4cf63', fontSize: '12px' }}>{metric.trend || 'Sin variación'}</p>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
-              <p style={{ margin: '10px 0 0', fontSize: '12px', color: 'rgba(248,245,237,0.68)' }}>
-                Dias marcados: publicaciones programadas para el mes actual.
-              </p>
-            </div>
-
-            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
-              <h4 style={{ margin: '0 0 10px', color: '#f8f5ed' }}>Actividad Reciente</h4>
-              <div style={{ display: 'grid', gap: '8px' }}>
-                {activityFeed.map((item) => (
-                  <div key={item.date + item.detail} style={{ borderLeft: '2px solid rgba(212,175,55,0.35)', paddingLeft: '10px' }}>
-                    <p style={{ margin: 0, color: '#f4cf63', fontSize: '12px' }}>{item.date}</p>
-                    <p style={{ margin: '2px 0 0', color: '#f8f5ed' }}>{item.detail}</p>
-                  </div>
-                ))}
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Resumen del CRM</h4>
+                <p style={{ margin: 0, color: '#f8f5ed' }}>Publicaciones cargadas: {records.length}</p>
+                <p style={{ margin: '6px 0 0', color: '#f8f5ed' }}>Eventos recientes: {timeline.length}</p>
+                <p style={{ margin: '6px 0 0', color: '#f8f5ed' }}>Tareas del checklist: {checklist.filter((item) => item.done).length}/{checklist.length}</p>
               </div>
             </div>
-          </div>
+          )}
+
+          {clientTab === 'documentos' && (
+            <div style={{ display: 'grid', gap: '14px' }}>
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px' }}>
+                <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Reportes y documentos</h4>
+                <div style={{ display: 'grid', gap: '8px' }}>
+                  {clientDocuments.map((doc) => {
+                    const style = getStatusStyle(doc.status);
+                    return (
+                      <div key={doc.id} style={{ display: 'grid', gap: '8px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 100px', gap: '10px' }}>
+                          <input value={doc.title} onChange={(e) => setClientDocuments((prev) => prev.map((item) => (item.id === doc.id ? { ...item, title: e.target.value } : item)))} style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }} />
+                          <input value={doc.type} onChange={(e) => setClientDocuments((prev) => prev.map((item) => (item.id === doc.id ? { ...item, type: e.target.value } : item)))} style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }} />
+                          <select value={doc.status} onChange={(e) => setClientDocuments((prev) => prev.map((item) => (item.id === doc.id ? { ...item, status: e.target.value as PortalRecord['status'] } : item)))} style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}>
+                            <option value='active'>active</option>
+                            <option value='pending'>pending</option>
+                            <option value='review'>review</option>
+                            <option value='scheduled'>scheduled</option>
+                            <option value='blocked'>blocked</option>
+                            <option value='completed'>completed</option>
+                            <option value='draft'>draft</option>
+                          </select>
+                        </div>
+                        <textarea value={doc.note} onChange={(e) => setClientDocuments((prev) => prev.map((item) => (item.id === doc.id ? { ...item, note: e.target.value } : item)))} style={{ minHeight: '72px', padding: '8px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }} />
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          <a href={doc.url} target='_blank' rel='noreferrer' style={{ color: '#74b9ff', textDecoration: 'underline', fontSize: '12px' }}>Abrir documento</a>
+                          <span style={{ background: style.bg, color: style.color, borderRadius: '999px', padding: '4px 10px', fontSize: '12px', fontWeight: 700 }}>{doc.status}</span>
+                          <button onClick={() => setClientDocuments((prev) => prev.filter((item) => item.id !== doc.id))} style={{ background: 'transparent', border: '1px solid rgba(255,143,143,0.35)', color: '#ff8f8f', borderRadius: '8px', padding: '5px 8px', cursor: 'pointer', fontSize: '12px' }}>
+                            Quitar
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div style={{ display: 'grid', gap: '8px', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+                <input value={''} onChange={() => null} placeholder='Nuevo reporte (pendiente de conectar)' style={{ display: 'none' }} />
+              </div>
+            </div>
+          )}
 
           <div style={{ marginTop: '14px', background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
-            <h4 style={{ margin: '0 0 10px', color: '#f8f5ed' }}>Programacion Semanal</h4>
+            <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Resumen de publicaciones</h4>
             <div style={{ display: 'grid', gap: '8px' }}>
-              {weeklyPlan.map((item) => {
-                const style = getStatusStyle(item.status as PortalRecord['status']);
+              {records.slice(0, 5).map((record) => {
+                const statusStyle = getStatusStyle(record.status);
                 return (
-                  <div key={item.day + item.network + item.piece} style={{ display: 'grid', gridTemplateColumns: '100px 120px 1fr 80px 90px', gap: '10px', alignItems: 'center', color: '#f8f5ed', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 10px' }}>
-                    <strong>{item.day}</strong>
-                    <span>{item.network}</span>
-                    <span>{item.piece}</span>
-                    <span>{item.hour}</span>
-                    <span style={{ background: style.bg, color: style.color, borderRadius: '999px', fontSize: '12px', padding: '4px 8px', textTransform: 'capitalize' }}>
-                      {item.status}
-                    </span>
+                  <div key={record.id} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 100px', gap: '10px', alignItems: 'center', color: '#f8f5ed', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 10px' }}>
+                    <strong>{record.dueDate || 'Sin fecha'}</strong>
+                    <span>{record.title}</span>
+                    <span style={{ background: statusStyle.bg, color: statusStyle.color, borderRadius: '999px', fontSize: '12px', padding: '4px 8px', textTransform: 'capitalize' }}>{record.status}</span>
                   </div>
                 );
               })}

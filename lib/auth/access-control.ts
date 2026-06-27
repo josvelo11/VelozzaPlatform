@@ -6,6 +6,7 @@ interface ClientDirectoryEntry {
   email: string;
   companyName: string;
   contactName: string;
+  sector: string;
   accountManager: string;
   plan: string;
   managedNetworks: ManagedNetwork[];
@@ -21,6 +22,7 @@ const CLIENT_DIRECTORY: ClientDirectoryEntry[] = [
     email: 'clientnorth@velozza.com',
     companyName: 'North Law Group',
     contactName: 'Carla North',
+    sector: 'Servicios legales',
     accountManager: 'Andres Molina',
     plan: 'Professional',
     managedNetworks: ['Facebook', 'Instagram', 'TikTok', 'YouTube'],
@@ -35,6 +37,7 @@ const CLIENT_DIRECTORY: ClientDirectoryEntry[] = [
     email: 'clientacme@velozza.com',
     companyName: 'Acme Foods',
     contactName: 'Daniel Acosta',
+    sector: 'Alimentos y bebidas',
     accountManager: 'Laura Ruiz',
     plan: 'Growth',
     managedNetworks: ['Facebook', 'Instagram', 'TikTok', 'YouTube'],
@@ -105,6 +108,7 @@ export function getClientProfileByEmail(email: string) {
     email: account.email,
     companyName: account.companyName,
     contactName: account.contactName,
+    sector: account.sector,
     accountManager: account.accountManager,
     plan: account.plan,
     managedNetworks: account.managedNetworks,
