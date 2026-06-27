@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabase-client';
+import { getCrmUrl } from '@/lib/crm';
 import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
@@ -13,12 +13,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Email y contraseña son obligatorios' }, { status: 400 });
   }
 
-  const supabase = getSupabase();
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const response = await fetch(getCrmUrl('/api/clientes/auth/login'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 401 });
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    return NextResponse.json({ error: data.error || 'Error de autenticación' }, { status: response.status });
   }
 
-  return NextResponse.json({ user: data.user });
+  return NextResponse.json(data);
 }
