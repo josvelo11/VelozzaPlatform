@@ -1076,6 +1076,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
         plan: clientInfoDraft.plan || clientProfile?.plan || 'Plan por definir',
         accountManager: clientInfoDraft.accountManager || clientProfile?.accountManager || 'Sin asignar',
       };
+      const clientName = clientSummary.companyName;
       const clientNetworks = clientProfile?.managedNetworks?.length ? clientProfile.managedNetworks : ['Facebook', 'Instagram', 'TikTok', 'YouTube'];
       const monthNames = [
         'Enero',
@@ -1135,12 +1136,12 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
       };
 
       const seedProfile = (platform: string) => {
-        const stored = socialProfiles.find((item) => item.client === clientName && item.platform === platform);
+        const stored = socialProfiles.find((item) => item.client === clientSummary.companyName && item.platform === platform);
         const directory = clientProfile?.networkProfiles?.find((item) => item.platform.toLowerCase() === platform.toLowerCase());
         return stored || (directory
           ? {
               id: `seed-${platform.toLowerCase()}`,
-              client: clientName,
+              client: clientSummary.companyName,
               platform,
               username: directory.handle.replace(/^@/, ''),
               password: '',
