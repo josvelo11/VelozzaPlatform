@@ -25,7 +25,7 @@ export default function ProtectedLayout({
   const navItems = {
     admin: [
       { href: '/admin/dashboard', label: 'Dashboard' },
-      { href: '/admin/clients', label: 'Clients' },
+      { href: '/clientes', label: 'Clients' },
       { href: '/admin/content', label: 'Parrilla' },
       { href: '/admin/social-crm', label: 'Social CRM' },
       { href: '/admin/settings', label: 'Ajustes' },

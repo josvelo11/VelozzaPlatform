@@ -16,7 +16,7 @@ const modules = [
   {
     title: 'Plan y Cliente',
     description: 'Resumen de negocio, redes conectadas y uso del plan para el cliente activo.',
-    href: '/admin/clients',
+    href: '/clientes',
     accent: '#74b9ff',
   },
   {

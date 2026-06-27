@@ -55,6 +55,20 @@ type AdvertisingAccountProfile = {
   status: PortalRecord['status'];
 };
 
+type ClientWorkspaceCard = {
+  id: string;
+  companyName: string;
+  contactName: string;
+  sector: string;
+  accountManager: string;
+  plan: string;
+  status: PortalRecord['status'];
+  note: string;
+  nextStep: string;
+  lastUpdate: string;
+  progress: number;
+};
+
 const SOCIAL_STORAGE_KEY = 'velozza-social-profiles-v1';
 const REALTIME_CHANNEL = 'velozza-module-realtime-v1';
 
@@ -165,6 +179,57 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     { id: 'doc-2', title: 'Reporte mensual', type: 'PDF', status: 'review' as const, url: '#', note: 'Pendiente de validacion' },
     { id: 'doc-3', title: 'Lineamientos de marca', type: 'DOCX', status: 'active' as const, url: '#', note: 'Uso interno y cliente' },
   ]);
+  const [clientWorkspace, setClientWorkspace] = useState<ClientWorkspaceCard[]>([
+    {
+      id: 'client-1',
+      companyName: 'North Law Group',
+      contactName: 'Carla North',
+      sector: 'Servicios legales',
+      accountManager: 'Andres Molina',
+      plan: 'Professional',
+      status: 'active',
+      note: 'Campaña de posicionamiento y captacion de leads premium.',
+      nextStep: 'Ajustar briefing de contenidos para Q3',
+      lastUpdate: 'Hace 2 horas',
+      progress: 84,
+    },
+    {
+      id: 'client-2',
+      companyName: 'Acme Foods',
+      contactName: 'Daniel Acosta',
+      sector: 'Alimentos y bebidas',
+      accountManager: 'Laura Ruiz',
+      plan: 'Growth',
+      status: 'review',
+      note: 'Se prioriza calendario de lanzamientos y redes de producto.',
+      nextStep: 'Revisar assets de nueva linea saludable',
+      lastUpdate: 'Ayer 18:30',
+      progress: 61,
+    },
+    {
+      id: 'client-3',
+      companyName: 'Velozza Internal',
+      contactName: 'Ops Team',
+      sector: 'Operaciones internas',
+      accountManager: 'Equipo interno',
+      plan: 'Internal',
+      status: 'pending',
+      note: 'Caso interno para probar carga de datos y estados del cliente.',
+      nextStep: 'Completar informacion base y contactos',
+      lastUpdate: 'Hoy 08:00',
+      progress: 33,
+    },
+  ]);
+  const [selectedClientWorkspaceId, setSelectedClientWorkspaceId] = useState('client-1');
+  const [clientWorkspaceDraft, setClientWorkspaceDraft] = useState({
+    companyName: '',
+    contactName: '',
+    sector: '',
+    accountManager: '',
+    plan: '',
+    note: '',
+    nextStep: '',
+  });
   const [settingsState, setSettingsState] = useState({
     emailAlerts: true,
     weeklySummary: true,
@@ -201,6 +266,46 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     setAdvertisingCalendar(buildInitialAdvertisingCalendar(module.records));
     setSelectedAdvertisingAccountId(initialAccounts[0]?.id || '');
   }, [module]);
+
+  useEffect(() => {
+    if (module.slug !== 'clients') return;
+    const storedWorkspace = typeof window !== 'undefined' ? window.localStorage.getItem(`${moduleStateKey}:workspace`) : null;
+    if (storedWorkspace) {
+      try {
+        const parsedWorkspace = JSON.parse(storedWorkspace) as ClientWorkspaceCard[];
+        if (Array.isArray(parsedWorkspace) && parsedWorkspace.length) {
+          setClientWorkspace(parsedWorkspace);
+          setSelectedClientWorkspaceId(parsedWorkspace[0].id);
+          return;
+        }
+      } catch {
+        // Ignore malformed state and fall back to seeded cards.
+      }
+    }
+    setSelectedClientWorkspaceId((prev) => prev || 'client-1');
+  }, [module.slug, moduleStateKey]);
+
+  useEffect(() => {
+    if (module.slug !== 'clients') return;
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(`${moduleStateKey}:workspace`, JSON.stringify(clientWorkspace));
+  }, [clientWorkspace, module.slug, moduleStateKey]);
+
+  useEffect(() => {
+    if (module.slug !== 'clients') return;
+    const selectedClient = clientWorkspace.find((item) => item.id === selectedClientWorkspaceId);
+    if (!selectedClient) return;
+
+    setClientWorkspaceDraft({
+      companyName: selectedClient.companyName,
+      contactName: selectedClient.contactName,
+      sector: selectedClient.sector,
+      accountManager: selectedClient.accountManager,
+      plan: selectedClient.plan,
+      note: selectedClient.note,
+      nextStep: selectedClient.nextStep,
+    });
+  }, [clientWorkspace, module.slug, selectedClientWorkspaceId]);
 
   useEffect(() => {
     if (module.slug !== 'publication-planner') return;
@@ -687,24 +792,74 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     }
 
     if (module.slug === 'clients') {
+      const selectedClient = clientWorkspace.find((item) => item.id === selectedClientWorkspaceId) || clientWorkspace[0];
+
       const segments = [
-        { label: 'Activos', value: 18, tone: '#7dffb3', note: 'Cuentas con trabajo en curso' },
-        { label: 'Renovación', value: 5, tone: '#f4cf63', note: 'Vencen en 30 días' },
-        { label: 'Riesgo', value: 3, tone: '#ff8f8f', note: 'Requieren seguimiento' },
+        { label: 'Activos', value: clientWorkspace.filter((item) => item.status === 'active').length, tone: '#7dffb3', note: 'Cuentas con trabajo en curso' },
+        { label: 'En revisión', value: clientWorkspace.filter((item) => item.status === 'review').length, tone: '#f4cf63', note: 'Esperan validación interna' },
+        { label: 'Pendientes', value: clientWorkspace.filter((item) => item.status === 'pending').length, tone: '#ff8f8f', note: 'Sin datos completos' },
       ];
 
-      const clientTriage = [
-        { name: 'North Law Group', status: 'En ejecución', owner: 'Carla North' },
-        { name: 'Acme Foods', status: 'Revisión comercial', owner: 'Daniel Acosta' },
-        { name: 'Velozza Internal', status: 'Activo', owner: 'Ops Team' },
-      ];
+      const updateSelectedClient = (field: keyof ClientWorkspaceCard, value: string | number) => {
+        if (!selectedClient) return;
+        setClientWorkspace((prev) => prev.map((item) => (item.id === selectedClient.id ? { ...item, [field]: value } : item)));
+      };
+
+      const createNewClient = () => {
+        const nextId = `client-${clientWorkspace.length + 1}`;
+        const nextClient: ClientWorkspaceCard = {
+          id: nextId,
+          companyName: 'Nuevo Cliente',
+          contactName: 'Contacto por definir',
+          sector: 'Sector por definir',
+          accountManager: 'Sin asignar',
+          plan: 'Starter',
+          status: 'draft',
+          note: 'Carga inicial pendiente de completar.',
+          nextStep: 'Completar formulario base',
+          lastUpdate: 'Ahora',
+          progress: 10,
+        };
+
+        setClientWorkspace((prev) => [nextClient, ...prev]);
+        setSelectedClientWorkspaceId(nextId);
+      };
+
+      const fillDraftFromSelected = () => {
+        if (!selectedClient) return;
+        setClientWorkspaceDraft({
+          companyName: selectedClient.companyName,
+          contactName: selectedClient.contactName,
+          sector: selectedClient.sector,
+          accountManager: selectedClient.accountManager,
+          plan: selectedClient.plan,
+          note: selectedClient.note,
+          nextStep: selectedClient.nextStep,
+        });
+      };
+
+      const saveDraft = () => {
+        if (!selectedClient) return;
+        setClientWorkspace((prev) => prev.map((item) => (item.id === selectedClient.id ? { ...item, ...clientWorkspaceDraft, lastUpdate: 'Guardado ahora', progress: Math.min(100, item.progress + 4) } : item)));
+      };
 
       return (
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
-          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Carpeta de Clientes</h3>
+          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Gestión de Clientes</h3>
           <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
-            Vista específica de cartera, renovaciones y riesgo. Esta sección ya no reutiliza el dashboard ejecutivo.
+            Cada cliente tiene su propio perfil, responsable, estado y notas. Aquí sí puedes cargar y editar información real por cliente.
           </p>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+            <button onClick={createNewClient} style={{ background: '#f4cf63', color: '#0b0b0b', border: 'none', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+              Nuevo cliente
+            </button>
+            <button onClick={fillDraftFromSelected} style={{ background: 'transparent', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.25)', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+              Cargar en formulario
+            </button>
+            <button onClick={saveDraft} style={{ background: 'transparent', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.25)', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+              Guardar cambios
+            </button>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px', marginBottom: '14px' }}>
             {segments.map((segment) => (
               <div key={segment.label} style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '12px' }}>
@@ -714,14 +869,125 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
               </div>
             ))}
           </div>
-          <div style={{ display: 'grid', gap: '8px' }}>
-            {clientTriage.map((client) => (
-              <div key={client.name} style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', gap: '10px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
-                <strong>{client.name}</strong>
-                <span>{client.owner}</span>
-                <span style={{ color: '#f4cf63' }}>{client.status}</span>
+          <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'minmax(240px, 0.8fr) minmax(320px, 1.2fr)' }}>
+            <div style={{ display: 'grid', gap: '8px', alignContent: 'start' }}>
+              {clientWorkspace.map((client) => (
+                <button
+                  key={client.id}
+                  onClick={() => setSelectedClientWorkspaceId(client.id)}
+                  style={{
+                    textAlign: 'left',
+                    display: 'grid',
+                    gap: '6px',
+                    background: selectedClient?.id === client.id ? 'rgba(244,207,99,0.16)' : 'rgba(0,0,0,0.2)',
+                    borderRadius: '10px',
+                    padding: '12px',
+                    color: '#f8f5ed',
+                    border: selectedClient?.id === client.id ? '1px solid #f4cf63' : '1px solid rgba(212,175,55,0.12)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                    <strong>{client.companyName}</strong>
+                    <span style={{ color: '#f4cf63', fontSize: '12px', textTransform: 'capitalize' }}>{client.status}</span>
+                  </div>
+                  <span style={{ color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{client.contactName} · {client.accountManager}</span>
+                  <span style={{ color: 'rgba(248,245,237,0.62)', fontSize: '12px' }}>{client.sector}</span>
+                  <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '999px', overflow: 'hidden', height: '8px' }}>
+                    <div style={{ width: `${client.progress}%`, height: '100%', background: '#f4cf63' }} />
+                  </div>
+                  <span style={{ color: 'rgba(248,245,237,0.62)', fontSize: '12px' }}>{client.lastUpdate}</span>
+                </button>
+              ))}
+            </div>
+
+            {selectedClient && (
+              <div style={{ display: 'grid', gap: '12px' }}>
+                <div style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '12px' }}>
+                  <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Formulario del cliente seleccionado</h4>
+                  <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+                    {([
+                      ['companyName', 'Empresa'],
+                      ['contactName', 'Contacto'],
+                      ['sector', 'Sector'],
+                      ['accountManager', 'Account Manager'],
+                      ['plan', 'Plan'],
+                    ] as const).map(([field, label]) => (
+                      <label key={field} style={{ display: 'grid', gap: '6px', color: '#f8f5ed' }}>
+                        <span>{label}</span>
+                        <input
+                          value={clientWorkspaceDraft[field]}
+                          onChange={(e) => setClientWorkspaceDraft((prev) => ({ ...prev, [field]: e.target.value }))}
+                          style={{ padding: '10px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                        />
+                      </label>
+                    ))}
+                    <label style={{ display: 'grid', gap: '6px', color: '#f8f5ed', gridColumn: '1 / -1' }}>
+                      <span>Notas del cliente</span>
+                      <textarea
+                        value={clientWorkspaceDraft.note}
+                        onChange={(e) => setClientWorkspaceDraft((prev) => ({ ...prev, note: e.target.value }))}
+                        style={{ minHeight: '92px', padding: '10px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                      />
+                    </label>
+                    <label style={{ display: 'grid', gap: '6px', color: '#f8f5ed', gridColumn: '1 / -1' }}>
+                      <span>Siguiente paso</span>
+                      <input
+                        value={clientWorkspaceDraft.nextStep}
+                        onChange={(e) => setClientWorkspaceDraft((prev) => ({ ...prev, nextStep: e.target.value }))}
+                        style={{ padding: '10px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))' }}>
+                  <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed' }}>
+                    <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>Estado</p>
+                    <select
+                      value={selectedClient.status}
+                      onChange={(e) => updateSelectedClient('status', e.target.value as PortalRecord['status'])}
+                      style={{ width: '100%', marginTop: '8px', padding: '10px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(0,0,0,0.35)', color: '#f8f5ed' }}
+                    >
+                      <option value='draft'>draft</option>
+                      <option value='pending'>pending</option>
+                      <option value='review'>review</option>
+                      <option value='active'>active</option>
+                      <option value='scheduled'>scheduled</option>
+                      <option value='blocked'>blocked</option>
+                      <option value='completed'>completed</option>
+                    </select>
+                  </div>
+                  <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed' }}>
+                    <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>Progreso</p>
+                    <input
+                      type='range'
+                      min='0'
+                      max='100'
+                      value={selectedClient.progress}
+                      onChange={(e) => updateSelectedClient('progress', Number(e.target.value))}
+                      style={{ width: '100%', marginTop: '12px' }}
+                    />
+                    <p style={{ margin: '6px 0 0', color: '#f4cf63', fontWeight: 800 }}>{selectedClient.progress}%</p>
+                  </div>
+                  <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed' }}>
+                    <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>Ultima actualización</p>
+                    <p style={{ margin: '8px 0 0', fontWeight: 700 }}>{selectedClient.lastUpdate}</p>
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '12px', color: '#f8f5ed' }}>
+                  <h4 style={{ marginTop: 0 }}>Vista resumida del cliente</h4>
+                  <p style={{ margin: '0 0 6px' }}><strong>Empresa:</strong> {selectedClient.companyName}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Contacto:</strong> {selectedClient.contactName}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Sector:</strong> {selectedClient.sector}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Account Manager:</strong> {selectedClient.accountManager}</p>
+                  <p style={{ margin: '0 0 6px' }}><strong>Plan:</strong> {selectedClient.plan}</p>
+                  <p style={{ margin: '0 0 6px', color: '#f4cf63' }}><strong>Siguiente paso:</strong> {selectedClient.nextStep}</p>
+                  <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)' }}>{selectedClient.note}</p>
+                </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       );
