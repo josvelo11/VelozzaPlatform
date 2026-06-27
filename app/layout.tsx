@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   },
   description: 'Agencia de marketing digital especializada en SEO, personal branding y crecimiento empresarial para Latinoamérica.',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/brand/velozza_icono_solo_1200x900.png',
+    apple: '/brand/velozza_icono_solo_1200x900.png',
   },
   robots: {
     index: true,
