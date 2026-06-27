@@ -28,9 +28,6 @@ export default function ProtectedLayout({
       { href: '/admin/clients', label: 'Clients' },
       { href: '/admin/content', label: 'Parrilla' },
       { href: '/admin/social-crm', label: 'Social CRM' },
-      { href: '/admin/calendar', label: 'Calendario' },
-      { href: '/admin/analytics', label: 'Metricas' },
-      { href: '/admin/reports', label: 'Reportes' },
       { href: '/admin/settings', label: 'Ajustes' },
     ],
     client: [
