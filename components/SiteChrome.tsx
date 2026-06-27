@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
+import BrandLogo from '@/components/BrandLogo';
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -83,9 +84,8 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       `}</style>
       <header style={{ position: 'sticky', top: 0, zIndex: 20, height: 74, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(12,12,10,0.94)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(201,168,76,0.16)' }}>
         <nav className="site-shell site-chrome-nav" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: '#f4f2ec' }}>
-            <span style={{ display: 'block', fontFamily: 'Montserrat, sans-serif', fontSize: '16px', fontWeight: 800, letterSpacing: '.14em', textTransform: 'uppercase' }}>Velozza</span>
-            <span style={{ display: 'block', marginTop: '2px', fontFamily: 'Montserrat, sans-serif', fontSize: '7.5px', letterSpacing: '.22em', textTransform: 'uppercase', color: '#f0d98a' }}>Creative Works</span>
+          <a href="/" aria-label="Velozza Creative Works" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#f4f2ec' }}>
+            <BrandLogo variant="transparent" style={{ width: 168 }} priority />
           </a>
           <div className="site-chrome-actions" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
             <a href="/servicios" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Servicios</a>
@@ -106,7 +106,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
         <div className="site-shell">
           <div className="footer-grid site-chrome-footer-grid" style={{ marginBottom: '40px' }}>
             <div>
-              <h4>Velozza Creative Works</h4>
+              <BrandLogo variant="transparent" style={{ width: 184, maxWidth: '100%' }} priority />
               <p style={{ color: '#7a7870' }}>Ingeniería visual y posicionamiento premium para marcas y líderes que exigen dominar su mercado.</p>
               <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
                 <a href="tel:+573213478076" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 321 347 8076</a>

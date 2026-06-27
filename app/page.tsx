@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { organizationSchema } from '@/lib/seo/schema';
 import { PremiumIcon } from '@/components/PremiumIcon';
+import BrandLogo from '@/components/BrandLogo';
 
 export const metadata: Metadata = {
   title: 'Velozza Creative Works™',
@@ -257,22 +258,7 @@ export default function Home() {
 
         <header className="nav wrap">
           <Link href="/" className="brand">
-            <span className="brand-mark">
-              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="vg" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#f0d98a" />
-                    <stop offset="45%" stopColor="#c9a84c" />
-                    <stop offset="100%" stopColor="#7a5a18" />
-                  </linearGradient>
-                </defs>
-                <path d="M4 6 L16 26 L28 6" stroke="url(#vg)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              </svg>
-            </span>
-            <span>
-              <span className="brand-name">Velozza</span>
-              <span className="brand-sub">Creative Works™</span>
-            </span>
+            <BrandLogo variant="transparent" style={{ width: 168 }} priority />
           </Link>
           <ul className="links">
             <li><a href="/servicios">Servicios</a></li>
@@ -513,22 +499,7 @@ export default function Home() {
           <div className="wrap footer-grid">
             <div className="footer-brand">
               <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
-                <span className="brand-mark">
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="vg3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#f0d98a" />
-                        <stop offset="50%" stopColor="#c9a84c" />
-                        <stop offset="100%" stopColor="#7a5a18" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M4 6 L16 26 L28 6" stroke="url(#vg3)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  </svg>
-                </span>
-                <span>
-                  <span className="brand-name">Velozza</span>
-                  <span className="brand-sub">Creative Works™</span>
-                </span>
+                <BrandLogo variant="transparent" style={{ width: 180 }} priority />
               </Link>
               <p>Construimos marcas que lideran y generan resultados.</p>
               <div className="powered">Powered by LoZaRa Intelligence™</div>
