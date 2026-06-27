@@ -43,6 +43,11 @@ export const canApproveContent = (userRole: UserRole): boolean => {
   return ['super_admin', 'admin', 'account_manager', 'content_strategist'].includes(userRole);
 };
 
+export const isClientApprovalBypassWindow = (now: Date = new Date()): boolean => {
+  const hour = now.getHours();
+  return hour < 5;
+};
+
 export const canViewAnalytics = (userRole: UserRole): boolean => {
   return ['super_admin', 'admin', 'account_manager', 'client'].includes(userRole);
 };

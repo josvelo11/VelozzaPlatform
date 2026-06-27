@@ -5,6 +5,7 @@ import { PortalModuleData, PortalRecord } from '@/types/portal';
 import { getStatusStyle } from '@/lib/utils/status-styles';
 import { PortalType } from '@/types/portal';
 import { getClientProfileByEmail } from '@/lib/auth/access-control';
+import { isClientApprovalBypassWindow } from '@/lib/auth/permissions';
 
 interface PortalModuleViewProps {
   module: PortalModuleData;
@@ -685,6 +686,47 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
       );
     }
 
+    if (module.slug === 'clients') {
+      const segments = [
+        { label: 'Activos', value: 18, tone: '#7dffb3', note: 'Cuentas con trabajo en curso' },
+        { label: 'Renovación', value: 5, tone: '#f4cf63', note: 'Vencen en 30 días' },
+        { label: 'Riesgo', value: 3, tone: '#ff8f8f', note: 'Requieren seguimiento' },
+      ];
+
+      const clientTriage = [
+        { name: 'North Law Group', status: 'En ejecución', owner: 'Carla North' },
+        { name: 'Acme Foods', status: 'Revisión comercial', owner: 'Daniel Acosta' },
+        { name: 'Velozza Internal', status: 'Activo', owner: 'Ops Team' },
+      ];
+
+      return (
+        <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
+          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Carpeta de Clientes</h3>
+          <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
+            Vista específica de cartera, renovaciones y riesgo. Esta sección ya no reutiliza el dashboard ejecutivo.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '10px', marginBottom: '14px' }}>
+            {segments.map((segment) => (
+              <div key={segment.label} style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '12px' }}>
+                <p style={{ margin: 0, color: 'rgba(248,245,237,0.7)' }}>{segment.label}</p>
+                <p style={{ margin: '6px 0', color: segment.tone, fontSize: '28px', fontWeight: 800 }}>{segment.value}</p>
+                <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{segment.note}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gap: '8px' }}>
+            {clientTriage.map((client) => (
+              <div key={client.name} style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', gap: '10px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
+                <strong>{client.name}</strong>
+                <span>{client.owner}</span>
+                <span style={{ color: '#f4cf63' }}>{client.status}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     if (module.slug === 'calendar') {
       const agenda = [
         { day: 'Lun', item: 'Sprint planning', time: '09:00' },
@@ -1026,41 +1068,83 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     }
 
     if (module.slug === 'social-crm') {
-      const pipeline = [
-        { stage: 'Nuevo Lead', count: 26, color: '#f4cf63' },
-        { stage: 'Calificado', count: 14, color: '#7dffb3' },
-        { stage: 'Propuesta', count: 7, color: '#74b9ff' },
-        { stage: 'Cierre', count: 3, color: '#c39bd3' },
+      const queues = [
+        { label: 'Nuevas interacciones', count: 26, owner: 'Community Manager', sla: '< 15m' },
+        { label: 'Pendiente de asignar', count: 11, owner: 'Sales Ops', sla: 'Hoy' },
+        { label: 'Seguimiento activo', count: 14, owner: 'Account Manager', sla: '2h' },
+        { label: 'Cierre en revisión', count: 5, owner: 'Team Lead', sla: 'Hoy' },
       ];
 
-      const inbox = [
-        { channel: 'Instagram DM', contact: 'Carla M.', sentiment: 'hot', wait: '12m' },
-        { channel: 'WhatsApp Business', contact: 'Dr. Rivera', sentiment: 'warm', wait: '34m' },
-        { channel: 'Facebook Inbox', contact: 'TecnoHome', sentiment: 'cold', wait: '1h 20m' },
+      const agents = [
+        { name: 'Laura Ruiz', role: 'Account Manager', load: '78%', status: 'Activa' },
+        { name: 'Carlos Vega', role: 'Sales Ops', load: '64%', status: 'En seguimiento' },
+        { name: 'Ana Morales', role: 'Community Manager', load: '91%', status: 'Saturada' },
+      ];
+
+      const activity = [
+        { time: '08:10', detail: 'Asignado lead desde Instagram DM a Laura Ruiz', severity: 'high' },
+        { time: '08:25', detail: 'WhatsApp Business respondió y pasó a seguimiento', severity: 'medium' },
+        { time: '08:40', detail: 'Facebook Inbox cerrado y documentado en CRM', severity: 'low' },
       ];
 
       return (
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
-          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Social CRM Pipeline</h3>
+          <h3 style={{ marginTop: 0, color: '#f4cf63' }}>CRM Operativo del Equipo</h3>
+          <p style={{ marginTop: 0, color: 'rgba(248,245,237,0.72)' }}>
+            Este módulo es interno: organiza colas, responsables y tiempos de respuesta del equipo, sin mezclarlo con dashboard ni clientes.
+          </p>
           <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', marginBottom: '14px' }}>
-            {pipeline.map((col) => (
-              <div key={col.stage} style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '10px' }}>
-                <p style={{ margin: 0, color: '#f8f5ed', fontWeight: 700 }}>{col.stage}</p>
-                <p style={{ margin: '6px 0 0', color: col.color, fontSize: '24px', fontWeight: 800 }}>{col.count}</p>
+            {queues.map((col) => (
+              <div key={col.label} style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '10px' }}>
+                <p style={{ margin: 0, color: '#f8f5ed', fontWeight: 700 }}>{col.label}</p>
+                <p style={{ margin: '6px 0 0', color: '#f4cf63', fontSize: '24px', fontWeight: 800 }}>{col.count}</p>
+                <p style={{ margin: '6px 0 0', color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{col.owner} · SLA {col.sla}</p>
               </div>
             ))}
           </div>
 
-          <h4 style={{ margin: '0 0 8px', color: '#f8f5ed' }}>Bandeja Social Prioritaria</h4>
-          <div style={{ display: 'grid', gap: '8px' }}>
-            {inbox.map((msg) => (
-              <div key={msg.channel + msg.contact} style={{ display: 'grid', gridTemplateColumns: '150px 1fr 80px 80px', gap: '10px', alignItems: 'center', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', color: '#f8f5ed' }}>
-                <strong>{msg.channel}</strong>
-                <span>{msg.contact}</span>
-                <span style={{ color: msg.sentiment === 'hot' ? '#ff8f8f' : msg.sentiment === 'warm' ? '#f4cf63' : '#bdc3c7' }}>{msg.sentiment}</span>
-                <span>{msg.wait}</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '10px', marginBottom: '14px' }}>
+            <div style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '12px' }}>
+              <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Equipo en turno</h4>
+              <div style={{ display: 'grid', gap: '8px' }}>
+                {agents.map((agent) => (
+                  <div key={agent.name} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '10px', color: '#f8f5ed', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px' }}>
+                    <div>
+                      <strong>{agent.name}</strong>
+                      <p style={{ margin: '4px 0 0', color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{agent.role}</p>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ margin: 0, color: '#f4cf63', fontWeight: 800 }}>{agent.load}</p>
+                      <p style={{ margin: '4px 0 0', color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{agent.status}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '12px' }}>
+              <h4 style={{ marginTop: 0, color: '#f8f5ed' }}>Bitácora reciente</h4>
+              <div style={{ display: 'grid', gap: '8px' }}>
+                {activity.map((item) => (
+                  <div key={item.time + item.detail} style={{ display: 'grid', gridTemplateColumns: '56px 1fr', gap: '10px', color: '#f8f5ed', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '10px' }}>
+                    <strong style={{ color: item.severity === 'high' ? '#ff8f8f' : item.severity === 'medium' ? '#f4cf63' : '#7dffb3' }}>{item.time}</strong>
+                    <span>{item.detail}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <button style={{ background: '#f4cf63', color: '#0b0b0b', border: 'none', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+              Asignar siguiente caso
+            </button>
+            <button style={{ background: 'transparent', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.25)', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+              Marcar seguimiento
+            </button>
+            <button style={{ background: 'transparent', color: '#f8f5ed', border: '1px solid rgba(212,175,55,0.25)', borderRadius: '8px', padding: '10px 14px', fontWeight: 700, cursor: 'pointer' }}>
+              Exportar bitácora
+            </button>
           </div>
         </div>
       );
@@ -2046,16 +2130,36 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     }
 
     if (module.slug === 'content' || module.slug === 'content-approvals') {
+      const autonomyWindowOpen = isClientApprovalBypassWindow();
       const columns = [
         { name: 'Draft', items: 6 },
         { name: 'Internal Review', items: 3 },
-        { name: 'Client Review', items: 5 },
+        { name: autonomyWindowOpen ? 'Client Review (Auto)' : 'Client Review', items: autonomyWindowOpen ? 0 : 5 },
         { name: 'Scheduled', items: 4 },
+      ];
+
+      const autonomyReport = [
+        { label: 'Ventana autónoma', value: autonomyWindowOpen ? 'Activa' : 'Inactiva' },
+        { label: 'Aprobación cliente', value: autonomyWindowOpen ? 'No bloquea' : 'Requerida' },
+        { label: 'Auto publicacion', value: autonomyWindowOpen ? 'Permitida' : 'Desactivada' },
       ];
 
       return (
         <div style={{ border: '1px solid rgba(212,175,55,0.12)', borderRadius: '12px', padding: '14px', marginBottom: '14px' }}>
           <h3 style={{ marginTop: 0, color: '#f4cf63' }}>Pipeline de Contenido</h3>
+          <p style={{ marginTop: 0, color: autonomyWindowOpen ? '#7dffb3' : 'rgba(248,245,237,0.72)' }}>
+            {autonomyWindowOpen
+              ? 'Ventana autónoma activa: las aprobaciones de cliente no frenan la publicación y el módulo puede avanzar sin tu presencia.'
+              : 'Modo estándar: el flujo sigue esperando aprobación manual de cliente antes de publicar.'}
+          </p>
+          <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', marginBottom: '14px' }}>
+            {autonomyReport.map((item) => (
+              <div key={item.label} style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '10px', color: '#f8f5ed' }}>
+                <p style={{ margin: 0, color: 'rgba(248,245,237,0.72)', fontSize: '12px' }}>{item.label}</p>
+                <p style={{ margin: '6px 0 0', color: autonomyWindowOpen ? '#7dffb3' : '#f4cf63', fontWeight: 800 }}>{item.value}</p>
+              </div>
+            ))}
+          </div>
           <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit,minmax(170px,1fr))' }}>
             {columns.map((col) => (
               <div key={col.name} style={{ background: 'rgba(0,0,0,0.22)', borderRadius: '10px', padding: '10px', color: '#f8f5ed' }}>

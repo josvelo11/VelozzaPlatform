@@ -68,11 +68,11 @@ const MODULE_TEXT: Record<string, { title?: string; subtitle: string; primaryAct
     recordPrefix: 'Cuenta',
   },
   'social-crm': {
-    title: 'Social CRM',
-    subtitle: 'Gestion de leads y conversaciones de redes sociales con pipeline comercial y seguimiento por canal.',
-    primaryAction: 'Crear Lead',
-    secondaryAction: 'Exportar Pipeline',
-    recordPrefix: 'Lead',
+    title: 'CRM Operativo',
+    subtitle: 'Espacio operativo del equipo para asignar, responder y cerrar interacciones de redes y leads.',
+    primaryAction: 'Registrar Interaccion',
+    secondaryAction: 'Exportar Operacion',
+    recordPrefix: 'Interaccion',
   },
   'publication-planner': {
     title: 'Client Publishing Planner',

@@ -54,6 +54,7 @@ export interface PortalModuleData {
   slug: string;
   title: string;
   subtitle: string;
+  variant?: 'dashboard' | 'client' | 'crm' | 'calendar' | 'content' | 'ops';
   metrics: PortalMetric[];
   records: PortalRecord[];
   primaryAction: string;
