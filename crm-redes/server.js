@@ -21,7 +21,7 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = 4000;
+const PORT = Number(process.env.PORT) || 4000;
 const SECRET = process.env.JWT_SECRET || 'dev-secret-cambia-esto';
 
 app.use(cors());
