@@ -15,6 +15,7 @@ const DB_FILE = path.join(DATA_DIR, 'db.json');
 
 export const PLATFORMS = ['facebook', 'instagram', 'tiktok', 'youtube', 'linkedin', 'x'];
 export const DEAL_STAGES = ['nuevo', 'contactado', 'propuesta', 'negociacion', 'ganado'];
+export const CONTENT_FORMATS = ['reel', 'carrusel', 'flyer'];
 const HEX = { facebook:'#1877F2', instagram:'#E1306C', tiktok:'#111111', youtube:'#FF0000', linkedin:'#0A66C2', x:'#111111' };
 
 const uid = () => crypto.randomUUID();
@@ -33,8 +34,15 @@ function buildSeed() {
     clients: [{
       id: clientId, fullName: 'Camila Restrepo', businessSector: 'Restaurante / Gastronomía',
       phone: '+57 300 124 5589', email: 'camila@laparrillaverde.co',
+      avatarUrl: '',
       socialLinks: { facebook:'laparrillaverde', instagram:'laparrillaverde', tiktok:'laparrillaverde', youtube:'laparrillaverde', linkedin:'', x:'parrillaverde' },
-      plan: { name:'Plan Crecimiento', period:'Mes en curso', total:24, capPlatform:{ instagram:8, facebook:6, tiktok:6, youtube:2, linkedin:2, x:6 } },
+      plan: {
+        name:'Plan Crecimiento',
+        period:'Mes en curso',
+        total:24,
+        capPlatform:{ instagram:8, facebook:6, tiktok:6, youtube:2, linkedin:2, x:6 },
+        capFormat:{ reel:8, carrusel:8, flyer:8 },
+      },
     }],
     socials: { [clientId]: {
       facebook : { connected:true,  handle:'laparrillaverde', followers:'8.4k',  reach:'21k' },
@@ -45,12 +53,12 @@ function buildSeed() {
       x        : { connected:true,  handle:'parrillaverde',   followers:'2.1k',  reach:'9k' },
     }},
     content: [
-      { id:uid(), clientId, title:'Lanzamiento menú de temporada', caption:'Teaser del nuevo menú con ingredientes locales. Carrusel + reel.', platforms:['instagram','facebook'], date:dateOffset(1), status:'approved',  color:HEX.instagram, createdBy:'agency' },
-      { id:uid(), clientId, title:'Receta exprés: arepa gourmet',  caption:'Video corto vertical mostrando el paso a paso en 30 segundos.',       platforms:['tiktok','instagram'], date:dateOffset(2), status:'pending', color:HEX.tiktok,   createdBy:'agency' },
-      { id:uid(), clientId, title:'Testimonio de cliente',          caption:'Reseña en video de un cliente frecuente, formato entrevista.',         platforms:['youtube','facebook'], date:dateOffset(4), status:'draft',   color:HEX.youtube,  createdBy:'agency' },
-      { id:uid(), clientId, title:'Promo 2x1 jueves',               caption:'Pieza estática anunciando la promoción semanal de jueves.',            platforms:['instagram','facebook','x'], date:dateOffset(6), status:'pending', color:HEX.facebook, createdBy:'agency' },
-      { id:uid(), clientId, title:'Detrás de cámaras cocina',       caption:'Reel mostrando al equipo en plena hora pico. Tono cercano.',           platforms:['tiktok'], date:dateOffset(8), status:'approved', color:HEX.tiktok,  createdBy:'agency' },
-      { id:uid(), clientId, title:'Alianza con productores',        caption:'Post corporativo sobre la nueva alianza con granjas locales.',         platforms:['linkedin','facebook'], date:dateOffset(11), status:'draft',  color:HEX.linkedin, createdBy:'agency' },
+      { id:uid(), clientId, title:'Lanzamiento menú de temporada', caption:'Teaser del nuevo menú con ingredientes locales. Carrusel + reel.', platforms:['instagram','facebook'], date:dateOffset(1), status:'approved',  color:HEX.instagram, createdBy:'agency', format:'carrusel' },
+      { id:uid(), clientId, title:'Receta exprés: arepa gourmet',  caption:'Video corto vertical mostrando el paso a paso en 30 segundos.',       platforms:['tiktok','instagram'], date:dateOffset(2), status:'pending', color:HEX.tiktok,   createdBy:'agency', format:'reel' },
+      { id:uid(), clientId, title:'Testimonio de cliente',          caption:'Reseña en video de un cliente frecuente, formato entrevista.',         platforms:['youtube','facebook'], date:dateOffset(4), status:'draft',   color:HEX.youtube,  createdBy:'agency', format:'reel' },
+      { id:uid(), clientId, title:'Promo 2x1 jueves',               caption:'Pieza estática anunciando la promoción semanal de jueves.',            platforms:['instagram','facebook','x'], date:dateOffset(6), status:'pending', color:HEX.facebook, createdBy:'agency', format:'flyer' },
+      { id:uid(), clientId, title:'Detrás de cámaras cocina',       caption:'Reel mostrando al equipo en plena hora pico. Tono cercano.',           platforms:['tiktok'], date:dateOffset(8), status:'approved', color:HEX.tiktok,  createdBy:'agency', format:'reel' },
+      { id:uid(), clientId, title:'Alianza con productores',        caption:'Post corporativo sobre la nueva alianza con granjas locales.',         platforms:['linkedin','facebook'], date:dateOffset(11), status:'draft',  color:HEX.linkedin, createdBy:'agency', format:'flyer' },
     ],
     messages: [
       { id:uid(), clientId, from:'agency', text:'¡Hola Camila! Subimos la parrilla de la próxima semana. ¿Puedes revisar el reel de la receta exprés? 🙌', at:hhmm(), createdAt:Date.now()-7200000 },
@@ -94,6 +102,37 @@ function buildSeed() {
       { id:uid(), clientId, name:'Reactivación clientes inactivos', channel:'email',  status:'borrador',   audience:320,  sent:0,   opens:0,   clicks:0,   date:dateOffset(6) },
       { id:uid(), clientId, name:'Lanzamiento receta arepa',     channel:'multi',     status:'enviada',    audience:33800, sent:33800, opens:9120, clicks:1450, date:dateOffset(-3) },
     ],
+    // ---------------- Calendarios / Citas (tipo GHL) -------------
+    calendarConfigs: [
+      {
+        id: uid(),
+        clientId,
+        name: 'Discovery comercial',
+        type: 'round_robin',
+        durationMin: 45,
+        bufferBeforeMin: 10,
+        bufferAfterMin: 10,
+        minNoticeHours: 2,
+        capacity: 1,
+        automationOnBooking: true,
+        agents: [
+          { id: 'ag_1', name: 'Camila Restrepo' },
+          { id: 'ag_2', name: 'Felipe Narvaez' },
+        ],
+        intakeFields: [
+          { id: 'q_1', label: 'Objetivo principal', type: 'text', required: true },
+          { id: 'q_2', label: 'Presupuesto estimado', type: 'text', required: false },
+        ],
+        reminderRules: [
+          { id: 'r_1', offsetMin: 0, channel: 'email' },
+          { id: 'r_2', offsetMin: 1440, channel: 'email' },
+          { id: 'r_3', offsetMin: 120, channel: 'whatsapp' },
+        ],
+        weeklyHours: { mon:[['09:00','18:00']], tue:[['09:00','18:00']], wed:[['09:00','18:00']], thu:[['09:00','18:00']], fri:[['09:00','17:00']], sat:[], sun:[] },
+        nextAgentIndex: 0,
+      },
+    ],
+    appointments: [],
     // ---------------- Automatizaciones / Workflows (estilo Mailchimp Journeys + Clientify) -------------
     automations: [
       { id:uid(), clientId, name:'Bienvenida a nuevos contactos', trigger:'Se crea un contacto nuevo', action:'Enviar email de bienvenida + etiqueta', channel:'email', status:'activa', enrolled:128, completed:119 },
@@ -113,6 +152,7 @@ function buildSeed() {
       { id:uid(), clientId, contactName:'Laura Méndez', channel:'facebook', status:'cerrada', unread:0, updatedAt:'Lun',
         messages:[ {from:'them',text:'¿Tienen opciones vegetarianas?',at:'Lun'}, {from:'me',text:'Sí Laura, tenemos 6 platos vegetarianos. Te paso el menú 🌱',at:'Lun'} ] },
     ],
+      activityLogs: [],
     // ---------------- Métricas base para Analítica (series temporales) -------------
     metricsSeed: {
       followerGrowth: [
@@ -154,8 +194,11 @@ export function planFor(clientId) {
   const c = findClient(clientId); if (!c) return null;
   const items = db().content.filter(x => x.clientId === clientId && (x.status === 'approved' || x.status === 'published'));
   const used = items.length; const perPlatform = {};
+  const perFormat = {};
   for (const p of PLATFORMS) perPlatform[p] = items.filter(i => i.platforms.includes(p)).length;
-  return { ...c.plan, used, perPlatform };
+  for (const f of CONTENT_FORMATS) perFormat[f] = items.filter(i => (i.format || 'flyer') === f).length;
+  const capFormat = { reel: 4, carrusel: 4, flyer: 4, ...(c.plan?.capFormat || {}) };
+  return { ...c.plan, capFormat, used, perPlatform, perFormat };
 }
 
 // Métricas calculadas en vivo + series sembradas

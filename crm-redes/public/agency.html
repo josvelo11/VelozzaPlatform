@@ -19,12 +19,16 @@ const { useState, useEffect, useRef } = React;
 
 /* ===== API DE LA AGENCIA (envía clientId para gestionar a cada cliente) ===== */
 const TOKEN_KEY='crm_agency_token';
+const AGENCY_ROLE_KEY='crm_agency_role';
 const getToken=()=>localStorage.getItem(TOKEN_KEY);
+const getAgencyRole=()=>localStorage.getItem(AGENCY_ROLE_KEY)||'owner';
 const setToken=(t)=>t?localStorage.setItem(TOKEN_KEY,t):localStorage.removeItem(TOKEN_KEY);
 async function apiFetch(path,{method='GET',body,clientId}={}){
   let url='/api/clientes'+path;
   if(clientId) url+=(url.includes('?')?'&':'?')+'clientId='+encodeURIComponent(clientId);
-  const res=await fetch(url,{method,headers:{'Content-Type':'application/json',...(getToken()?{Authorization:'Bearer '+getToken()}:{})},body:body?JSON.stringify(body):undefined});
+  const token=getToken();
+  const role=getAgencyRole();
+  const res=await fetch(url,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token,'X-Agency-Role':role}:{})},body:body?JSON.stringify(body):undefined});
   const data=await res.json().catch(()=>({}));
   if(!res.ok) throw new Error(data.error||'Error de conexión');
   return data;
@@ -33,14 +37,36 @@ const API={
   login:(email,password)=>apiFetch('/auth/login',{method:'POST',body:{email,password}}),
   me:()=>apiFetch('/auth/me'),
   clients:()=>apiFetch('/clients'),
+  createClient:(b)=>apiFetch('/clients',{method:'POST',body:b}),
+  updateClient:(cid,b)=>apiFetch('/profile',{method:'PUT',body:b,clientId:cid}),
+  updatePlan:(cid,b)=>apiFetch('/plan',{method:'PUT',body:b,clientId:cid}),
+  deleteClient:(cid)=>apiFetch('/clients/'+cid,{method:'DELETE'}),
+  importClients:(b)=>apiFetch('/clients/import',{method:'POST',body:b}),
+  activity:(cid)=>apiFetch('/activity',{clientId:cid}),
+  agencyMetrics:()=>apiFetch('/agency-metrics'),
   profile:(cid)=>apiFetch('/profile',{clientId:cid}),
   socials:(cid)=>apiFetch('/socials',{clientId:cid}),
   content:(cid)=>apiFetch('/content',{clientId:cid}),
   createContent:(cid,b)=>apiFetch('/content',{method:'POST',body:b,clientId:cid}),
+  updateContent:(cid,id,b)=>apiFetch('/content/'+id,{method:'PUT',body:b,clientId:cid}),
+  importContent:(cid,b)=>apiFetch('/content/import',{method:'POST',body:b,clientId:cid}),
+  previewContentImport:(cid,b)=>apiFetch('/content/import/preview',{method:'POST',body:b,clientId:cid}),
+  setContentStatus:(cid,id,b)=>apiFetch('/content/'+id+'/status',{method:'PUT',body:b,clientId:cid}),
   messages:(cid)=>apiFetch('/messages',{clientId:cid}),
   send:(cid,text)=>apiFetch('/messages',{method:'POST',body:{text},clientId:cid}),
   plan:(cid)=>apiFetch('/plan',{clientId:cid}),
   metrics:(cid)=>apiFetch('/metrics',{clientId:cid}),
+  formulas:(cid)=>apiFetch('/report-formulas',{clientId:cid}),
+  createFormula:(cid,b)=>apiFetch('/report-formulas',{method:'POST',body:b,clientId:cid}),
+  updateFormula:(cid,id,b)=>apiFetch('/report-formulas/'+id,{method:'PUT',body:b,clientId:cid}),
+  deleteFormula:(cid,id)=>apiFetch('/report-formulas/'+id,{method:'DELETE',clientId:cid}),
+  agencyCapabilities:()=>apiFetch('/agency/capabilities'),
+  agencyOps:()=>apiFetch('/agency-ops'),
+  templates:()=>apiFetch('/templates'),
+  templateAssignments:(cid)=>apiFetch('/templates/assignments?clientId='+encodeURIComponent(cid)),
+  createSnapshot:(b)=>apiFetch('/templates/snapshot',{method:'POST',body:b}),
+  applySnapshot:(id,b)=>apiFetch('/templates/'+id+'/apply',{method:'POST',body:b}),
+  rollbackTemplate:(b)=>apiFetch('/templates/rollback',{method:'POST',body:b}),
   contacts:(cid)=>apiFetch('/contacts',{clientId:cid}),
   createContact:(cid,b)=>apiFetch('/contacts',{method:'POST',body:b,clientId:cid}),
   updateContact:(cid,id,b)=>apiFetch('/contacts/'+id,{method:'PUT',body:b,clientId:cid}),
@@ -55,6 +81,12 @@ const API={
   deleteTask:(cid,id)=>apiFetch('/tasks/'+id,{method:'DELETE',clientId:cid}),
   campaigns:(cid)=>apiFetch('/campaigns',{clientId:cid}),
   createCampaign:(cid,b)=>apiFetch('/campaigns',{method:'POST',body:b,clientId:cid}),
+  calendars:(cid)=>apiFetch('/calendars',{clientId:cid}),
+  createCalendar:(cid,b)=>apiFetch('/calendars',{method:'POST',body:b,clientId:cid}),
+  updateCalendar:(cid,id,b)=>apiFetch('/calendars/'+id,{method:'PUT',body:b,clientId:cid}),
+  appointments:(cid)=>apiFetch('/appointments',{clientId:cid}),
+  createAppointment:(cid,b)=>apiFetch('/appointments',{method:'POST',body:b,clientId:cid}),
+  updateAppointment:(cid,id,b)=>apiFetch('/appointments/'+id,{method:'PUT',body:b,clientId:cid}),
   automations:(cid)=>apiFetch('/automations',{clientId:cid}),
   createAutomation:(cid,b)=>apiFetch('/automations',{method:'POST',body:b,clientId:cid}),
   updateAutomation:(cid,id,b)=>apiFetch('/automations/'+id,{method:'PUT',body:b,clientId:cid}),
@@ -73,6 +105,11 @@ const PLATFORMS={
   x:{name:'X',mono:'𝕏',color:'var(--c-x)',hex:'#111111',base:'https://x.com/'},
 };
 const PKEYS=Object.keys(PLATFORMS);
+const CONTENT_FORMATS={
+  reel:{label:'Reel',color:'var(--mint)'},
+  carrusel:{label:'Carrusel',color:'var(--violet)'},
+  flyer:{label:'Flyer',color:'var(--amber)'},
+};
 const STAGES=[{k:'nuevo',l:'Nuevo',c:'#9A9AAB'},{k:'contactado',l:'Contactado',c:'#6C5CE7'},{k:'propuesta',l:'Propuesta',c:'#1877F2'},{k:'negociacion',l:'Negociación',c:'#F4A52C'},{k:'ganado',l:'Ganado',c:'#19B98C'}];
 const TAG_COLORS={VIP:['#FBE9D7','#B5651d'],Recurrente:['rgba(25,185,140,.14)','#10805f'],Nuevo:['rgba(108,92,231,.14)','#5a4bd1'],Empresa:['rgba(24,119,242,.12)','#1259b3'],Inactivo:['#F1F0EB','#6B6B7B']};
 const SOURCE_LABEL={instagram:'Instagram',facebook:'Facebook',tiktok:'TikTok',youtube:'YouTube',linkedin:'LinkedIn',x:'X',web:'Web',referido:'Referido'};
@@ -80,6 +117,38 @@ const fmtCOP=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',m
 const fmtK=n=>{n=Number(n)||0;return n>=1000?(n/1000).toFixed(n>=10000?0:1).replace('.0','')+'k':String(n);};
 const avatarColor=s=>{const c=['#6C5CE7','#FF6B4A','#1877F2','#19B98C','#E1306C','#F4A52C'];let h=0;for(const ch of (s||'x'))h=ch.charCodeAt(0)+h;return c[h%c.length];};
 const initialsOf=s=>(s||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const METRIC_FIELDS=['audienceTotal','newContactsThisMonth','leads','customers','wonValue','pipelineValue','openDeals','activeAutomations','unreadConversations'];
+function hashSeed(value){let h=7;for(const ch of String(value||''))h=(h*31+ch.charCodeAt(0))%100000;return h;}
+function normalizeSocialHandle(value,platform){
+  let v=String(value||'').trim();
+  if(!v) return '';
+  v=v.replace(/^https?:\/\/(www\.)?/i,'').replace(/\?.*$/,'').replace(/#.*$/,'').replace(/\/+$/,'');
+  if(platform==='instagram') v=v.replace(/^instagram\.com\//i,'');
+  if(platform==='facebook') v=v.replace(/^facebook\.com\//i,'');
+  if(platform==='tiktok') v=v.replace(/^tiktok\.com\/@?/i,'');
+  if(platform==='youtube') v=v.replace(/^youtube\.com\/(?:@|channel\/|c\/|user\/)?/i,'');
+  if(platform==='linkedin') v=v.replace(/^linkedin\.com\/(?:company\/|in\/)?/i,'');
+  if(platform==='x') v=v.replace(/^(?:x|twitter)\.com\//i,'');
+  return v.replace(/^@/,'').trim();
+}
+function normalizeSocialLinksPayload(form){
+  return Object.fromEntries(PKEYS.map((k)=>[k,normalizeSocialHandle(form?.[k],k)]));
+}
+function socialProfileUrl(platform,handle){
+  const h=String(handle||'').trim();
+  if(!h) return '';
+  if(/^https?:\/\//i.test(h)) return h;
+  return `${PLATFORMS[platform]?.base||''}${h}`;
+}
+function postPerformance(item){
+  const base=hashSeed(item.id+item.title+item.date);
+  const multiplier=Math.max(1,(item.platforms?.length||1));
+  const impressions=350+(base%1700)*multiplier;
+  const clicks=Math.max(5,Math.round(impressions*(0.01+((base%9)/1000))));
+  const comments=Math.max(1,Math.round(clicks*(0.12+((base%4)/100))));
+  const ctr=((clicks/impressions)*100).toFixed(1);
+  return {impressions,clicks,comments,ctr};
+}
 
 
 /* ===== ICONOS / TOAST (compartido con el portal) ===== */
@@ -167,7 +236,32 @@ function KPI({lbl,val,ico,c,bg,trend}){return (<div className="kpi"><div classNa
 
 /* ===== ANALÍTICA / REPORTES (compartido con el portal) ===== */
 
-function Analytics({metrics,content}){
+function FormulaModal({onClose,onSave,initial,mode='create'}){
+  const [f,setF]=useState(initial||{name:'Tasa de leads nuevos',op:'ratio',left:'newContactsThisMonth',right:'audienceTotal',multiplier:'100',decimals:'2'});
+  const set=(k,v)=>setF(p=>({...p,[k]:v}));
+  useEffect(()=>{if(initial){setF({
+    ...initial,
+    multiplier:String(initial.multiplier ?? 1),
+    decimals:String(initial.decimals ?? 2),
+  });}},[initial]);
+  return <Modal title="Nueva formula" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>{if(!f.name){toastErr('Pon un nombre para la formula');return;}onSave({...f,multiplier:Number(f.multiplier||1),decimals:Number(f.decimals||2)});}}>{mode==='edit'?'Actualizar':'Guardar'}</button></>}>
+    <div className="field"><label>Nombre</label><input className="input" value={f.name} onChange={e=>set('name',e.target.value)} placeholder="Ej. ROI comercial"/></div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr 1fr'}}>
+      <div className="field"><label>Operacion</label><select className="input" value={f.op} onChange={e=>set('op',e.target.value)}><option value="ratio">Division</option><option value="sum">Suma</option><option value="diff">Resta</option><option value="product">Producto</option></select></div>
+      <div className="field"><label>Multiplicador</label><input className="input" type="number" value={f.multiplier} onChange={e=>set('multiplier',e.target.value)}/></div>
+      <div className="field"><label>Decimales</label><input className="input" type="number" min="0" max="6" value={f.decimals} onChange={e=>set('decimals',e.target.value)}/></div>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Campo A</label><select className="input" value={f.left} onChange={e=>set('left',e.target.value)}>{METRIC_FIELDS.map(m=><option key={m} value={m}>{m}</option>)}</select></div>
+      <div className="field"><label>Campo B</label><select className="input" value={f.right} onChange={e=>set('right',e.target.value)}>{METRIC_FIELDS.map(m=><option key={m} value={m}>{m}</option>)}</select></div>
+    </div>
+  </Modal>;
+}
+
+function Analytics({metrics,content,formulas,onCreateFormula,onUpdateFormula,onDeleteFormula,canManageReports}){
+  const [showFormulaModal,setShowFormulaModal]=useState(false);
+  const [editing,setEditing]=useState(null);
   if(!metrics) return null;
   const reach=PKEYS.map(k=>({label:PLATFORMS[k].name,value:metrics.reachByPlatform?.[k]||0,color:PLATFORMS[k].color,display:fmtK(metrics.reachByPlatform?.[k]||0),badge:<span className="mini-badge" style={{'--brand':PLATFORMS[k].color,width:18,height:18,fontSize:9,border:'none'}}>{PLATFORMS[k].mono}</span>})).filter(r=>r.value>0);
   const cs=metrics.contentByStatus||{};
@@ -191,7 +285,74 @@ function Analytics({metrics,content}){
       <div className="card card-pad"><div className="section-title" style={{marginBottom:16}}><Ico d={icons.grid} size={16}/>Estado del contenido</div>
         <div style={{display:'flex',justifyContent:'center'}}><Donut segments={donut.length?donut:[{label:'—',value:1,color:'#F1F0EB'}]} center={<div><div style={{fontFamily:'var(--font-display)',fontSize:26,fontWeight:600}}>{totalContent}</div><div style={{fontSize:11,color:'var(--muted)'}}>piezas</div></div>}/></div>
         <div className="legend">{donut.map((d,i)=><div className="lg" key={i}><i style={{background:d.color}}/>{d.label} ({d.value})</div>)}</div></div>
-    </div></div>);
+    </div>
+    <div className="card card-pad">
+      <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:12}}><div className="section-title"><Ico d={icons.plan} size={16}/>Formulas personalizadas</div>
+        <button className="btn btn-primary btn-sm" style={{marginLeft:'auto'}} onClick={()=>setShowFormulaModal(true)} disabled={!canManageReports}><Ico d={icons.plus} size={14}/>Nueva formula</button>
+      </div>
+      {formulas?.length?<div className="grid" style={{gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',gap:10}}>{formulas.map(f=><div key={f.id} className="card" style={{padding:12,border:'1px solid rgba(0,0,0,.08)'}}>
+        <div style={{fontSize:12,color:'var(--muted-2)',marginBottom:6}}>{f.left} {f.op} {f.right}</div>
+        <div style={{fontFamily:'var(--font-display)',fontSize:24,fontWeight:600,lineHeight:1.1}}>{Number(f.value||0).toLocaleString('es-CO')}</div>
+        <div style={{fontSize:13,color:'var(--ink)',marginTop:4}}>{f.name}</div>
+        <div style={{display:'flex',gap:6,marginTop:10}}>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setEditing(f)} disabled={!canManageReports}><Ico d={icons.edit} size={14}/>Editar</button>
+          <button className="btn btn-ghost btn-sm" onClick={()=>onDeleteFormula(f)} disabled={!canManageReports}><Ico d={icons.trash} size={14}/>Eliminar</button>
+        </div>
+      </div>)}</div>:<p style={{fontSize:13,color:'var(--muted)'}}>Crea formulas para calcular indicadores compuestos sobre tus metricas.</p>}
+    </div>
+    {showFormulaModal&&canManageReports&&<FormulaModal onClose={()=>setShowFormulaModal(false)} onSave={async(payload)=>{await onCreateFormula(payload);setShowFormulaModal(false);}}/>}
+    {editing&&canManageReports&&<FormulaModal mode="edit" initial={editing} onClose={()=>setEditing(null)} onSave={async(payload)=>{await onUpdateFormula(editing.id,payload);setEditing(null);}}/>}
+  </div>);
+}
+
+function TemplatesHub({templates,clients,sel,assignments,onCreateSnapshot,onApplySnapshot,onRefresh,onRollback,canManageTemplates}){
+  const [target,setTarget]=useState(sel||'');
+  const [name,setName]=useState('');
+  const [detail,setDetail]=useState(null);
+  useEffect(()=>{if(sel&&!target)setTarget(sel);},[sel]);
+  return (<div className="grid" style={{gap:14,maxWidth:980}}>
+    <div className="card card-pad">
+      <div className="section-title" style={{marginBottom:10}}><Ico d={icons.grid} size={16}/>Snapshots y plantillas de subcuenta</div>
+      <div className="grid" style={{gridTemplateColumns:'1.2fr 1fr auto',gap:10,alignItems:'end'}}>
+        <div className="field" style={{margin:0}}><label>Nombre de snapshot (opcional)</label><input className="input" value={name} onChange={e=>setName(e.target.value)} placeholder="Plantilla onboarding restaurantes"/></div>
+        <div className="field" style={{margin:0}}><label>Cliente destino al aplicar</label><select className="input" value={target} onChange={e=>setTarget(e.target.value)}>{clients.map(c=><option key={c.id} value={c.id}>{c.fullName}</option>)}</select></div>
+        <button className="btn btn-primary" onClick={()=>onCreateSnapshot({name})} disabled={!sel||!canManageTemplates}><Ico d={icons.plus} size={15}/>Crear snapshot</button>
+      </div>
+    </div>
+    <div className="card card-pad">
+      <div className="section-title" style={{marginBottom:10}}><Ico d={icons.plan} size={16}/>Versiones aplicadas al cliente</div>
+      {assignments?.length?<div className="grid" style={{gap:8}}>{assignments.slice(0,4).map(item=><div key={item.id} style={{display:'grid',gridTemplateColumns:'1fr auto',gap:8,alignItems:'center',padding:'10px 12px',border:'1px solid rgba(0,0,0,.08)',borderRadius:12}}>
+        <div>
+          <div style={{fontWeight:600,fontSize:13}}>{item.templateName} · v{item.version||1}</div>
+          <div style={{fontSize:12,color:'var(--muted)'}}>{new Date(item.appliedAt).toLocaleString('es-CO')} · {item.actor}</div>
+        </div>
+        <button className="btn btn-ghost btn-sm" onClick={()=>onRollback(item.templateId)} disabled={!canManageTemplates}><Ico d={icons.out} size={14}/>Rollback</button>
+      </div>)}</div>:<p style={{fontSize:13,color:'var(--muted)'}}>Aún no hay versiones aplicadas para este cliente.</p>}
+    </div>
+    {templates.length?<div className="grid" style={{gap:10}}>{templates.map(t=><div key={t.id} className="card card-pad" style={{display:'grid',gridTemplateColumns:'1fr auto',gap:10,alignItems:'center'}}>
+      <div>
+        <div className="section-title" style={{marginBottom:4}}>{t.name}</div>
+        <div style={{fontSize:12,color:'var(--muted)'}}>Origen: {t.sourceClientName} · {new Date(t.createdAt).toLocaleString('es-CO')}</div>
+        <div style={{display:'flex',gap:8,marginTop:8}}>
+          <span className="text-chip" style={{'--brand':'var(--violet)'}}>Calendarios: {t.stats?.calendars||0}</span>
+          <span className="text-chip" style={{'--brand':'var(--mint)'}}>Automatizaciones: {t.stats?.automations||0}</span>
+          <span className="text-chip" style={{'--brand':'var(--primary)'}}>Aplicaciones: {t.appliedCount||0}</span>
+        </div>
+        {t.lastAppliedAt&&<div style={{fontSize:12,color:'var(--muted)',marginTop:8}}>Ultima aplicación: {new Date(t.lastAppliedAt).toLocaleString('es-CO')} · {t.lastAppliedClientName||'n/a'}</div>}
+      </div>
+      <div style={{display:'grid',gap:8}}>
+        <button className="btn btn-ghost" onClick={()=>onApplySnapshot(t.id,target)} disabled={!target||!canManageTemplates}><Ico d={icons.ext} size={15}/>Aplicar a cliente</button>
+        <button className="btn btn-ghost btn-sm" onClick={()=>setDetail(t)}>Ver historial</button>
+      </div>
+    </div>)}</div>:<Empty title="Sin snapshots" sub="Crea una plantilla desde el cliente actual para clonar configuración." ic={icons.grid}/>}
+    <div style={{display:'flex',justifyContent:'flex-end'}}><button className="btn btn-ghost btn-sm" onClick={onRefresh}>Actualizar lista</button></div>
+    {detail&&<Modal title={`Historial · ${detail.name}`} onClose={()=>setDetail(null)} footer={<button className="btn btn-ghost" onClick={()=>setDetail(null)}>Cerrar</button>}>
+      {detail.historyPreview?.length?<div className="grid" style={{gap:8}}>{detail.historyPreview.map(h=><div key={h.id} className="card" style={{padding:10,border:'1px solid rgba(0,0,0,.08)'}}>
+        <div style={{fontWeight:600,fontSize:13}}>{h.targetClientName||'Cliente'}</div>
+        <div style={{fontSize:12,color:'var(--muted)'}}>{new Date(h.at).toLocaleString('es-CO')} · {h.actor}</div>
+      </div>)}</div>:<Empty title="Sin aplicaciones" sub="Este snapshot aún no se ha aplicado." ic={icons.grid}/>}
+    </Modal>}
+  </div>);
 }
 
 
@@ -235,6 +396,69 @@ function Contacts({contacts,onCreate,onUpdate,onDelete}){
           <td><div className="row-actions"><button onClick={()=>setModal(c)} title="Editar"><Ico d={icons.edit} size={15}/></button><button onClick={()=>onDelete(c.id)} title="Eliminar"><Ico d={icons.trash} size={15}/></button></div></td></tr>);})}</tbody></table></div>
       :<Empty title="Sin contactos" sub="Agrega tu primer contacto o ajusta el filtro." ic={icons.contacts}/>}
     {modal&&<ContactModal initial={modal.id?modal:null} onClose={()=>setModal(null)} onSave={async(f)=>{if(modal.id)await onUpdate(modal.id,f);else await onCreate(f);setModal(null);}}/>}
+  </div>);
+}
+
+function AgencyOverview({metrics}){
+  if(!metrics) return <Empty title="Resumen no disponible" sub="Carga de métricas en curso." ic={icons.chart}/>;
+  return (<div className="grid" style={{gap:16}}>
+    <div className="kpi-row" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+      <KPI lbl="Clientes" val={metrics.clients} ico={icons.contacts} c="var(--violet)" bg="rgba(108,92,231,.12)" trend="activos en el panel"/>
+      <KPI lbl="Contactos" val={metrics.contacts} ico={icons.funnel} c="var(--mint)" bg="rgba(25,185,140,.12)" trend="base comercial"/>
+      <KPI lbl="Pendientes" val={metrics.pendingContent} ico={icons.task} c="var(--primary)" bg="rgba(255,107,74,.12)" trend="contenido por aprobar"/>
+      <KPI lbl="Automatizaciones" val={metrics.activeAutomations} ico={icons.zap} c="var(--ink)" bg="rgba(0,0,0,.08)" trend="flujos activos"/>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'1.1fr .9fr',gap:16}}>
+      <div className="card card-pad">
+        <div className="section-title" style={{marginBottom:12}}><Ico d={icons.chart} size={16}/>Salud operativa</div>
+        <div className="grid" style={{gridTemplateColumns:'repeat(2,1fr)',gap:12}}>
+          <div className="mini-stat"><b>{metrics.openDeals}</b><span>oportunidades abiertas</span></div>
+          <div className="mini-stat"><b>{metrics.overdueTasks}</b><span>tareas vencidas</span></div>
+          <div className="mini-stat"><b>{metrics.unreadConversations}</b><span>conversaciones sin leer</span></div>
+          <div className="mini-stat"><b>{metrics.connectedSocials}</b><span>redes conectadas</span></div>
+        </div>
+      </div>
+      <div className="card card-pad">
+        <div className="section-title" style={{marginBottom:12}}><Ico d={icons.bell} size={16}/>Actividad reciente</div>
+        <div style={{display:'grid',gap:10}}>{metrics.recent.length?metrics.recent.map(item=>(<div key={item.id} style={{padding:'10px 12px',border:'1px solid rgba(0,0,0,.08)',borderRadius:14,background:'#fff'}}>
+          <div style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'center'}}>
+            <div>
+              <div style={{fontWeight:600,fontSize:13}}>{item.clientName}</div>
+              <div style={{fontSize:12,color:'var(--muted)'}}>{item.detail}</div>
+            </div>
+            <div style={{fontSize:11,color:'var(--muted)',textAlign:'right'}}>{new Date(item.at).toLocaleString('es-CO')}</div>
+          </div>
+        </div>)):<div style={{color:'var(--muted)',fontSize:13}}>Aún no hay eventos registrados.</div>}</div>
+      </div>
+    </div>
+  </div>);
+}
+
+function OperationsCenter({ops}){
+  if(!ops) return <Empty title="Operaciones no disponibles" sub="Cargando centro operativo." ic={icons.chart}/>;
+  const s=ops.summary||{};
+  return (<div className="grid" style={{gap:16}}>
+    <div className="kpi-row" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+      <KPI lbl="Backlog semanal" val={s.throughputWeek||0} ico={icons.chart} c="var(--violet)" bg="rgba(108,92,231,.12)" trend="eventos 7 dias"/>
+      <KPI lbl="Tareas vencidas" val={s.overdueTasks||0} ico={icons.task} c="var(--primary)" bg="rgba(255,107,74,.12)" trend="SLA operativo"/>
+      <KPI lbl="Inbox sin leer" val={s.unreadInbox||0} ico={icons.inbox} c="var(--mint)" bg="rgba(25,185,140,.12)" trend="atención pendiente"/>
+      <KPI lbl="Aprobaciones" val={s.pendingApprovals||0} ico={icons.check} c="var(--ink)" bg="rgba(0,0,0,.08)" trend="cola de contenido"/>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr',gap:14}}>
+      <div className="card card-pad">
+        <div className="section-title" style={{marginBottom:10}}><Ico d={icons.contacts} size={16}/>Carga por célula</div>
+        <div className="grid" style={{gap:8}}>{(ops.lanes||[]).map(l=><div key={l.role} style={{display:'grid',gridTemplateColumns:'1fr auto auto',gap:10,alignItems:'center',padding:'10px 12px',border:'1px solid rgba(0,0,0,.08)',borderRadius:12}}>
+          <b style={{fontSize:13}}>{l.label}</b>
+          <span className="text-chip" style={{'--brand':'var(--violet)'}}>Queue: {l.queue}</span>
+          <span className="text-chip" style={{'--brand':'var(--amber)'}}>SLA: {l.slaHours}h</span>
+        </div>)}</div>
+      </div>
+      <div className="card card-pad">
+        <div className="section-title" style={{marginBottom:10}}><Ico d={icons.bell} size={16}/>Alertas</div>
+        {(ops.alerts||[]).length?<div className="grid" style={{gap:8}}>{ops.alerts.map((a,i)=><div key={i} className="text-chip" style={{'--brand':a.level==='high'?'var(--primary)':'var(--amber)'}}>{a.text}</div>)}</div>
+          :<p style={{fontSize:13,color:'var(--muted)'}}>Sin alertas críticas.</p>}
+      </div>
+    </div>
   </div>);
 }
 
@@ -339,29 +563,167 @@ function Campaigns({campaigns,onCreate}){
 }
 
 
+/* ===== CALENDARIO Y CITAS (tipo GHL) ===== */
+
+const CAL_TYPES={individual:'Individual',round_robin:'Round-robin',evento:'Evento/Clase',colectivo:'Colectivo'};
+const WEEKDAYS=[
+  {k:'mon',l:'Lun'},
+  {k:'tue',l:'Mar'},
+  {k:'wed',l:'Mie'},
+  {k:'thu',l:'Jue'},
+  {k:'fri',l:'Vie'},
+  {k:'sat',l:'Sab'},
+  {k:'sun',l:'Dom'},
+];
+const defaultWeeklyHours={
+  mon:[['09:00','18:00']],tue:[['09:00','18:00']],wed:[['09:00','18:00']],thu:[['09:00','18:00']],fri:[['09:00','18:00']],sat:[],sun:[],
+};
+function CalendarModal({initial,onSave,onClose}){
+  const[f,setF]=useState(initial||{
+    name:'',type:'individual',durationMin:'60',bufferBeforeMin:'10',bufferAfterMin:'10',minNoticeHours:'2',
+    capacity:'1',agentsText:'Agente Principal',intakeFieldsText:'Servicio, presupuesto, objetivo',
+    reminderRulesText:'0:email,1440:email,120:whatsapp',weeklyHours:defaultWeeklyHours,
+  });
+  const set=(k,v)=>setF(p=>({...p,[k]:v}));
+  const parseAgents=(text)=>String(text||'').split(',').map(s=>s.trim()).filter(Boolean).map((name,i)=>({id:`ag_${i+1}`,name}));
+  const parseIntake=(text)=>String(text||'').split(',').map(s=>s.trim()).filter(Boolean).map((label,i)=>({id:`q_${i+1}`,label,type:'text',required:i===0}));
+  const parseReminders=(text)=>String(text||'').split(',').map(raw=>raw.trim()).filter(Boolean).map((row,i)=>{const [off,ch]=row.split(':');return{ id:`r_${i+1}`, offsetMin:Number(off)||0, channel:(ch||'email').trim() };});
+  return <Modal title={initial?.id?'Editar calendario':'Nuevo calendario'} onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>{if(!f.name){toastErr('Pon nombre al calendario');return;}onSave({...f,agents:parseAgents(f.agentsText),intakeFields:parseIntake(f.intakeFieldsText),reminderRules:parseReminders(f.reminderRulesText),durationMin:Number(f.durationMin)||60,bufferBeforeMin:Number(f.bufferBeforeMin)||0,bufferAfterMin:Number(f.bufferAfterMin)||0,minNoticeHours:Number(f.minNoticeHours)||0,capacity:Number(f.capacity)||1});}}>Guardar</button></>}>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Nombre</label><input className="input" value={f.name} onChange={e=>set('name',e.target.value)} placeholder="Calendario de discovery"/></div>
+      <div className="field"><label>Tipo</label><select className="input" value={f.type} onChange={e=>set('type',e.target.value)}>{Object.keys(CAL_TYPES).map(k=><option key={k} value={k}>{CAL_TYPES[k]}</option>)}</select></div>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+      <div className="field"><label>Duracion (min)</label><input className="input" type="number" min="15" value={f.durationMin} onChange={e=>set('durationMin',e.target.value)}/></div>
+      <div className="field"><label>Buffer antes</label><input className="input" type="number" min="0" value={f.bufferBeforeMin} onChange={e=>set('bufferBeforeMin',e.target.value)}/></div>
+      <div className="field"><label>Buffer despues</label><input className="input" type="number" min="0" value={f.bufferAfterMin} onChange={e=>set('bufferAfterMin',e.target.value)}/></div>
+      <div className="field"><label>Anticipacion (h)</label><input className="input" type="number" min="0" value={f.minNoticeHours} onChange={e=>set('minNoticeHours',e.target.value)}/></div>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Agentes (coma)</label><input className="input" value={f.agentsText} onChange={e=>set('agentsText',e.target.value)} placeholder="Camila, Felipe"/></div>
+      <div className="field"><label>Cupo por slot</label><input className="input" type="number" min="1" value={f.capacity} onChange={e=>set('capacity',e.target.value)}/></div>
+    </div>
+    <div className="field"><label>Formulario intake (campos separados por coma)</label><input className="input" value={f.intakeFieldsText} onChange={e=>set('intakeFieldsText',e.target.value)} placeholder="Objetivo, presupuesto, servicio"/></div>
+    <div className="field"><label>Recordatorios (offsetMin:canal)</label><input className="input" value={f.reminderRulesText} onChange={e=>set('reminderRulesText',e.target.value)} placeholder="0:email,1440:email,120:whatsapp"/></div>
+  </Modal>;
+}
+
+function BookingModal({calendars,onSave,onClose}){
+  const[f,setF]=useState({calendarId:calendars[0]?.id||'',contactName:'',contactEmail:'',contactPhone:'',startAt:'',notes:'',intakeResponsesText:''});
+  const set=(k,v)=>setF(p=>({...p,[k]:v}));
+  const selected=calendars.find(c=>c.id===f.calendarId);
+  const parseIntake=(text)=>String(text||'').split(';').map(chunk=>chunk.trim()).filter(Boolean).map(row=>{const idx=row.indexOf(':');if(idx<0)return null;return{key:row.slice(0,idx).trim(),value:row.slice(idx+1).trim()};}).filter(Boolean);
+  return <Modal title="Nueva cita" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>{if(!f.calendarId||!f.contactName||!f.startAt){toastErr('Completa calendario, contacto y fecha');return;}onSave({...f,intakeResponses:parseIntake(f.intakeResponsesText)});}}>Reservar</button></>}>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Calendario</label><select className="input" value={f.calendarId} onChange={e=>set('calendarId',e.target.value)}>{calendars.map(c=><option key={c.id} value={c.id}>{c.name} · {CAL_TYPES[c.type]||c.type}</option>)}</select></div>
+      <div className="field"><label>Fecha y hora</label><input className="input" type="datetime-local" value={f.startAt} onChange={e=>set('startAt',e.target.value)}/></div>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr 1fr'}}>
+      <div className="field"><label>Contacto</label><input className="input" value={f.contactName} onChange={e=>set('contactName',e.target.value)} placeholder="Nombre"/></div>
+      <div className="field"><label>Email</label><input className="input" value={f.contactEmail} onChange={e=>set('contactEmail',e.target.value)} placeholder="correo@dominio.com"/></div>
+      <div className="field"><label>Telefono</label><input className="input" value={f.contactPhone} onChange={e=>set('contactPhone',e.target.value)} placeholder="+57 ..."/></div>
+    </div>
+    <div className="field"><label>Respuestas intake (campo:valor; campo:valor)</label><textarea className="input" value={f.intakeResponsesText} onChange={e=>set('intakeResponsesText',e.target.value)} placeholder="Objetivo: vender mas; Servicio: consultoria"/></div>
+    {selected&&<div style={{fontSize:12,color:'var(--muted)'}}>Duracion: {selected.durationMin||60} min · Buffers: {selected.bufferBeforeMin||0}/{selected.bufferAfterMin||0} min · Anticipacion minima: {selected.minNoticeHours||0}h</div>}
+  </Modal>;
+}
+
+function CalendarHub({calendars,appointments,onCreateCalendar,onUpdateCalendar,onCreateAppointment,onUpdateAppointment}){
+  const [calModal,setCalModal]=useState(null);
+  const [bookOpen,setBookOpen]=useState(false);
+  const today=new Date().toISOString().slice(0,10);
+  const sorted=[...appointments].sort((a,b)=>new Date(a.startAt)-new Date(b.startAt));
+  const todayCount=appointments.filter(a=>String(a.startAt).slice(0,10)===today).length;
+  const upcoming=appointments.filter(a=>new Date(a.startAt)>=new Date()).length;
+  const confirmed=appointments.filter(a=>a.status==='confirmada').length;
+  const statusStyle={pendiente:'pill-amber',confirmada:'pill-mint',cancelada:'pill-rose',completada:'pill-violet'};
+  return (<div className="grid" style={{gap:16}}>
+    <div className="kpi-row" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+      <KPI lbl="Calendarios" val={calendars.length} ico={icons.cal} c="var(--violet)" bg="rgba(108,92,231,.12)" trend="tipos configurables"/>
+      <KPI lbl="Citas hoy" val={todayCount} ico={icons.task} c="var(--primary)" bg="rgba(255,107,74,.12)" trend="agenda diaria"/>
+      <KPI lbl="Proximas" val={upcoming} ico={icons.chart} c="var(--mint)" bg="rgba(25,185,140,.12)" trend="pendientes de atencion"/>
+      <KPI lbl="Confirmadas" val={confirmed} ico={icons.check} c="var(--ink)" bg="rgba(0,0,0,.08)" trend="estado actual"/>
+    </div>
+    <div className="calendar-grid">
+      <div className="card card-pad">
+        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+          <div className="section-title"><Ico d={icons.cal} size={16}/>Calendarios</div>
+          <button className="btn btn-primary btn-sm" style={{marginLeft:'auto'}} onClick={()=>setCalModal({})}><Ico d={icons.plus} size={14}/>Nuevo</button>
+        </div>
+        <div className="grid" style={{gap:10}}>{calendars.length?calendars.map(cal=>(<button key={cal.id} className="calendar-item" onClick={()=>setCalModal(cal)}>
+          <div style={{fontWeight:600,fontSize:13}}>{cal.name}</div>
+          <div style={{fontSize:12,color:'var(--muted)'}}>{CAL_TYPES[cal.type]||cal.type} · {cal.durationMin||60} min · {cal.agents?.length||0} agentes</div>
+          <div style={{fontSize:11,color:'var(--muted-2)'}}>Notice {cal.minNoticeHours||0}h · Capacidad {cal.capacity||1}</div>
+        </button>)):<Empty title="Sin calendarios" sub="Configura tu primer calendario para reservar citas." ic={icons.cal}/>}</div>
+      </div>
+      <div className="card card-pad">
+        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+          <div className="section-title"><Ico d={icons.inbox} size={16}/>Citas programadas</div>
+          <button className="btn btn-primary btn-sm" style={{marginLeft:'auto'}} onClick={()=>setBookOpen(true)} disabled={!calendars.length}><Ico d={icons.plus} size={14}/>Nueva cita</button>
+        </div>
+        <div className="grid" style={{gap:10}}>{sorted.length?sorted.map(ap=>(<div key={ap.id} className="appointment-row">
+          <div>
+            <div style={{fontWeight:600,fontSize:13}}>{ap.contactName} · {ap.calendarName}</div>
+            <div style={{fontSize:12,color:'var(--muted)'}}>{new Date(ap.startAt).toLocaleString('es-CO')} · {ap.assignedAgentNames?.join(', ')||'Sin agente'}</div>
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap'}}>
+            <span className={'pill '+(statusStyle[ap.status]||'pill-muted')}>{ap.status}</span>
+            <button className="btn btn-ghost btn-sm" onClick={()=>onUpdateAppointment(ap,{status:'confirmada'})} disabled={ap.status==='confirmada'}>Confirmar</button>
+            <button className="btn btn-ghost btn-sm" onClick={()=>onUpdateAppointment(ap,{status:'completada'})} disabled={ap.status==='completada'}>Completar</button>
+            <button className="btn btn-ghost btn-sm" onClick={()=>onUpdateAppointment(ap,{status:'cancelada'})} disabled={ap.status==='cancelada'}>Cancelar</button>
+          </div>
+        </div>)):<Empty title="Sin citas" sub="Reserva una cita para activar automatizaciones de seguimiento." ic={icons.cal}/>}</div>
+      </div>
+    </div>
+    {calModal&&<CalendarModal initial={calModal.id?calModal:null} onClose={()=>setCalModal(null)} onSave={async(payload)=>{if(calModal.id) await onUpdateCalendar(calModal.id,payload); else await onCreateCalendar(payload); setCalModal(null);}}/>}
+    {bookOpen&&<BookingModal calendars={calendars} onClose={()=>setBookOpen(false)} onSave={async(payload)=>{await onCreateAppointment(payload);setBookOpen(false);}}/>}
+  </div>);
+}
+
+
 /* ===== AUTOMATIZACIONES (compartido con el portal) ===== */
 
 const AUTO_CH={email:['#6C5CE7','✉'],instagram:[PLATFORMS.instagram.hex,'◎'],facebook:[PLATFORMS.facebook.hex,'f'],whatsapp:['#25D366','✆'],tarea:['#16162A','✓'],multi:['#FF6B4A','✦']};
+const AUTO_TEMPLATES=[
+  {id:'welcome',name:'Bienvenida a nuevos clientes',trigger:'Se crea un contacto nuevo',action:'Enviar email de bienvenida + crear tarea',channel:'email',priority:'alta',delayDays:0,notes:'Primer contacto automático para nuevos leads.'},
+  {id:'reactivation',name:'Reactivación de inactivos',trigger:'Sin actividad por 60 días',action:'Enviar oferta de retorno + tarea de seguimiento',channel:'email',priority:'media',delayDays:2,notes:'Recupera contactos dormidos con una secuencia corta.'},
+  {id:'proposal',name:'Seguimiento de propuesta',trigger:'Oportunidad pasa a "Propuesta"',action:'Crear recordatorio y enviar resumen',channel:'tarea',priority:'alta',delayDays:1,notes:'No dejar caer oportunidades en etapa de propuesta.'},
+  {id:'dm',name:'Respuesta DM instantánea',trigger:'Mensaje directo en Instagram',action:'Auto-respuesta + notificación al equipo',channel:'instagram',priority:'alta',delayDays:0,notes:'Reduce tiempos de respuesta en mensajes entrantes.'},
+];
 function AutomationModal({onSave,onClose}){
-  const[f,setF]=useState({name:'',trigger:'Se crea un contacto nuevo',action:'Enviar email de bienvenida',channel:'email'});const set=(k,v)=>setF(p=>({...p,[k]:v}));
+  const[f,setF]=useState({name:'',trigger:'Se crea un contacto nuevo',action:'Enviar email de bienvenida',channel:'email',template:'custom',priority:'media',delayDays:'0',notes:''});const set=(k,v)=>setF(p=>({...p,[k]:v}));
   const triggers=['Se crea un contacto nuevo','Sin actividad por 60 días','Oportunidad pasa a "Ganado"','Mensaje directo en Instagram','Se etiqueta como VIP'];
+  const applyTemplate=(tpl)=>setF(p=>({...p,name:tpl.name,trigger:tpl.trigger,action:tpl.action,channel:tpl.channel,template:tpl.id,priority:tpl.priority,delayDays:String(tpl.delayDays ?? 0),notes:tpl.notes}));
   return <Modal title="Nueva automatización" onClose={onClose}
     footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>{if(!f.name){toastErr('Pon un nombre');return;}onSave(f);}}>Activar flujo</button></>}>
+    <div className="section-title" style={{marginBottom:10}}><Ico d={icons.zap} size={16}/>Plantillas rápidas</div>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))',gap:10,marginBottom:14}}>{AUTO_TEMPLATES.map(t=>(<button key={t.id} className="card card-pad" style={{textAlign:'left',cursor:'pointer'}} onClick={()=>applyTemplate(t)}>
+      <div style={{fontWeight:600,marginBottom:6}}>{t.name}</div>
+      <div style={{fontSize:12,color:'var(--muted)'}}>{t.notes}</div>
+    </button>))}</div>
     <div className="field"><label>Nombre del flujo</label><input className="input" value={f.name} onChange={e=>set('name',e.target.value)} placeholder="Ej. Bienvenida a nuevos clientes"/></div>
     <div className="field"><label>Cuándo (disparador)</label><select className="input" value={f.trigger} onChange={e=>set('trigger',e.target.value)}>{triggers.map(t=><option key={t}>{t}</option>)}</select></div>
     <div className="field"><label>Entonces (acción)</label><input className="input" value={f.action} onChange={e=>set('action',e.target.value)} placeholder="Ej. Enviar email + crear tarea"/></div>
-    <div className="field"><label>Canal</label><select className="input" value={f.channel} onChange={e=>set('channel',e.target.value)}><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="tarea">Tarea interna</option></select></div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr 1fr'}}>
+      <div className="field"><label>Canal</label><select className="input" value={f.channel} onChange={e=>set('channel',e.target.value)}><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="tarea">Tarea interna</option></select></div>
+      <div className="field"><label>Prioridad</label><select className="input" value={f.priority} onChange={e=>set('priority',e.target.value)}><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select></div>
+      <div className="field"><label>Retraso (días)</label><input className="input" type="number" min="0" value={f.delayDays} onChange={e=>set('delayDays',e.target.value)}/></div>
+    </div>
+    <div className="field"><label>Notas internas</label><textarea className="input" value={f.notes} onChange={e=>set('notes',e.target.value)} placeholder="Qué debe hacer el equipo cuando se dispare el flujo..."/></div>
   </Modal>;
 }
 function Automations({automations,onCreate,onToggle}){
   const[modal,setModal]=useState(false);
   const active=automations.filter(a=>a.status==='activa').length;
+  const paused=automations.filter(a=>a.status==='pausada').length;
   const totalEnrolled=automations.reduce((s,a)=>s+(a.enrolled||0),0);
   return (<div className="grid" style={{gap:16}}>
     <div className="kpi-row" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
       <KPI lbl="Flujos activos" val={active} ico={icons.zap} c="var(--mint)" bg="rgba(25,185,140,.12)" trend={`${automations.length} en total`}/>
       <KPI lbl="Contactos en flujos" val={totalEnrolled} ico={icons.contacts} c="var(--violet)" bg="rgba(108,92,231,.12)" trend="acumulado"/>
-      <KPI lbl="Trabajan por ti" val="24/7" ico={icons.check} c="var(--primary)" bg="rgba(255,107,74,.12)" trend="sin intervención"/>
+      <KPI lbl="Pausados" val={paused} ico={icons.check} c="var(--primary)" bg="rgba(255,107,74,.12)" trend="listos para reactivar"/>
     </div>
     <div style={{display:'flex',alignItems:'center'}}><div className="section-title"><Ico d={icons.zap} size={16}/>Automatizaciones</div>
       <button className="btn btn-primary btn-sm" style={{marginLeft:'auto'}} onClick={()=>setModal(true)}><Ico d={icons.plus} size={15}/>Nueva automatización</button></div>
@@ -369,10 +731,16 @@ function Automations({automations,onCreate,onToggle}){
       return (<div className="auto" key={a.id}>
         <div className="auto-ico" style={{background:col}}>{gl}</div>
         <div style={{flex:1,minWidth:0}}><div style={{fontWeight:600,fontSize:14}}>{a.name}</div>
-          <div className="auto-flow"><span className="flow-pill">Cuando <b>{a.trigger}</b></span><span className="flow-arrow">→</span><span className="flow-pill">Hacer <b>{a.action}</b></span></div></div>
+          <div className="auto-flow"><span className="flow-pill">Cuando <b>{a.trigger}</b></span><span className="flow-arrow">→</span><span className="flow-pill">Hacer <b>{a.action}</b></span></div>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:8,fontSize:12,color:'var(--muted)'}}>
+              <span className="text-chip" style={{'--brand':'var(--violet)'}}>Prioridad: {a.priority||'media'}</span>
+              <span className="text-chip" style={{'--brand':'var(--mint)'}}>Delay: {Number(a.delayDays)||0}d</span>
+              {a.template&&a.template!=='custom'&&<span className="text-chip" style={{'--brand':'var(--primary)'}}>Plantilla: {a.template}</span>}
+          </div></div>
         <div className="auto-stats"><div className="as"><b>{a.enrolled}</b><span>inscritos</span></div><div className="as"><b>{a.completed}</b><span>completados</span></div></div>
         <div className={'switch'+(a.status==='activa'?' on':'')} onClick={()=>onToggle(a)} title={a.status==='activa'?'Activa':'Pausada'}><i/></div></div>);})
       :<Empty title="Sin automatizaciones" sub="Crea tu primer flujo para ahorrar trabajo." ic={icons.zap}/>}</div>
+    {modal&&<AutomationModal onSave={(f)=>{onCreate(f);setModal(false);}} onClose={()=>setModal(false)}/>}
   </div>);
 }
 
@@ -424,38 +792,229 @@ function AuthGate({onAuth}){
 }
 
 /* ===== CREAR CONTENIDO (parrilla) ===== */
-function NewContent({onCreate}){
+function NewContent({onCreate,disabled,presetDate,openSignal}){
   const [open,setOpen]=useState(false);
-  const [f,setF]=useState({title:'',caption:'',platforms:[],date:new Date().toISOString().slice(0,10)});
+  const [f,setF]=useState({title:'',caption:'',platforms:[],date:new Date().toISOString().slice(0,10),format:'flyer',mediaDataUrl:'',mediaName:''});
   const set=(k,v)=>setF(p=>({...p,[k]:v}));
   const toggle=(p)=>setF(s=>({...s,platforms:s.platforms.includes(p)?s.platforms.filter(x=>x!==p):[...s.platforms,p]}));
+  useEffect(()=>{
+    if(!openSignal) return;
+    setOpen(true);
+    if(presetDate) setF(s=>({...s,date:presetDate}));
+  },[openSignal,presetDate]);
+  const fillWithAi=()=>{
+    const main=f.platforms[0]||'instagram';
+    const audience={instagram:'audiencia social',facebook:'comunidad local',tiktok:'audiencia joven',youtube:'suscriptores',linkedin:'tomadores de decision',x:'seguidores de actualidad'}[main]||'tu audiencia';
+    if(!f.title) set('title',`Idea para ${PLATFORMS[main]?.name||'red social'} (${new Date(f.date).toLocaleDateString('es-CO')})`);
+    set('caption',f.caption||`Hook: "${(f.title||'Esta semana tenemos algo nuevo').slice(0,50)}"\nBeneficio: explica en 1 frase por que le importa a ${audience}.\nCTA: invita a escribir por DM o reservar una llamada.`);
+    toast('Borrador AI sugerido (editable)');
+  };
+  const onFile=async(file)=>{
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=()=>setF(s=>({...s,mediaDataUrl:String(reader.result||''),mediaName:file.name||'archivo'}));
+    reader.readAsDataURL(file);
+  };
   const submit=async()=>{ if(!f.title||!f.platforms.length){toastErr('Pon un título y al menos una red');return;}
-    try{ await onCreate(f); setF({title:'',caption:'',platforms:[],date:new Date().toISOString().slice(0,10)}); setOpen(false); toast('Pieza enviada a la parrilla del cliente'); }catch(e){toastErr(e.message);} };
-  if(!open) return <button className="btn btn-primary" onClick={()=>setOpen(true)}><Ico d={icons.plus} size={16}/>Nueva publicación</button>;
+    try{ await onCreate(f); setF({title:'',caption:'',platforms:[],date:new Date().toISOString().slice(0,10),format:'flyer',mediaDataUrl:'',mediaName:''}); setOpen(false); toast('Pieza enviada a la parrilla del cliente'); }catch(e){toastErr(e.message);} };
+  if(!open) return <button className="btn btn-primary" onClick={()=>setOpen(true)} disabled={disabled}><Ico d={icons.plus} size={16}/>Nueva publicación</button>;
   return (<div className="card card-pad" style={{marginBottom:18}}>
     <div className="section-title" style={{marginBottom:14}}><Ico d={icons.plus} size={16}/>Crear publicación para la parrilla</div>
     <div className="grid" style={{gridTemplateColumns:'2fr 1fr',marginBottom:14}}>
       <div className="field"><label>Título</label><input className="input" value={f.title} onChange={e=>set('title',e.target.value)} placeholder="Ej. Promo fin de semana"/></div>
       <div className="field"><label>Fecha de publicación</label><input className="input" type="date" value={f.date} onChange={e=>set('date',e.target.value)}/></div></div>
     <div className="field" style={{marginBottom:14}}><label>Descripción / copy</label><textarea className="input" value={f.caption} onChange={e=>set('caption',e.target.value)} placeholder="Texto que acompaña la pieza…"/></div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr',marginBottom:14}}>
+      <div className="field"><label>Formato</label><select className="input" value={f.format} onChange={e=>set('format',e.target.value)}>{Object.entries(CONTENT_FORMATS).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select></div>
+      <div className="field"><label>Archivo de publicación</label><input className="input" type="file" accept="image/*,video/*" onChange={e=>onFile(e.target.files?.[0])}/>{f.mediaName&&<div style={{fontSize:12,color:'var(--muted)',marginTop:4}}>Adjunto: {f.mediaName}</div>}</div>
+    </div>
     <div className="field" style={{marginBottom:16}}><label>Redes destino</label>
       <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:4}}>{PKEYS.map(k=>{const on=f.platforms.includes(k);
         return <button key={k} className={'platform-toggle'+(on?' on':'')} style={{'--brand':PLATFORMS[k].color}} onClick={()=>toggle(k)}>
           <span className="mini-badge" style={{'--brand':PLATFORMS[k].color,width:18,height:18,fontSize:9,border:'none'}}>{PLATFORMS[k].mono}</span>{PLATFORMS[k].name}{on&&' ✓'}</button>;})}</div></div>
-    <div style={{display:'flex',gap:10}}><button className="btn btn-primary" onClick={submit}><Ico d={icons.check} size={16}/>Enviar a aprobación</button>
+    <div style={{display:'flex',gap:10,flexWrap:'wrap'}}><button className="btn btn-primary" onClick={submit}><Ico d={icons.check} size={16}/>Enviar a aprobación</button>
+      <button className="btn btn-ghost" onClick={fillWithAi}><Ico d={icons.zap} size={16}/>Asistente AI (placeholder)</button>
       <button className="btn btn-ghost" onClick={()=>setOpen(false)}>Cancelar</button></div></div>);
 }
-function ClientContent({content,onCreate}){
+
+function ContentEditModal({item,onClose,onSave}){
+  const [f,setF]=useState({
+    title:item.title||'',caption:item.caption||'',date:item.date||new Date().toISOString().slice(0,10),
+    platforms:[...(item.platforms||[])],format:item.format||'flyer',mediaDataUrl:item.mediaDataUrl||'',mediaName:item.mediaName||'',
+  });
+  const set=(k,v)=>setF(p=>({...p,[k]:v}));
+  const toggle=(p)=>setF(s=>({...s,platforms:s.platforms.includes(p)?s.platforms.filter(x=>x!==p):[...s.platforms,p]}));
+  const onFile=(file)=>{
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=()=>setF(s=>({...s,mediaDataUrl:String(reader.result||''),mediaName:file.name||'archivo'}));
+    reader.readAsDataURL(file);
+  };
+  return <Modal title="Editar publicación" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>{if(!f.title||!f.platforms.length){toastErr('Completa título y al menos una red');return;}onSave(f);}}>Guardar</button></>}>
+    <div className="field"><label>Título</label><input className="input" value={f.title} onChange={e=>set('title',e.target.value)}/></div>
+    <div className="field"><label>Copy</label><textarea className="input" value={f.caption} onChange={e=>set('caption',e.target.value)}/></div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Fecha</label><input className="input" type="date" value={f.date} onChange={e=>set('date',e.target.value)}/></div>
+      <div className="field"><label>Formato</label><select className="input" value={f.format} onChange={e=>set('format',e.target.value)}>{Object.entries(CONTENT_FORMATS).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select></div>
+    </div>
+    <div className="field"><label>Redes destino</label>
+      <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:4}}>{PKEYS.map(k=>{const on=f.platforms.includes(k);return <button key={k} className={'platform-toggle'+(on?' on':'')} style={{'--brand':PLATFORMS[k].color}} onClick={()=>toggle(k)}>{PLATFORMS[k].name}{on&&' ✓'}</button>;})}</div>
+    </div>
+    <div className="field"><label>Reemplazar archivo</label><input className="input" type="file" accept="image/*,video/*" onChange={e=>onFile(e.target.files?.[0])}/>{f.mediaName&&<div style={{fontSize:12,color:'var(--muted)',marginTop:4}}>Adjunto: {f.mediaName}</div>}</div>
+  </Modal>;
+}
+
+function ImportContentModal({onClose,onImport,onPreview}){
+  const [text,setText]=useState('title,caption,platforms,date\nPromo brunch,Descuento especial,instagram|facebook,2026-07-05');
+  const [busy,setBusy]=useState(false);
+  const [preview,setPreview]=useState(null);
+  const [previewBusy,setPreviewBusy]=useState(false);
+  const buildRows=()=>parseDelimited(text).map(row=>({
+    title: row.title || row.titulo || '',
+    caption: row.caption || row.descripcion || row.copy || '',
+    platforms: row.platforms || row.redes || '',
+    date: row.date || row.fecha || '',
+    format: row.format || row.formato || 'flyer',
+  }));
+  const runPreview=async()=>{
+    try{
+      setPreviewBusy(true);
+      setPreview(await onPreview(buildRows()));
+    }catch(e){toastErr(e.message);}finally{setPreviewBusy(false);}
+  };
+  const submit=async()=>{
+    const rows=buildRows();
+    if(!rows.length){toastErr('No hay filas para importar');return;}
+    try{
+      setBusy(true);
+      const result=await onImport(rows);
+      toast(`Importadas ${result.created} piezas${result.errors?.length?` · ${result.errors.length} con error`:''}`);
+      if(result.errors?.length) toastErr(result.errors.slice(0,3).map(e=>`Fila ${e.row}: ${e.error}`).join(' | '));
+      onClose();
+    }catch(e){toastErr(e.message);}finally{setBusy(false);}
+  };
+  return <Modal title="Importar parrilla por CSV" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-ghost" onClick={runPreview} disabled={previewBusy}>{previewBusy?'Validando...':'Previsualizar'}</button><button className="btn btn-primary" onClick={submit} disabled={busy}>{busy?'Importando...':'Importar'}</button></>}>
+    <div className="field"><label>CSV: title, caption, platforms, date</label><textarea className="input" style={{minHeight:220,fontFamily:'var(--font-mono)'}} value={text} onChange={e=>setText(e.target.value)}/></div>
+    <div style={{fontSize:12,color:'var(--muted)'}}>platforms acepta separadores | ; o , (ej: instagram|facebook).</div>
+    {preview&&<div className="card" style={{padding:12,border:'1px solid rgba(0,0,0,.08)',marginTop:12}}>
+      <div style={{fontWeight:600,marginBottom:8}}>Resumen de importación</div>
+      <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:8}}>
+        <span className="text-chip" style={{'--brand':'var(--mint)'}}>Validas: {preview.validRows}</span>
+        <span className="text-chip" style={{'--brand':'var(--amber)'}}>Invalidas: {preview.invalidRows}</span>
+        <span className="text-chip" style={{'--brand':'var(--violet)'}}>Total: {preview.totalRows}</span>
+      </div>
+      {preview.sample?.length>0&&<div style={{fontSize:12,color:'var(--muted)'}}>Ejemplos: {preview.sample.slice(0,3).map(s=>`${s.title} (${s.date})`).join(' · ')}</div>}
+      {preview.errors?.length>0&&<div style={{fontSize:12,color:'var(--danger)',marginTop:6}}>Errores: {preview.errors.slice(0,3).map(e=>`Fila ${e.row}`).join(', ')}</div>}
+    </div>}
+  </Modal>;
+}
+
+function ClientContent({content,onCreate,onImport,onStatusChange,onUpdate,canWriteContent,canApproveContent}){
+  const [importOpen,setImportOpen]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const [calendarDate,setCalendarDate]=useState(new Date());
+  const [composeDate,setComposeDate]=useState('');
+  const [composeSignal,setComposeSignal]=useState(0);
+  const pending=content.filter(c=>c.status==='pending');
+  const sorted=[...content].sort((a,b)=>a.date.localeCompare(b.date));
+  const canPublish=(c)=>c.status==='approved';
+  const monthStart=new Date(calendarDate.getFullYear(),calendarDate.getMonth(),1);
+  const monthEnd=new Date(calendarDate.getFullYear(),calendarDate.getMonth()+1,0);
+  const firstWeekday=(monthStart.getDay()+6)%7;
+  const totalDays=monthEnd.getDate();
+  const days=[];
+  for(let i=0;i<firstWeekday;i+=1) days.push(null);
+  for(let d=1;d<=totalDays;d+=1){
+    const key=`${calendarDate.getFullYear()}-${String(calendarDate.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    days.push({date:key,day:d,items:sorted.filter(item=>item.date===key)});
+  }
+  const setCalendarMonth=(month)=>{
+    const nextMonth=Math.min(11,Math.max(0,Number(month)||0));
+    setCalendarDate(new Date(calendarDate.getFullYear(),nextMonth,1));
+  };
+  const setCalendarYear=(year)=>{
+    const nextYear=Math.min(2100,Math.max(2000,Number(year)||new Date().getFullYear()));
+    setCalendarDate(new Date(nextYear,calendarDate.getMonth(),1));
+  };
+  const openComposerForDate=(date)=>{
+    if(!canWriteContent) return;
+    setComposeDate(date);
+    setComposeSignal(s=>s+1);
+  };
   return (<div className="grid" style={{gap:16}}>
     <div style={{display:'flex',alignItems:'center'}}><div className="section-title"><Ico d={icons.grid} size={16}/>Parrilla de contenido</div>
-      <div style={{marginLeft:'auto'}}><NewContent onCreate={onCreate}/></div></div>
-    {content.length?<div className="parrilla">{content.map(c=>(<div className="post" key={c.id}>
+      <div style={{marginLeft:'auto',display:'flex',gap:8,flexWrap:'wrap'}}>
+        <button className="btn btn-ghost" onClick={()=>setImportOpen(true)} disabled={!canWriteContent}><Ico d={icons.ext} size={15}/>Importar CSV</button>
+        <NewContent onCreate={onCreate} disabled={!canWriteContent} presetDate={composeDate} openSignal={composeSignal}/>
+      </div></div>
+    {pending.length>0&&<div className="card card-pad" style={{border:'1px solid rgba(244,165,44,.35)'}}>
+      <div className="section-title" style={{marginBottom:10}}><Ico d={icons.task} size={16}/>Cola de aprobacion ({pending.length})</div>
+      <div className="grid" style={{gap:8}}>{pending.slice(0,6).map(item=><div key={item.id} style={{display:'grid',gridTemplateColumns:'1fr auto',gap:10,alignItems:'center',padding:'10px 12px',border:'1px solid rgba(0,0,0,.08)',borderRadius:12}}>
+        <div>
+          <div style={{fontWeight:600,fontSize:13}}>{item.title}</div>
+          <div style={{fontSize:12,color:'var(--muted)'}}>{item.date} · {item.platforms.join(', ')}</div>
+        </div>
+        <div style={{display:'flex',gap:6}}>
+          <button className="btn btn-ghost btn-sm" onClick={()=>onStatusChange(item.id,'approved')} disabled={!canApproveContent}>Aprobar</button>
+          <button className="btn btn-ghost btn-sm" onClick={()=>onStatusChange(item.id,'rejected')} disabled={!canApproveContent}>Rechazar</button>
+        </div>
+      </div>)}</div>
+    </div>}
+    <>
+      <div className="card card-pad">
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10,gap:10,flexWrap:'wrap'}}>
+          <div className="section-title"><Ico d={icons.cal} size={16}/>Calendario de parrilla</div>
+          <div className="cc-toolbar">
+            <button className="btn btn-ghost btn-sm" onClick={()=>setCalendarDate(new Date(calendarDate.getFullYear(),calendarDate.getMonth()-1,1))}>Mes anterior</button>
+            <select className="input cc-select" value={calendarDate.getMonth()} onChange={e=>setCalendarMonth(e.target.value)}>
+              {['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'].map((name,idx)=><option key={name} value={idx}>{name}</option>)}
+            </select>
+            <input className="input cc-year" type="number" min="2000" max="2100" value={calendarDate.getFullYear()} onChange={e=>setCalendarYear(e.target.value)}/>
+            <button className="btn btn-ghost btn-sm" onClick={()=>setCalendarDate(new Date(calendarDate.getFullYear(),calendarDate.getMonth()+1,1))}>Mes siguiente</button>
+          </div>
+        </div>
+        <div className="content-calendar">
+          {['Lun','Mar','Mie','Jue','Vie','Sab','Dom'].map(w=><div key={w} className="cc-head">{w}</div>)}
+          {days.map((cell,idx)=><div key={idx} className={'cc-cell'+(!cell?' empty':'')} onClick={()=>cell&&openComposerForDate(cell.date)}>
+            {cell&&<>
+              <div className="cc-day-row"><div className="cc-day">{cell.day}</div><button type="button" className="cc-add" onClick={(e)=>{e.stopPropagation();openComposerForDate(cell.date);}} disabled={!canWriteContent}>+</button></div>
+              <div className="cc-items">{cell.items.map(item=><button type="button" key={item.id} className="cc-item" onClick={(e)=>{e.stopPropagation();setEditing(item);}}>
+                <span>{item.title}</span>
+                <small>{CONTENT_FORMATS[item.format]?.label||'Flyer'}</small>
+                <small className="cc-platforms">{(item.platforms||[]).map(p=>PLATFORMS[p]?.name||p).join(' · ')||'Sin redes'}</small>
+              </button>)}</div>
+            </>}
+          </div>)}
+        </div>
+        {!canWriteContent&&<div style={{fontSize:12,color:'var(--muted)',marginTop:8}}>Tu rol solo permite visualización. Pide permisos para crear o editar publicaciones.</div>}
+        {canWriteContent&&<div style={{fontSize:12,color:'var(--muted)',marginTop:8}}>Haz clic en un día o en “+” para crear una publicación con la fecha seleccionada.</div>}
+      </div>
+      {content.length?<div className="parrilla">{content.map(c=>(<div className="post" key={c.id}>
       <div className="post-media" style={{background:`linear-gradient(135deg,${c.color},${c.color}cc)`}}>
+        {c.mediaDataUrl?((c.mediaDataUrl||'').startsWith('data:video')?<video src={c.mediaDataUrl} controls style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:16}}/>:<img src={c.mediaDataUrl} alt={c.title} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:16}}/>):null}
         <div className="post-platforms">{c.platforms.map(p=><span key={p} className="mini-badge" style={{'--brand':PLATFORMS[p].color}}>{PLATFORMS[p].mono}</span>)}</div>
         <div className="post-date">{c.date.slice(5)}</div></div>
       <div className="post-body"><div className="post-title">{c.title}</div><div className="post-caption">{c.caption}</div>
-        <div className="post-foot"><StatusPill s={c.status}/><span style={{fontSize:11.5,color:'var(--muted-2)',fontFamily:'var(--font-mono)'}}>{c.date}</span></div></div></div>))}</div>
-      :<Empty title="Sin contenido aún" sub="Crea la primera publicación para este cliente." ic={icons.grid}/>}</div>);
+        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:6,marginTop:8}}>{(()=>{const perf=postPerformance(c);return <>
+          <span className="text-chip" style={{'--brand':'var(--violet)'}}>Imp: {fmtK(perf.impressions)}</span>
+          <span className="text-chip" style={{'--brand':'var(--mint)'}}>Clicks: {perf.clicks}</span>
+          <span className="text-chip" style={{'--brand':'var(--primary)'}}>CTR: {perf.ctr}%</span>
+          <span className="text-chip" style={{'--brand':'var(--amber)'}}>Com: {perf.comments}</span>
+        </>;})()}</div>
+        <div className="post-foot"><StatusPill s={c.status}/><span style={{fontSize:11.5,color:'var(--muted-2)',fontFamily:'var(--font-mono)'}}>{c.date}</span></div>
+        <div style={{marginTop:8}}><span className="text-chip" style={{'--brand':CONTENT_FORMATS[c.format]?.color||'var(--amber)'}}>{CONTENT_FORMATS[c.format]?.label||'Flyer'}</span></div>
+        <div style={{display:'flex',gap:6,marginTop:8,flexWrap:'wrap'}}>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setEditing(c)} disabled={!canWriteContent}>Editar</button>
+          {c.status==='pending'&&<><button className="btn btn-ghost btn-sm" onClick={()=>onStatusChange(c.id,'approved')} disabled={!canApproveContent}>Aprobar</button><button className="btn btn-ghost btn-sm" onClick={()=>onStatusChange(c.id,'rejected')} disabled={!canApproveContent}>Rechazar</button></>}
+          {canPublish(c)&&<button className="btn btn-ghost btn-sm" onClick={()=>onStatusChange(c.id,'published')} disabled={!canApproveContent}>Publicar</button>}
+          {c.status==='rejected'&&<button className="btn btn-ghost btn-sm" onClick={()=>onStatusChange(c.id,'pending')} disabled={!canApproveContent}>Reenviar</button>}
+        </div>
+      </div></div>))}</div>:<Empty title="Sin contenido aún" sub="Usa el calendario para programar la primera publicación del cliente." ic={icons.grid}/>} 
+    </>
+    {editing&&<ContentEditModal item={editing} onClose={()=>setEditing(null)} onSave={async(payload)=>{await onUpdate(editing.id,payload);setEditing(null);}}/>}
+    {importOpen&&<ImportContentModal onClose={()=>setImportOpen(false)} onImport={(items)=>onImport({items})} onPreview={(items)=>onImport({items,preview:true})}/>}</div>);
 }
 function ClientMessages({messages,onSend}){
   const[text,setText]=useState('');const bodyRef=useRef(null);
@@ -470,37 +1029,447 @@ function ClientMessages({messages,onSend}){
 }
 function ClientPlan({plan,profile,socials}){
   if(!plan) return null;const pct=plan.used/plan.total;
+  const linkedSocials=PKEYS.map(k=>{
+    const raw=socials?.[k]?.handle||profile?.socialLinks?.[k]||'';
+    const handle=normalizeSocialHandle(raw,k);
+    return {platform:k,handle,url:socialProfileUrl(k,handle),connected:!!socials?.[k]?.connected};
+  }).filter(item=>item.handle);
   return (<div className="grid" style={{gap:18,maxWidth:860}}>
     <div className="card card-pad"><div className="section-title">Resumen del cliente</div>
       <div className="grid" style={{gridTemplateColumns:'1fr 1fr',marginTop:14}}>
-        <div><div className="eyebrow">Negocio</div><div style={{fontWeight:600,marginTop:4}}>{profile?.fullName}</div><div style={{fontSize:13,color:'var(--muted)'}}>{profile?.businessSector}</div><div style={{fontSize:13,color:'var(--muted)',fontFamily:'var(--font-mono)',marginTop:4}}>{profile?.phone}</div></div>
+        <div style={{display:'grid',gridTemplateColumns:'72px 1fr',gap:10,alignItems:'center'}}>
+          <div className="client-photo-lg">{profile?.avatarUrl?<img src={profile.avatarUrl} alt={profile?.fullName||'cliente'}/>:initialsOf(profile?.fullName||'CL')}</div>
+          <div><div className="eyebrow">Negocio</div><div style={{fontWeight:600,marginTop:4}}>{profile?.fullName}</div><div style={{fontSize:13,color:'var(--muted)'}}>{profile?.businessSector}</div><div style={{fontSize:13,color:'var(--muted)',fontFamily:'var(--font-mono)',marginTop:4}}>{profile?.phone}</div></div>
+        </div>
         <div><div className="eyebrow">Redes conectadas</div><div style={{display:'flex',gap:6,marginTop:8,flexWrap:'wrap'}}>{PKEYS.filter(k=>socials?.[k]?.connected).map(k=><span key={k} className="mini-badge" style={{'--brand':PLATFORMS[k].color}}>{PLATFORMS[k].mono}</span>)}</div></div></div></div>
+    <div className="card card-pad"><div className="section-title"><Ico d={icons.share} size={16}/>Perfiles sociales del cliente</div>
+      {linkedSocials.length?<div className="social-link-grid" style={{marginTop:12}}>{linkedSocials.map(item=><a key={item.platform} className="social-link-item" href={item.url} target="_blank" rel="noreferrer">
+        <span className="mini-badge" style={{'--brand':PLATFORMS[item.platform].color}}>{PLATFORMS[item.platform].mono}</span>
+        <span>{PLATFORMS[item.platform].name}</span>
+        <small>{item.handle}</small>
+        <b>{item.connected?'Conectada':'Pendiente'}</b>
+      </a>)}</div>:<div style={{fontSize:13,color:'var(--muted)',marginTop:8}}>Este cliente aún no tiene perfiles sociales vinculados.</div>}
+    </div>
     <div className="card card-pad"><div className="section-title">{plan.name} · {Math.round(pct*100)}% usado</div>
       <div className="plan-breakdown" style={{marginTop:14}}>{PKEYS.map(k=>{const used=plan.perPlatform?.[k]||0,cap=plan.capPlatform?.[k]||0,w=cap?Math.round(used/cap*100):0;
         return (<div className="pb-row" key={k}><div className="pb-name"><span className="social-badge" style={{'--brand':PLATFORMS[k].color,width:22,height:22,fontSize:11,borderRadius:6}}>{PLATFORMS[k].mono}</span>{PLATFORMS[k].name}</div>
           <div className="pb-bar"><div className="pb-fill" style={{'--brand':PLATFORMS[k].color,width:w+'%'}}/></div><div className="pb-num">{used}/{cap}</div></div>);})}</div>
+      <div className="section-title" style={{marginTop:16,fontSize:14}}><Ico d={icons.grid} size={14}/>Incluye por tipo de pieza</div>
+      <div className="grid" style={{gridTemplateColumns:'repeat(3,1fr)',gap:8,marginTop:10}}>{Object.keys(CONTENT_FORMATS).map(k=>{
+        const used=plan.perFormat?.[k]||0; const cap=plan.capFormat?.[k]||0;
+        return <div key={k} className="mini-stat"><b>{used}/{cap}</b><span>{CONTENT_FORMATS[k].label}</span></div>;
+      })}</div>
       <div style={{marginTop:14,fontSize:13,color:'var(--muted)'}}>Total del plan: <b style={{color:'var(--ink)'}}>{plan.used}</b> de <b style={{color:'var(--ink)'}}>{plan.total}</b> publicaciones usadas.</div></div></div>);
+}
+
+function ClientModal({open,title,submitLabel,onClose,onSubmit,initial,showPassword=true,showPlan=true}){
+  const [form,setForm]=useState({
+    fullName:'',
+    businessSector:'',
+    phone:'',
+    email:'',
+    password:'',
+    instagram:'',
+    facebook:'',
+    tiktok:'',
+    youtube:'',
+    linkedin:'',
+    x:'',
+    avatarUrl:'',
+    planName:'Plan Inicial',
+    planPeriod:'Mes en curso',
+    planTotal:'12',
+    planReels:'4',
+    planCarruseles:'4',
+    planFlyers:'4',
+  });
+  const set=(k,v)=>setForm(prev=>({...prev,[k]:v}));
+  const onPhoto=(file)=>{
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=()=>set('avatarUrl',String(reader.result||''));
+    reader.readAsDataURL(file);
+  };
+  useEffect(()=>{if(open){setForm(prev=>({...prev,...initial,password:initial?.password||prev.password||''}));}},[open,initial]);
+  if(!open) return null;
+  return (<Modal title={title} onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>onSubmit(form)}>{submitLabel}</button></>}>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Nombre completo</label><input className="input" value={form.fullName} onChange={e=>set('fullName',e.target.value)} placeholder="Camila Restrepo"/></div>
+      <div className="field"><label>Sector</label><input className="input" value={form.businessSector} onChange={e=>set('businessSector',e.target.value)} placeholder="Restaurante / Gastronomía"/></div>
+    </div>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
+      <div className="field"><label>Correo de acceso</label><input className="input" type="email" value={form.email} onChange={e=>set('email',e.target.value)} placeholder="cliente@empresa.com"/></div>
+      {showPassword?<div className="field"><label>Contraseña inicial</label><input className="input" type="text" value={form.password} onChange={e=>set('password',e.target.value)} placeholder="clave temporal"/></div>:<div className="field"><label>Contraseña inicial</label><input className="input" value="Se mantiene la actual" disabled/></div>}
+    </div>
+    <div className="field"><label>Teléfono</label><input className="input" value={form.phone} onChange={e=>set('phone',e.target.value)} placeholder="+57 300 000 0000"/></div>
+    <div className="field"><label>Foto del cliente</label><input className="input" type="file" accept="image/*" onChange={e=>onPhoto(e.target.files?.[0])}/>{form.avatarUrl&&<div style={{marginTop:8}}><img src={form.avatarUrl} alt="preview" className="client-photo-preview"/></div>}</div>
+    <div className="section-title" style={{marginTop:14,marginBottom:10}}><Ico d={icons.share} size={16}/>Redes iniciales</div>
+    <div className="grid" style={{gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))'}}>
+      {PKEYS.map(k=>(<div className="field" key={k}><label>{PLATFORMS[k].name}</label><input className="input" value={form[k]} onChange={e=>set(k,e.target.value)} placeholder={PLATFORMS[k].base.replace('https://','')}/></div>))}
+    </div>
+    {showPlan&&<>
+      <div className="section-title" style={{marginTop:14,marginBottom:10}}><Ico d={icons.plan} size={16}/>Plan inicial</div>
+      <div className="grid" style={{gridTemplateColumns:'1fr 1fr 1fr'}}>
+        <div className="field"><label>Nombre del plan</label><input className="input" value={form.planName} onChange={e=>set('planName',e.target.value)}/></div>
+        <div className="field"><label>Periodo</label><input className="input" value={form.planPeriod} onChange={e=>set('planPeriod',e.target.value)}/></div>
+        <div className="field"><label>Total publicaciones</label><input className="input" type="number" value={form.planTotal} onChange={e=>set('planTotal',e.target.value)}/></div>
+      </div>
+      <div className="grid" style={{gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
+        <div className="field"><label>Incluye reels</label><input className="input" type="number" value={form.planReels} onChange={e=>set('planReels',e.target.value)}/></div>
+        <div className="field"><label>Incluye carruseles</label><input className="input" type="number" value={form.planCarruseles} onChange={e=>set('planCarruseles',e.target.value)}/></div>
+        <div className="field"><label>Incluye flyers</label><input className="input" type="number" value={form.planFlyers} onChange={e=>set('planFlyers',e.target.value)}/></div>
+      </div>
+    </>}
+  </Modal>);
+}
+
+function NewClientModal(props){
+  return <ClientModal
+    {...props}
+    onSubmit={props.onCreate}
+    title="Nuevo cliente"
+    submitLabel="Crear cliente"
+  />;
+}
+
+function EditClientModal(props){
+  return <ClientModal {...props} showPassword={false} showPlan={false} />;
+}
+
+function PlanModal({open,onClose,onSubmit,initial}){
+  const [form,setForm]=useState({name:'Plan Inicial',period:'Mes en curso',total:'12',capPlatform:{},capFormat:{}});
+  const set=(k,v)=>setForm(prev=>({...prev,[k]:v}));
+  useEffect(()=>{if(open&&initial){setForm({
+    name:initial.name||'Plan Inicial',
+    period:initial.period||'Mes en curso',
+    total:String(initial.total??12),
+    capPlatform:{...(initial.capPlatform||{})},
+    capFormat:{...(initial.capFormat||{})},
+  });}},[open,initial]);
+  if(!open) return null;
+  return (<Modal title="Editar plan" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={()=>onSubmit(form)}>Guardar plan</button></>}>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr 1fr'}}>
+      <div className="field"><label>Nombre del plan</label><input className="input" value={form.name} onChange={e=>set('name',e.target.value)}/></div>
+      <div className="field"><label>Periodo</label><input className="input" value={form.period} onChange={e=>set('period',e.target.value)}/></div>
+      <div className="field"><label>Total publicaciones</label><input className="input" type="number" value={form.total} onChange={e=>set('total',e.target.value)}/></div>
+    </div>
+    <div className="section-title" style={{marginTop:14,marginBottom:10}}><Ico d={icons.plan} size={16}/>Cupos por red</div>
+    <div className="grid" style={{gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))'}}>
+      {PKEYS.map(k=>(<div className="field" key={k}><label>{PLATFORMS[k].name}</label><input className="input" type="number" value={form.capPlatform?.[k] ?? ''} onChange={e=>set('capPlatform',{...(form.capPlatform||{}),[k]:e.target.value===''?'':Number(e.target.value)})}/></div>))}
+    </div>
+    <div className="section-title" style={{marginTop:14,marginBottom:10}}><Ico d={icons.grid} size={16}/>Incluye por formato</div>
+    <div className="grid" style={{gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
+      {Object.keys(CONTENT_FORMATS).map(k=><div className="field" key={k}><label>{CONTENT_FORMATS[k].label}</label><input className="input" type="number" value={form.capFormat?.[k] ?? ''} onChange={e=>set('capFormat',{...(form.capFormat||{}),[k]:e.target.value===''?'':Number(e.target.value)})}/></div>)}
+    </div>
+  </Modal>);
+}
+
+function parseDelimited(text){
+  const clean=(text||'').trim().replace(/^\uFEFF/, '');
+  if(!clean) return [];
+  const lines=clean.split(/\r?\n/).filter(Boolean);
+  const delimiter=lines[0].includes(';')&&!lines[0].includes(',')?';':',';
+  const splitLine=(line)=>{
+    const cells=[]; let current=''; let quoted=false;
+    for(let i=0;i<line.length;i+=1){
+      const ch=line[i];
+      if(ch==='"'){
+        if(quoted && line[i+1]==='"'){ current+='"'; i+=1; }
+        else quoted=!quoted;
+      }else if(ch===delimiter && !quoted){ cells.push(current.trim()); current=''; }
+      else current+=ch;
+    }
+    cells.push(current.trim());
+    return cells.map(cell=>cell.replace(/^"|"$/g,''));
+  };
+  const headers=splitLine(lines[0]).map(h=>h.trim().toLowerCase());
+  return lines.slice(1).map(line=>{
+    const cells=splitLine(line);
+    const row={};
+    headers.forEach((header,index)=>{row[header]=cells[index]||'';});
+    return row;
+  });
+}
+
+function toCsv(rows, headers){
+  const esc=(value)=>`"${String(value ?? '').replace(/"/g,'""')}"`;
+  return [headers.map(esc).join(','), ...rows.map(row=>headers.map(h=>esc(row[h])).join(','))].join('\n');
+}
+
+function downloadTextFile(filename, content, mime='text/plain;charset=utf-8'){
+  const blob=new Blob([content],{type:mime});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function ImportClientsModal({open,onClose,onImport}){
+  const [text,setText]=useState('fullName,email,password,businessSector,phone,instagram,facebook,tiktok,youtube,linkedin,x,avatarUrl,planName,planPeriod,planTotal,planReels,planCarruseles,planFlyers\nNuevo Cliente,cliente@empresa.com,clave123,Restaurante,+57 300 000 0000,cliente,,,,,,Plan Inicial,Mes en curso,12,4,4,4' );
+  const [busy,setBusy]=useState(false);
+  if(!open) return null;
+  const submit=async()=>{
+    const rows=parseDelimited(text).map(row=>({
+      fullName: row.fullname || row.nombre || row.name || row['nombre completo'] || '',
+      email: row.email || row.correo || row['correo de acceso'] || '',
+      password: row.password || row.clave || row.contraseña || 'clave123',
+      businessSector: row.businesssector || row.sector || row['sector'] || '',
+      phone: row.phone || row.telefono || row.teléfono || '',
+      socialLinks: {
+        instagram: row.instagram || '',
+        facebook: row.facebook || '',
+        tiktok: row.tiktok || '',
+        youtube: row.youtube || '',
+        linkedin: row.linkedin || '',
+        x: row.x || '',
+      },
+      avatarUrl: row.avatarurl || row.foto || '',
+      planName: row.planname || row['nombre del plan'] || 'Plan Inicial',
+      planPeriod: row.planperiod || row.periodo || 'Mes en curso',
+      planTotal: row.plantotal || row['total publicaciones'] || '12',
+      capFormat: {
+        reel: Number(row.planreels || row.reels || 4),
+        carrusel: Number(row.plancarruseles || row.carruseles || 4),
+        flyer: Number(row.planflyers || row.flyers || 4),
+      },
+    })).filter(row=>row.fullName&&row.email&&row.password);
+    if(!rows.length){ toastErr('Pega al menos una fila válida con nombre, correo y contraseña'); return; }
+    try{
+      setBusy(true);
+      const result=await onImport(rows);
+      toast(`Importados ${result.created} clientes${result.errors.length?` · ${result.errors.length} con errores`:''}`);
+      if(result.errors.length) toastErr(result.errors.map(e=>`Fila ${e.row}: ${e.error}`).join(' | '));
+      onClose();
+    }catch(e){ toastErr(e.message); }
+    finally{ setBusy(false); }
+  };
+  return (<Modal title="Importar clientes" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={submit} disabled={busy}>{busy?'Importando...':'Importar'}</button></>}>
+    <div className="field"><label>Pega aquí CSV o datos exportados desde Excel</label><textarea className="input" style={{minHeight:240,fontFamily:'var(--font-mono)'}} value={text} onChange={e=>setText(e.target.value)} /></div>
+    <div style={{fontSize:12,color:'var(--muted)'}}>Columnas sugeridas: fullName, email, password, businessSector, phone, avatarUrl, redes, planName, planPeriod, planTotal, planReels, planCarruseles, planFlyers.</div>
+  </Modal>);
+}
+
+function ExportDataModal({open,onClose,onExportAll,onExportCurrent,hasClient}){
+  if(!open) return null;
+  return (<Modal title="Exportar datos" onClose={onClose} footer={<button className="btn btn-ghost" onClick={onClose}>Cerrar</button>}>
+    <div className="grid" style={{gridTemplateColumns:'1fr 1fr',gap:14}}>
+      <button className="card card-pad" onClick={onExportAll} style={{textAlign:'left',cursor:'pointer'}}>
+        <div className="section-title" style={{marginBottom:8}}><Ico d={icons.grid} size={16}/>Clientes en CSV</div>
+        <div style={{fontSize:13,color:'var(--muted)'}}>Descarga el listado completo con resumen de plan, redes y estado.</div>
+      </button>
+      <button className="card card-pad" onClick={onExportCurrent} style={{textAlign:'left',cursor:'pointer'}} disabled={!hasClient}>
+        <div className="section-title" style={{marginBottom:8}}><Ico d={icons.ext} size={16}/>Ficha actual en JSON</div>
+        <div style={{fontSize:13,color:'var(--muted)'}}>Exporta el cliente seleccionado con perfil, plan, métricas y módulos asociados.</div>
+      </button>
+    </div>
+  </Modal>);
+}
+
+function ActivityFeed({logs}){
+  if(!logs.length) return <Empty title="Sin actividad" sub="Todavía no hay acciones registradas para este cliente." ic={icons.bell}/>;
+  return (<div className="grid" style={{gap:12,maxWidth:920}}>{logs.map(item=>(<div key={item.id} className="card card-pad" style={{display:'grid',gridTemplateColumns:'1fr auto',gap:10,alignItems:'center'}}>
+    <div>
+      <div className="section-title" style={{marginBottom:6}}>{item.action.replace(/-/g,' ')}</div>
+      <div style={{fontSize:13,color:'var(--muted)'}}>{item.detail}</div>
+    </div>
+    <div style={{textAlign:'right',fontSize:12,color:'var(--muted)'}}>
+      <div>{new Date(item.at).toLocaleString('es-CO')}</div>
+      <div style={{fontFamily:'var(--font-mono)'}}>{item.actor}</div>
+    </div>
+  </div>))}</div>);
 }
 
 /* ===== APP DE LA AGENCIA ===== */
 function App(){
   const[user,setUser]=useState(null);const[ready,setReady]=useState(false);
-  const[clients,setClients]=useState([]);const[sel,setSel]=useState(null);const[view,setView]=useState('content');
+  const[clients,setClients]=useState([]);const[sel,setSel]=useState(null);const[view,setView]=useState('overview');
+  const[agencyRole,setAgencyRole]=useState(getAgencyRole());
+  const[capabilities,setCapabilities]=useState({
+    'clients.manage':true,'content.write':true,'content.approve':true,'reports.manage':true,'templates.manage':true,
+    'campaigns.manage':true,'calendar.manage':true,'automation.manage':true,'ops.view':true,
+  });
+  const[agencyMetrics,setAgencyMetrics]=useState(null);
+  const[opsMetrics,setOpsMetrics]=useState(null);
   const[profile,setProfile]=useState(null);const[socials,setSocials]=useState(null);
   const[content,setContent]=useState([]);const[messages,setMessages]=useState([]);const[plan,setPlan]=useState(null);const[metrics,setMetrics]=useState(null);
+  const[formulas,setFormulas]=useState([]);
+  const[templates,setTemplates]=useState([]);
+  const[templateAssignments,setTemplateAssignments]=useState([]);
   const[contacts,setContacts]=useState([]);const[deals,setDeals]=useState([]);const[tasks,setTasks]=useState([]);const[campaigns,setCampaigns]=useState([]);
+  const[calendars,setCalendars]=useState([]);const[appointments,setAppointments]=useState([]);
   const[automations,setAutomations]=useState([]);const[conversations,setConversations]=useState([]);
+  const[activity,setActivity]=useState([]);
+  const[createClientOpen,setCreateClientOpen]=useState(false);
+  const[editClientOpen,setEditClientOpen]=useState(false);
+  const[planClientOpen,setPlanClientOpen]=useState(false);
+  const[importClientsOpen,setImportClientsOpen]=useState(false);
+  const[exportDataOpen,setExportDataOpen]=useState(false);
 
   useEffect(()=>{(async()=>{if(getToken()){try{const u=await API.me();if(u.role==='agency')setUser(u);else setToken(null);}catch{setToken(null);}}setReady(true);})();},[]);
+  useEffect(()=>{localStorage.setItem(AGENCY_ROLE_KEY,agencyRole);},[agencyRole]);
   const loadClients=async()=>{const list=await API.clients();setClients(list);if(list.length&&!sel)setSel(list[0].id);};
   useEffect(()=>{if(user)loadClients().catch(e=>toastErr(e.message));},[user]);
+  const loadAgencyMetrics=async()=>{setAgencyMetrics(await API.agencyMetrics());};
+  useEffect(()=>{if(user)loadAgencyMetrics().catch(()=>{});},[user]);
+  const loadOpsMetrics=async()=>{setOpsMetrics(await API.agencyOps());};
+  useEffect(()=>{if(user)loadOpsMetrics().catch(()=>{});},[user,agencyRole]);
+  const loadCapabilities=async()=>{const data=await API.agencyCapabilities();setCapabilities(data.capabilities||{});};
+  useEffect(()=>{if(user)loadCapabilities().catch(()=>{});},[user,agencyRole]);
+  const loadTemplates=async()=>{setTemplates(await API.templates());};
+  useEffect(()=>{if(user)loadTemplates().catch(()=>{});},[user,agencyRole]);
+  const loadTemplateAssignments=async(cid)=>{if(!cid){setTemplateAssignments([]);return;}setTemplateAssignments(await API.templateAssignments(cid));};
+  useEffect(()=>{if(user&&sel)loadTemplateAssignments(sel).catch(()=>{});},[user,sel,agencyRole]);
+  const can=(cap)=>capabilities?.[cap]!==false;
 
-  const loadClient=async(cid)=>{const[p,s,c,m,pl,mx,ct,dl,tk,cp,au,cv]=await Promise.all([API.profile(cid),API.socials(cid),API.content(cid),API.messages(cid),API.plan(cid),API.metrics(cid),API.contacts(cid),API.deals(cid),API.tasks(cid),API.campaigns(cid),API.automations(cid),API.conversations(cid)]);
-    setProfile(p);setSocials(s);setContent(c);setMessages(m);setPlan(pl);setMetrics(mx);setContacts(ct);setDeals(dl);setTasks(tk);setCampaigns(cp);setAutomations(au);setConversations(cv);};
+  const loadClient=async(cid)=>{const[p,s,c,m,pl,mx,fm,ct,dl,tk,cp,cal,ap,au,cv,ac]=await Promise.all([API.profile(cid),API.socials(cid),API.content(cid),API.messages(cid),API.plan(cid),API.metrics(cid),API.formulas(cid),API.contacts(cid),API.deals(cid),API.tasks(cid),API.campaigns(cid),API.calendars(cid),API.appointments(cid),API.automations(cid),API.conversations(cid),API.activity(cid)]);
+    setProfile(p);setSocials(s);setContent(c);setMessages(m);setPlan(pl);setMetrics(mx);setFormulas(fm);setContacts(ct);setDeals(dl);setTasks(tk);setCampaigns(cp);setCalendars(cal);setAppointments(ap);setAutomations(au);setConversations(cv);setActivity(ac);};
   useEffect(()=>{if(sel)loadClient(sel).catch(e=>toastErr(e.message));},[sel]);
-  useEffect(()=>{if(!sel)return;const id=setInterval(async()=>{try{const[c,m,pl,mx,cv,ct,dl,tk]=await Promise.all([API.content(sel),API.messages(sel),API.plan(sel),API.metrics(sel),API.conversations(sel),API.contacts(sel),API.deals(sel),API.tasks(sel)]);setContent(c);setMessages(m);setPlan(pl);setMetrics(mx);setConversations(cv);setContacts(ct);setDeals(dl);setTasks(tk);setClients(await API.clients());}catch{}},6000);return()=>clearInterval(id);},[sel]);
+  useEffect(()=>{if(!sel)return;const id=setInterval(async()=>{try{const[c,m,pl,mx,fm,cv,ct,dl,tk,cal,ap,ac]=await Promise.all([API.content(sel),API.messages(sel),API.plan(sel),API.metrics(sel),API.formulas(sel),API.conversations(sel),API.contacts(sel),API.deals(sel),API.tasks(sel),API.calendars(sel),API.appointments(sel),API.activity(sel)]);setContent(c);setMessages(m);setPlan(pl);setMetrics(mx);setFormulas(fm);setConversations(cv);setContacts(ct);setDeals(dl);setTasks(tk);setCalendars(cal);setAppointments(ap);setActivity(ac);setClients(await API.clients());}catch{}},6000);return()=>clearInterval(id);},[sel]);
+  useEffect(()=>{if(!user)return;const id=setInterval(async()=>{try{setAgencyMetrics(await API.agencyMetrics());setOpsMetrics(await API.agencyOps());}catch{}},6000);return()=>clearInterval(id);},[user,agencyRole]);
 
-  const createContent=async(f)=>{await API.createContent(sel,f);setContent(await API.content(sel));setClients(await API.clients());};
+  const createClient=async(f)=>{
+    if(!can('clients.manage')){toastErr('Tu rol no puede crear clientes');return;}
+    try{
+      const created=await API.createClient({
+        fullName:f.fullName,
+        businessSector:f.businessSector,
+        phone:f.phone,
+        email:f.email,
+        password:f.password,
+        avatarUrl:f.avatarUrl,
+        socialLinks:normalizeSocialLinksPayload(f),
+        planName:f.planName,
+        planPeriod:f.planPeriod,
+        planTotal:f.planTotal,
+        capFormat:{
+          reel:Number(f.planReels||0),
+          carrusel:Number(f.planCarruseles||0),
+          flyer:Number(f.planFlyers||0),
+        },
+      });
+      const list=await API.clients();
+      setClients(list);
+      setSel(created.id);
+      setView('content');
+      loadAgencyMetrics().catch(()=>{});
+      setCreateClientOpen(false);
+      toast('Cliente creado y agregado a la base de datos');
+    }catch(e){toastErr(e.message);}
+  };
+
+  const editClient=async(f)=>{
+    if(!can('clients.manage')){toastErr('Tu rol no puede editar clientes');return;}
+    try{
+      await API.updateClient(sel,{fullName:f.fullName,businessSector:f.businessSector,phone:f.phone,email:f.email,avatarUrl:f.avatarUrl,socialLinks:normalizeSocialLinksPayload(f)});
+      const [list, updatedProfile, updatedSocials]=await Promise.all([API.clients(),API.profile(sel),API.socials(sel)]);
+      setClients(list);
+      setProfile(updatedProfile);
+      setSocials(updatedSocials);
+      setEditClientOpen(false);
+      toast('Cliente actualizado');
+    }catch(e){toastErr(e.message);}
+  };
+
+  const updatePlan=async(f)=>{
+    if(!can('clients.manage')){toastErr('Tu rol no puede actualizar planes');return;}
+    try{
+      await API.updatePlan(sel,{name:f.name,period:f.period,total:f.total,capPlatform:f.capPlatform,capFormat:f.capFormat});
+      const [list, updatedPlan]=await Promise.all([API.clients(),API.plan(sel)]);
+      setClients(list);
+      setPlan(updatedPlan);
+      loadAgencyMetrics().catch(()=>{});
+      setPlanClientOpen(false);
+      toast('Plan actualizado');
+    }catch(e){toastErr(e.message);}
+  };
+
+  const deleteClient=async()=>{
+    if(!can('clients.manage')){toastErr('Tu rol no puede eliminar clientes');return;}
+    if(!sel) return;
+    if(!window.confirm('¿Eliminar este cliente y todos sus datos asociados?')) return;
+    try{
+      await API.deleteClient(sel);
+      const list=await API.clients();
+      setClients(list);
+      const next=list[0]?.id||null;
+      setSel(next);
+      if(!next){
+        setProfile(null);setSocials(null);setContent([]);setMessages([]);setPlan(null);setMetrics(null);
+        setContacts([]);setDeals([]);setTasks([]);setCampaigns([]);setAutomations([]);setConversations([]);setActivity([]);
+      }
+      loadAgencyMetrics().catch(()=>{});
+      toast('Cliente eliminado');
+    }catch(e){toastErr(e.message);}
+  };
+
+  const importClients=async(rows)=>{
+    if(!can('clients.manage')){throw new Error('Tu rol no puede importar clientes');}
+    const result=await API.importClients({clients:rows});
+    const list=await API.clients();
+    setClients(list);
+    if(list.length && !sel) setSel(list[0].id);
+    loadAgencyMetrics().catch(()=>{});
+    setImportClientsOpen(false);
+    return result;
+  };
+
+  const exportAllClients=()=>{
+    const rows=clients.map(c=>({
+      id:c.id,
+      fullName:c.fullName,
+      businessSector:c.businessSector,
+      planUsed:c.planUsed,
+      planTotal:c.planTotal,
+      pending:c.pending,
+      connected:c.connected,
+    }));
+    downloadTextFile('clientes-agencia.csv', toCsv(rows, ['id','fullName','businessSector','planUsed','planTotal','pending','connected']), 'text/csv;charset=utf-8');
+    setExportDataOpen(false);
+    toast('Clientes exportados en CSV');
+  };
+
+  const exportCurrentClient=async()=>{
+    if(!sel) return;
+    const [profileData, socialData, contentData, messagesData, planData, metricsData, contactsData, dealsData, tasksData, campaignsData, automationsData, conversationsData]=await Promise.all([
+      API.profile(sel), API.socials(sel), API.content(sel), API.messages(sel), API.plan(sel), API.metrics(sel), API.contacts(sel), API.deals(sel), API.tasks(sel), API.campaigns(sel), API.automations(sel), API.conversations(sel),
+    ]);
+    const payload={
+      client: selClient,
+      profile: profileData,
+      socials: socialData,
+      content: contentData,
+      messages: messagesData,
+      plan: planData,
+      metrics: metricsData,
+      contacts: contactsData,
+      deals: dealsData,
+      tasks: tasksData,
+      campaigns: campaignsData,
+      automations: automationsData,
+      conversations: conversationsData,
+    };
+    downloadTextFile(`${(selClient?.fullName||'cliente').toLowerCase().replace(/\s+/g,'-')}-ficha.json`, JSON.stringify(payload,null,2), 'application/json;charset=utf-8');
+    setExportDataOpen(false);
+    toast('Ficha exportada en JSON');
+  };
+
+  const createContent=async(f)=>{if(!can('content.write')){toastErr('Tu rol no puede crear contenido');return;}await API.createContent(sel,f);setContent(await API.content(sel));setClients(await API.clients());};
+  const updateContent=async(id,payload)=>{if(!can('content.write')){toastErr('Tu rol no puede editar contenido');return;}await API.updateContent(sel,id,payload);setContent(await API.content(sel));setClients(await API.clients());toast('Publicación actualizada');};
+  const importContent=async(payload)=>{
+    if(payload?.preview) return API.previewContentImport(sel,{items:payload.items});
+    const result=await API.importContent(sel,payload);
+    setContent(await API.content(sel));
+    setClients(await API.clients());
+    return result;
+  };
+  const setContentStatus=async(id,status)=>{if(!can('content.approve')){toastErr('Tu rol no puede aprobar contenido');return;}try{await API.setContentStatus(sel,id,{status});setContent(await API.content(sel));setMetrics(await API.metrics(sel));toast('Estado de pieza actualizado');}catch(e){toastErr(e.message);}};
   const sendMsg=async(t)=>{try{await API.send(sel,t);setMessages(await API.messages(sel));}catch(e){toastErr(e.message);}};
   const refreshMetrics=async()=>{try{setMetrics(await API.metrics(sel));}catch{}};
   const createContact=async(f)=>{await API.createContact(sel,f);setContacts(await API.contacts(sel));refreshMetrics();toast('Contacto creado');};
@@ -511,9 +1480,19 @@ function App(){
   const createTask=async(f)=>{await API.createTask(sel,f);setTasks(await API.tasks(sel));toast('Tarea creada');};
   const toggleTask=async(t)=>{await API.updateTask(sel,t.id,{done:!t.done});setTasks(await API.tasks(sel));};
   const deleteTask=async(id)=>{await API.deleteTask(sel,id);setTasks(await API.tasks(sel));toast('Tarea eliminada');};
-  const createCampaign=async(f)=>{await API.createCampaign(sel,f);setCampaigns(await API.campaigns(sel));toast('Campaña creada');};
-  const createAutomation=async(f)=>{await API.createAutomation(sel,f);const[a,mx]=await Promise.all([API.automations(sel),API.metrics(sel)]);setAutomations(a);setMetrics(mx);toast('Automatización activada');};
-  const toggleAutomation=async(a)=>{await API.updateAutomation(sel,a.id,{status:a.status==='activa'?'pausada':'activa'});setAutomations(await API.automations(sel));};
+  const createCampaign=async(f)=>{if(!can('campaigns.manage')){toastErr('Tu rol no puede crear campañas');return;}await API.createCampaign(sel,f);setCampaigns(await API.campaigns(sel));toast('Campaña creada');};
+  const createFormula=async(f)=>{if(!can('reports.manage')){toastErr('Tu rol no puede crear fórmulas');return;}await API.createFormula(sel,f);setFormulas(await API.formulas(sel));toast('Formula guardada');};
+  const updateFormula=async(id,f)=>{if(!can('reports.manage')){toastErr('Tu rol no puede editar fórmulas');return;}await API.updateFormula(sel,id,f);setFormulas(await API.formulas(sel));toast('Formula actualizada');};
+  const deleteFormula=async(f)=>{if(!can('reports.manage')){toastErr('Tu rol no puede eliminar fórmulas');return;}if(!window.confirm(`¿Eliminar la formula "${f.name}"?`)) return;await API.deleteFormula(sel,f.id);setFormulas(await API.formulas(sel));toast('Formula eliminada');};
+  const createSnapshot=async(payload)=>{if(!can('templates.manage')){toastErr('Tu rol no puede crear snapshots');return;}if(!sel){toastErr('Selecciona un cliente origen');return;}await API.createSnapshot({sourceClientId:sel,name:payload.name});await loadTemplates();toast('Snapshot creado');};
+  const applySnapshot=async(templateId,targetClientId)=>{if(!can('templates.manage')){toastErr('Tu rol no puede aplicar snapshots');return;}if(!targetClientId){toastErr('Elige cliente destino');return;}await API.applySnapshot(templateId,{targetClientId});if(targetClientId===sel){await loadClient(sel);await loadTemplateAssignments(sel);}toast('Snapshot aplicado');};
+  const rollbackSnapshot=async(templateId)=>{if(!can('templates.manage')){toastErr('Tu rol no puede hacer rollback');return;}await API.rollbackTemplate({targetClientId:sel,templateId});await loadClient(sel);await loadTemplateAssignments(sel);await loadTemplates();toast('Rollback aplicado');};
+  const createCalendar=async(f)=>{if(!can('calendar.manage')){toastErr('Tu rol no puede crear calendarios');return;}await API.createCalendar(sel,f);setCalendars(await API.calendars(sel));toast('Calendario creado');};
+  const updateCalendar=async(id,f)=>{if(!can('calendar.manage')){toastErr('Tu rol no puede editar calendarios');return;}await API.updateCalendar(sel,id,f);setCalendars(await API.calendars(sel));toast('Calendario actualizado');};
+  const createAppointment=async(f)=>{if(!can('calendar.manage')){toastErr('Tu rol no puede reservar citas');return;}try{await API.createAppointment(sel,f);const [ap,mx,tk,ct]=await Promise.all([API.appointments(sel),API.metrics(sel),API.tasks(sel),API.contacts(sel)]);setAppointments(ap);setMetrics(mx);setTasks(tk);setContacts(ct);toast('Cita reservada');}catch(e){toastErr(e.message);}};
+  const updateAppointment=async(ap,patch)=>{if(!can('calendar.manage')){toastErr('Tu rol no puede actualizar citas');return;}try{await API.updateAppointment(sel,ap.id,patch);setAppointments(await API.appointments(sel));toast('Cita actualizada');}catch(e){toastErr(e.message);}};
+  const createAutomation=async(f)=>{if(!can('automation.manage')){toastErr('Tu rol no puede crear automatizaciones');return;}await API.createAutomation(sel,f);const[a,mx]=await Promise.all([API.automations(sel),API.metrics(sel)]);setAutomations(a);setMetrics(mx);toast('Automatización activada');};
+  const toggleAutomation=async(a)=>{if(!can('automation.manage')){toastErr('Tu rol no puede editar automatizaciones');return;}await API.updateAutomation(sel,a.id,{status:a.status==='activa'?'pausada':'activa'});setAutomations(await API.automations(sel));};
   const replyConv=async(id,text)=>{await API.replyConversation(sel,id,text);setConversations(await API.conversations(sel));};
   const readConv=async(id)=>{await API.updateConversation(sel,id,{read:true});setConversations(await API.conversations(sel));};
   const toggleConvStatus=async(c)=>{await API.updateConversation(sel,c.id,{status:c.status==='abierta'?'cerrada':'abierta'});setConversations(await API.conversations(sel));};
@@ -526,35 +1505,106 @@ function App(){
   const unread=conversations.reduce((s,c)=>s+(c.unread>0?1:0),0);
   const todayStr=new Date().toISOString().slice(0,10);
   const tasksDue=tasks.filter(t=>!t.done&&t.due<=todayStr).length;
-  const views=[{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'automations',l:'Automatización'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'}];
+  const views=[{k:'overview',l:'Resumen'},...(can('ops.view')?[{k:'operations',l:'Operaciones'}]:[]),{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'calendar',l:'Citas'},{k:'automations',l:'Automatización'},{k:'templates',l:'Plantillas'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'},{k:'activity',l:'Historial'}];
   return (<div className="app">
     <aside className="sidebar">
       <div className="brand"><div className="brand-mark violet">P</div><div><div className="brand-name">Pauta&nbsp;Studio</div><div className="brand-sub">Panel agencia</div></div></div>
-      <div className="nav-label">Clientes</div>
+      <div className="nav-label" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}>
+        <span>Clientes</span>
+        <div style={{display:'flex',gap:6}}>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setExportDataOpen(true)}><Ico d={icons.ext} size={14}/>Exportar</button>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setImportClientsOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.grid} size={14}/>Importar</button>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setPlanClientOpen(true)} disabled={!sel||!can('clients.manage')}><Ico d={icons.plan} size={14}/>Plan</button>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setEditClientOpen(true)} disabled={!sel||!can('clients.manage')}><Ico d={icons.edit} size={14}/>Editar</button>
+          <button className="btn btn-ghost btn-sm" onClick={deleteClient} disabled={!sel||!can('clients.manage')}><Ico d={icons.trash} size={14}/>Eliminar</button>
+          <button className="btn btn-ghost btn-sm" onClick={()=>setCreateClientOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.plus} size={14}/>Nuevo</button>
+        </div>
+      </div>
       <div className="nav" style={{gap:8}}>{clients.map(c=>(<button key={c.id} className={'client-row'+(sel===c.id?' active':'')} onClick={()=>setSel(c.id)} style={{padding:'10px 12px'}}>
-        <div className="client-av" style={{width:34,height:34,fontSize:13}}>{(c.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+        <div className="client-av" style={{width:34,height:34,fontSize:13}}>{c.avatarUrl?<img src={c.avatarUrl} alt={c.fullName||'cliente'}/>:(c.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
         <div style={{flex:1,minWidth:0,textAlign:'left'}}><div style={{fontSize:13,fontWeight:600,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.fullName}</div>
           <div style={{fontSize:11,color:'#8E8EA8'}}>{c.planUsed}/{c.planTotal} pubs</div></div>
         {c.pending>0&&<span className="nav-badge" style={{position:'static'}}>{c.pending}</span>}</button>))}</div>
       <div className="side-foot"><button className="logout-btn" onClick={logout}><Ico d={icons.out} size={15}/> Cerrar sesión</button></div>
     </aside>
     <div className="main">
-      <header className="topbar"><div><h1>{selClient?.fullName||'Selecciona un cliente'}</h1><div className="crumb">{selClient?.businessSector||'Panel de gestión'}</div></div></header>
+      <header className="topbar"><div><h1>{view==='overview'?'Resumen de agencia':view==='operations'?'Centro de operaciones':(selClient?.fullName||'Selecciona un cliente')}</h1><div className="crumb">{view==='overview'?'Visión operativa global':view==='operations'?'SLA y productividad del equipo':(selClient?.businessSector||'Panel de gestión')}</div></div>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          <label style={{fontSize:12,color:'var(--muted)'}}>Rol</label>
+          <select className="input" style={{minWidth:170}} value={agencyRole} onChange={e=>setAgencyRole(e.target.value)}>
+            <option value="owner">owner</option>
+            <option value="strategist">strategist</option>
+            <option value="trafficker">trafficker</option>
+            <option value="closer">closer</option>
+          </select>
+        </div></header>
       <div className="content">
-        {!sel?<Empty title="Elige un cliente" sub="Selecciónalo en la barra lateral para gestionar su contenido y CRM." ic={icons.contacts}/>:<>
+        <>
+          <div className="mobile-client-tools card card-pad">
+            <div className="section-title" style={{marginBottom:10}}><Ico d={icons.contacts} size={16}/>Gestión de clientes</div>
+            <div className="grid" style={{gridTemplateColumns:'1fr auto',gap:10,alignItems:'end'}}>
+              <div className="field" style={{margin:0}}>
+                <label>Cliente activo</label>
+                <select className="input" value={sel||''} onChange={e=>setSel(e.target.value||null)}>
+                  {clients.length?clients.map(c=><option key={c.id} value={c.id}>{c.fullName} · {c.planUsed}/{c.planTotal}</option>):<option value="">Sin clientes</option>}
+                </select>
+              </div>
+              <button className="btn btn-primary btn-sm" onClick={()=>setCreateClientOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.plus} size={14}/>Nuevo</button>
+            </div>
+            <div className="mobile-client-actions" style={{marginTop:10}}>
+              <button className="btn btn-ghost btn-sm" onClick={()=>setEditClientOpen(true)} disabled={!sel||!can('clients.manage')}><Ico d={icons.edit} size={14}/>Editar</button>
+              <button className="btn btn-ghost btn-sm" onClick={()=>setPlanClientOpen(true)} disabled={!sel||!can('clients.manage')}><Ico d={icons.plan} size={14}/>Plan</button>
+              <button className="btn btn-ghost btn-sm" onClick={()=>setImportClientsOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.grid} size={14}/>Importar</button>
+              <button className="btn btn-ghost btn-sm" onClick={()=>setExportDataOpen(true)}><Ico d={icons.ext} size={14}/>Exportar</button>
+              <button className="btn btn-ghost btn-sm" onClick={deleteClient} disabled={!sel||!can('clients.manage')}><Ico d={icons.trash} size={14}/>Eliminar</button>
+            </div>
+          </div>
           <div className="tabs" style={{marginBottom:18,flexWrap:'wrap'}}>{views.map(v=>(<button key={v.k} className={'tab'+(view===v.k?' active':'')} onClick={()=>setView(v.k)}>{v.l}{v.badge>0&&<span className="nav-badge" style={{position:'static',marginLeft:6}}>{v.badge}</span>}</button>))}</div>
-          {view==='content'&&<ClientContent content={content} onCreate={createContent}/>}
-          {view==='analytics'&&<Analytics metrics={metrics} content={content}/>}
+          {view==='overview'&&<AgencyOverview metrics={agencyMetrics}/>}
+          {view==='operations'&&<OperationsCenter ops={opsMetrics}/>} 
+          {view!=='overview'&&view!=='operations'&&!sel&&<Empty title="Elige un cliente" sub="Selecciona un cliente para continuar." ic={icons.contacts}/>}
+          {view!=='overview'&&view!=='operations'&&!!sel&&<>
+          {view==='content'&&<ClientContent content={content} onCreate={createContent} onImport={importContent} onStatusChange={setContentStatus} onUpdate={updateContent} canWriteContent={can('content.write')} canApproveContent={can('content.approve')}/>} 
+          {view==='analytics'&&<Analytics metrics={metrics} content={content} formulas={formulas} onCreateFormula={createFormula} onUpdateFormula={updateFormula} onDeleteFormula={deleteFormula} canManageReports={can('reports.manage')}/>} 
           {view==='contacts'&&<Contacts contacts={contacts} onCreate={createContact} onUpdate={updateContact} onDelete={deleteContact}/>}
           {view==='pipeline'&&<Pipeline deals={deals} contacts={contacts} onCreate={createDeal} onMove={moveDeal}/>}
           {view==='tasks'&&<Tasks tasks={tasks} contacts={contacts} onCreate={createTask} onToggle={toggleTask} onDelete={deleteTask}/>}
           {view==='campaigns'&&<Campaigns campaigns={campaigns} onCreate={createCampaign}/>}
+          {view==='calendar'&&<CalendarHub calendars={calendars} appointments={appointments} onCreateCalendar={createCalendar} onUpdateCalendar={updateCalendar} onCreateAppointment={createAppointment} onUpdateAppointment={updateAppointment}/>}
           {view==='automations'&&<Automations automations={automations} onCreate={createAutomation} onToggle={toggleAutomation}/>}
+          {view==='templates'&&<TemplatesHub templates={templates} clients={clients} sel={sel} assignments={templateAssignments} onCreateSnapshot={createSnapshot} onApplySnapshot={applySnapshot} onRefresh={loadTemplates} onRollback={rollbackSnapshot} canManageTemplates={can('templates.manage')}/>} 
           {view==='inbox'&&<Inbox conversations={conversations} onReply={replyConv} onRead={readConv} onToggleStatus={toggleConvStatus}/>}
           {view==='messages'&&<ClientMessages messages={messages} onSend={sendMsg}/>}
           {view==='plan'&&<ClientPlan plan={plan} profile={profile} socials={socials}/>}
-        </>}
-      </div></div><ToastHost/></div>);
+          {view==='activity'&&<ActivityFeed logs={activity}/>} 
+          </>}
+        </>
+      </div></div>
+      <NewClientModal open={createClientOpen} onClose={()=>setCreateClientOpen(false)} onCreate={createClient}/>
+      <EditClientModal
+        open={editClientOpen}
+        onClose={()=>setEditClientOpen(false)}
+        onSubmit={editClient}
+        title="Editar cliente"
+        submitLabel="Guardar cambios"
+        initial={{
+          fullName: profile?.fullName||selClient?.fullName||'',
+          businessSector: profile?.businessSector||selClient?.businessSector||'',
+          phone: profile?.phone||selClient?.phone||'',
+          email: profile?.email||selClient?.email||'',
+          avatarUrl: profile?.avatarUrl||selClient?.avatarUrl||'',
+          instagram: profile?.socialLinks?.instagram||selClient?.socialLinks?.instagram||'',
+          facebook: profile?.socialLinks?.facebook||selClient?.socialLinks?.facebook||'',
+          tiktok: profile?.socialLinks?.tiktok||selClient?.socialLinks?.tiktok||'',
+          youtube: profile?.socialLinks?.youtube||selClient?.socialLinks?.youtube||'',
+          linkedin: profile?.socialLinks?.linkedin||selClient?.socialLinks?.linkedin||'',
+          x: profile?.socialLinks?.x||selClient?.socialLinks?.x||'',
+        }}
+      />
+      <PlanModal open={planClientOpen} onClose={()=>setPlanClientOpen(false)} onSubmit={updatePlan} initial={plan}/>
+      <ImportClientsModal open={importClientsOpen} onClose={()=>setImportClientsOpen(false)} onImport={importClients}/>
+      <ExportDataModal open={exportDataOpen} onClose={()=>setExportDataOpen(false)} onExportAll={exportAllClients} onExportCurrent={exportCurrentClient} hasClient={!!sel}/>
+      <ToastHost/></div>);
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
