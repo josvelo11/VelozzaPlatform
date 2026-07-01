@@ -193,12 +193,13 @@ function KPI({lbl,val,ico,c,bg,trend}){return (<div className="kpi"><div classNa
 
 function MonthProjection({content,setRoute}){
   const now=new Date();
-  const y=now.getFullYear();
-  const m=now.getMonth();
+  const [cursor,setCursor]=useState({y:now.getFullYear(),m:now.getMonth()});
+  const {y,m}=cursor;
   const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const days=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   const startDow=(new Date(y,m,1).getDay()+6)%7;
   const daysInMonth=new Date(y,m+1,0).getDate();
+  const todayStr=now.toISOString().slice(0,10);
   const cells=[];
   for(let i=0;i<startDow;i++) cells.push(null);
   for(let d=1;d<=daysInMonth;d++) cells.push(d);
@@ -213,26 +214,36 @@ function MonthProjection({content,setRoute}){
     (byDay[day]||=[]).push(item);
   });
   const nextItems=monthItems.filter(item=>item.date>=now.toISOString().slice(0,10)).slice(0,4);
+  const move=(delta)=>setCursor(c=>{let nm=c.m+delta,ny=c.y;if(nm<0){nm=11;ny-=1;}if(nm>11){nm=0;ny+=1;}return {y:ny,m:nm};});
+  const formatLabel=(value)=>({reel:'Reel',carrusel:'Carrusel',flyer:'Flyer'}[value]||'Flyer');
   return <div className="card card-pad">
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,flexWrap:'wrap',marginBottom:14}}>
       <div>
         <div className="section-title"><Ico d={icons.cal} size={16}/>Contenido proyectado del mes</div>
-        <div className="section-sub">{monthNames[m]} {y} · Así verá el cliente lo programado en su parrilla.</div>
+        <div className="section-sub">Vista clásica del calendario con las piezas programadas de cada día.</div>
       </div>
-      <button className="btn btn-ghost btn-sm" onClick={()=>setRoute('content')}>Abrir parrilla completa</button>
+      <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+        <button className="btn btn-ghost btn-sm" onClick={()=>move(-1)}>← Mes anterior</button>
+        <button className="btn btn-ghost btn-sm" onClick={()=>move(1)}>Mes siguiente →</button>
+        <button className="btn btn-ghost btn-sm" onClick={()=>setRoute('content')}>Abrir parrilla completa</button>
+      </div>
     </div>
     {monthItems.length?<>
-      <div className="cal cal-compact">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,marginBottom:10,flexWrap:'wrap'}}>
+        <div className="section-title" style={{fontSize:15}}>{monthNames[m]} {y}</div>
+        <div style={{fontSize:12,color:'var(--muted)'}}>Cada bloque muestra título, formato y red social programada.</div>
+      </div>
+      <div className="cal">
         <div className="cal-head">{days.map(d=><div key={d}>{d}</div>)}</div>
-        <div className="cal-grid">{cells.map((d,i)=><div key={i} className={'cal-cell'+(d?'':' dim')}>
+        <div className="cal-grid">{cells.map((d,i)=>{const ds=d?`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`:'';return <div key={i} className={'cal-cell'+(d?'':' dim')+(ds===todayStr?' today':'')}>
           {d&&<div className="cal-num">{d}</div>}
           {(byDay[d]||[]).slice(0,2).map(item=><div key={item.id} className="cal-event cal-event-rich" style={{'--brand':item.color}}>
             <b>{item.title}</b>
-            <span>{(item.format||'flyer').replace(/^./,c=>c.toUpperCase())}</span>
+            <span>{formatLabel(item.format||'flyer')}</span>
             <small>{item.platforms.map(p=>PLATFORMS[p]?.name||p).join(' · ')}</small>
           </div>)}
           {d&&(byDay[d]||[]).length>2&&<div className="cal-more">+{byDay[d].length-2} más</div>}
-        </div>)}</div>
+        </div>;})}</div>
       </div>
       <div className="grid" style={{gridTemplateColumns:'1fr 1fr',gap:14,marginTop:14}}>
         <div>
