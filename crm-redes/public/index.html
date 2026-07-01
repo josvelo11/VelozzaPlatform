@@ -191,6 +191,69 @@ function Topbar({title,crumb,profile,onBell,pendingCount}){
 /* ======================= KPI helper ======================= */
 function KPI({lbl,val,ico,c,bg,trend}){return (<div className="kpi"><div className="k-top"><div className="k-ico" style={{background:bg,color:c}}><Ico d={ico} size={18}/></div>{trend&&<span className="k-trend" style={{color:'var(--muted-2)'}}>{trend}</span>}</div><div className="k-val">{val}</div><div className="k-lbl">{lbl}</div></div>);}
 
+function MonthProjection({content,setRoute}){
+  const now=new Date();
+  const y=now.getFullYear();
+  const m=now.getMonth();
+  const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const days=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  const startDow=(new Date(y,m,1).getDay()+6)%7;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const cells=[];
+  for(let i=0;i<startDow;i++) cells.push(null);
+  for(let d=1;d<=daysInMonth;d++) cells.push(d);
+  while(cells.length%7!==0) cells.push(null);
+  const byDay={};
+  const monthItems=content.filter(item=>{
+    const [cy,cm]=item.date.split('-').map(Number);
+    return cy===y&&cm===m+1;
+  }).sort((a,b)=>a.date.localeCompare(b.date));
+  monthItems.forEach(item=>{
+    const day=Number(item.date.split('-')[2]);
+    (byDay[day]||=[]).push(item);
+  });
+  const nextItems=monthItems.filter(item=>item.date>=now.toISOString().slice(0,10)).slice(0,4);
+  return <div className="card card-pad">
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,flexWrap:'wrap',marginBottom:14}}>
+      <div>
+        <div className="section-title"><Ico d={icons.cal} size={16}/>Contenido proyectado del mes</div>
+        <div className="section-sub">{monthNames[m]} {y} · Así verá el cliente lo programado en su parrilla.</div>
+      </div>
+      <button className="btn btn-ghost btn-sm" onClick={()=>setRoute('content')}>Abrir parrilla completa</button>
+    </div>
+    {monthItems.length?<>
+      <div className="cal cal-compact">
+        <div className="cal-head">{days.map(d=><div key={d}>{d}</div>)}</div>
+        <div className="cal-grid">{cells.map((d,i)=><div key={i} className={'cal-cell'+(d?'':' dim')}>
+          {d&&<div className="cal-num">{d}</div>}
+          {(byDay[d]||[]).slice(0,2).map(item=><div key={item.id} className="cal-event cal-event-rich" style={{'--brand':item.color}}>
+            <b>{item.title}</b>
+            <span>{(item.format||'flyer').replace(/^./,c=>c.toUpperCase())}</span>
+            <small>{item.platforms.map(p=>PLATFORMS[p]?.name||p).join(' · ')}</small>
+          </div>)}
+          {d&&(byDay[d]||[]).length>2&&<div className="cal-more">+{byDay[d].length-2} más</div>}
+        </div>)}</div>
+      </div>
+      <div className="grid" style={{gridTemplateColumns:'1fr 1fr',gap:14,marginTop:14}}>
+        <div>
+          <div className="section-title" style={{fontSize:14}}>Próximas piezas</div>
+          <div style={{display:'grid',gap:8,marginTop:10}}>{nextItems.length?nextItems.map(item=><div key={item.id} className="month-proj-item">
+            <div><b>{item.title}</b><span>{item.date}</span></div>
+            <small>{item.platforms.map(p=>PLATFORMS[p]?.name||p).join(' · ')}</small>
+          </div>):<div style={{fontSize:12.5,color:'var(--muted)'}}>No hay más piezas programadas para este mes.</div>}</div>
+        </div>
+        <div>
+          <div className="section-title" style={{fontSize:14}}>Estado de la proyección</div>
+          <div className="kpi-row" style={{gridTemplateColumns:'1fr 1fr',marginTop:10}}>
+            <KPI lbl="Total del mes" val={monthItems.length} ico={icons.grid} c="var(--primary)" bg="rgba(255,107,74,.12)" trend="piezas"/>
+            <KPI lbl="Pendientes" val={monthItems.filter(item=>item.status==='pending').length} ico={icons.check} c="var(--amber)" bg="rgba(244,165,44,.15)" trend="por aprobar"/>
+          </div>
+        </div>
+      </div>
+    </>:<Empty title="Sin contenido proyectado este mes" sub="Cuando la agencia programe piezas, aquí verás la parrilla mensual." ic={icons.cal}/>}
+  </div>;
+}
+
 /* ======================= DASHBOARD ======================= */
 function Dashboard({profile,plan,content,metrics,tasks,deals,setRoute}){
   const pending=content.filter(c=>c.status==='pending').length;
@@ -210,6 +273,7 @@ function Dashboard({profile,plan,content,metrics,tasks,deals,setRoute}){
       <KPI lbl="Ventas ganadas" val={fmtCOP(metrics?.wonValue).replace('COP','').trim()} ico={icons.money} c="var(--mint)" bg="rgba(25,185,140,.12)" trend="acumulado"/>
       <KPI lbl="Engagement" val={(metrics?.engagementRate??0)+'%'} ico={icons.chart} c="var(--amber)" bg="rgba(244,165,44,.15)" trend="redes"/>
     </div>
+    <MonthProjection content={content} setRoute={setRoute}/>
     <div className="grid" style={{gridTemplateColumns:'1fr 1fr'}}>
       <div className="card card-pad"><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}><div className="section-title"><Ico d={icons.task} size={16}/>Tareas para hoy</div><button className="btn btn-ghost btn-sm" onClick={()=>setRoute('tasks')}>Ver todas</button></div>
         <div style={{display:'flex',flexDirection:'column',gap:9}}>{dueToday.length?dueToday.slice(0,5).map(t=>(<div key={t.id} style={{display:'flex',alignItems:'center',gap:11,padding:'8px 0',borderBottom:'1px solid var(--line)'}}>
@@ -514,7 +578,11 @@ function Calendar({content}){
   return (<div className="grid" style={{gap:14}}><div style={{display:'flex',alignItems:'center',gap:12}}><div className="section-title"><Ico d={icons.cal} size={16}/>{monthNames[m]} {y}</div>
     <div style={{marginLeft:'auto',display:'flex',gap:6}}><button className="btn btn-ghost btn-sm" onClick={()=>move(-1)}>← Anterior</button><button className="btn btn-ghost btn-sm" onClick={()=>move(1)}>Siguiente →</button></div></div>
     <div className="cal"><div className="cal-head">{days.map(d=><div key={d}>{d}</div>)}</div><div className="cal-grid">{cells.map((d,i)=>{const ds=d?`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`:'';
-      return (<div key={i} className={'cal-cell'+(d?'':' dim')+(ds===todayStr?' today':'')}>{d&&<div className="cal-num">{d}</div>}{(byDay[d]||[]).map(c=><div key={c.id} className="cal-event" style={{'--brand':c.color}} title={c.title}>{c.title}</div>)}</div>);})}</div></div></div>);
+      return (<div key={i} className={'cal-cell'+(d?'':' dim')+(ds===todayStr?' today':'')}>{d&&<div className="cal-num">{d}</div>}{(byDay[d]||[]).map(c=><div key={c.id} className="cal-event cal-event-rich" style={{'--brand':c.color}} title={c.title}>
+        <b>{c.title}</b>
+        <span>{(c.format||'flyer').replace(/^./,ch=>ch.toUpperCase())}</span>
+        <small>{c.platforms.map(p=>PLATFORMS[p]?.name||p).join(' · ')}</small>
+      </div>)}</div>);})}</div></div></div>);
 }
 function Approvals({content,onDecide}){
   const pending=content.filter(c=>c.status==='pending');const history=content.filter(c=>c.status==='approved'||c.status==='rejected');
