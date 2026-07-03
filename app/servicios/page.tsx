@@ -84,6 +84,17 @@ const services: ServiceBlock[] = [
     imagePosition: 'center 28%',
     reverse: true,
   },
+  {
+    number: '07',
+    title: 'Fotografía Social & Bodas',
+    icon: 'camera',
+    description:
+      'Creamos cobertura visual con sensibilidad editorial para bodas, quinceañeras y eventos sociales de alto valor. Cada entrega equilibra narrativa documental, dirección estética y una experiencia premium que convierte recuerdos en legado visual.',
+    bullets: ['Paquetes de bodas 2026', 'Cobertura social premium', 'Portafolio cinematográfico'],
+    href: '/servicios/bodas',
+    image: '/founder-arms.jpg',
+    imagePosition: 'center 30%',
+  },
 ];
 
 const processSteps = [
