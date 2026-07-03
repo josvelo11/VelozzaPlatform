@@ -88,6 +88,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             <BrandLogo variant="transparent" style={{ width: 168 }} priority />
           </a>
           <div className="site-chrome-actions" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <a href="/paquetes-bodas" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Bodas y Eventos Sociales</a>
             <a href="/servicios" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Servicios</a>
             <a href="/blog" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Blog</a>
             <a href="/casos-de-exito" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Casos de éxito</a>
@@ -117,6 +118,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             <div>
               <h4>Servicios</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
+                <li><a href="/paquetes-bodas" style={{ color: '#f0d98a' }}>Bodas y Eventos Sociales</a></li>
                 <li><a href="/servicios/personal-branding" style={{ color: '#f0d98a' }}>Personal Branding</a></li>
                 <li><a href="/servicios/social-media-management" style={{ color: '#f0d98a' }}>Social Media</a></li>
                 <li><a href="/servicios/seo-services" style={{ color: '#f0d98a' }}>SEO Services</a></li>
