@@ -163,18 +163,18 @@ export default function BodasPage() {
           ]}
         />
 
-        <section className="section-shell">
+        <section className="section-shell bodas-intro-shell">
           <div className="hero-shell bodas-hero">
             <div className="hero-grid bodas-hero-grid">
               <div>
                 <div className="eyebrow">Agenda 2026 abierta</div>
-                <h1 className="hero-title" style={{ maxWidth: '11ch' }}>
+                <h1 className="hero-title bodas-hero-title" style={{ maxWidth: '11ch' }}>
                   Paquetes de bodas 2026 con narrativa, elegancia y una firma visual inolvidable
                 </h1>
-                <p className="hero-copy">
+                <p className="hero-copy bodas-hero-copy">
                   Esta página está pensada para mostrar con claridad los paquetes de fotografía de bodas que hoy vendemos en Bogotá. Cada colección cuida los momentos más importantes de tu día con una mezcla de sensibilidad documental, retrato editorial y una entrega visual que se siente premium desde el primer vistazo.
                 </p>
-                <div className="hero-actions">
+                <div className="hero-actions bodas-hero-actions">
                   <a
                     className="cta-primary"
                     href="https://api.whatsapp.com/send?phone=573193677929&text=Hola%20Velozza%2C%20quiero%20informacion%20sobre%20los%20paquetes%20de%20bodas%202026."
@@ -268,8 +268,8 @@ export default function BodasPage() {
           </div>
 
           <div className="package-grid three-up">
-            {weddingPackages.map((pkg) => (
-              <article key={pkg.name} className={`package-card wedding-package${pkg.featured ? ' featured' : ''}`}>
+              {weddingPackages.map((pkg) => (
+                <article key={pkg.name} className={`package-card wedding-package${pkg.featured ? ' featured' : ''}`}>
                 <div className="package-badge">{pkg.subtitle}</div>
                 <h3>{pkg.name}</h3>
                 <div className="package-price package-price-large">{pkg.price}</div>
@@ -334,7 +334,7 @@ export default function BodasPage() {
                 Si quieres esta misma página funcionando como pieza de venta, ya está preparada para dirigir al cliente a WhatsApp o correo con una oferta clara y un portafolio coherente.
               </p>
             </div>
-            <div className="hero-actions" style={{ marginTop: 0 }}>
+            <div className="hero-actions bodas-final-actions" style={{ marginTop: 0 }}>
               <Link href="/contacto" className="cta-secondary">
                 Ir a contacto
               </Link>
@@ -354,8 +354,20 @@ export default function BodasPage() {
       </main>
 
       <style>{`
+        .bodas-intro-shell {
+          padding-top: 40px;
+        }
+
         .bodas-hero-grid {
           align-items: stretch;
+        }
+
+        .bodas-hero-title {
+          max-width: 10ch;
+        }
+
+        .bodas-hero-copy {
+          max-width: 58ch;
         }
 
         .hero-side {
@@ -509,30 +521,92 @@ export default function BodasPage() {
           display: block;
         }
 
+        @media (max-width: 1100px) {
+          .bodas-hero-title {
+            max-width: 12ch;
+          }
+        }
+
         @media (max-width: 980px) {
+          .bodas-intro-shell {
+            padding-top: 28px;
+          }
+
           .three-up,
           .two-up,
           .portfolio-grid {
             grid-template-columns: 1fr 1fr;
           }
 
+          .bodas-hero-grid {
+            gap: 18px;
+          }
+
+          .bodas-hero-title {
+            max-width: 14ch;
+            margin-bottom: 12px;
+          }
+
+          .bodas-hero-copy {
+            font-size: 0.98rem;
+          }
+
+          .hero-photo-frame {
+            min-height: 300px;
+          }
+
+          .package-card {
+            padding: 20px;
+          }
+
+          .package-card h3 {
+            font-size: 1.7rem;
+          }
+
           .wedding-package.featured {
             transform: none;
           }
 
+          .bodas-hero-actions,
+          .bodas-final-actions,
           .catalog-announcement,
           .portfolio-heading,
           .final-cta {
             align-items: flex-start;
             flex-direction: column;
           }
+
+          .bodas-hero-actions a,
+          .bodas-final-actions a,
+          .catalog-button,
+          .portfolio-heading a {
+            width: 100%;
+          }
         }
 
         @media (max-width: 640px) {
+          .bodas-intro-shell {
+            padding-top: 18px;
+          }
+
           .three-up,
           .two-up,
           .portfolio-grid {
             grid-template-columns: 1fr;
+          }
+
+          .bodas-hero-title {
+            max-width: none;
+            font-size: clamp(2.15rem, 11vw, 3.4rem);
+            line-height: 0.94;
+          }
+
+          .bodas-hero-copy {
+            font-size: 0.94rem;
+          }
+
+          .eyebrow {
+            font-size: 0.74rem;
           }
 
           .package-head {
@@ -543,12 +617,26 @@ export default function BodasPage() {
             white-space: normal;
           }
 
+          .package-card {
+            padding: 18px;
+          }
+
+          .package-card h3 {
+            font-size: 1.45rem;
+          }
+
           .portfolio-card {
             min-height: 220px;
           }
 
           .hero-photo-frame {
-            min-height: 260px;
+            min-height: 220px;
+          }
+
+          .catalog-announcement,
+          .portfolio-shell,
+          .final-cta {
+            gap: 16px;
           }
         }
       `}</style>

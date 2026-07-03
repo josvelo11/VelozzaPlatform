@@ -19,9 +19,56 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
           text-shadow: 0 0 12px rgba(240, 217, 138, 0.22);
         }
 
+        .site-chrome-bodas-mobile {
+          display: none;
+        }
+
+        .site-chrome-bodas-desktop {
+          display: inline;
+        }
+
+        @media (max-width: 980px) {
+          .site-chrome-header {
+            height: auto !important;
+            align-items: stretch !important;
+            padding: 8px 0;
+          }
+
+          .site-chrome-nav {
+            flex-direction: column;
+            align-items: stretch !important;
+            gap: 10px;
+          }
+
+          .site-chrome-nav > a:first-child {
+            justify-content: center;
+          }
+
+          .site-chrome-actions {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-wrap: nowrap !important;
+            justify-content: flex-start !important;
+            padding: 0 2px 4px;
+            gap: 14px !important;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .site-chrome-actions::-webkit-scrollbar {
+            display: none;
+          }
+
+          .site-chrome-actions a,
+          .site-chrome-actions button {
+            flex: 0 0 auto;
+            white-space: nowrap;
+          }
+        }
+
         @media (max-width: 760px) {
           .site-chrome-nav {
-            flex-wrap: wrap;
             gap: 12px;
             padding: 12px 0 14px;
             align-items: flex-start;
@@ -49,6 +96,14 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
           .site-chrome-actions a:last-child {
             padding: 12px 18px !important;
+          }
+
+          .site-chrome-bodas-mobile {
+            display: inline;
+          }
+
+          .site-chrome-bodas-desktop {
+            display: none;
           }
 
           .site-chrome-footer {
@@ -82,13 +137,13 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
           }
         }
       `}</style>
-      <header style={{ position: 'sticky', top: 0, zIndex: 20, height: 74, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(12,12,10,0.94)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(201,168,76,0.16)' }}>
+      <header className="site-chrome-header" style={{ position: 'sticky', top: 0, zIndex: 20, height: 74, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(12,12,10,0.94)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(201,168,76,0.16)' }}>
         <nav className="site-shell site-chrome-nav" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <a href="/" aria-label="Velozza Creative Works" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#f4f2ec' }}>
             <BrandLogo variant="transparent" style={{ width: 168 }} priority />
           </a>
           <div className="site-chrome-actions" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <a href="/paquetes-bodas" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Bodas y Eventos Sociales</a>
+            <a href="/paquetes-bodas" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}><span className="site-chrome-bodas-desktop">Bodas y Eventos Sociales</span><span className="site-chrome-bodas-mobile">Bodas</span></a>
             <a href="/servicios" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Servicios</a>
             <a href="/blog" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Blog</a>
             <a href="/casos-de-exito" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Casos de éxito</a>
