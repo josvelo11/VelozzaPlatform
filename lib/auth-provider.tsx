@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase-client';
+import { getSupabase } from '@/lib/supabase-client';
 
 type AuthContextValue = {
   user: User | null;
@@ -17,25 +17,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = supabase.auth.getSession();
+    let unsubscribe: (() => void) | undefined;
 
-    session.then(({ data }) => {
-      setUser(data.session?.user ?? null);
-      setLoading(false);
-    });
+    try {
+      const supabase = getSupabase();
+      const session = supabase.auth.getSession();
 
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
+      session.then(({ data }) => {
+        setUser(data.session?.user ?? null);
+        setLoading(false);
+      });
+
+      const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      });
+
+      unsubscribe = () => {
+        listener.subscription.unsubscribe();
+      };
+    } catch {
+      setUser(null);
       setLoading(false);
-    });
+    }
 
     return () => {
-      listener.subscription.unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, []);
 
   async function signOut() {
-    await supabase.auth.signOut();
+    try {
+      const supabase = getSupabase();
+      await supabase.auth.signOut();
+    } catch {
+      // No-op when Supabase is not configured.
+    }
     setUser(null);
   }
 
