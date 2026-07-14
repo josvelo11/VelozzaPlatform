@@ -32,6 +32,18 @@ export default async function ServicePage({ params }: Props) {
     const content = fs.readFileSync(filePath, 'utf8');
     const service = JSON.parse(content);
 
+    // Load related service packages if available
+    let relatedService = null;
+    if (serviceSlug === 'personal-branding') {
+      try {
+        const relatedPath = path.join(process.cwd(), 'content/services/social-media-management.json');
+        const relatedContent = fs.readFileSync(relatedPath, 'utf8');
+        relatedService = JSON.parse(relatedContent);
+      } catch {
+        // Related service not found
+      }
+    }
+
     const schema = serviceSchema(
       service.title,
       service.longDescription,
@@ -88,6 +100,156 @@ export default async function ServicePage({ params }: Props) {
               ))}
             </div>
           </section>
+
+          {/* Packages Section */}
+          {(service.packages || relatedService?.packages) && (
+            <section style={{ marginBottom: '60px' }}>
+              <h2 style={{ fontSize: '24px', marginBottom: '40px' }}>Nuestros Paquetes</h2>
+
+              {/* Current Service Packages */}
+              {service.packages && service.packages.length > 0 && (
+                <div style={{ marginBottom: '50px' }}>
+                  <h3 style={{ color: '#f8f5ed', fontSize: '20px', marginBottom: '25px', textAlign: 'center' }}>
+                    {service.title}
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px' }}>
+                    {service.packages.map((pkg: any, index: number) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '30px',
+                          backgroundColor: '#0f0f0f',
+                          border: index === service.packages.length - 1 ? '2px solid #f4cf63' : '1px solid rgba(244, 207, 99, 0.16)',
+                          borderRadius: '12px',
+                          position: 'relative',
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        {index === service.packages.length - 1 && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: '-12px',
+                              right: '20px',
+                              backgroundColor: '#f4cf63',
+                              color: '#0b0b0b',
+                              padding: '4px 12px',
+                              borderRadius: '4px',
+                              fontSize: '12px',
+                              fontWeight: 'bold',
+                              textTransform: 'uppercase',
+                            }}
+                          >
+                            Recomendado
+                          </div>
+                        )}
+                        <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#f8f5ed' }}>{pkg.name}</h4>
+                        <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '20px' }}>{pkg.duration}</p>
+                        <div style={{ marginBottom: '25px' }}>
+                          <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>
+                            ${pkg.price.toLocaleString('es-CO')}
+                          </span>
+                          <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>{pkg.currency}</span>
+                        </div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '12px', flex: 1 }}>
+                          {pkg.includes.map((item: string, idx: number) => (
+                            <li
+                              key={idx}
+                              style={{
+                                display: 'flex',
+                                gap: '10px',
+                                color: '#c8c6be',
+                                fontSize: '13px',
+                              }}
+                            >
+                              <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Related Service Packages */}
+              {relatedService?.packages && relatedService.packages.length > 0 && (
+                <div>
+                  <h3 style={{ color: '#f8f5ed', fontSize: '20px', marginBottom: '25px', textAlign: 'center' }}>
+                    {relatedService.title}
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px' }}>
+                    {relatedService.packages.map((pkg: any, index: number) => (
+                      <div
+                        key={`related-${index}`}
+                        style={{
+                          padding: '30px',
+                          backgroundColor: '#0f0f0f',
+                          border: pkg.featured ? '2px solid #f4cf63' : '1px solid rgba(244, 207, 99, 0.16)',
+                          borderRadius: '12px',
+                          position: 'relative',
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        {pkg.featured && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: '-12px',
+                              right: '20px',
+                              backgroundColor: '#f4cf63',
+                              color: '#0b0b0b',
+                              padding: '4px 12px',
+                              borderRadius: '4px',
+                              fontSize: '12px',
+                              fontWeight: 'bold',
+                              textTransform: 'uppercase',
+                            }}
+                          >
+                            Plan Básico
+                          </div>
+                        )}
+                        <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#f8f5ed' }}>{pkg.name}</h4>
+                        <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '5px' }}>{pkg.duration}</p>
+                        {pkg.billing && (
+                          <p style={{ fontSize: '11px', color: '#a7a7a7', marginBottom: '20px', fontStyle: 'italic' }}>
+                            {pkg.billing}
+                          </p>
+                        )}
+                        <div style={{ marginBottom: '25px' }}>
+                          <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>
+                            ${pkg.price.toLocaleString('es-CO')}
+                          </span>
+                          <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>
+                            {pkg.billing ? '' : pkg.currency}
+                          </span>
+                        </div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '12px', flex: 1 }}>
+                          {pkg.includes.map((item: string, idx: number) => (
+                            <li
+                              key={idx}
+                              style={{
+                                display: 'flex',
+                                gap: '10px',
+                                color: '#c8c6be',
+                                fontSize: '13px',
+                              }}
+                            >
+                              <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
 
           {/* CTA */}
           <section

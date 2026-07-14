@@ -11,5 +11,24 @@
     "Gestión profesional diaria",
     "Análisis y optimización constante"
   ],
+  "packages": [
+    {
+      "name": "Plan Básico - Orgánico",
+      "price": 770000,
+      "currency": "COP",
+      "billing": "Mensualidad - Pago mes anticipado",
+      "duration": "1 mes",
+      "includes": [
+        "6 videos cortos editados profesionalmente",
+        "4 carruseles estratégicos",
+        "4 piezas gráficas diseñadas",
+        "Asesoría semanal para redes sociales",
+        "Gestión de comentarios y engagement",
+        "Análisis mensual de desempeño",
+        "100% contenido orgánico",
+        "Calendario de publicación personalizado"
+      ]
+    }
+  ],
   "keywords": ["social media", "redes sociales", "Instagram", "Facebook", "TikTok", "LinkedIn"]
 }

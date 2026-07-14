@@ -228,7 +228,8 @@ export default function Home() {
           @media (max-width: 1100px) {
             .links { gap: 14px; }
             .hero-grid, .about-grid, .cta-grid { grid-template-columns: 1fr; gap: 42px; }
-            .services-grid, .results-grid, .plans-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-grid, .results-grid { grid-template-columns: repeat(2, 1fr); }
+            .plans-grid { grid-template-columns: repeat(5, 1fr); }
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
             .footer-grid { grid-template-columns: 1fr 1fr; }
           }
@@ -329,10 +330,11 @@ export default function Home() {
           <div className="wrap">
             <div className="brand-copy">Clientes y aliados que han confiado en nuestro trabajo.</div>
             <div className="brand-list">
-              <span>Ávila Internacional</span>
-              <span>Lucy Moreno</span>
-              <span>Dr. Juan Marulanda</span>
-              <span>Adriana Ortega</span>
+              <a href="https://www.instagram.com/lucymoreno.enarmonia?igsh=MWYwZm1mbHVqN3Q2cQ==" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Lucy Moreno</a>
+              <a href="https://www.instagram.com/drjuanmarulanda?igsh=bWFueXA0bmNobDFj" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Dr. Juan Marulanda</a>
+              <a href="https://www.instagram.com/dra.adriana.ortega?igsh=NHhjenFka255M2Nz" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Dra. Adriana Ortega</a>
+              <a href="https://www.instagram.com/avilainternacional?igsh=MXZ6eG9obnZ6ZGxxZw==" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Ávila Internacional</a>
+              <a href="https://www.instagram.com/eva_rosa_zamora_lopez?igsh=MW1wbnhvZG85ZjVnbw==" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Eva Rosa Zamora</a>
               <span>Dicolseg LTDA</span>
               <span>Star Light Garden and Farm</span>
               <span>Andes Energy</span>
@@ -408,6 +410,64 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="section" id="galeria">
+          <div className="wrap">
+            <div className="section-head" style={{ textAlign: 'center', marginBottom: '60px' }}>
+              <div className="eyebrow" style={{ justifyContent: 'center' }}>Proceso de Trabajo</div>
+              <h2 className="title">Detrás de cada <span className="accent">marca</span></h2>
+              <p className="subtitle">Sesiones profesionales de grabación y producción de contenido de alto impacto.</p>
+            </div>
+            <style>{`
+              .photo-gallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+                max-width: 1100px;
+                margin-left: auto;
+                margin-right: auto;
+              }
+              .photo-gallery-item {
+                position: relative;
+                overflow: hidden;
+                border: 1px solid rgba(201, 168, 76, 0.18);
+                box-shadow: 0 10px 40px rgba(0,0,0,.45);
+                aspect-ratio: 3 / 4;
+                border-radius: 8px;
+                transition: transform 180ms ease, box-shadow 180ms ease;
+              }
+              .photo-gallery-item:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 48px rgba(0,0,0,.6);
+              }
+              .photo-gallery-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+              }
+              .photo-gallery-item::after {
+                content: '';
+                position: absolute;
+                inset: auto 0 0 0;
+                height: 100px;
+                background: linear-gradient(to top, rgba(12,12,10,.96), transparent);
+              }
+            `}</style>
+            <div className="photo-gallery">
+              {[
+                { src: '/photoshoot-1.jpg', alt: 'Sesión de grabación profesional - Equipo técnico' },
+                { src: '/photoshoot-2.jpg', alt: 'Equipo de producción en acción' },
+                { src: '/photoshoot-3.jpg', alt: 'Trabajo colaborativo de grabación' },
+              ].map((photo, idx) => (
+                <div key={idx} className="photo-gallery-item">
+                  <img src={photo.src} alt={photo.alt} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
         <section className="about" id="nosotros">
           <div className="wrap section about-grid">
             <div className="photo about-photo">
@@ -436,6 +496,11 @@ export default function Home() {
               <div className="eyebrow" style={{ justifyContent: 'center' }}>Planes</div>
               <h2 className="title">Elige el plan que impulsa tu crecimiento</h2>
               <p className="subtitle" style={{ marginLeft: 'auto', marginRight: 'auto' }}>Soluciones flexibles diseñadas para cada etapa de tu marca.</p>
+            </div>
+
+            {/* Planes Mensuales */}
+            <div style={{ marginBottom: '40px', textAlign: 'center' }}>
+              <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '50px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Planes de Membresía Mensual</h3>
             </div>
             <div className="plans-grid">
               {plans.map(([name, copy, price, features], index) => (
@@ -466,6 +531,65 @@ export default function Home() {
                   <Link href="/contacto" className="btn-plan">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</Link>
                 </article>
               ))}
+            </div>
+
+            {/* Paquetes por Sesión */}
+            <div style={{ marginTop: '80px', marginBottom: '40px', textAlign: 'center' }}>
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,76,.35), transparent)', marginBottom: '60px' }} />
+              <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '50px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Paquetes de Producción & Redes</h3>
+            </div>
+            <div className="plans-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+              <article className="plan">
+                <h3 className="plan-title">Pack Básico</h3>
+                <p>Marca Personal · 1 día de grabación</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $660.000</span></div>
+                <div className="period">por sesión</div>
+                <ul className="features">
+                  <li>8 videos para redes sociales</li>
+                  <li>10 fotos con edición premium</li>
+                  <li>Asesoría profesional de guiones</li>
+                  <li>Edición y color grading</li>
+                  <li>Subtítulos español e inglés</li>
+                  <li>Múltiples formatos (4K, HD, vertical)</li>
+                </ul>
+                <Link href="/contacto" className="btn-plan">Ver Pack</Link>
+              </article>
+              <article className="plan featured">
+                <div className="badge">Recomendado</div>
+                <h3 className="plan-title">Pack Premium</h3>
+                <p>Marca Personal · 1 día de grabación</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $880.000</span></div>
+                <div className="period">por sesión</div>
+                <ul className="features">
+                  <li>12 videos para redes sociales</li>
+                  <li>16 fotos con edición premium</li>
+                  <li>Asesoría profesional de guiones</li>
+                  <li>Edición y color grading</li>
+                  <li>Subtítulos español e inglés</li>
+                  <li>Múltiples formatos (4K, HD, vertical)</li>
+                  <li>2 sesiones de coaching on-camera</li>
+                </ul>
+                <Link href="/contacto" className="btn-plan">Ver Pack</Link>
+              </article>
+              <article className="plan">
+                <h3 className="plan-title">Redes Sociales</h3>
+                <p>Gestión orgánica mensual de contenido</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $880.000</span></div>
+                <div className="period">/mes · pago anticipado</div>
+                <ul className="features">
+                  <li>6 videos cortos editados</li>
+                  <li>4 carruseles estratégicos</li>
+                  <li>4 piezas gráficas diseñadas</li>
+                  <li>Asesoría semanal de redes</li>
+                  <li>Análisis mensual de desempeño</li>
+                  <li>100% contenido orgánico</li>
+                  <li>Calendario de publicación</li>
+                </ul>
+                <Link href="/contacto" className="btn-plan">Ver Plan</Link>
+              </article>
             </div>
           </div>
         </section>

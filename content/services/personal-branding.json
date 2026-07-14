@@ -11,5 +11,38 @@
     "Diferenciación competitiva",
     "Ingresos pasivos através de tu marca"
   ],
+  "packages": [
+    {
+      "name": "Pack Grabación Básico",
+      "price": 660000,
+      "currency": "COP",
+      "duration": "1 día de grabación",
+      "includes": [
+        "8 videos para redes sociales (máximo 2 minutos cada uno)",
+        "Asesoría profesional de guiones",
+        "Edición profesional y color grading",
+        "10 fotos con edición premium",
+        "Todo el equipo de grabación incluido",
+        "Subtítulos en español e inglés",
+        "Entrega en múltiples formatos (4K, HD, vertical)"
+      ]
+    },
+    {
+      "name": "Pack Grabación Premium",
+      "price": 880000,
+      "currency": "COP",
+      "duration": "2 días de grabación",
+      "includes": [
+        "12 videos para redes sociales (máximo 2 minutos cada uno)",
+        "Asesoría profesional de guiones",
+        "Edición profesional y color grading",
+        "16 fotos con edición premium",
+        "Todo el equipo de grabación incluido",
+        "Subtítulos en español e inglés",
+        "Entrega en múltiples formatos (4K, HD, vertical)",
+        "2 sesiones de coaching de on-camera"
+      ]
+    }
+  ],
   "keywords": ["personal branding", "marca personal", "posicionamiento", "LinkedIn", "autoridad"]
 }

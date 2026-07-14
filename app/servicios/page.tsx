@@ -8,6 +8,7 @@ type ServiceBlock = {
   icon: Parameters<typeof PremiumIcon>[0]['name'];
   description: string;
   bullets: string[];
+  values: string[];
   href: string;
   image: string;
   imagePosition: string;
@@ -22,6 +23,7 @@ const services: ServiceBlock[] = [
     description:
       'Posicionamos tu autoridad con identidad visual, narrativa de liderazgo y arquitectura de persuasión. El objetivo es que tu nombre inspire confianza y genere conversaciones de venta de mayor valor antes del primer contacto comercial.',
     bullets: ['Auditoría de marca personal', 'Narrativa y posicionamiento', 'Identidad visual ejecutiva'],
+    values: ['Posicionamiento como experto en tu industria', 'Atracción de oportunidades de negocio', 'Mayor credibilidad y confianza', 'Diferenciación competitiva', 'Ingresos pasivos através de tu marca'],
     href: '/servicios/personal-branding',
     image: '/founder-arms.jpg',
     imagePosition: 'center 18%',
@@ -33,6 +35,7 @@ const services: ServiceBlock[] = [
     description:
       'Construimos ecosistemas de conversión, no vitrinas de vanidad. Diseñamos contenido estratégico para atraer, educar y convertir audiencia fría en una comunidad que confía, compra y regresa con consistencia.',
     bullets: ['Calendario de contenido', 'Community management', 'Crecimiento orgánico'],
+    values: ['Crecimiento orgánico comprobado', 'Mayor engagement con tu audiencia', 'Generación de leads calificados', 'Gestión profesional diaria', 'Análisis y optimización constante'],
     href: '/servicios/social-media-management',
     image: '/founder-fulllength.jpg',
     imagePosition: 'center 28%',
@@ -45,6 +48,7 @@ const services: ServiceBlock[] = [
     description:
       'No grabamos videos: producimos activos digitales de alto rendimiento. Desde iluminación y dirección creativa hasta edición final, cada pieza está pensada para paralizar el scroll, elevar percepción y empujar a la acción.',
     bullets: ['Producción cinematográfica', 'Fotografía de marca', 'Podcast y reels'],
+    values: ['Mayor engagement vs otros formatos', 'Mejor retención de información', 'Viralidad potencial', 'Posicionamiento en YouTube', 'Conversión mejorada'],
     href: '/servicios/video-marketing',
     image: '/founder-arms.jpg',
     imagePosition: 'center 45%',
@@ -56,6 +60,7 @@ const services: ServiceBlock[] = [
     description:
       'Integramos estrategia, analítica y ejecución para sostener el crecimiento. Construimos campañas y sistemas que convierten tu presencia digital en una máquina de demanda medible y escalable.',
     bullets: ['Estrategia basada en datos', 'Embudos de conversión', 'Analítica y reportes'],
+    values: ['Crecimiento sostenible y medible', 'Decisiones basadas en datos', 'ROI comprobado', 'Optimización continua', 'Escalabilidad sin aumentar costos'],
     href: '/servicios/seo-services',
     image: '/founder-fulllength.jpg',
     imagePosition: 'center top',
@@ -68,6 +73,7 @@ const services: ServiceBlock[] = [
     description:
       'Diseñamos campañas de intención alta con segmentación precisa, mensajes persuasivos y optimización continua para convertir inversión en clientes reales, no solo en clics o tráfico aislado.',
     bullets: ['Meta & Google Ads', 'Creativos de alto impacto', 'Optimización de ROAS'],
+    values: ['Segmentación por intención y perfil de cliente', 'Mensajes alineados al embudo de decisión', 'Optimización de anuncios y presupuesto en tiempo real', 'Generación de leads y ventas medibles', 'Escalamiento con control de costos'],
     href: '/servicios/publicidad-digital',
     image: '/founder-arms.jpg',
     imagePosition: 'center 18%',
@@ -79,6 +85,7 @@ const services: ServiceBlock[] = [
     description:
       'Creamos sistemas inteligentes que ahorran tiempo, califican leads y sostienen tu crecimiento con procesos escalables. La automatización correcta reduce fricción y le permite a tu equipo enfocarse en oportunidades de mayor valor.',
     bullets: ['Automatización de marketing', 'CRM e IA', 'Sistemas que escalan'],
+    values: ['Automatización de seguimiento comercial', 'Calificación inteligente de leads', 'Reducción del trabajo manual repetitivo', 'Respuesta más rápida a clientes potenciales', 'Escalabilidad sin aumentar la carga operativa'],
     href: '/servicios/automatizacion-ia',
     image: '/founder-fulllength.jpg',
     imagePosition: 'center 28%',
@@ -91,6 +98,7 @@ const services: ServiceBlock[] = [
     description:
       'Creamos cobertura visual con sensibilidad editorial para bodas, quinceañeras y eventos sociales de alto valor. Cada entrega equilibra narrativa documental, dirección estética y una experiencia premium que convierte recuerdos en legado visual.',
     bullets: ['Paquetes de bodas 2026', 'Cobertura social premium', 'Portafolio cinematográfico'],
+    values: ['Fotografía cinematográfica de alta calidad', 'Cobertura completa de evento', 'Edición profesional y rápida', 'Galería online privada', 'Álbum impreso de lujo'],
     href: '/servicios/bodas',
     image: '/founder-arms.jpg',
     imagePosition: 'center 30%',
@@ -187,6 +195,17 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
+                <div className="service-values">
+                  <p className="values-label">Valores que obtienes:</p>
+                  <ul className="service-values-list">
+                    {service.values.map((value) => (
+                      <li key={value}>
+                        <PremiumIcon name="check" size={16} />
+                        <span>{value}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 <Link href={service.href} className="service-link-cta">
                   Ver detalle
                   <PremiumIcon name="arrow-right" size={16} />
@@ -214,6 +233,173 @@ export default function ServicesPage() {
                   <p>{step.copy}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Packages Section */}
+        <section className="section-shell" style={{ paddingTop: '64px', paddingBottom: '64px' }}>
+          <div style={{ maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+              <div className="eyebrow" style={{ display: 'inline-flex', justifyContent: 'center' }}>
+                Tarifas
+              </div>
+              <h2 className="section-title" style={{ color: '#f4cf63', marginBottom: '16px' }}>
+                Nuestros Paquetes de Precios
+              </h2>
+              <p style={{ color: '#a7a7a7', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
+                Soluciones diseñadas para cada etapa de tu negocio. Invierte en lo que realmente genera resultados.
+              </p>
+            </div>
+
+            {/* Personal Branding Packages */}
+            <div style={{ marginBottom: '64px' }}>
+              <h3 style={{ color: '#f8f5ed', fontSize: '22px', marginBottom: '30px', textAlign: 'center' }}>
+                Marca Personal & Ejecutivo
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' }}>
+                {[
+                  {
+                    name: 'Pack Grabación Básico',
+                    price: 660000,
+                    duration: '1 día de grabación',
+                    items: [
+                      '8 videos para redes sociales (máximo 2 minutos cada uno)',
+                      'Asesoría profesional de guiones',
+                      'Edición profesional y color grading',
+                      '10 fotos con edición premium',
+                      'Todo el equipo de grabación incluido',
+                      'Subtítulos en español e inglés',
+                      'Entrega en múltiples formatos (4K, HD, vertical)',
+                    ],
+                  },
+                  {
+                    name: 'Pack Grabación Premium',
+                    price: 880000,
+                    duration: '2 días de grabación',
+                    featured: true,
+                    items: [
+                      '12 videos para redes sociales (máximo 2 minutos cada uno)',
+                      'Asesoría profesional de guiones',
+                      'Edición profesional y color grading',
+                      '16 fotos con edición premium',
+                      'Todo el equipo de grabación incluido',
+                      'Subtítulos en español e inglés',
+                      'Entrega en múltiples formatos (4K, HD, vertical)',
+                      '2 sesiones de coaching de on-camera',
+                    ],
+                  },
+                ].map((pkg, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: '30px',
+                      backgroundColor: '#0f0f0f',
+                      border: pkg.featured ? '2px solid #f4cf63' : '1px solid rgba(244, 207, 99, 0.16)',
+                      borderRadius: '12px',
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    {pkg.featured && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '-12px',
+                          right: '20px',
+                          backgroundColor: '#f4cf63',
+                          color: '#0b0b0b',
+                          padding: '4px 12px',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        Recomendado
+                      </div>
+                    )}
+                    <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#f8f5ed' }}>{pkg.name}</h4>
+                    <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '20px' }}>{pkg.duration}</p>
+                    <div style={{ marginBottom: '25px' }}>
+                      <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>
+                        ${pkg.price.toLocaleString('es-CO')}
+                      </span>
+                      <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>COP</span>
+                    </div>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px', flex: 1 }}>
+                      {pkg.items.map((item, i) => (
+                        <li key={i} style={{ display: 'flex', gap: '8px', color: '#c8c6be', fontSize: '13px' }}>
+                          <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Social Media Packages */}
+            <div>
+              <h3 style={{ color: '#f8f5ed', fontSize: '22px', marginBottom: '30px', textAlign: 'center' }}>
+                Gestión de Redes Sociales
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' }}>
+                <div
+                  style={{
+                    padding: '30px',
+                    backgroundColor: '#0f0f0f',
+                    border: '2px solid #f4cf63',
+                    borderRadius: '12px',
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '-12px',
+                      right: '20px',
+                      backgroundColor: '#f4cf63',
+                      color: '#0b0b0b',
+                      padding: '4px 12px',
+                      borderRadius: '4px',
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Plan Básico
+                  </div>
+                  <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#f8f5ed' }}>Plan Básico - Orgánico</h4>
+                  <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '5px' }}>1 mes de gestión</p>
+                  <p style={{ fontSize: '11px', color: '#a7a7a7', marginBottom: '20px', fontStyle: 'italic' }}>Pago mes anticipado</p>
+                  <div style={{ marginBottom: '25px' }}>
+                    <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>$770.000</span>
+                    <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>COP/mes</span>
+                  </div>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px', flex: 1 }}>
+                    {[
+                      '6 videos cortos editados profesionalmente',
+                      '4 carruseles estratégicos',
+                      '4 piezas gráficas diseñadas',
+                      'Asesoría semanal para redes sociales',
+                      'Gestión de comentarios y engagement',
+                      'Análisis mensual de desempeño',
+                      '100% contenido orgánico',
+                      'Calendario de publicación personalizado',
+                    ].map((item, i) => (
+                      <li key={i} style={{ display: 'flex', gap: '8px', color: '#c8c6be', fontSize: '13px' }}>
+                        <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -359,6 +545,44 @@ export default function ServicesPage() {
           letter-spacing: 0.08em;
           text-transform: uppercase;
           font-size: 0.82rem;
+        }
+
+        .service-values {
+          margin-top: 16px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(244, 207, 99, 0.08);
+        }
+
+        .values-label {
+          margin: 0 0 12px 0;
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #f4cf63;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+
+        .service-values-list {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 8px;
+        }
+
+        .service-values-list li {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          color: #c8c6be;
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+
+        .service-values-list svg {
+          color: #f4cf63;
+          flex: 0 0 auto;
+          margin-top: 2px;
         }
 
         .process-shell {
