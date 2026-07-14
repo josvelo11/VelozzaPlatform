@@ -2,6 +2,8 @@ import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import Link from 'next/link';
 
+export const revalidate = 60;
+
 type ServiceBlock = {
   number: string;
   title: string;

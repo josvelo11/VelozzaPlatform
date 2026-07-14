@@ -6,6 +6,8 @@ import fs from 'fs';
 import path from 'path';
 import { notFound } from 'next/navigation';
 
+export const revalidate = 60;
+
 interface Props {
   params: Promise<{ service: string }>;
 }
