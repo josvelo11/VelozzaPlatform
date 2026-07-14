@@ -378,7 +378,7 @@ export default function ServicesPage() {
                   <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '5px' }}>1 mes de gestión</p>
                   <p style={{ fontSize: '11px', color: '#a7a7a7', marginBottom: '20px', fontStyle: 'italic' }}>Pago mes anticipado</p>
                   <div style={{ marginBottom: '25px' }}>
-                    <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>$770.000</span>
+                    <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>$880.000</span>
                     <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>COP/mes</span>
                   </div>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px', flex: 1 }}>
