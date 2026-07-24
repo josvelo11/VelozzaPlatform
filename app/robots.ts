@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://velozzaworks.com/sitemap.xml',
+    sitemap: 'https://velozzacws.com/sitemap.xml',
   };
 }

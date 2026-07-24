@@ -10,8 +10,8 @@ export function organizationSchema(): SchemaConfig {
     '@type': 'Organization',
     name: 'Velozza Creative Works',
     alternateName: 'Velozza',
-    url: 'https://velozzaworks.com',
-    logo: 'https://velozzaworks.com/logo.png',
+    url: 'https://velozzacws.com',
+    logo: 'https://velozzacws.com/logo.png',
     description: 'Agencia de marketing digital, personal branding y crecimiento empresarial en Latinoamérica',
     sameAs: [
       'https://www.instagram.com/velozzacws',
@@ -118,7 +118,7 @@ export function localBusinessSchema(
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: `Velozza Creative Works - ${city}`,
-    image: 'https://velozzaworks.com/logo.png',
+    image: 'https://velozzacws.com/logo.png',
     address: {
       '@type': 'PostalAddress',
       streetAddress: address,
@@ -126,6 +126,6 @@ export function localBusinessSchema(
       addressCountry: 'CO',
     },
     telephone: phone,
-    url: 'https://velozzaworks.com',
+    url: 'https://velozzacws.com',
   };
 }

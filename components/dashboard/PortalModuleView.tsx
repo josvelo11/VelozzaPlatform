@@ -6,6 +6,7 @@ import { getStatusStyle } from '@/lib/utils/status-styles';
 import { PortalType } from '@/types/portal';
 import { getClientProfileByEmail } from '@/lib/auth/access-control';
 import { isClientApprovalBypassWindow } from '@/lib/auth/permissions';
+import { clientRoster } from '@/lib/client-roster';
 
 interface PortalModuleViewProps {
   module: PortalModuleData;
@@ -179,48 +180,22 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     { id: 'doc-2', title: 'Reporte mensual', type: 'PDF', status: 'review' as const, url: '#', note: 'Pendiente de validacion' },
     { id: 'doc-3', title: 'Lineamientos de marca', type: 'DOCX', status: 'active' as const, url: '#', note: 'Uso interno y cliente' },
   ]);
-  const [clientWorkspace, setClientWorkspace] = useState<ClientWorkspaceCard[]>([
-    {
-      id: 'client-1',
-      companyName: 'North Law Group',
-      contactName: 'Carla North',
-      sector: 'Servicios legales',
-      accountManager: 'Andres Molina',
-      plan: 'Professional',
-      status: 'active',
-      note: 'Campaña de posicionamiento y captacion de leads premium.',
-      nextStep: 'Ajustar briefing de contenidos para Q3',
-      lastUpdate: 'Hace 2 horas',
-      progress: 84,
-    },
-    {
-      id: 'client-2',
-      companyName: 'Acme Foods',
-      contactName: 'Daniel Acosta',
-      sector: 'Alimentos y bebidas',
-      accountManager: 'Laura Ruiz',
-      plan: 'Growth',
-      status: 'review',
-      note: 'Se prioriza calendario de lanzamientos y redes de producto.',
-      nextStep: 'Revisar assets de nueva linea saludable',
-      lastUpdate: 'Ayer 18:30',
-      progress: 61,
-    },
-    {
-      id: 'client-3',
-      companyName: 'Velozza Internal',
-      contactName: 'Ops Team',
-      sector: 'Operaciones internas',
-      accountManager: 'Equipo interno',
-      plan: 'Internal',
-      status: 'pending',
-      note: 'Caso interno para probar carga de datos y estados del cliente.',
-      nextStep: 'Completar informacion base y contactos',
-      lastUpdate: 'Hoy 08:00',
-      progress: 33,
-    },
-  ]);
-  const [selectedClientWorkspaceId, setSelectedClientWorkspaceId] = useState('client-1');
+  const [clientWorkspace, setClientWorkspace] = useState<ClientWorkspaceCard[]>(
+    clientRoster.map((client) => ({
+      id: client.id,
+      companyName: client.companyName,
+      contactName: client.contactName,
+      sector: client.sector,
+      accountManager: client.accountManager,
+      plan: client.plan,
+      status: client.status,
+      note: client.note,
+      nextStep: client.nextStep,
+      lastUpdate: client.lastUpdate,
+      progress: client.progress,
+    }))
+  );
+  const [selectedClientWorkspaceId, setSelectedClientWorkspaceId] = useState(clientRoster[0]?.id || 'client-1');
   const [clientWorkspaceDraft, setClientWorkspaceDraft] = useState({
     companyName: '',
     contactName: '',
@@ -236,7 +211,7 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     approvalRequired: true,
     autoPublish: false,
   });
-  const moduleStateKey = useMemo(() => `velozza-module-state-v2:${portal}:${module.slug}`, [portal, module.slug]);
+  const moduleStateKey = useMemo(() => `velozza-module-state-v3:${portal}:${module.slug}`, [portal, module.slug]);
 
   const applyRealtimeState = (next: Partial<ModuleRealtimeState>) => {
     if (Array.isArray(next.metrics)) setMetrics(next.metrics);
@@ -273,7 +248,9 @@ export default function PortalModuleView({ module, portal }: PortalModuleViewPro
     if (storedWorkspace) {
       try {
         const parsedWorkspace = JSON.parse(storedWorkspace) as ClientWorkspaceCard[];
-        if (Array.isArray(parsedWorkspace) && parsedWorkspace.length) {
+        const rosterIds = clientRoster.map((client) => client.id);
+        const matchesRoster = Array.isArray(parsedWorkspace) && rosterIds.every((id) => parsedWorkspace.some((item) => item.id === id));
+        if (matchesRoster) {
           setClientWorkspace(parsedWorkspace);
           setSelectedClientWorkspaceId(parsedWorkspace[0].id);
           return;

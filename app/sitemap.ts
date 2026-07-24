@@ -6,7 +6,7 @@ import fs from 'fs';
 import path from 'path';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://velozzaworks.com';
+  const baseUrl = 'https://velozzacws.com';
   const locales = ['es', 'en'];
 
   const routes: MetadataRoute.Sitemap = [

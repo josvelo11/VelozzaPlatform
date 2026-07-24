@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import SiteChrome from '@/components/SiteChrome';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://velozzaworks.com'),
+  metadataBase: new URL('https://velozzacws.com'),
   title: {
     default: 'Velozza Creative Works | Marketing Digital',
     template: '%s | Velozza Creative Works',
@@ -65,9 +65,9 @@ export default function RootLayout({
         />
 
         {/* Hreflang links for multilingual SEO */}
-        <link rel="alternate" hrefLang="es" href="https://velozzaworks.com/" />
-        <link rel="alternate" hrefLang="en" href="https://velozzaworks.com/en" />
-        <link rel="alternate" hrefLang="x-default" href="https://velozzaworks.com/" />
+        <link rel="alternate" hrefLang="es" href="https://velozzacws.com/" />
+        <link rel="alternate" hrefLang="en" href="https://velozzacws.com/en" />
+        <link rel="alternate" hrefLang="x-default" href="https://velozzacws.com/" />
       </head>
       <body>
         <SiteChrome>{children}</SiteChrome>

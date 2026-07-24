@@ -23,7 +23,7 @@ export default async function IndustryPage({ params }: Props) {
     industry.title,
     industry.description,
     '/industry.jpg',
-    `https://velozzaworks.com/industrias/${industry.slug}`
+    `https://velozzacws.com/industrias/${industry.slug}`
   );
 
   return (

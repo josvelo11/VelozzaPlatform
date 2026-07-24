@@ -50,7 +50,7 @@ export default async function ServicePage({ params }: Props) {
       service.title,
       service.longDescription,
       '/service-image.jpg',
-      `https://velozzaworks.com/servicios/${serviceSlug}`
+      `https://velozzacws.com/servicios/${serviceSlug}`
     );
 
   return (

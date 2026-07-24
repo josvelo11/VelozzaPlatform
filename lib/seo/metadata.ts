@@ -13,7 +13,7 @@ export interface SEOConfig {
 }
 
 export function generateMetadata(config: SEOConfig): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://velozzaworks.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://velozzacws.com';
   const url = config.url ? `${baseUrl}${config.url}` : baseUrl;
 
   return {
@@ -54,7 +54,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
 }
 
 export function generateCanonicalUrl(path: string, locale?: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://velozzaworks.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://velozzacws.com';
   const localePath = locale && locale !== 'es' ? `/${locale}` : '';
   return `${baseUrl}${localePath}${path}`;
 }

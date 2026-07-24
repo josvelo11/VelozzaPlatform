@@ -26,7 +26,7 @@ export default async function BlogPostPage({ params }: Props) {
     post.author,
     post.date,
     post.image,
-    `https://velozzaworks.com/blog/${post.slug}`
+    `https://velozzacws.com/blog/${post.slug}`
   );
 
   return (

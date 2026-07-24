@@ -41,14 +41,14 @@ export function getCaseStudySchema(study: CaseStudy) {
     'Velozza Creative Works',
     study.date,
     '/case-study.jpg',
-    `https://velozzaworks.com/casos-de-exito/${study.slug}`
+    `https://velozzacws.com/casos-de-exito/${study.slug}`
   );
 }
 
 export function getCaseStudyBreadcrumbs(title: string) {
   return breadcrumbSchema([
-    { name: 'Inicio', url: 'https://velozzaworks.com/' },
-    { name: 'Casos de Éxito', url: 'https://velozzaworks.com/casos-de-exito' },
-    { name: title, url: `https://velozzaworks.com/casos-de-exito` },
+    { name: 'Inicio', url: 'https://velozzacws.com/' },
+    { name: 'Casos de Éxito', url: 'https://velozzacws.com/casos-de-exito' },
+    { name: title, url: `https://velozzacws.com/casos-de-exito` },
   ]);
 }

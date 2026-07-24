@@ -140,15 +140,15 @@ export const metadata = generateMetadata({
     'fotógrafo de bodas velozza',
   ],
   url: '/servicios/bodas',
-  image: 'https://velozzaworks.com/bodas/boda-ceremonia.jpg',
+  image: 'https://velozzacws.com/bodas/boda-ceremonia.jpg',
 });
 
 export default function BodasPage() {
   const schema = serviceSchema(
     'Paquetes de Fotografía para Bodas 2026',
     'Cobertura fotográfica premium para bodas y eventos sociales en Bogotá, con paquetes 2026, dirección visual y narrativa cinematográfica.',
-    'https://velozzaworks.com/bodas/boda-ceremonia.jpg',
-    'https://velozzaworks.com/servicios/bodas'
+    'https://velozzacws.com/bodas/boda-ceremonia.jpg',
+    'https://velozzacws.com/servicios/bodas'
   );
 
   return (

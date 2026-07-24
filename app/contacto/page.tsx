@@ -12,11 +12,38 @@ export default function ContactPage() {
     company: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [statusType, setStatusType] = useState<'success' | 'error' | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Mensaje enviado. Nos contactaremos pronto.');
-    setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+    setIsSubmitting(true);
+    setStatusMessage(null);
+    setStatusType(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || 'No se pudo enviar el mensaje.');
+      }
+
+      setStatusType('success');
+      setStatusMessage('Mensaje enviado correctamente. Nos contactaremos pronto.');
+      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+    } catch (error) {
+      setStatusType('error');
+      setStatusMessage(error instanceof Error ? error.message : 'No se pudo enviar el mensaje.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -141,21 +168,37 @@ export default function ContactPage() {
               />
             </div>
 
+            {statusMessage && (
+              <div
+                style={{
+                  marginBottom: '16px',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  backgroundColor: statusType === 'success' ? 'rgba(76,175,80,0.15)' : 'rgba(220,53,69,0.15)',
+                  color: statusType === 'success' ? '#8ce58f' : '#ffb4b4',
+                  border: `1px solid ${statusType === 'success' ? 'rgba(76,175,80,0.3)' : 'rgba(220,53,69,0.3)'}`,
+                }}
+              >
+                {statusMessage}
+              </div>
+            )}
+
             <button
               type="submit"
+              disabled={isSubmitting}
               style={{
                 width: '100%',
                 padding: '12px',
-                backgroundColor: '#f4cf63',
+                backgroundColor: isSubmitting ? '#7d6a36' : '#f4cf63',
                 color: '#0b0b0b',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '16px',
                 fontWeight: '600',
-                cursor: 'pointer',
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
               }}
             >
-              Enviar Mensaje
+              {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
             </button>
           </form>
 

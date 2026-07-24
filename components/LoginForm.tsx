@@ -26,6 +26,28 @@ export function LoginForm() {
       if (!response.ok) {
         setMessage(data.error ?? 'Error en el inicio de sesión');
       } else {
+        const tokenValue =
+          (typeof data?.token === 'string' && data.token) ||
+          (typeof data?.access_token === 'string' && data.access_token) ||
+          (typeof data?.session?.access_token === 'string' && data.session.access_token) ||
+          'authenticated';
+        const resolvedEmail =
+          (typeof data?.user?.email === 'string' && data.user.email) ||
+          (typeof data?.email === 'string' && data.email) ||
+          email;
+        const resolvedRole =
+          (typeof data?.user?.role === 'string' && data.user.role) ||
+          (typeof data?.role === 'string' && data.role) ||
+          '';
+
+        localStorage.setItem('sb-auth-token', tokenValue);
+        localStorage.setItem('sb-user-email', resolvedEmail);
+        if (resolvedRole) {
+          localStorage.setItem('sb-user-role', resolvedRole);
+        }
+
+        document.cookie = `sb-auth-token=${encodeURIComponent(tokenValue)}; Max-Age=${60 * 60 * 24 * 7}; Path=/; SameSite=Lax`;
+
         setMessage(`Bienvenido ${data.user?.email ?? 'usuario'}`);
         // Redirigir a dashboard después de 1 segundo
         setTimeout(() => {

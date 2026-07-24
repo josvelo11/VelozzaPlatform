@@ -27,5 +27,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: data.error || 'Error de autenticación' }, { status: response.status });
   }
 
-  return NextResponse.json(data);
+  const tokenValue =
+    (typeof data?.token === 'string' && data.token) ||
+    (typeof data?.access_token === 'string' && data.access_token) ||
+    (typeof data?.session?.access_token === 'string' && data.session.access_token) ||
+    'authenticated';
+
+  const nextResponse = NextResponse.json(data);
+  nextResponse.cookies.set('sb-auth-token', tokenValue, {
+    path: '/',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 60 * 60 * 24 * 7,
+  });
+
+  return nextResponse;
 }

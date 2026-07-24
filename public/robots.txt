@@ -6,9 +6,9 @@ Disallow: /private/
 Disallow: /dashboard/
 
 # Sitemaps
-Sitemap: https://velozzaworks.com/sitemap.xml
-Sitemap: https://velozzaworks.com/sitemap-es.xml
-Sitemap: https://velozzaworks.com/sitemap-en.xml
+Sitemap: https://velozzacws.com/sitemap.xml
+Sitemap: https://velozzacws.com/sitemap-es.xml
+Sitemap: https://velozzacws.com/sitemap-en.xml
 
 # Crawl delay (respetuoso)
 Crawl-delay: 1
