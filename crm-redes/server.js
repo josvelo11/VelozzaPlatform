@@ -928,6 +928,35 @@ app.post('/api/clientes/clients/import', auth, agencyOnly, requireCapability('cl
   res.status(errors.length ? 207 : 201).json({ created: created.length, errors, clients: created });
 });
 
+// Actualiza (o crea, si el cliente quedó sin usuario) las credenciales del
+// portal de un cliente. Antes la agencia no tenía forma de resetear el acceso
+// de un cliente: el email/hash se fijaban solo al crearlo.
+app.put('/api/clientes/clients/:id/access', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
+  const clientId = req.params.id;
+  const client = findClient(clientId);
+  if (!client) return res.status(404).json({ error: 'Cliente no encontrado' });
+  const { email, password } = req.body;
+  if (!email && !password) return res.status(400).json({ error: 'Indica correo y/o contraseña a actualizar' });
+
+  let user = db().users.find(u => u.role === 'client' && u.clientId === clientId);
+  if (email) {
+    const existing = findUserByEmail(email);
+    if (existing && existing !== user) return res.status(409).json({ error: 'Ese correo ya está registrado' });
+  }
+  if (!user) {
+    if (!email || !password) return res.status(400).json({ error: 'Correo y contraseña son obligatorios para crear el acceso' });
+    user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 8), role: 'client', clientId };
+    db().users.push(user);
+  } else {
+    if (email) user.email = email;
+    if (password) user.passwordHash = bcrypt.hashSync(password, 8);
+  }
+  if (email) client.email = email;
+  save();
+  logActivity({ clientId, action: 'client-access-updated', detail: `Acceso del portal actualizado (${user.email})` });
+  res.json({ ok: true, email: user.email });
+});
+
 app.delete('/api/clientes/clients/:id', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
   const clientId = req.params.id;
   const index = db().clients.findIndex(c => c.id === clientId);
