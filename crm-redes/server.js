@@ -14,9 +14,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import rateLimit from 'express-rate-limit';
 import {
   db, save, PLATFORMS, DEAL_STAGES, uid, colorFor,
   CONTENT_FORMATS, findUserByEmail, findUserById, findClient, planFor, metricsFor,
+  saveMediaFile, loadMediaAsDataUri, deleteMediaFile,
 } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +28,39 @@ const SECRET = process.env.JWT_SECRET || 'dev-secret-cambia-esto';
 
 app.use(cors());
 app.use(express.json());
+
+// Candado extra delante del panel de agencia: antes cualquiera que adivinara
+// /agencia (o /agency.html directo por express.static) cargaba el HTML sin
+// ninguna verificación del servidor — la protección era solo del lado del
+// cliente (JWT en localStorage). Si AGENCY_PANEL_USER/PASS están definidos en
+// el entorno, exige Basic Auth antes de servir ese archivo. Si no están
+// definidos, se mantiene el comportamiento de hoy (abierto) con una
+// advertencia en consola — así activarlo es opt-in, nunca deja a nadie
+// afuera por sorpresa en un redeploy sin configurar las variables.
+function agencyPanelGate(req, res, next) {
+  const panelUser = process.env.AGENCY_PANEL_USER;
+  const panelPass = process.env.AGENCY_PANEL_PASS;
+  if (!panelUser || !panelPass) {
+    console.warn('⚠️  /agencia sin protección adicional — define AGENCY_PANEL_USER y AGENCY_PANEL_PASS en .env para exigir Basic Auth.');
+    return next();
+  }
+  const header = req.headers.authorization || '';
+  const [scheme, encoded] = header.split(' ');
+  if (scheme === 'Basic' && encoded) {
+    const [user, pass] = Buffer.from(encoded, 'base64').toString('utf8').split(':');
+    if (user === panelUser && pass === panelPass) return next();
+  }
+  res.set('WWW-Authenticate', 'Basic realm="Panel de agencia Velozza"');
+  return res.status(401).send('Acceso restringido al equipo de agencia.');
+}
+
+// Evita que express.static sirva agency.html directo por su nombre de archivo
+// (bypasseando la gate de arriba) — solo se sirve a través de /agencia.
+app.use((req, res, next) => {
+  if (req.path === '/agency.html') return res.status(404).end();
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ---------------------------------------------------------------------------
@@ -104,9 +139,13 @@ const ROLE_CAPABILITIES = {
   },
 };
 
+// El rol viene del USUARIO autenticado (guardado server-side en su registro),
+// nunca del header X-Agency-Role que manda el navegador — antes cualquiera con
+// el login de agencia podía auto-asignarse 'owner' (o cualquier rol) desde un
+// dropdown. El header se ignora por completo para autorización.
 function resolveAgencyRole(req) {
-  const incoming = String(req.headers['x-agency-role'] || 'owner').trim().toLowerCase();
-  return ROLE_CAPABILITIES[incoming] ? incoming : 'owner';
+  const assigned = String(req.user?.agencyRole || 'owner').trim().toLowerCase();
+  return ROLE_CAPABILITIES[assigned] ? assigned : 'owner';
 }
 
 function hasCapability(req, capability) {
@@ -430,7 +469,17 @@ function resolveClientId(req, res) {
 // ---------------------------------------------------------------------------
 //  RUTAS DE SESIÓN
 // ---------------------------------------------------------------------------
-app.post('/api/clientes/auth/login', (req, res) => {
+// Protege el login de fuerza bruta — sin esto, cualquiera podía probar
+// contraseñas sin límite contra el único login de agencia compartido.
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Demasiados intentos de inicio de sesión. Intenta de nuevo en unos minutos.' },
+});
+
+app.post('/api/clientes/auth/login', loginLimiter, (req, res) => {
   const { email, password } = req.body;
   const user = findUserByEmail(email || '');
   if (!user || !bcrypt.compareSync(password || '', user.passwordHash))
@@ -517,9 +566,19 @@ app.post('/api/clientes/socials/:platform/toggle', auth, (req, res) => {
 // ---------------------------------------------------------------------------
 //  CONTENIDO (parrilla)  +  APROBACIONES
 // ---------------------------------------------------------------------------
+
+// La media ya no vive como base64 dentro de data/db.json (reventaba el archivo
+// con foto/video real) — se guarda en disco (db.js: saveMediaFile) y se
+// reconstituye a data-URI solo al responder, para que agency.html/index.html
+// (que esperan item.mediaDataUrl como src de <img>/<video>) no cambien nada.
+function hydrateContentMedia(item) {
+  if (!item.mediaPath) return item;
+  return { ...item, mediaDataUrl: loadMediaAsDataUri(item.mediaPath, item.mediaMime) };
+}
+
 app.get('/api/clientes/content', auth, (req, res) => {
   const id = resolveClientId(req, res); if (!id) return;
-  res.json(db().content.filter(c => c.clientId === id).sort((a, b) => a.date.localeCompare(b.date)));
+  res.json(db().content.filter(c => c.clientId === id).sort((a, b) => a.date.localeCompare(b.date)).map(hydrateContentMedia));
 });
 
 // La agencia crea una pieza → aparece en la parrilla del cliente.
@@ -534,15 +593,16 @@ app.post('/api/clientes/content', auth, agencyOnly, (req, res) => {
     platforms: platforms.filter(p => PLATFORMS.includes(p)),
     date,
     format: normalizedFormat,
-    mediaDataUrl: mediaDataUrl || '',
     mediaName: mediaName || '',
     status: 'pending',
     color: colorFor(platforms[0]),
     createdBy: 'agency',
   };
+  const saved = saveMediaFile(id, item.id, mediaDataUrl);
+  if (saved) { item.mediaPath = saved.mediaPath; item.mediaMime = saved.mediaMime; }
   db().content.push(item);
   save();
-  res.status(201).json(item);
+  res.status(201).json(hydrateContentMedia(item));
 });
 
 app.put('/api/clientes/content/:id', auth, agencyOnly, requireCapability('content.write'), (req, res) => {
@@ -569,12 +629,23 @@ app.put('/api/clientes/content/:id', auth, agencyOnly, requireCapability('conten
     if (!CONTENT_FORMATS.includes(normalizedFormat)) return res.status(400).json({ error: 'Formato inválido' });
     item.format = normalizedFormat;
   }
-  if (mediaDataUrl !== undefined) item.mediaDataUrl = mediaDataUrl;
+  if (mediaDataUrl !== undefined) {
+    const saved = saveMediaFile(id, item.id, mediaDataUrl);
+    if (saved) {
+      deleteMediaFile(item.mediaPath);
+      item.mediaPath = saved.mediaPath;
+      item.mediaMime = saved.mediaMime;
+    } else if (!mediaDataUrl) {
+      deleteMediaFile(item.mediaPath);
+      delete item.mediaPath;
+      delete item.mediaMime;
+    }
+  }
   if (mediaName !== undefined) item.mediaName = mediaName;
   item.updatedAt = new Date().toISOString();
   save();
   logActivity({ clientId: id, action: 'content-updated', detail: `Pieza actualizada: ${item.title}` });
-  res.json(item);
+  res.json(hydrateContentMedia(item));
 });
 
 app.post('/api/clientes/content/import', auth, agencyOnly, requireCapability('content.write'), (req, res) => {
@@ -631,7 +702,7 @@ app.post('/api/clientes/content/import/preview', auth, agencyOnly, requireCapabi
 
 app.get('/api/clientes/approvals', auth, (req, res) => {
   const id = resolveClientId(req, res); if (!id) return;
-  res.json(db().content.filter(c => c.clientId === id && c.status === 'pending'));
+  res.json(db().content.filter(c => c.clientId === id && c.status === 'pending').map(hydrateContentMedia));
 });
 
 // El cliente aprueba o rechaza → la agencia lo ve y el plan se recalcula solo.
@@ -648,7 +719,7 @@ app.post('/api/clientes/content/:id/decide', auth, (req, res) => {
   try {
     const updated = setContentStatus(item, decision, { actor: req.user.role, reason: req.body.reason || '' });
     save();
-    res.json(updated);
+    res.json(hydrateContentMedia(updated));
   } catch (error) {
     res.status(error.status || 500).json({ error: error.message || 'No se pudo actualizar la pieza' });
   }
@@ -662,7 +733,7 @@ app.put('/api/clientes/content/:id/status', auth, agencyOnly, requireCapability(
   try {
     const updated = setContentStatus(item, nextStatus, { actor: req.user.role, reason: req.body.reason || '' });
     save();
-    res.json(updated);
+    res.json(hydrateContentMedia(updated));
   } catch (error) {
     res.status(error.status || 500).json({ error: error.message || 'No se pudo actualizar la pieza' });
   }
@@ -800,6 +871,21 @@ function createAgencyClient(payload, { persist = true } = {}) {
     avatarUrl: avatarUrl || '',
   };
 }
+
+// Cuentas reales por persona del equipo de agencia — antes solo existía un
+// login compartido y cualquiera se auto-asignaba el rol desde el navegador.
+// Solo un 'owner' puede crear otras cuentas de agencia, cada una con su propio
+// email/password y un agencyRole fijo (owner/strategist/trafficker/closer).
+app.post('/api/clientes/agency/team', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
+  const { email, password, agencyRole } = req.body;
+  if (!email || !password) return res.status(400).json({ error: 'Correo y contraseña son obligatorios' });
+  if (!ROLE_CAPABILITIES[agencyRole]) return res.status(400).json({ error: `Rol inválido. Usa uno de: ${Object.keys(ROLE_CAPABILITIES).join(', ')}` });
+  if (findUserByEmail(email)) return res.status(409).json({ error: 'Ese correo ya está registrado' });
+  const user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 8), role: 'agency', clientId: null, agencyRole };
+  db().users.push(user);
+  save();
+  res.status(201).json({ email: user.email, agencyRole: user.agencyRole });
+});
 
 app.get('/api/clientes/clients', auth, agencyOnly, (req, res) => {
   const list = db().clients.map(c => {
@@ -1232,6 +1318,34 @@ app.post('/api/clientes/campaigns', auth, (req, res) => {
   db().campaigns.push(c); save(); res.status(201).json(c);
 });
 
+app.put('/api/clientes/campaigns/:id', auth, (req, res) => {
+  const clientId = resolveClientId(req, res); if (!clientId) return;
+  if (req.user.role === 'agency' && !hasCapability(req, 'campaigns.manage')) return res.status(403).json({ error: 'Tu rol no puede editar campañas' });
+  const campaign = db().campaigns.find(c => c.id === req.params.id && c.clientId === clientId);
+  if (!campaign) return res.status(404).json({ error: 'Campaña no encontrada' });
+  const { status, name, audience, sent, opens, clicks } = req.body;
+  if (status && ['borrador', 'enviada', 'cancelada'].includes(status)) campaign.status = status;
+  if (name !== undefined) campaign.name = name;
+  if (audience !== undefined) campaign.audience = Number(audience) || 0;
+  if (sent !== undefined) campaign.sent = Number(sent) || 0;
+  if (opens !== undefined) campaign.opens = Number(opens) || 0;
+  if (clicks !== undefined) campaign.clicks = Number(clicks) || 0;
+  save();
+  logActivity({ clientId, action: 'campaign-updated', detail: `Campaña "${campaign.name}" actualizada a estado ${campaign.status}` });
+  res.json(campaign);
+});
+
+app.delete('/api/clientes/campaigns/:id', auth, (req, res) => {
+  const clientId = resolveClientId(req, res); if (!clientId) return;
+  if (req.user.role === 'agency' && !hasCapability(req, 'campaigns.manage')) return res.status(403).json({ error: 'Tu rol no puede eliminar campañas' });
+  const i = db().campaigns.findIndex(c => c.id === req.params.id && c.clientId === clientId);
+  if (i < 0) return res.status(404).json({ error: 'Campaña no encontrada' });
+  const campaign = db().campaigns[i];
+  db().campaigns.splice(i, 1); save();
+  logActivity({ clientId, action: 'campaign-deleted', detail: `Campaña "${campaign.name}" eliminada` });
+  res.json({ ok: true });
+});
+
 // ---------------------------------------------------------------------------
 //  CALENDARIO Y CITAS  (tipo GHL)
 // ---------------------------------------------------------------------------
@@ -1448,7 +1562,7 @@ app.put('/api/clientes/conversations/:id', auth, (req, res) => {
 
 // Rutas de los dos portales
 app.get('/', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
-app.get('/agencia', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'agency.html')));
+app.get('/agencia', agencyPanelGate, (_req, res) => res.sendFile(path.join(__dirname, 'public', 'agency.html')));
 
 db(); // inicializa / siembra
 app.listen(PORT, () => {

@@ -81,6 +81,8 @@ const API={
   deleteTask:(cid,id)=>apiFetch('/tasks/'+id,{method:'DELETE',clientId:cid}),
   campaigns:(cid)=>apiFetch('/campaigns',{clientId:cid}),
   createCampaign:(cid,b)=>apiFetch('/campaigns',{method:'POST',body:b,clientId:cid}),
+  updateCampaign:(cid,id,b)=>apiFetch('/campaigns/'+id,{method:'PUT',body:b,clientId:cid}),
+  deleteCampaign:(cid,id)=>apiFetch('/campaigns/'+id,{method:'DELETE',clientId:cid}),
   calendars:(cid)=>apiFetch('/calendars',{clientId:cid}),
   createCalendar:(cid,b)=>apiFetch('/calendars',{method:'POST',body:b,clientId:cid}),
   updateCalendar:(cid,id,b)=>apiFetch('/calendars/'+id,{method:'PUT',body:b,clientId:cid}),
@@ -399,7 +401,7 @@ function Contacts({contacts,onCreate,onUpdate,onDelete}){
   </div>);
 }
 
-function AgencyOverview({metrics}){
+function AgencyOverview({metrics,activityLogs,activityTitle}){
   if(!metrics) return <Empty title="Resumen no disponible" sub="Carga de métricas en curso." ic={icons.chart}/>;
   return (<div className="grid" style={{gap:16}}>
     <div className="kpi-row" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
@@ -418,9 +420,9 @@ function AgencyOverview({metrics}){
           <div className="mini-stat"><b>{metrics.connectedSocials}</b><span>redes conectadas</span></div>
         </div>
       </div>
-      <div className="card card-pad">
-        <div className="section-title" style={{marginBottom:12}}><Ico d={icons.bell} size={16}/>Actividad reciente</div>
-        <div style={{display:'grid',gap:10}}>{metrics.recent.length?metrics.recent.map(item=>(<div key={item.id} style={{padding:'10px 12px',border:'1px solid rgba(0,0,0,.08)',borderRadius:14,background:'#fff'}}>
+      {activityLogs?.length>0&&<div className="card card-pad">
+        <div className="section-title" style={{marginBottom:12}}><Ico d={icons.bell} size={16}/>{activityTitle||'Actividad reciente'}</div>
+        <div style={{display:'grid',gap:10}}>{activityLogs.map(item=>(<div key={item.id} style={{padding:'10px 12px',border:'1px solid rgba(0,0,0,.08)',borderRadius:14,background:'#fff'}}>
           <div style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'center'}}>
             <div>
               <div style={{fontWeight:600,fontSize:13}}>{item.clientName}</div>
@@ -428,8 +430,8 @@ function AgencyOverview({metrics}){
             </div>
             <div style={{fontSize:11,color:'var(--muted)',textAlign:'right'}}>{new Date(item.at).toLocaleString('es-CO')}</div>
           </div>
-        </div>)):<div style={{color:'var(--muted)',fontSize:13}}>Aún no hay eventos registrados.</div>}</div>
-      </div>
+        </div>))}</div>
+      </div>}
     </div>
   </div>);
 }
@@ -545,18 +547,24 @@ function CampaignModal({onSave,onClose}){
     <div className="field"><label>Fecha</label><input className="input" type="date" value={f.date} onChange={e=>set('date',e.target.value)}/></div>
   </Modal>;
 }
-function Campaigns({campaigns,onCreate}){
+function Campaigns({campaigns,onCreate,onUpdate,onDelete}){
   const[modal,setModal]=useState(false);
   const chIco={email:['#6C5CE7','✉'],instagram:[PLATFORMS.instagram.hex,'◎'],facebook:[PLATFORMS.facebook.hex,'f'],multi:['#FF6B4A','✦']};
+  const handleSend=async(campaign)=>{if(campaign.status==='enviada'){toastErr('Ya fue enviada');return;}await onUpdate(campaign.id,{status:'enviada',sent:campaign.audience});};
+  const handleDelete=async(campaign)=>{if(!window.confirm(`¿Eliminar "${campaign.name}"?`))return;await onDelete(campaign.id);};
   return (<div className="grid" style={{gap:14}}>
     <div style={{display:'flex',alignItems:'center'}}><div className="section-title"><Ico d={icons.mega} size={16}/>Campañas de marketing</div>
       <button className="btn btn-primary btn-sm" style={{marginLeft:'auto'}} onClick={()=>setModal(true)}><Ico d={icons.plus} size={15}/>Nueva campaña</button></div>
     <div className="grid" style={{gap:11}}>{campaigns.length?campaigns.map(c=>{const[col,gl]=chIco[c.channel]||chIco.email;const openRate=c.sent?Math.round(c.opens/c.sent*100):0;const ctr=c.sent?Math.round(c.clicks/c.sent*100):0;
-      return (<div className="camp" key={c.id}>
+      return (<div className="camp" key={c.id} style={{position:'relative'}}>
         <div className="camp-ico" style={{background:col}}>{gl}</div>
         <div style={{flex:1,minWidth:0}}><div style={{fontWeight:600,fontSize:14}}>{c.name}</div>
           <div style={{display:'flex',gap:8,marginTop:5,alignItems:'center',flexWrap:'wrap'}}><StatusPill s={c.status}/><span style={{fontSize:11.5,color:'var(--muted)'}}>{c.channel} · {c.date} · {fmtK(c.audience)} destinatarios</span></div></div>
-        <div className="camp-metrics"><div className="cm"><b>{c.status==='enviada'?openRate+'%':'—'}</b><span>Apertura</span></div><div className="cm"><b>{c.status==='enviada'?ctr+'%':'—'}</b><span>Clics</span></div></div></div>);})
+        <div className="camp-metrics"><div className="cm"><b>{c.status==='enviada'?openRate+'%':'—'}</b><span>Apertura</span></div><div className="cm"><b>{c.status==='enviada'?ctr+'%':'—'}</b><span>Clics</span></div></div>
+        <div style={{display:'flex',gap:6,marginLeft:'auto',paddingLeft:8}}>
+          {c.status==='borrador'&&<button className="btn-icon" title="Enviar" onClick={()=>handleSend(c)} style={{color:'#27AE60'}}><Ico d="send" size={16}/></button>}
+          <button className="btn-icon" title="Eliminar" onClick={()=>handleDelete(c)} style={{color:'#E74C3C'}}><Ico d="trash" size={16}/></button>
+        </div></div>);})
       :<Empty title="Sin campañas" sub="Crea tu primera campaña de email o redes." ic={icons.mega}/>}</div>
     {modal&&<CampaignModal onClose={()=>setModal(false)} onSave={async(f)=>{await onCreate(f);setModal(false);}}/>}
   </div>);
@@ -1320,7 +1328,7 @@ function App(){
   useEffect(()=>{if(user)loadAgencyMetrics().catch(()=>{});},[user]);
   const loadOpsMetrics=async()=>{setOpsMetrics(await API.agencyOps());};
   useEffect(()=>{if(user)loadOpsMetrics().catch(()=>{});},[user,agencyRole]);
-  const loadCapabilities=async()=>{const data=await API.agencyCapabilities();setCapabilities(data.capabilities||{});};
+  const loadCapabilities=async()=>{const data=await API.agencyCapabilities();setCapabilities(data.capabilities||{});if(data.role)setAgencyRole(data.role);};
   useEffect(()=>{if(user)loadCapabilities().catch(()=>{});},[user,agencyRole]);
   const loadTemplates=async()=>{setTemplates(await API.templates());};
   useEffect(()=>{if(user)loadTemplates().catch(()=>{});},[user,agencyRole]);
@@ -1505,6 +1513,8 @@ function App(){
   const unread=conversations.reduce((s,c)=>s+(c.unread>0?1:0),0);
   const todayStr=new Date().toISOString().slice(0,10);
   const tasksDue=tasks.filter(t=>!t.done&&t.due<=todayStr).length;
+  const overviewActivity=sel?activity:(agencyMetrics?.recent||[]);
+  const overviewActivityTitle=selClient?'Actividad del cliente seleccionado':'Actividad reciente';
   const views=[{k:'overview',l:'Resumen'},...(can('ops.view')?[{k:'operations',l:'Operaciones'}]:[]),{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'calendar',l:'Citas'},{k:'automations',l:'Automatización'},{k:'templates',l:'Plantillas'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'},{k:'activity',l:'Historial'}];
   return (<div className="app">
     <aside className="sidebar">
@@ -1520,6 +1530,12 @@ function App(){
           <button className="btn btn-ghost btn-sm" onClick={()=>setCreateClientOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.plus} size={14}/>Nuevo</button>
         </div>
       </div>
+      <div className="field" style={{margin:'10px 0 14px'}}>
+        <label style={{fontSize:12,color:'var(--muted)'}}>Cliente activo</label>
+        <select className="input" value={sel||''} onChange={e=>setSel(e.target.value||null)}>
+          {clients.length?clients.map(c=><option key={c.id} value={c.id}>{c.fullName} · {c.planUsed}/{c.planTotal}</option>):<option value="">Sin clientes</option>}
+        </select>
+      </div>
       <div className="nav" style={{gap:8}}>{clients.map(c=>(<button key={c.id} className={'client-row'+(sel===c.id?' active':'')} onClick={()=>setSel(c.id)} style={{padding:'10px 12px'}}>
         <div className="client-av" style={{width:34,height:34,fontSize:13}}>{c.avatarUrl?<img src={c.avatarUrl} alt={c.fullName||'cliente'}/>:(c.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
         <div style={{flex:1,minWidth:0,textAlign:'left'}}><div style={{fontSize:13,fontWeight:600,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.fullName}</div>
@@ -1531,15 +1547,27 @@ function App(){
       <header className="topbar"><div><h1>{view==='overview'?'Resumen de agencia':view==='operations'?'Centro de operaciones':(selClient?.fullName||'Selecciona un cliente')}</h1><div className="crumb">{view==='overview'?'Visión operativa global':view==='operations'?'SLA y productividad del equipo':(selClient?.businessSector||'Panel de gestión')}</div></div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
           <label style={{fontSize:12,color:'var(--muted)'}}>Rol</label>
-          <select className="input" style={{minWidth:170}} value={agencyRole} onChange={e=>setAgencyRole(e.target.value)}>
-            <option value="owner">owner</option>
-            <option value="strategist">strategist</option>
-            <option value="trafficker">trafficker</option>
-            <option value="closer">closer</option>
-          </select>
+          <span className="input" style={{minWidth:170,display:'inline-flex',alignItems:'center',color:'#fff',background:'rgba(108,92,231,.14)',cursor:'default'}} title="Asignado por el servidor según tu cuenta — ya no se elige aquí">{agencyRole}</span>
         </div></header>
       <div className="content">
         <>
+          {selClient&&<div className="card card-pad" style={{marginBottom:14,border:'1px solid rgba(108,92,231,.14)',background:'linear-gradient(180deg, rgba(108,92,231,.08), rgba(255,255,255,.96))'}}>
+            <div style={{display:'flex',justifyContent:'space-between',gap:16,alignItems:'center',flexWrap:'wrap'}}>
+              <div style={{display:'flex',alignItems:'center',gap:14,minWidth:0}}>
+                <div className="client-av" style={{width:56,height:56,fontSize:18,flex:'0 0 auto'}}>{selClient.avatarUrl?<img src={selClient.avatarUrl} alt={selClient.fullName||'cliente'}/>:(selClient.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+                <div style={{minWidth:0}}>
+                  <div className="section-title" style={{marginBottom:4}}>Cliente seleccionado</div>
+                  <h2 style={{margin:0,fontSize:'clamp(20px, 2.8vw, 30px)',lineHeight:1.1,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{selClient.fullName}</h2>
+                  <div style={{marginTop:6,fontSize:13,color:'var(--muted)'}}>{selClient.businessSector||'Sin sector definido'}</div>
+                </div>
+              </div>
+              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                <span className="text-chip" style={{'--brand':'var(--violet)'}}>Plan {selClient.planUsed}/{selClient.planTotal}</span>
+                <span className="text-chip" style={{'--brand':'var(--mint)'}}>Pendientes {selClient.pending}</span>
+                <span className="text-chip" style={{'--brand':'var(--primary)'}}>{selClient.connected} redes</span>
+              </div>
+            </div>
+          </div>}
           <div className="mobile-client-tools card card-pad">
             <div className="section-title" style={{marginBottom:10}}><Ico d={icons.contacts} size={16}/>Gestión de clientes</div>
             <div className="grid" style={{gridTemplateColumns:'1fr auto',gap:10,alignItems:'end'}}>
@@ -1560,7 +1588,7 @@ function App(){
             </div>
           </div>
           <div className="tabs" style={{marginBottom:18,flexWrap:'wrap'}}>{views.map(v=>(<button key={v.k} className={'tab'+(view===v.k?' active':'')} onClick={()=>setView(v.k)}>{v.l}{v.badge>0&&<span className="nav-badge" style={{position:'static',marginLeft:6}}>{v.badge}</span>}</button>))}</div>
-          {view==='overview'&&<AgencyOverview metrics={agencyMetrics}/>}
+          {view==='overview'&&<AgencyOverview metrics={agencyMetrics} activityLogs={overviewActivity} activityTitle={overviewActivityTitle}/>} 
           {view==='operations'&&<OperationsCenter ops={opsMetrics}/>} 
           {view!=='overview'&&view!=='operations'&&!sel&&<Empty title="Elige un cliente" sub="Selecciona un cliente para continuar." ic={icons.contacts}/>}
           {view!=='overview'&&view!=='operations'&&!!sel&&<>

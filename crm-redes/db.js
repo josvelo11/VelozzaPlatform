@@ -12,6 +12,9 @@ import bcrypt from 'bcryptjs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
+const MEDIA_DIR = path.join(DATA_DIR, 'media');
+const BACKUP_DIR = path.join(DATA_DIR, 'backups');
+const MAX_BACKUPS = 20;
 
 export const PLATFORMS = ['facebook', 'instagram', 'tiktok', 'youtube', 'linkedin', 'x'];
 export const DEAL_STAGES = ['nuevo', 'contactado', 'propuesta', 'negociacion', 'ganado'];
@@ -29,7 +32,7 @@ function buildSeed() {
   return {
     users: [
       { id: uid(), email: 'camila@laparrillaverde.co', passwordHash: bcrypt.hashSync('cliente123', 8), role: 'client', clientId },
-      { id: uid(), email: 'equipo@pautastudio.co',     passwordHash: bcrypt.hashSync('agencia123', 8), role: 'agency', clientId: null },
+      { id: uid(), email: 'equipo@pautastudio.co',     passwordHash: bcrypt.hashSync('agencia123', 8), role: 'agency', clientId: null, agencyRole: 'owner' },
     ],
     clients: [{
       id: clientId, fullName: 'Camila Restrepo', businessSector: 'Restaurante / Gastronomía',
@@ -170,19 +173,105 @@ function buildSeed() {
   };
 }
 
+// ---- Media: archivos en disco en vez de base64 embebido en el JSON ----
+const MEDIA_EXT_BY_MIME = {
+  'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif', 'image/webp': 'webp',
+  'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm',
+};
+
+export function saveMediaFile(clientId, contentId, dataUri) {
+  const match = /^data:([^;]+);base64,(.+)$/.exec(dataUri || '');
+  if (!match) return null;
+  const [, mime, b64] = match;
+  const ext = MEDIA_EXT_BY_MIME[mime] || (mime.split('/')[1] || 'bin').replace(/[^a-z0-9]/gi, '');
+  const dir = path.join(MEDIA_DIR, clientId);
+  fs.mkdirSync(dir, { recursive: true });
+  const filePath = path.join(dir, `${contentId}.${ext}`);
+  fs.writeFileSync(filePath, Buffer.from(b64, 'base64'));
+  return { mediaPath: `${clientId}/${contentId}.${ext}`, mediaMime: mime };
+}
+
+export function loadMediaAsDataUri(mediaPath, mediaMime) {
+  if (!mediaPath) return '';
+  const filePath = path.join(MEDIA_DIR, mediaPath);
+  if (!fs.existsSync(filePath)) return '';
+  const buf = fs.readFileSync(filePath);
+  return `data:${mediaMime || 'application/octet-stream'};base64,${buf.toString('base64')}`;
+}
+
+export function deleteMediaFile(mediaPath) {
+  if (!mediaPath) return;
+  const filePath = path.join(MEDIA_DIR, mediaPath);
+  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+}
+
+// Migración perezosa: cualquier usuario de agencia sin agencyRole asignado
+// (cuentas creadas antes de este fix) recibe 'owner' — mismo comportamiento
+// que ya tenían hoy, pero ahora fijado en el registro del usuario en vez de
+// aceptar el rol que el propio navegador dice tener por header.
+function migrateAgencyRoles() {
+  let changed = false;
+  for (const user of cache.users || []) {
+    if (user.role === 'agency' && !user.agencyRole) {
+      user.agencyRole = 'owner';
+      changed = true;
+    }
+  }
+  if (changed) save();
+}
+
+// Migración perezosa: cualquier content.mediaDataUrl que todavía sea un data-URI
+// inline se extrae a disco una sola vez. Idempotente — una vez migrado el campo
+// deja de empezar con "data:", así que se salta en cargas siguientes.
+function migrateInlineMediaToDisk() {
+  let changed = false;
+  for (const item of cache.content || []) {
+    if (typeof item.mediaDataUrl === 'string' && item.mediaDataUrl.startsWith('data:')) {
+      const saved = saveMediaFile(item.clientId, item.id, item.mediaDataUrl);
+      if (saved) {
+        item.mediaPath = saved.mediaPath;
+        item.mediaMime = saved.mediaMime;
+        delete item.mediaDataUrl;
+        changed = true;
+      }
+    }
+  }
+  if (changed) {
+    save();
+    console.log('📦 Media inline migrada a archivos en', MEDIA_DIR);
+  }
+}
+
 // ---------------------------------------------------------------------------
 let cache = null;
 export function db() {
   if (cache) return cache;
   if (fs.existsSync(DB_FILE)) cache = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
   else { cache = buildSeed(); save(); console.log('🌱 Base de datos creada con datos de ejemplo en', DB_FILE); }
+  migrateAgencyRoles();
+  migrateInlineMediaToDisk();
   return cache;
 }
 export function save() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (fs.existsSync(DB_FILE)) backupBeforeWrite();
   const tmp = DB_FILE + '.tmp';
   fs.writeFileSync(tmp, JSON.stringify(cache, null, 2));
   fs.renameSync(tmp, DB_FILE);
+}
+
+// Guarda una copia de data/db.json antes de cada escritura (rotando las últimas
+// MAX_BACKUPS) — sin esto, un bug o un JSON corrupto perdería todo el CRM de una vez.
+function backupBeforeWrite() {
+  try {
+    if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true });
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+    fs.copyFileSync(DB_FILE, path.join(BACKUP_DIR, `db.${stamp}.json`));
+    const files = fs.readdirSync(BACKUP_DIR).filter(f => f.startsWith('db.')).sort();
+    while (files.length > MAX_BACKUPS) fs.unlinkSync(path.join(BACKUP_DIR, files.shift()));
+  } catch (e) {
+    console.warn('⚠️  No se pudo crear backup de db.json antes de escribir:', e.message);
+  }
 }
 
 // ---- Helpers de dominio ----
