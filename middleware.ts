@@ -31,7 +31,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protected routes - need authentication
-  const protectedRoutes = ['/admin', '/client', '/team', '/clientes'];
+  // /clientes NO va aquí: redirige al panel Pauta (app/clientes/page.tsx), que
+  // tiene su propia autenticación — la cookie sb-auth-token del portal viejo
+  // no aplica y dejarla listada mandaba a los clientes al /login equivocado.
+  const protectedRoutes = ['/admin', '/client', '/team'];
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname === route || pathname.startsWith(route + '/')
   );

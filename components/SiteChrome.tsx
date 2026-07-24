@@ -151,7 +151,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             <a href="/faqs" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>FAQs</a>
             <a href="/contacto" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Contacto</a>
             <a href="/cliente" style={{ color: '#f0d98a', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Cliente</a>
-            <a href="/login" style={{ background: 'linear-gradient(135deg, #f0d98a, #c9a84c)', color: '#1a1200', textDecoration: 'none', padding: '14px 24px', fontFamily: 'Montserrat, sans-serif', fontWeight: 800, letterSpacing: '.14em', textTransform: 'uppercase', border: 0 }}>Ingresar</a>
+            <a href="/clientes" style={{ background: 'linear-gradient(135deg, #f0d98a, #c9a84c)', color: '#1a1200', textDecoration: 'none', padding: '14px 24px', fontFamily: 'Montserrat, sans-serif', fontWeight: 800, letterSpacing: '.14em', textTransform: 'uppercase', border: 0 }}>Ingresar</a>
           </div>
         </nav>
       </header>
