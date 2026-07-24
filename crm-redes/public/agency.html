@@ -795,8 +795,7 @@ function AuthGate({onAuth}){
       {err&&<div className="auth-err">{err}</div>}
       <div className="field"><label>Correo</label><input className="input" value={email} onChange={e=>setEmail(e.target.value)} placeholder="equipo@tuagencia.co"/></div>
       <div className="field"><label>Contraseña</label><input className="input" type="password" value={password} onChange={e=>setPassword(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()} placeholder="••••••••"/></div>
-      <button className="btn btn-dark" style={{width:'100%',justifyContent:'center',marginTop:6}} disabled={busy} onClick={submit}>{busy?'Un momento…':'Ingresar'}</button>
-      <div className="auth-hint">Demo agencia: <code>equipo@pautastudio.co</code> / <code>agencia123</code></div></div></div>);
+      <button className="btn btn-dark" style={{width:'100%',justifyContent:'center',marginTop:6}} disabled={busy} onClick={submit}>{busy?'Un momento…':'Ingresar'}</button></div></div>);
 }
 
 /* ===== CREAR CONTENIDO (parrilla) ===== */

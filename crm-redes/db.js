@@ -242,6 +242,33 @@ function migrateInlineMediaToDisk() {
   }
 }
 
+// Admin real por variables de entorno: si ADMIN_EMAIL y ADMIN_PASSWORD están
+// definidos, se garantiza ese usuario como owner de agencia en cada arranque
+// (clave: en Railway el filesystem es efímero y el seed demo renacía en cada
+// redeploy). Al activarse, elimina la cuenta demo pública equipo@pautastudio.co
+// para que las credenciales publicadas en el login dejen de dar acceso al panel.
+const DEMO_AGENCY_EMAIL = 'equipo@pautastudio.co';
+function ensureAdminFromEnv() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+  if (!email || !password) return;
+  let changed = false;
+  let admin = cache.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (!admin) {
+    cache.users.push({ id: uid(), email, passwordHash: bcrypt.hashSync(password, 8), role: 'agency', clientId: null, agencyRole: 'owner' });
+    changed = true;
+  } else {
+    if (!bcrypt.compareSync(password, admin.passwordHash)) { admin.passwordHash = bcrypt.hashSync(password, 8); changed = true; }
+    if (admin.role !== 'agency' || admin.agencyRole !== 'owner') { admin.role = 'agency'; admin.agencyRole = 'owner'; admin.clientId = null; changed = true; }
+  }
+  if (email.toLowerCase() !== DEMO_AGENCY_EMAIL) {
+    const before = cache.users.length;
+    cache.users = cache.users.filter(u => !(u.role === 'agency' && u.email.toLowerCase() === DEMO_AGENCY_EMAIL));
+    if (cache.users.length !== before) { changed = true; console.log('🔒 Cuenta demo de agencia eliminada:', DEMO_AGENCY_EMAIL); }
+  }
+  if (changed) { save(); console.log('👤 Admin de agencia asegurado desde ADMIN_EMAIL:', email); }
+}
+
 // ---------------------------------------------------------------------------
 let cache = null;
 export function db() {
@@ -250,6 +277,7 @@ export function db() {
   else { cache = buildSeed(); save(); console.log('🌱 Base de datos creada con datos de ejemplo en', DB_FILE); }
   migrateAgencyRoles();
   migrateInlineMediaToDisk();
+  ensureAdminFromEnv();
   return cache;
 }
 export function save() {
