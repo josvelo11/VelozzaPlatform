@@ -269,7 +269,7 @@ export default function Home() {
             <li><a href="/faqs">FAQs</a></li>
             <li><a href="/contacto">Contacto</a></li>
             <li><a href="/cliente">Cliente</a></li>
-            <li><a href="/login">Ingresar</a></li>
+            <li><a href="/clientes">Ingresar</a></li>
           </ul>
           <Link href="/contacto" className="button gold">Agenda tu Consulta →</Link>
         </header>
@@ -643,7 +643,7 @@ export default function Home() {
             </div>
             <div>
               <h4>Empresa</h4>
-              <ul><li><Link href="/#nosotros">Nosotros</Link></li><li><Link href="/contacto">Contacto</Link></li><li><Link href="/login">Acceder</Link></li></ul>
+              <ul><li><Link href="/#nosotros">Nosotros</Link></li><li><Link href="/contacto">Contacto</Link></li><li><Link href="/clientes">Acceder</Link></li></ul>
             </div>
           </div>
           <div className="wrap bottom">
