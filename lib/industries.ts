@@ -11,6 +11,9 @@ export interface IndustryTemplate {
   keywords: string[];
   cities: string[];
   services: string[];
+  painPoints?: string[];
+  approach?: string[];
+  faqs?: { question: string; answer: string }[];
 }
 
 const industriesDirectory = path.join(process.cwd(), 'content/industries');
