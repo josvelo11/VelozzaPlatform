@@ -53,7 +53,7 @@ export default async function IndustryPage({ params }: Props) {
           <h2>Ciudades objetivo</h2>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             {industry.cities.map((city) => (
-              <Link key={city} href={`/ubicaciones/${city}`} style={{ padding: '8px 12px', background: '#f0f0f0', borderRadius: '999px', color: '#333', textDecoration: 'none' }}>
+              <Link key={city} href={`/ubicaciones/${city}`} style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(244, 207, 99, 0.25)', borderRadius: '999px', color: '#f4cf63', textDecoration: 'none' }}>
                 {city}
               </Link>
             ))}

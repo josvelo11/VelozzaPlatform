@@ -1,15 +1,16 @@
-import { getBlogPostBySlug } from '@/lib/blog';
+import { getBlogPostBySlug, getAllBlogPosts } from '@/lib/blog';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { articleSchema } from '@/lib/seo/schema';
 import { notFound } from 'next/navigation';
+import { remark } from 'remark';
+import html from 'remark-html';
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
-  const posts = ['personal-branding-2025', 'seo-tendencias-2025'];
-  return posts.map((slug) => ({ slug }));
+  return getAllBlogPosts().map((post) => ({ slug: post.slug }));
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -19,6 +20,11 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) {
     notFound();
   }
+
+  // El markdown venía crudo (remark instalado pero sin conectar): los ## y
+  // listas se pintaban literales dentro del artículo.
+  const processedContent = await remark().use(html).process(post.content);
+  const contentHtml = processedContent.toString();
 
   const schema = articleSchema(
     post.title,
@@ -80,12 +86,12 @@ export default async function BlogPostPage({ params }: Props) {
             style={{
               fontSize: '16px',
               lineHeight: '1.8',
-              color: '#333',
+              color: '#d9d6cc',
             }}
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
 
-          <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #ddd' }}>
+          <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid rgba(244, 207, 99, 0.18)' }}>
             <p style={{ fontWeight: '600' }}>Etiquetas:</p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {post.tags.map((tag: string) => (

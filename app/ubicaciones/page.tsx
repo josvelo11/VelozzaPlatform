@@ -28,10 +28,11 @@ export default function UbicacionesPage() {
             <div
               key={city}
               style={{
-                backgroundColor: 'white',
+                backgroundColor: '#0f0f0f',
+                border: '1px solid rgba(244, 207, 99, 0.18)',
                 borderRadius: '12px',
                 padding: '30px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
               }}
             >
               <h3>{city.charAt(0).toUpperCase() + city.slice(1)}</h3>

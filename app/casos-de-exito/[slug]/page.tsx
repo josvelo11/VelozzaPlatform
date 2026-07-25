@@ -49,7 +49,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
           </ul>
         </section>
 
-        <section style={{ marginTop: '40px', padding: '24px', background: '#f5f7fb', borderRadius: '12px' }}>
+        <section style={{ marginTop: '40px', padding: '24px', background: '#0f0f0f', border: '1px solid rgba(244, 207, 99, 0.18)', borderRadius: '12px' }}>
           <h2>Testimonio</h2>
           <p>{study.testimonial}</p>
         </section>

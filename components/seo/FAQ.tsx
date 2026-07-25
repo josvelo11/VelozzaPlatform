@@ -49,8 +49,8 @@ export function FAQ({ items, title = 'Preguntas Frecuentes' }: FAQProps) {
                 border: '1px solid var(--line)',
                 borderRadius: '18px',
                 overflow: 'hidden',
-                background: 'rgba(255,255,255,0.72)',
-                boxShadow: '0 14px 40px rgba(15, 23, 42, 0.06)',
+                background: 'rgba(255,255,255,0.04)',
+                boxShadow: '0 14px 40px rgba(0, 0, 0, 0.25)',
               }}
             >
               <button
@@ -58,7 +58,7 @@ export function FAQ({ items, title = 'Preguntas Frecuentes' }: FAQProps) {
                 style={{
                   width: '100%',
                   padding: '18px 18px',
-                  backgroundColor: expanded[index] ? 'rgba(14,165,233,0.12)' : 'transparent',
+                  backgroundColor: expanded[index] ? 'rgba(244,207,99,0.10)' : 'transparent',
                   border: 'none',
                   cursor: 'pointer',
                   textAlign: 'left',
