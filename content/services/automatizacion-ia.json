@@ -11,5 +11,76 @@
     "Respuesta más rápida a clientes potenciales",
     "Escalabilidad sin aumentar la carga operativa"
   ],
-  "keywords": ["automatización", "IA", "workflow", "CRM", "procesos"]
+  "extendedDescription": [
+    "Cada día que tu equipo dedica horas a responder los mismos mensajes, perseguir leads fríos o copiar datos entre plataformas, tu negocio pierde dinero y oportunidades. La mayoría de las empresas en LatAm no tiene un problema de demanda: tiene un problema de procesos. Los leads llegan, pero se enfrían porque nadie responde a tiempo, y las tareas repetitivas consumen la energía que tu equipo debería invertir en cerrar ventas y atender clientes de alto valor.",
+    "En Velozza Creative Works diseñamos sistemas de automatización que trabajan mientras tú diriges. Mapeamos tu operación completa, identificamos los cuellos de botella que frenan tu crecimiento y construimos flujos inteligentes que responden, califican y hacen seguimiento sin intervención manual. Integramos tu CRM, tus canales de comunicación y tu lógica comercial en un solo ecosistema, para que cada lead reciba la respuesta correcta en el momento correcto, todos los días.",
+    "Nuestro diferencial es Lozara Intelligence™, la tecnología propia con la que hemos ayudado a posicionar más de 250 marcas en más de 7 países. No instalamos herramientas genéricas: aplicamos más de 15 años de experiencia en LatAm, liderados por David Veloza, para construir automatizaciones alineadas a tu modelo de negocio, con métricas claras y una operación que escala sin aumentar tu carga ni tu nómina."
+  ],
+  "audience": [
+    "Médicos y profesionales de la salud que pierden pacientes por demoras en la respuesta a citas y consultas",
+    "Abogados y firmas legales que necesitan ordenar la captación y el seguimiento de casos",
+    "Empresas de seguros, energía y banca con alto volumen de leads y procesos manuales",
+    "Ejecutivos y dueños de negocio que quieren escalar sin contratar más personal operativo",
+    "Equipos comerciales que dejan enfriar oportunidades por falta de seguimiento sistemático",
+    "Emprendedores que gestionan solos su operación y necesitan liberar horas cada semana"
+  ],
+  "process": [
+    {
+      "title": "Consulta estratégica",
+      "description": "Analizamos tu operación actual, tus canales de entrada de clientes y los puntos donde pierdes tiempo o leads. Definimos juntos los objetivos concretos de la automatización."
+    },
+    {
+      "title": "Auditoría de procesos y datos",
+      "description": "Mapeamos cada flujo: qué pasa cuando llega un lead, quién responde, en cuánto tiempo y dónde se rompe la cadena. Identificamos las automatizaciones de mayor impacto."
+    },
+    {
+      "title": "Plan de acción personalizado",
+      "description": "Diseñamos la arquitectura de tu sistema: herramientas, integraciones con tu CRM, flujos de respuesta y reglas de calificación de leads, priorizadas por retorno."
+    },
+    {
+      "title": "Implementación y pruebas",
+      "description": "Construimos y conectamos las automatizaciones, entrenamos los flujos de IA con tu lógica comercial y probamos cada escenario antes de activarlo en tu operación real."
+    },
+    {
+      "title": "Optimización y reporte",
+      "description": "Monitoreamos el desempeño, ajustamos los flujos según datos reales y te entregamos reportes claros de tiempo ahorrado, leads atendidos y oportunidades generadas."
+    }
+  ],
+  "deliverables": [
+    "Auditoría completa de procesos y mapa de automatización priorizado por impacto",
+    "Flujos de automatización configurados y activos: respuesta, seguimiento y calificación de leads",
+    "Integración con tu CRM y canales de comunicación (WhatsApp, email, formularios web)",
+    "Respuestas automáticas con IA entrenadas en el tono y la lógica de tu marca",
+    "Sistema de calificación inteligente de leads con reglas alineadas a tu negocio",
+    "Documentación clara de cada flujo implementado",
+    "Capacitación práctica para tu equipo interno",
+    "Reportes periódicos de desempeño con oportunidades de mejora"
+  ],
+  "faqs": [
+    {
+      "question": "¿Necesito conocimientos técnicos para usar las automatizaciones?",
+      "answer": "No. Nosotros diseñamos, implementamos y documentamos todo el sistema. Tu equipo recibe capacitación práctica y flujos listos para operar. Tú solo ves los resultados: leads atendidos más rápido, seguimiento sin huecos y reportes claros. El soporte técnico y los ajustes quedan de nuestro lado."
+    },
+    {
+      "question": "¿Qué procesos de mi negocio se pueden automatizar?",
+      "answer": "Los más comunes: respuesta inicial a leads, agendamiento de citas, seguimiento comercial, calificación de prospectos, recordatorios y reportes internos. En la consulta estratégica auditamos tu operación completa y priorizamos las automatizaciones con mayor impacto en ventas y tiempo, para que la inversión se enfoque donde más retorna."
+    },
+    {
+      "question": "¿La IA va a responder igual que mi equipo?",
+      "answer": "Entrenamos los flujos con tu lógica comercial y el tono de tu marca, y definimos juntos qué responde el sistema y en qué momento interviene una persona. La IA resuelve lo repetitivo y filtra; tu equipo entra cuando la conversación tiene valor comercial real. Nunca pierdes el control de la comunicación."
+    },
+    {
+      "question": "¿En cuánto tiempo veo resultados?",
+      "answer": "Depende de la complejidad de tu operación, pero los primeros flujos suelen activarse en pocas semanas y el impacto en velocidad de respuesta se nota de inmediato. Trabajamos por fases: primero las automatizaciones de mayor retorno, luego optimizamos con datos reales de tu propio negocio."
+    },
+    {
+      "question": "¿Se integra con las herramientas que ya uso?",
+      "answer": "Ese es el punto de partida. Antes de proponer cualquier herramienta nueva, evaluamos tu CRM, tus canales y tus plataformas actuales. La mayoría de las integraciones se construyen sobre lo que ya tienes; solo recomendamos cambios cuando una herramienta limita seriamente tu crecimiento."
+    },
+    {
+      "question": "¿Qué diferencia a Velozza de un freelancer que configura automatizaciones?",
+      "answer": "Aplicamos Lozara Intelligence™, nuestra metodología propia construida sobre más de 15 años de experiencia en marketing y operación en LatAm. No configuramos herramientas sueltas: diseñamos un sistema comercial completo, conectado a tu estrategia de marca y demanda, con acompañamiento, optimización continua y reportes que un proyecto puntual no ofrece."
+    }
+  ],
+  "keywords": ["automatización", "IA", "workflow", "CRM", "procesos", "automatización de procesos con inteligencia artificial", "automatización de seguimiento de leads para empresas", "agencia de automatización con ia en español", "chatbots con inteligencia artificial para negocios"]
 }

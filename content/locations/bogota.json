@@ -6,5 +6,30 @@
   "email": "bogota@velozzacws.com",
   "address": "Calle 85 # 15-43",
   "description": "Centro de operaciones Velozza en Bogotá. Servimos a empresas y emprendedores de toda Colombia desde nuestra oficina en la capital.",
-  "keywords": ["marketing digital Bogotá", "agencia SEO Bogotá", "branding Bogotá"]
+  "keywords": ["marketing digital Bogotá", "agencia SEO Bogotá", "branding Bogotá"],
+  "intro": [
+    "Bogotá concentra la mayor actividad empresarial de Colombia y uno de los mercados digitales más competitivos de Latinoamérica. Posicionarse aquí exige más que publicar contenido: requiere estrategia de marca, SEO local y campañas que respondan a cómo buscan y deciden los bogotanos. Desde nuestra oficina en la capital, Velozza Creative Works acompaña a empresas que necesitan destacar en un mercado donde la competencia por la atención es constante y la diferenciación es la única ventaja sostenible.",
+    "En Bogotá trabajamos especialmente con el sector corporativo, salud, legal y seguros: industrias donde la confianza y la autoridad pesan tanto como la visibilidad. Aplicamos Lozara Intelligence™, nuestra metodología propia de estrategia de marca con IA, para construir presencia digital que convierte búsquedas en consultas y consultas en clientes. Con más de 15 años de experiencia en LatAm, entendemos cómo comunicar credibilidad en sectores regulados y de alta exigencia."
+  ],
+  "servicesHighlight": [
+    "SEO local y posicionamiento en búsquedas de Bogotá",
+    "Estrategia de marca corporativa con Lozara Intelligence™",
+    "Pauta digital para generación de leads en sectores salud, legal y seguros",
+    "Gestión de redes sociales para empresas y firmas profesionales",
+    "Producción de contenido y fotografía corporativa"
+  ],
+  "faqs": [
+    {
+      "question": "¿Velozza atiende empresas en toda Bogotá?",
+      "answer": "Sí. Desde nuestra oficina en la Calle 85 atendemos empresas de toda la ciudad y sus alrededores, con reuniones presenciales o virtuales según prefieras. Trabajamos con marcas de cualquier localidad de Bogotá y también con compañías de otras ciudades que operan en la capital."
+    },
+    {
+      "question": "¿Con qué sectores trabaja Velozza en Bogotá?",
+      "answer": "En Bogotá nos enfocamos especialmente en el sector corporativo, salud, legal y seguros: industrias donde la autoridad de marca y la confianza son decisivas para captar clientes. También acompañamos a empresas de otros sectores que buscan estrategia digital seria y orientada a resultados."
+    },
+    {
+      "question": "¿Cómo empiezo a trabajar con Velozza en Bogotá?",
+      "answer": "El primer paso es agendar una consulta estratégica. Analizamos tu marca, tu competencia en el mercado bogotano y tus objetivos, y te presentamos un plan con alcance, entregables e inversión recomendada. Puedes contactarnos por teléfono o correo desde esta misma página."
+    }
+  ]
 }

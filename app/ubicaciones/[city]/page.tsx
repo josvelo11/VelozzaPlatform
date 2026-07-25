@@ -97,6 +97,61 @@ export default async function LocationPage({ params }: Props) {
               </button>
             </div>
           </div>
+
+          {location.intro && (
+            <section style={{ marginTop: '30px' }}>
+              <h2 style={{ fontSize: '26px', marginBottom: '16px' }}>
+                Marketing digital en {location.city}
+              </h2>
+              {location.intro.map((paragraph: string) => (
+                <p key={paragraph} style={{ fontSize: '17px', lineHeight: '1.7', marginBottom: '16px' }}>
+                  {paragraph}
+                </p>
+              ))}
+            </section>
+          )}
+
+          {location.servicesHighlight && (
+            <section style={{ marginTop: '30px' }}>
+              <h2 style={{ fontSize: '26px', marginBottom: '16px' }}>
+                Servicios clave en {location.city}
+              </h2>
+              <ul style={{ paddingLeft: '20px', display: 'grid', gap: '10px' }}>
+                {location.servicesHighlight.map((service: string) => (
+                  <li key={service} style={{ fontSize: '16px', lineHeight: '1.6' }}>
+                    {service}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {location.faqs && (
+            <section style={{ marginTop: '30px' }}>
+              <h2 style={{ fontSize: '26px', marginBottom: '16px' }}>
+                Preguntas frecuentes en {location.city}
+              </h2>
+              <div style={{ display: 'grid', gap: '15px' }}>
+                {location.faqs.map((faq: { question: string; answer: string }) => (
+                  <div
+                    key={faq.question}
+                    style={{
+                      backgroundColor: '#0f0f0f',
+                      borderRadius: '12px',
+                      padding: '20px',
+                      border: '1px solid rgba(244, 207, 99, 0.16)',
+                      color: '#f8f5ed',
+                    }}
+                  >
+                    <h3 style={{ marginTop: 0, marginBottom: '10px', color: '#f4cf63' }}>
+                      {faq.question}
+                    </h3>
+                    <p style={{ margin: 0, lineHeight: '1.6' }}>{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </main>
     </>

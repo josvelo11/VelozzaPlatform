@@ -11,5 +11,76 @@
     "Generación de leads y ventas medibles",
     "Escalamiento con control de costos"
   ],
-  "keywords": ["publicidad digital", "Google Ads", "Meta Ads", "anuncios", "leads"]
+  "extendedDescription": [
+    "Invertir en pauta sin estrategia es la forma más rápida de quemar presupuesto: clics baratos que no convierten, anuncios genéricos que nadie recuerda y campañas que se optimizan por instinto en lugar de datos. Muchas marcas terminan pagando por tráfico, no por clientes reales, porque nadie construyó la segmentación y el mensaje correctos desde el inicio.",
+    "En Velozza Creative Works diseñamos campañas de Meta, TikTok y Google Ads con estructura de embudo, segmentación por intención de compra y creatividades pensadas para cada etapa de decisión de tu cliente. No compramos alcance por volumen: construimos sistemas de adquisición que optimizamos en tiempo real con datos, para que cada peso invertido tenga una lógica clara de retorno y cada campaña sume evidencia para la siguiente.",
+    "Nuestro diferencial es Lozara Intelligence™, la tecnología con la que hemos generado más de 10 millones de personas de alcance y ayudado a marcas a crecer hasta un 487% de forma orgánica y pagada. Con más de 15 años de experiencia de David Veloza en LatAm, convertimos tu inversión en pauta en un sistema medible de generación de leads y ventas, no en un gasto de marketing sin control."
+  ],
+  "audience": [
+    "Médicos, abogados y profesionales de servicios que necesitan generar consultas calificadas",
+    "Empresas de seguros, energía y banca que buscan leads con intención real de compra",
+    "Ejecutivos y dueños de negocio que quieren escalar ventas con presupuesto controlado",
+    "Marcas que ya invierten en pauta pero no ven retorno claro de su inversión",
+    "Negocios que lanzan un nuevo producto o servicio y necesitan validación rápida de mercado",
+    "Empresas que buscan escalar de campañas locales a audiencias en varios países de LatAm"
+  ],
+  "process": [
+    {
+      "title": "Consulta estratégica",
+      "description": "Analizamos tu objetivo comercial, tu embudo de ventas actual y el presupuesto disponible, para definir qué plataformas y formatos tienen mayor potencial de retorno."
+    },
+    {
+      "title": "Análisis de audiencia y marca",
+      "description": "Estudiamos a tu cliente ideal, su intención de compra y el posicionamiento de tu marca frente a la competencia, para construir una segmentación precisa."
+    },
+    {
+      "title": "Plan de campaña personalizado",
+      "description": "Diseñamos la estructura del embudo, los mensajes para cada etapa de decisión y el presupuesto distribuido por canal, priorizado por probabilidad de conversión."
+    },
+    {
+      "title": "Producción y lanzamiento",
+      "description": "Creamos las piezas publicitarias, configuramos la segmentación y lanzamos las campañas en Meta, TikTok y Google Ads con seguimiento de resultados desde el primer día."
+    },
+    {
+      "title": "Optimización y reporte",
+      "description": "Ajustamos anuncios, audiencias y presupuesto en tiempo real según el desempeño real, y te entregamos reportes claros de leads, costos y retorno de inversión."
+    }
+  ],
+  "deliverables": [
+    "Estrategia de campaña con estructura de embudo por etapa de decisión",
+    "Segmentación de audiencia basada en intención de compra",
+    "Creatividades publicitarias diseñadas para Meta, TikTok y Google Ads",
+    "Configuración y lanzamiento de campañas en las plataformas seleccionadas",
+    "Optimización continua de anuncios, audiencias y presupuesto",
+    "Seguimiento de leads y conversiones generadas por campaña",
+    "Reportes periódicos de desempeño con métricas de costo y retorno",
+    "Recomendaciones de escalamiento basadas en datos reales"
+  ],
+  "faqs": [
+    {
+      "question": "¿Cuál es la inversión mínima para empezar una campaña?",
+      "answer": "El presupuesto de pauta depende de tu objetivo, industria y plataforma. En la consulta estratégica revisamos tu situación actual y te recomendamos un presupuesto inicial realista para validar la campaña antes de escalar la inversión."
+    },
+    {
+      "question": "¿En qué plataformas manejan campañas?",
+      "answer": "Trabajamos principalmente Meta Ads, TikTok Ads y Google Ads, seleccionando la combinación de plataformas según dónde esté realmente tu cliente ideal y su intención de compra, en lugar de aplicar la misma fórmula a todas las marcas."
+    },
+    {
+      "question": "¿Cuánto tiempo toma ver resultados de la campaña?",
+      "answer": "Los primeros datos de desempeño suelen verse en las primeras semanas de campaña activa. Trabajamos por fases: lanzamiento, optimización con datos reales y escalamiento, priorizando siempre el retorno sobre la velocidad."
+    },
+    {
+      "question": "¿Ustedes crean los anuncios o yo debo entregar el material?",
+      "answer": "Nosotros diseñamos y producimos las creatividades publicitarias como parte del servicio, alineadas a tu marca y a los mensajes definidos en el plan de campaña. Si ya cuentas con material propio, lo evaluamos e integramos cuando aporta a la estrategia."
+    },
+    {
+      "question": "¿Cómo miden si la campaña realmente funciona?",
+      "answer": "Configuramos seguimiento de leads y conversiones desde el lanzamiento, y te entregamos reportes periódicos con costos, resultados y retorno de inversión. Optimizamos en tiempo real con base en esos datos, no en suposiciones."
+    },
+    {
+      "question": "¿Qué diferencia a Velozza de una agencia de pauta tradicional?",
+      "answer": "Aplicamos Lozara Intelligence™, nuestra metodología propia, para construir campañas conectadas a tu estrategia de marca y demanda completa, no anuncios aislados. Con más de 15 años de experiencia en LatAm, priorizamos leads calificados sobre volumen de clics."
+    }
+  ],
+  "keywords": ["publicidad digital", "Google Ads", "Meta Ads", "anuncios", "leads", "campañas de publicidad digital de alto rendimiento", "agencia de pauta en Meta TikTok y Google Ads", "generación de leads calificados con publicidad digital", "campañas segmentadas por intención de compra"]
 }

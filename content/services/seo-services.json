@@ -11,5 +11,76 @@
     "ROI superior vs publicidad",
     "Ventaja competitiva sostenible"
   ],
-  "keywords": ["SEO", "posicionamiento", "Google", "tráfico orgánico", "SEM"]
+  "extendedDescription": [
+    "Depender solo de pauta paga para conseguir clientes es una operación que se apaga apenas dejas de invertir. Mientras tanto, tu competencia que sí invirtió en SEO sigue apareciendo gratis en los primeros resultados de Google, capturando pacientes, clientes y consultas que deberían llegar a ti. Sin una estrategia técnica y de contenido sostenida, tu sitio web permanece invisible para quien ya te está buscando.",
+    "En Velozza Creative Works implementamos estrategias SEO técnicas, on-page y off-page diseñadas para posicionar tu marca en primeras posiciones de tu nicho, de forma sostenible y sin depender exclusivamente de presupuesto publicitario. Auditamos tu sitio, corregimos lo que frena tu ranking, construimos autoridad de dominio y desarrollamos contenido optimizado para que Google te reconozca como referente en tu categoría.",
+    "Con Lozara Intelligence™, nuestra metodología propia respaldada por más de 15 años de experiencia de David Veloza en LatAm, hemos ayudado a marcas a alcanzar hasta un 487% de crecimiento orgánico. Convertimos el SEO en un activo de largo plazo que reduce tu costo de adquisición y te da una ventaja competitiva sostenible frente a quienes solo pautan."
+  ],
+  "audience": [
+    "Médicos, abogados y profesionales de servicios que buscan aparecer primero cuando los buscan por su especialidad",
+    "Empresas de seguros, energía y banca que quieren reducir su dependencia de pauta paga",
+    "Ejecutivos y dueños de negocio que buscan autoridad de marca sostenible en el tiempo",
+    "Negocios locales que necesitan dominar los resultados de búsqueda en su ciudad o región",
+    "Marcas con sitio web existente que no está generando tráfico ni posicionamiento",
+    "Empresas que planean su estrategia digital a mediano y largo plazo"
+  ],
+  "process": [
+    {
+      "title": "Consulta estratégica",
+      "description": "Revisamos tu presencia digital actual, tu nicho y tus objetivos de posicionamiento, para definir qué palabras clave y resultados de búsqueda son prioritarios para tu negocio."
+    },
+    {
+      "title": "Auditoría técnica y de contenido",
+      "description": "Analizamos la estructura de tu sitio, velocidad, autoridad de dominio y contenido existente, identificando los factores que están frenando tu posicionamiento en Google."
+    },
+    {
+      "title": "Plan de posicionamiento personalizado",
+      "description": "Diseñamos la estrategia SEO técnica, on-page y off-page, priorizada por impacto y esfuerzo, con un roadmap claro de palabras clave y contenido a desarrollar."
+    },
+    {
+      "title": "Implementación técnica y de contenido",
+      "description": "Corregimos los factores técnicos que afectan tu ranking, optimizamos tu sitio y producimos contenido orientado a las búsquedas reales de tu audiencia."
+    },
+    {
+      "title": "Monitoreo y reporte",
+      "description": "Hacemos seguimiento de tu posicionamiento, tráfico orgánico y autoridad de dominio, ajustando la estrategia con base en datos reales de desempeño en buscadores."
+    }
+  ],
+  "deliverables": [
+    "Auditoría técnica completa de SEO de tu sitio web",
+    "Investigación y priorización de palabras clave de tu nicho",
+    "Optimización on-page de páginas clave de tu sitio",
+    "Estrategia de construcción de autoridad de dominio (off-page)",
+    "Contenido optimizado para posicionamiento orgánico",
+    "Corrección de errores técnicos que afectan el ranking",
+    "Reportes periódicos de posicionamiento y tráfico orgánico",
+    "Recomendaciones continuas basadas en cambios del algoritmo de Google"
+  ],
+  "faqs": [
+    {
+      "question": "¿Cuánto tiempo toma ver resultados en Google con SEO?",
+      "answer": "El SEO es una estrategia de mediano y largo plazo. Los primeros avances técnicos suelen reflejarse en semanas, pero un posicionamiento sólido en primeras posiciones generalmente toma varios meses, dependiendo de la competencia de tu nicho y el estado inicial de tu sitio."
+    },
+    {
+      "question": "¿El SEO reemplaza a la publicidad digital?",
+      "answer": "No, son complementarios. El SEO construye tráfico orgánico sostenible en el tiempo, mientras la pauta genera resultados inmediatos. Muchos de nuestros clientes combinan ambas estrategias: pauta para resultados rápidos, SEO para reducir el costo de adquisición a largo plazo."
+    },
+    {
+      "question": "¿Qué incluye la auditoría técnica de SEO?",
+      "answer": "Revisamos la velocidad de tu sitio, estructura, indexación en Google, autoridad de dominio, contenido existente y palabras clave por las que ya apareces o deberías aparecer. Con eso definimos las prioridades del plan de posicionamiento."
+    },
+    {
+      "question": "¿Necesito crear contenido nuevo para posicionar mi sitio?",
+      "answer": "En la mayoría de los casos sí, aunque también optimizamos el contenido existente. Desarrollamos contenido orientado a las búsquedas reales de tu audiencia, alineado a tu nicho y a las palabras clave priorizadas en el plan de posicionamiento."
+    },
+    {
+      "question": "¿Cómo miden el éxito de una estrategia SEO?",
+      "answer": "Hacemos seguimiento de posiciones en Google, tráfico orgánico, autoridad de dominio y conversiones generadas desde búsqueda orgánica. Te entregamos reportes periódicos claros para que veas la evolución real de tu posicionamiento."
+    },
+    {
+      "question": "¿Sirve el SEO para negocios locales como consultorios o firmas legales?",
+      "answer": "Sí, es especialmente efectivo. Optimizamos tu presencia para búsquedas locales, para que aparezcas primero cuando alguien en tu ciudad busca tu especialidad, generando consultas calificadas sin depender exclusivamente de pauta paga."
+    }
+  ],
+  "keywords": ["SEO", "posicionamiento", "Google", "tráfico orgánico", "SEM", "posicionamiento SEO para médicos y abogados", "agencia de SEO técnico en español", "estrategia de contenido para posicionamiento orgánico", "SEO local para negocios profesionales"]
 }

@@ -60,6 +60,30 @@ export default async function IndustryPage({ params }: Props) {
           </div>
         </section>
 
+        {industry.painPoints && (
+          <section style={{ marginTop: '30px' }}>
+            <h2>Dolores del sector</h2>
+            <ul>
+              {industry.painPoints.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </section>
+        )}
+
+        {industry.approach && (
+          <section style={{ marginTop: '30px' }}>
+            <h2>Cómo lo aborda Velozza</h2>
+            {industry.approach.map((paragraph) => (
+              <p key={paragraph} style={{ fontSize: '17px', lineHeight: '1.7', color: '#efe9d6' }}>
+                {paragraph}
+              </p>
+            ))}
+          </section>
+        )}
+
+        {industry.faqs && (
+          <FAQ title="Preguntas frecuentes del sector" items={industry.faqs} />
+        )}
+
         <FAQ
           items={[
             { question: `¿Cómo funciona ${industry.title}?`, answer: 'Creamos landing pages, contenido y autoridad local para captar leads con intención comercial.' },

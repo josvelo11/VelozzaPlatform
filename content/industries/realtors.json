@@ -7,5 +7,30 @@
   "intent": ["lead generation", "personal branding", "local SEO"],
   "keywords": ["marketing para agentes inmobiliarios", "seo para realtors", "leads inmobiliarios"],
   "cities": ["bogota", "medellin"],
-  "services": ["personal-branding", "seo-services", "lead-generation"]
+  "services": ["personal-branding", "seo-services", "lead-generation"],
+  "painPoints": [
+    "Dependencia de portales inmobiliarios pagados que cobran por cada lead y ponen tu inventario junto al de la competencia",
+    "Marca personal indiferenciada: el cliente no distingue a un agente de otro y decide solo por precio o por el inmueble",
+    "Leads fríos o mal calificados que consumen tiempo en visitas y llamadas sin intención real de compra",
+    "Presencia digital inconsistente: publicaciones esporádicas en redes sin estrategia, que no construyen autoridad de zona ni generan confianza"
+  ],
+  "approach": [
+    "Con Lozara Intelligence™, nuestra metodología de estrategia de marca con IA, definimos el posicionamiento del agente: su zona, su tipo de propiedad, su arquetipo de marca personal y el mensaje que lo diferencia de los demás realtors de su mercado.",
+    "Construimos autoridad de zona con SEO local y contenido: páginas y piezas que responden lo que el comprador y el vendedor buscan en Google sobre esa zona, para que el agente aparezca como el referente antes de que el prospecto contacte a nadie.",
+    "Producimos el contenido con el agente: sesiones de grabación para marca personal, fotografía y video, y lo distribuimos en redes y campañas de generación de leads, creando un canal propio de prospectos que no depende de portales ni comisiones de plataformas."
+  ],
+  "faqs": [
+    {
+      "question": "¿Cómo puede un realtor generar leads sin depender de portales inmobiliarios?",
+      "answer": "Construyendo un canal propio: marca personal diferenciada, SEO local que te posiciona en las búsquedas de tu zona y contenido que demuestra tu conocimiento del mercado. Así los prospectos te encuentran y te contactan directamente, sin pagar por leads compartidos con otros agentes en los portales."
+    },
+    {
+      "question": "¿Por qué es tan importante la marca personal para un agente inmobiliario?",
+      "answer": "Porque en bienes raíces el cliente no compra solo el inmueble: elige en quién confiar una de las decisiones financieras más grandes de su vida. Una marca personal bien construida comunica autoridad de zona, trayectoria y confianza, y hace que el prospecto te prefiera antes de comparar comisiones."
+    },
+    {
+      "question": "¿Qué incluye el servicio de Velozza para agentes inmobiliarios?",
+      "answer": "Definimos tu estrategia de marca con Lozara Intelligence™, producimos tu contenido — sesiones de grabación, fotografía y video de marca personal —, gestionamos tu presencia digital y activamos SEO local y campañas de generación de leads. Todo con reportes mensuales para que veas la evolución de tus resultados."
+    }
+  ]
 }

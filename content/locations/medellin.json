@@ -6,5 +6,30 @@
   "email": "medellin@velozzacws.com",
   "address": "Carrera 45 # 22-15",
   "description": "Oficina Velozza en Medellín. Especialistas en crecimiento empresarial y transformación digital para el sector privado.",
-  "keywords": ["marketing digital Medellín", "agencia digital Medellín", "branding Medellín"]
+  "keywords": ["marketing digital Medellín", "agencia digital Medellín", "branding Medellín"],
+  "intro": [
+    "Medellín se ha consolidado como una de las capitales del emprendimiento y la innovación en Latinoamérica: una ciudad donde cada semana nacen nuevos negocios, marcas personales y proyectos creativos que compiten por visibilidad. En este ecosistema dinámico, tener una marca bien construida deja de ser opcional. Desde nuestra oficina en Medellín, Velozza Creative Works ayuda a emprendedores y empresas antioqueñas a convertir su propuesta de valor en presencia digital que genera demanda real.",
+    "En Medellín trabajamos especialmente con emprendedores, productores de eventos sociales y profesionales que construyen su marca personal. Combinamos estrategia con producción: aplicamos Lozara Intelligence™, nuestra metodología de estrategia de marca con IA, y la ejecutamos con contenido, fotografía, video y campañas. Así, tu marca no solo se ve bien: comunica con intención, se posiciona en búsquedas locales y convierte seguidores en clientes."
+  ],
+  "servicesHighlight": [
+    "Estrategia de marca personal con Lozara Intelligence™",
+    "Fotografía y video de eventos sociales y bodas",
+    "Grabación de contenido para marca personal y emprendedores",
+    "Gestión de redes sociales y contenido para negocios en crecimiento",
+    "SEO local y pauta digital para el mercado antioqueño"
+  ],
+  "faqs": [
+    {
+      "question": "¿Velozza hace cobertura de eventos sociales en Medellín?",
+      "answer": "Sí. Ofrecemos fotografía y video profesional para eventos sociales y bodas en Medellín y sus alrededores, con paquetes que se ajustan al tipo de celebración y a los entregables que necesitas. Cuidamos tanto la calidad técnica como la narrativa del evento."
+    },
+    {
+      "question": "¿Trabajan con emprendedores y marcas personales en Medellín?",
+      "answer": "Sí, es uno de nuestros focos en la ciudad. Acompañamos a emprendedores y profesionales que quieren construir autoridad: definimos su estrategia de marca con Lozara Intelligence™ y producimos el contenido — sesiones de grabación, fotografía y piezas para redes — listo para publicar."
+    },
+    {
+      "question": "¿Cómo agendo una consulta con Velozza en Medellín?",
+      "answer": "Puedes escribirnos o llamarnos con los datos de contacto de esta página para agendar una consulta estratégica. En esa sesión conocemos tu proyecto, analizamos tu marca y tu mercado, y te presentamos un plan claro con alcance, entregables e inversión recomendada."
+    }
+  ]
 }

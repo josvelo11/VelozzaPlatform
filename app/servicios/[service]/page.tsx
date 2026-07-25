@@ -77,6 +77,11 @@ export default async function ServicePage({ params }: Props) {
             <p style={{ fontSize: '18px', color: '#a7a7a7', lineHeight: '1.6' }}>
               {service.longDescription}
             </p>
+            {service.extendedDescription?.map((para: string, index: number) => (
+              <p key={index} style={{ fontSize: '16px', color: '#a7a7a7', lineHeight: '1.7', marginTop: '16px' }}>
+                {para}
+              </p>
+            ))}
           </div>
 
           {/* Benefits */}
@@ -102,6 +107,54 @@ export default async function ServicePage({ params }: Props) {
               ))}
             </div>
           </section>
+
+          {/* Para quién es (opcional, aditivo) */}
+          {service.audience && service.audience.length > 0 && (
+            <section style={{ marginBottom: '60px' }}>
+              <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>¿Para quién es este servicio?</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px' }}>
+                {service.audience.map((item: string, index: number) => (
+                  <div key={index} style={{ display: 'flex', gap: '12px', padding: '15px', backgroundColor: '#0f0f0f', color: '#c8c6be', border: '1px solid rgba(244, 207, 99, 0.16)', borderRadius: '8px', fontSize: '14px', lineHeight: '1.5' }}>
+                    <span style={{ color: '#f4cf63', flexShrink: 0 }}>→</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Proceso de trabajo (opcional, aditivo) */}
+          {service.process && service.process.length > 0 && (
+            <section style={{ marginBottom: '60px' }}>
+              <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Nuestro proceso</h2>
+              <div style={{ display: 'grid', gap: '15px' }}>
+                {service.process.map((step: { title: string; description: string }, index: number) => (
+                  <div key={index} style={{ display: 'flex', gap: '18px', padding: '20px', backgroundColor: '#0f0f0f', border: '1px solid rgba(244, 207, 99, 0.16)', borderRadius: '8px' }}>
+                    <span style={{ color: '#f4cf63', fontSize: '22px', fontWeight: 700, flexShrink: 0, width: '32px' }}>{String(index + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 style={{ fontSize: '16px', color: '#f8f5ed', marginBottom: '6px' }}>{step.title}</h3>
+                      <p style={{ fontSize: '14px', color: '#a7a7a7', lineHeight: '1.6', margin: 0 }}>{step.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Entregables (opcional, aditivo) */}
+          {service.deliverables && service.deliverables.length > 0 && (
+            <section style={{ marginBottom: '60px' }}>
+              <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Qué recibes</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px' }}>
+                {service.deliverables.map((item: string, index: number) => (
+                  <div key={index} style={{ display: 'flex', gap: '12px', padding: '15px', backgroundColor: '#0f0f0f', color: '#c8c6be', border: '1px solid rgba(244, 207, 99, 0.16)', borderRadius: '8px', fontSize: '14px', lineHeight: '1.5' }}>
+                    <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Packages Section */}
           {(service.packages || relatedService?.packages) && (
@@ -266,8 +319,10 @@ export default async function ServicePage({ params }: Props) {
             }}
           >
             <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>¿Listo para comenzar?</h2>
-            <button
+            <a
+              href="/contacto"
               style={{
+                display: 'inline-block',
                 padding: '12px 30px',
                 backgroundColor: '#f4cf63',
                 color: '#0b0b0b',
@@ -276,24 +331,29 @@ export default async function ServicePage({ params }: Props) {
                 fontSize: '16px',
                 fontWeight: '600',
                 cursor: 'pointer',
+                textDecoration: 'none',
               }}
             >
               Agendar Consultoría
-            </button>
+            </a>
           </section>
         </div>
 
         <FAQ
-          items={[
-            {
-              question: `¿Cómo funciona ${service.title}?`,
-              answer: `Comenzamos con análisis, definimos estrategia personalizada, y ejecutamos con reportes mensuales.`,
-            },
-            {
-              question: '¿Cuánto tiempo tarda?',
-              answer: 'Depende del servicio, pero típicamente ves resultados en 2-6 meses.',
-            },
-          ]}
+          items={
+            service.faqs && service.faqs.length > 0
+              ? service.faqs
+              : [
+                  {
+                    question: `¿Cómo funciona ${service.title}?`,
+                    answer: `Comenzamos con análisis, definimos estrategia personalizada, y ejecutamos con reportes mensuales.`,
+                  },
+                  {
+                    question: '¿Cuánto tiempo tarda?',
+                    answer: 'Depende del servicio, pero típicamente ves resultados en 2-6 meses.',
+                  },
+                ]
+          }
         />
       </main>
     </>
