@@ -1535,7 +1535,7 @@ function App(){
           {clients.length?clients.map(c=><option key={c.id} value={c.id}>{c.fullName} · {c.planUsed}/{c.planTotal}</option>):<option value="">Sin clientes</option>}
         </select>
       </div>
-      <div className="nav" style={{gap:8}}>{clients.map(c=>(<button key={c.id} className={'client-row'+(sel===c.id?' active':'')} onClick={()=>setSel(c.id)} style={{padding:'10px 12px'}}>
+      <div className="nav" style={{gap:8,flex:'1 1 auto',minHeight:0,overflowY:'auto',paddingRight:4}}>{clients.map(c=>(<button key={c.id} className={'client-row'+(sel===c.id?' active':'')} onClick={()=>setSel(c.id)} style={{padding:'10px 12px'}}>
         <div className="client-av" style={{width:34,height:34,fontSize:13}}>{c.avatarUrl?<img src={c.avatarUrl} alt={c.fullName||'cliente'}/>:(c.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
         <div style={{flex:1,minWidth:0,textAlign:'left'}}><div style={{fontSize:13,fontWeight:600,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.fullName}</div>
           <div style={{fontSize:11,color:'#8E8EA8'}}>{c.planUsed}/{c.planTotal} pubs</div></div>
