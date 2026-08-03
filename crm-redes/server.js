@@ -20,6 +20,7 @@ import {
   CONTENT_FORMATS, findUserByEmail, findUserById, findClient, planFor, metricsFor,
   saveMediaFile, loadMediaAsDataUri, deleteMediaFile,
 } from './db.js';
+import { getBrandProfile } from './brand-profiles.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -522,7 +523,7 @@ app.get('/api/clientes/auth/me', auth, (req, res) => {
 app.get('/api/clientes/profile', auth, (req, res) => {
   const id = resolveClientId(req, res); if (!id) return;
   const { plan, ...profile } = findClient(id);
-  res.json(profile);
+  res.json({ ...profile, brand: getBrandProfile(profile.email) });
 });
 
 app.put('/api/clientes/profile', auth, (req, res) => {
@@ -541,7 +542,7 @@ app.put('/api/clientes/profile', auth, (req, res) => {
   save();
   logActivity({ clientId: id, action: 'client-updated', detail: 'Se actualizó la ficha del cliente' });
   const { plan, ...profile } = c;
-  res.json(profile);
+  res.json({ ...profile, brand: getBrandProfile(profile.email) });
 });
 
 // ---------------------------------------------------------------------------
@@ -765,7 +766,8 @@ app.post('/api/clientes/messages', auth, (req, res) => {
 // ---------------------------------------------------------------------------
 app.get('/api/clientes/plan', auth, (req, res) => {
   const id = resolveClientId(req, res); if (!id) return;
-  res.json(planFor(id));
+  const client = findClient(id);
+  res.json({ ...planFor(id), brand: getBrandProfile(client?.email) });
 });
 
 app.put('/api/clientes/plan', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
@@ -784,7 +786,7 @@ app.put('/api/clientes/plan', auth, agencyOnly, requireCapability('clients.manag
   if (capFormat) c.plan.capFormat = capFormat;
   save();
   logActivity({ clientId: id, action: 'plan-updated', detail: `Plan actualizado a ${c.plan.name}` });
-  res.json(planFor(id));
+  res.json({ ...planFor(id), brand: getBrandProfile(c.email) });
 });
 
 // ---------------------------------------------------------------------------

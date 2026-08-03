@@ -125,7 +125,8 @@ textarea.input{resize:vertical;min-height:84px;line-height:1.55}
 .parrilla{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .post{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);display:flex;flex-direction:column;transition:.18s}
 .post:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
-.post-media{height:128px;position:relative;display:grid;place-items:center;color:#fff;font-family:var(--font-display);font-weight:600;font-size:13px}
+.post-media{height:128px;position:relative;display:grid;place-items:center;color:#fff;font-family:var(--font-display);font-weight:600;font-size:13px;overflow:hidden;background:#EFEEE8}
+.post-media-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .post-platforms{position:absolute;top:10px;left:10px;display:flex;gap:5px}
 .mini-badge{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;font-family:var(--font-display);border:1.5px solid rgba(255,255,255,.5);background:var(--brand)}
 .post-date{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 8px;border-radius:7px;font-family:var(--font-mono);backdrop-filter:blur(4px)}
@@ -157,7 +158,9 @@ textarea.input{resize:vertical;min-height:84px;line-height:1.55}
 
 /* ============================ APROBACIONES ============================ */
 .approval{display:flex;align-items:center;gap:16px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-.approval-thumb{width:64px;height:64px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-family:var(--font-display);font-weight:600;font-size:11px}
+.approval-thumb{width:64px;height:64px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-family:var(--font-display);font-weight:600;font-size:11px;overflow:hidden}
+.approval-thumb img{width:100%;height:100%;object-fit:cover}
+.content-detail-img{width:100%;max-height:320px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
 .approval-info{flex:1;min-width:0}
 .approval-info .t{font-weight:600;font-size:14px}
 .approval-info .m{font-size:12.5px;color:var(--muted);margin-top:3px}
@@ -225,13 +228,37 @@ textarea.input{resize:vertical;min-height:84px;line-height:1.55}
 .mobile-client-tools{display:none;margin-bottom:14px}
 .mobile-client-actions{display:flex;gap:8px;flex-wrap:wrap}
 
+/* ============================ PERFIL: HERO ============================ */
+.profile-hero-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.profile-avatar{flex:0 0 auto}
+.profile-identity{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:6px 12px;border-radius:999px;background:rgba(255,107,74,.1);color:var(--primary-ink);font-size:12.5px;font-weight:600;width:fit-content}
+.profile-hero-stats{display:flex;gap:24px;margin-top:16px;flex-wrap:wrap}
+
+/* ============================ NAV MÓVIL (drawer) ============================ */
+.menu-btn{display:none}
+.sidebar-close{display:none}
+.sidebar-backdrop{display:none}
+
 @media (max-width:980px){
   .app{grid-template-columns:1fr}
-  .sidebar{display:none}
+  .sidebar{position:fixed;top:0;left:0;height:100vh;width:82vw;max-width:300px;z-index:60;transform:translateX(-100%);transition:transform .25s ease;box-shadow:0 0 0 rgba(0,0,0,0)}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow-lg)}
+  .sidebar-close{display:grid;background:rgba(255,255,255,.08);color:#fff;border-color:transparent}
+  .sidebar-backdrop{display:block;position:fixed;inset:0;background:rgba(15,15,30,.45);z-index:55;backdrop-filter:blur(1px)}
+  .menu-btn{display:grid;margin-right:4px}
   .mobile-client-tools{display:block}
   .kpi-row{grid-template-columns:repeat(2,1fr)}
   .social-grid,.parrilla{grid-template-columns:1fr}
   .content,.topbar{padding-left:18px;padding-right:18px}
+  .topbar{gap:10px}
+}
+@media (max-width:520px){
+  .kpi-row{grid-template-columns:1fr}
+  .profile-hero-top{flex-direction:column;align-items:flex-start}
+  .profile-hero-stats{gap:16px}
+  .content{padding-left:14px;padding-right:14px;padding-top:18px}
+  .topbar{padding:14px 14px}
+  .topbar h1{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}

@@ -93,6 +93,7 @@ const icons={
   money:<><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2 0 012.5-1.5c1.4 0 2.5.7 2.5 1.8 0 2.4-5 1.4-5 3.6 0 1.1 1.1 1.8 2.5 1.8a2.5 2 0 002.5-1.5"/></>,
   zap:<><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></>,
   inbox:<><path d="M3 13h5l2 3h4l2-3h5"/><path d="M5 4h14l2 9v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5z"/></>,
+  menu:<><path d="M4 7h16M4 12h16M4 17h16"/></>,
 };
 let toastFn=()=>{};
 function ToastHost(){const[t,setT]=useState(null);useEffect(()=>{toastFn=(m,e)=>{setT({m,e});setTimeout(()=>setT(null),2600);};},[]);
@@ -145,6 +146,7 @@ function ContentDetailModal({item,onClose}){
   return <Modal title="Detalle de la publicación" onClose={onClose}
     footer={<button className="btn btn-primary" onClick={onClose}>Cerrar</button>}>
     <div style={{display:'grid',gap:12}}>
+      {item.mediaDataUrl&&<img src={item.mediaDataUrl} alt={item.title} className="content-detail-img"/>}
       <div>
         <div className="section-title" style={{fontSize:16}}>{item.title}</div>
         <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:8,alignItems:'center'}}><StatusPill s={item.status}/><span className="pill pill-muted">{formatLabel}</span></div>
@@ -190,28 +192,34 @@ function AuthGate({onAuth}){
 }
 
 /* ======================= SIDEBAR / TOPBAR ======================= */
-function Sidebar({route,setRoute,pendingCount,tasksDue,unreadCount,plan,onLogout}){
+function Sidebar({route,setRoute,pendingCount,tasksDue,unreadCount,plan,onLogout,mobileOpen,onCloseMobile}){
   const items=[
+    {group:'Tu cuenta'},{key:'profile',label:'Mi perfil',ic:icons.user},{key:'plan',label:'Mi plan',ic:icons.plan},
     {key:'dashboard',label:'Resumen',ic:icons.home},
+    {group:'Marketing'},{key:'content',label:'Parrilla y calendario',ic:icons.grid},{key:'socials',label:'Redes sociales',ic:icons.share},{key:'campaigns',label:'Campañas',ic:icons.mega},{key:'automations',label:'Automatizaciones',ic:icons.zap},{key:'approvals',label:'Aprobaciones',ic:icons.check,badge:pendingCount},
     {group:'Analítica'},{key:'analytics',label:'Reportes',ic:icons.chart},
-    {group:'Marketing'},{key:'socials',label:'Redes sociales',ic:icons.share},{key:'content',label:'Parrilla y calendario',ic:icons.grid},{key:'campaigns',label:'Campañas',ic:icons.mega},{key:'automations',label:'Automatizaciones',ic:icons.zap},{key:'approvals',label:'Aprobaciones',ic:icons.check,badge:pendingCount},
     {group:'CRM'},{key:'contacts',label:'Contactos',ic:icons.contacts},{key:'pipeline',label:'Embudo de ventas',ic:icons.funnel},{key:'tasks',label:'Tareas',ic:icons.task,badge:tasksDue},
     {group:'Comunicación'},{key:'inbox',label:'Bandeja de entrada',ic:icons.inbox,badge:unreadCount},{key:'messages',label:'Mensajes',ic:icons.chat},
-    {group:'Cuenta'},{key:'profile',label:'Mi perfil',ic:icons.user},{key:'plan',label:'Mi plan',ic:icons.plan},
   ];
   const pct=plan?Math.round(plan.used/plan.total*100):0;
-  return (<aside className="sidebar">
-    <div className="brand"><div className="brand-mark">P</div><div><div className="brand-name">Pauta&nbsp;Studio</div><div className="brand-sub">Portal del cliente</div></div></div>
+  const goTo=(key)=>{setRoute(key);onCloseMobile&&onCloseMobile();};
+  return (<>
+    {mobileOpen&&<div className="sidebar-backdrop" onClick={onCloseMobile}/>}
+    <aside className={'sidebar'+(mobileOpen?' open':'')}>
+    <div style={{display:'flex',alignItems:'center',gap:8}}>
+      <div className="brand" style={{flex:1,padding:'6px 0 22px'}}><div className="brand-mark">P</div><div><div className="brand-name">Pauta&nbsp;Studio</div><div className="brand-sub">Portal del cliente</div></div></div>
+      <button className="icon-btn sidebar-close" onClick={onCloseMobile} aria-label="Cerrar menú"><Ico d={icons.close} size={16}/></button>
+    </div>
     <nav className="nav">{items.map((it,i)=> it.group?<div className="nav-label" key={'g'+i}>{it.group}</div>:(
-      <button key={it.key} className={'nav-item'+(route===it.key?' active':'')} onClick={()=>setRoute(it.key)}><Ico d={it.ic}/>{it.label}{it.badge>0&&<span className="nav-badge">{it.badge}</span>}</button>))}</nav>
-    <div className="side-foot">{plan&&<div className="plan-mini" onClick={()=>setRoute('plan')} style={{cursor:'pointer'}}>
+      <button key={it.key} className={'nav-item'+(route===it.key?' active':'')} onClick={()=>goTo(it.key)}><Ico d={it.ic}/>{it.label}{it.badge>0&&<span className="nav-badge">{it.badge}</span>}</button>))}</nav>
+    <div className="side-foot">{plan&&<div className="plan-mini" onClick={()=>goTo('plan')} style={{cursor:'pointer'}}>
       <div className="plan-mini-top"><span>{plan.name}</span><span>{pct}%</span></div>
       <div className="plan-mini-bar"><div className="plan-mini-fill" style={{width:pct+'%'}}/></div>
       <div className="plan-mini-num"><b>{plan.used}</b> / {plan.total} publicaciones</div></div>}
-      <button className="logout-btn" onClick={onLogout}><Ico d={icons.out} size={15}/> Cerrar sesión</button></div></aside>);
+      <button className="logout-btn" onClick={onLogout}><Ico d={icons.out} size={15}/> Cerrar sesión</button></div></aside></>);
 }
-function Topbar({title,crumb,profile,onBell,pendingCount}){
-  return (<header className="topbar"><div><h1>{title}</h1><div className="crumb">{crumb}</div></div>
+function Topbar({title,crumb,profile,onBell,onMenu,pendingCount}){
+  return (<header className="topbar"><button className="icon-btn menu-btn" onClick={onMenu} aria-label="Abrir menú"><Ico d={icons.menu}/></button><div><h1>{title}</h1><div className="crumb">{crumb}</div></div>
     <div className="topbar-actions"><button className="icon-btn" onClick={onBell} aria-label="Notificaciones"><Ico d={icons.bell}/>{pendingCount>0&&<span className="dot"/>}</button>
       <div className="avatar">{initialsOf(profile?.fullName)}</div></div></header>);
 }
@@ -548,15 +556,44 @@ function Profile({profile,onSave}){
   const set=(k,v)=>setF(p=>({...p,[k]:v}));const setLink=(k,v)=>setF(p=>({...p,socialLinks:{...p.socialLinks,[k]:v}}));
   const submit=async()=>{try{await onSave(f);toast('Perfil guardado correctamente');}catch(e){toastErr(e.message);}};
   if(!f) return null;
+  const brand=f.brand||{};
+  const connectedNetworks=PKEYS.filter(k=>f.socialLinks?.[k]);
   return (<div className="grid" style={{gridTemplateColumns:'1fr',gap:18,maxWidth:760}}>
+    <div className="card card-pad profile-hero">
+      <div className="profile-hero-top">
+        <div className="client-photo-lg profile-avatar" style={{background:`linear-gradient(135deg,${avatarColor(f.fullName)},#1F1F3A)`}}>{initialsOf(f.fullName)}</div>
+        <div style={{flex:1,minWidth:0}}>
+          <div className="eyebrow">Bienvenido de nuevo</div>
+          <div className="section-title" style={{fontSize:20,marginTop:4}}>{f.fullName||'Tu negocio'}</div>
+          <div style={{fontSize:13,color:'var(--muted)',marginTop:2}}>{f.businessSector||'Sector por definir'}</div>
+        </div>
+      </div>
+      {brand.identity&&<div className="profile-identity"><Ico d={icons.zap} size={14}/>{brand.identity}</div>}
+      {brand.objective&&<p className="section-sub" style={{marginTop:10,lineHeight:1.6}}>{brand.objective}</p>}
+      <div className="profile-hero-stats">
+        <div className="mini-stat"><b>{connectedNetworks.length}</b><span>Redes conectadas</span></div>
+        <div className="mini-stat"><b>{brand.pillar||'—'}</b><span>Pilar de contenido</span></div>
+      </div>
+    </div>
+    <div className="card card-pad" style={{background:'linear-gradient(110deg,#16162A,#272750)',color:'#fff',border:'none'}}>
+      <div className="eyebrow" style={{color:'#9A9AC0'}}>Tu equipo Velozza</div>
+      <div style={{display:'flex',alignItems:'center',gap:14,marginTop:10,flexWrap:'wrap'}}>
+        <div className="avatar" style={{background:'linear-gradient(135deg,var(--primary),#FF9A6A)'}}>{initialsOf(brand.accountManager||'Velozza')}</div>
+        <div style={{flex:1,minWidth:200}}>
+          <div style={{fontWeight:600,fontSize:14.5}}>{brand.accountManager||'Equipo Velozza Creative Works'}</div>
+          <p style={{fontSize:12.5,color:'#C7C7DA',marginTop:4}}>{brand.supportChannel||'Escríbenos por Mensajes cuando lo necesites.'}</p>
+        </div>
+      </div>
+      {brand.visual&&<p style={{fontSize:12,color:'#9A9AC0',marginTop:14,lineHeight:1.6}}><strong style={{color:'#fff'}}>Dirección visual: </strong>{brand.visual}</p>}
+    </div>
     <div className="card card-pad"><div className="eyebrow">Paso 1 · Registro</div><div className="section-title" style={{marginTop:6}}>Datos del negocio</div>
-      <div className="grid" style={{gridTemplateColumns:'1fr 1fr',marginTop:20}}>
+      <div className="grid" style={{gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',marginTop:20}}>
         <div className="field"><label>Nombre completo</label><input className="input" value={f.fullName||''} onChange={e=>set('fullName',e.target.value)}/></div>
         <div className="field"><label>Sector del negocio</label><input className="input" value={f.businessSector||''} onChange={e=>set('businessSector',e.target.value)}/></div>
         <div className="field"><label>Teléfono</label><input className="input" value={f.phone||''} onChange={e=>set('phone',e.target.value)}/></div>
         <div className="field"><label>Correo electrónico</label><input className="input" value={f.email||''} onChange={e=>set('email',e.target.value)}/></div></div></div>
     <div className="card card-pad"><div className="section-title"><Ico d={icons.link} size={16}/>Enlaces de redes sociales</div>
-      <div className="grid" style={{gridTemplateColumns:'1fr 1fr',marginTop:18}}>{PKEYS.map(k=>{const P=PLATFORMS[k];const v=f.socialLinks?.[k]||'';
+      <div className="grid" style={{gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',marginTop:18}}>{PKEYS.map(k=>{const P=PLATFORMS[k];const v=f.socialLinks?.[k]||'';
         return (<div className="field" key={k}><label style={{display:'flex',alignItems:'center',gap:8}}><span className="social-badge" style={{'--brand':P.color,width:22,height:22,fontSize:11,borderRadius:6}}>{P.mono}</span>{P.name}{v&&<a className="link-out" style={{'--brand':P.color,marginLeft:'auto'}} href={P.base+v} target="_blank" rel="noopener">abrir <Ico d={icons.ext} size={12}/></a>}</label>
           <div style={{display:'flex',alignItems:'center',border:'1px solid var(--line)',borderRadius:11,overflow:'hidden',background:'#FBFAF7'}}><span style={{fontSize:11.5,color:'var(--muted-2)',padding:'0 0 0 12px',fontFamily:'var(--font-mono)',whiteSpace:'nowrap'}}>{P.base.replace('https://','')}</span>
             <input className="input" style={{border:'none',background:'transparent',padding:'11px 12px 11px 2px'}} value={v} onChange={e=>setLink(k,e.target.value)} placeholder="usuario"/></div></div>);})}</div>
@@ -596,7 +633,12 @@ function ContentView({content}){
 function Parrilla({content}){
   if(!content.length) return <Empty title="Sin contenido para este filtro" sub="Prueba con otra red o vuelve a Todas."/>;
   return (<div className="parrilla">{content.map(c=>(<div className="post" key={c.id}>
-    <div className="post-media" style={{background:`linear-gradient(135deg,${c.color},${c.color}cc)`}}><div className="post-platforms">{c.platforms.map(p=><span key={p} className="mini-badge" style={{'--brand':PLATFORMS[p].color}}>{PLATFORMS[p].mono}</span>)}</div><div className="post-date">{c.date.slice(5)}</div><span style={{opacity:.85}}>{c.platforms.map(p=>PLATFORMS[p].name).join(' · ')}</span></div>
+    <div className="post-media" style={c.mediaDataUrl?undefined:{background:`linear-gradient(135deg,${c.color},${c.color}cc)`}}>
+      {c.mediaDataUrl&&<img className="post-media-img" src={c.mediaDataUrl} alt={c.title}/>}
+      <div className="post-platforms">{c.platforms.map(p=><span key={p} className="mini-badge" style={{'--brand':PLATFORMS[p].color}}>{PLATFORMS[p].mono}</span>)}</div>
+      <div className="post-date">{c.date.slice(5)}</div>
+      {!c.mediaDataUrl&&<span style={{opacity:.85}}>{c.platforms.map(p=>PLATFORMS[p].name).join(' · ')}</span>}
+    </div>
     <div className="post-body"><div className="post-title">{c.title}</div><div className="post-caption">{c.caption}</div><div className="post-foot"><StatusPill s={c.status}/><span style={{fontSize:11.5,color:'var(--muted-2)',fontFamily:'var(--font-mono)'}}>{c.date}</span></div></div></div>))}</div>);
 }
 function Calendar({content,onSelect}){
@@ -622,7 +664,7 @@ function Approvals({content,onDecide}){
     <div className="card card-pad"><div className="section-title"><Ico d={icons.check} size={16}/>Pendientes de tu aprobación{pending.length>0&&<span className="nav-badge" style={{position:'static',marginLeft:4}}>{pending.length}</span>}</div>
       <p className="section-sub">Estas piezas se cargaron desde la parrilla. Apruébalas para que cuenten en tu plan.</p>
       <div className="grid" style={{gap:12,marginTop:18}}>{pending.length?pending.map(c=>(<div className="approval" key={c.id}>
-        <div className="approval-thumb" style={{background:`linear-gradient(135deg,${c.color},${c.color}cc)`}}>{c.platforms.map(p=>PLATFORMS[p].mono).join(' ')}</div>
+        <div className="approval-thumb" style={c.mediaDataUrl?undefined:{background:`linear-gradient(135deg,${c.color},${c.color}cc)`}}>{c.mediaDataUrl?<img src={c.mediaDataUrl} alt={c.title}/>:c.platforms.map(p=>PLATFORMS[p].mono).join(' ')}</div>
         <div className="approval-info"><div className="t">{c.title}</div><div className="m">{c.caption}</div><div style={{display:'flex',gap:6,marginTop:7,alignItems:'center'}}>{c.platforms.map(p=><span key={p} className="pill pill-muted">{PLATFORMS[p].name}</span>)}<span style={{fontSize:11.5,color:'var(--muted-2)',fontFamily:'var(--font-mono)',marginLeft:4}}>Programado: {c.date}</span></div></div>
         <div className="approval-actions"><button className="btn-reject" onClick={()=>onDecide(c.id,'rejected')}>Rechazar</button><button className="btn-approve" onClick={()=>onDecide(c.id,'approved')}>Aprobar</button></div></div>)):<Empty title="Todo al día ✨" sub="No tienes piezas pendientes."/>}</div></div>
     <div className="card card-pad"><div className="section-title">Historial de decisiones</div><div className="grid" style={{gap:10,marginTop:16}}>{history.length?history.map(c=>(<div key={c.id} style={{display:'flex',alignItems:'center',gap:12,padding:'11px 0',borderBottom:'1px solid var(--line)'}}><div style={{width:8,height:34,borderRadius:5,background:c.color}}/><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13.5}}>{c.title}</div><div style={{fontSize:12,color:'var(--muted)',fontFamily:'var(--font-mono)'}}>{c.date}</div></div><StatusPill s={c.status}/></div>)):<p style={{fontSize:13,color:'var(--muted)'}}>Aún no hay decisiones.</p>}</div></div></div>);
@@ -636,8 +678,16 @@ function Messages({messages,onSend}){
     <div className="chat-input"><input className="input" placeholder="Escribe un mensaje al equipo…" value={text} onChange={e=>setText(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()}/><button className="btn btn-primary" onClick={send}><Ico d={icons.send} size={16}/></button></div></div>);
 }
 function Plan({plan}){
-  if(!plan) return null;const pct=plan.used/plan.total;const R=72,C=2*Math.PI*R;
+  if(!plan) return null;const pct=plan.used/plan.total;const R=72,C=2*Math.PI*R;const brand=plan.brand||{};
   return (<div className="grid" style={{gap:20,maxWidth:860}}>
+    {(brand.pillar||brand.objective)&&<div className="card card-pad" style={{background:'linear-gradient(110deg,#16162A,#272750)',color:'#fff',border:'none'}}>
+      <div className="eyebrow" style={{color:'#9A9AC0'}}>Hacia dónde vamos este semestre</div>
+      <div style={{display:'flex',gap:10,alignItems:'center',marginTop:8,flexWrap:'wrap'}}>
+        {brand.identity&&<span className="pill" style={{background:'rgba(255,255,255,.12)',color:'#fff'}}>{brand.identity}</span>}
+        {brand.pillar&&<span className="pill" style={{background:'rgba(255,107,74,.18)',color:'#FFB088'}}>{brand.pillar}</span>}
+      </div>
+      {brand.objective&&<p style={{fontSize:13.5,color:'#C7C7DA',marginTop:12,lineHeight:1.6,maxWidth:640}}>{brand.objective}</p>}
+    </div>}
     <div className="card card-pad"><div className="eyebrow">Suscripción activa</div><div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:12,marginTop:6}}><div><div className="section-title" style={{fontSize:19}}>{plan.name}</div><p className="section-sub">Periodo {plan.period} · se renueva el 1 del próximo mes</p></div><button className="btn btn-dark"><Ico d={icons.plus} size={15}/>Mejorar plan</button></div>
       <div className="ring-wrap" style={{marginTop:24}}><div className="ring"><svg width="168" height="168"><circle cx="84" cy="84" r={R} fill="none" stroke="#EFEEE8" strokeWidth="14"/><circle cx="84" cy="84" r={R} fill="none" stroke="var(--primary)" strokeWidth="14" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={C*(1-pct)} style={{transition:'stroke-dashoffset .8s'}}/></svg><div className="ring-center"><div className="big">{plan.used}<span style={{fontSize:18,color:'var(--muted-2)'}}>/{plan.total}</span></div><div className="small">publicaciones usadas</div></div></div>
         <div className="plan-breakdown"><div style={{fontSize:13,fontWeight:600,marginBottom:4}}>Distribución por red</div>{PKEYS.map(k=>{const used=plan.perPlatform?.[k]||0,cap=plan.capPlatform?.[k]||0,w=cap?Math.round(used/cap*100):0;return (<div className="pb-row" key={k}><div className="pb-name"><span className="social-badge" style={{'--brand':PLATFORMS[k].color,width:22,height:22,fontSize:11,borderRadius:6}}>{PLATFORMS[k].mono}</span>{PLATFORMS[k].name}</div><div className="pb-bar"><div className="pb-fill" style={{'--brand':PLATFORMS[k].color,width:w+'%'}}/></div><div className="pb-num">{used}/{cap}</div></div>);})}</div></div></div>
@@ -648,7 +698,8 @@ function Plan({plan}){
 const TITLES={dashboard:['Resumen','Inicio · Vista general'],analytics:['Reportes','Analítica · Rendimiento de tu negocio'],socials:['Redes sociales','Marketing · Interconecta tus cuentas'],content:['Parrilla y calendario','Marketing · Tu contenido programado'],campaigns:['Campañas','Marketing · Email y redes'],automations:['Automatizaciones','Marketing · Flujos que trabajan por ti'],approvals:['Aprobaciones','Marketing · Visto bueno de piezas'],contacts:['Contactos','CRM · Tu audiencia y leads'],pipeline:['Embudo de ventas','CRM · Oportunidades por etapa'],tasks:['Tareas','CRM · Agenda y seguimiento'],inbox:['Bandeja de entrada','Comunicación · Mensajes de tus clientes'],profile:['Mi perfil','Cuenta · Datos y redes'],messages:['Mensajes','Comunicación con tu equipo'],plan:['Mi plan','Cuenta · Publicaciones incluidas']};
 
 function App(){
-  const[user,setUser]=useState(null);const[ready,setReady]=useState(false);const[route,setRoute]=useState('dashboard');
+  const[user,setUser]=useState(null);const[ready,setReady]=useState(false);const[route,setRoute]=useState('profile');
+  const[mobileNavOpen,setMobileNavOpen]=useState(false);
   const[profile,setProfile]=useState(null);const[socials,setSocials]=useState(null);const[content,setContent]=useState([]);
   const[messages,setMessages]=useState([]);const[plan,setPlan]=useState(null);const[metrics,setMetrics]=useState(null);
   const[contacts,setContacts]=useState([]);const[deals,setDeals]=useState([]);const[tasks,setTasks]=useState([]);const[campaigns,setCampaigns]=useState([]);
@@ -660,7 +711,7 @@ function App(){
   useEffect(()=>{if(user)loadAll().catch(e=>toastErr(e.message));},[user]);
   useEffect(()=>{if(!user)return;const id=setInterval(async()=>{try{const[c,m,pl,mx,cv]=await Promise.all([API.getContent(),API.getMessages(),API.getPlan(),API.getMetrics(),API.getConversations()]);setContent(c);setMessages(m);setPlan(pl);setMetrics(mx);setConversations(cv);}catch{}},6000);return()=>clearInterval(id);},[user]);
 
-  const logout=()=>{setToken(null);setUser(null);setRoute('dashboard');};
+  const logout=()=>{setToken(null);setUser(null);setRoute('profile');};
   const refreshMetrics=async()=>{try{setMetrics(await API.getMetrics());}catch{}};
   const saveProfile=async(p)=>{setProfile(await API.saveProfile(p));};
   const toggleSocial=async(k)=>{try{setSocials(await API.toggleSocial(k));toast('Conexión actualizada');}catch(e){toastErr(e.message);}};
@@ -691,8 +742,8 @@ function App(){
   const unreadCount=conversations.reduce((s,c)=>s+(c.unread>0?1:0),0);
   const[t,crumb]=TITLES[route];
   return (<div className="app">
-    <Sidebar route={route} setRoute={setRoute} pendingCount={pendingCount} tasksDue={tasksDue} unreadCount={unreadCount} plan={plan} onLogout={logout}/>
-    <div className="main"><Topbar title={t} crumb={crumb} profile={profile} pendingCount={pendingCount} onBell={()=>setRoute('approvals')}/>
+    <Sidebar route={route} setRoute={setRoute} pendingCount={pendingCount} tasksDue={tasksDue} unreadCount={unreadCount} plan={plan} onLogout={logout} mobileOpen={mobileNavOpen} onCloseMobile={()=>setMobileNavOpen(false)}/>
+    <div className="main"><Topbar title={t} crumb={crumb} profile={profile} pendingCount={pendingCount} onBell={()=>setRoute('approvals')} onMenu={()=>setMobileNavOpen(true)}/>
       <div className="content">
         {route==='dashboard'&&<Dashboard profile={profile} plan={plan} content={content} metrics={metrics} tasks={tasks} deals={deals} setRoute={setRoute}/>}
         {route==='analytics'&&<Analytics metrics={metrics} content={content}/>}
