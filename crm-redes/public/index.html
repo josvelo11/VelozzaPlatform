@@ -551,7 +551,7 @@ function Inbox({conversations,onReply,onRead,onToggleStatus}){
 }
 
 /* ======================= (vistas existentes: Perfil, Redes, Contenido, Aprobaciones, Mensajes, Plan) ======================= */
-function Profile({profile,onSave}){
+function Profile({profile,plan,onSave}){
   const[f,setF]=useState(profile);useEffect(()=>setF(profile),[profile]);
   const set=(k,v)=>setF(p=>({...p,[k]:v}));const setLink=(k,v)=>setF(p=>({...p,socialLinks:{...p.socialLinks,[k]:v}}));
   const submit=async()=>{try{await onSave(f);toast('Perfil guardado correctamente');}catch(e){toastErr(e.message);}};
@@ -575,6 +575,19 @@ function Profile({profile,onSave}){
         <div className="mini-stat"><b>{brand.pillar||'—'}</b><span>Pilar de contenido</span></div>
       </div>
     </div>
+    {plan&&<div className="card card-pad">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
+        <div className="section-title" style={{fontSize:15}}><Ico d={icons.plan} size={16}/>Lo que incluye tu plan</div>
+        <span className="pill pill-muted">{plan.name}</span>
+      </div>
+      <p className="section-sub" style={{marginTop:6}}>Piezas de contenido incluidas cada mes. La agencia administra tu plan; aquí solo lo puedes consultar.</p>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:10,marginTop:16}}>
+        <div className="mini-stat"><b>{plan.capFormat?.reel ?? 0}</b><span>Reels</span></div>
+        <div className="mini-stat"><b>{plan.capFormat?.carrusel ?? 0}</b><span>Carruseles</span></div>
+        <div className="mini-stat"><b>{plan.capFormat?.flyer ?? 0}</b><span>Flyers</span></div>
+        <div className="mini-stat"><b>{plan.total}</b><span>Total mensual</span></div>
+      </div>
+    </div>}
     <div className="card card-pad" style={{background:'linear-gradient(110deg,#16162A,#272750)',color:'#fff',border:'none'}}>
       <div className="eyebrow" style={{color:'#9A9AC0'}}>Tu equipo Velozza</div>
       <div style={{display:'flex',alignItems:'center',gap:14,marginTop:10,flexWrap:'wrap'}}>
@@ -756,7 +769,7 @@ function App(){
         {route==='contacts'&&<Contacts contacts={contacts} onCreate={createContact} onUpdate={updateContact} onDelete={deleteContact}/>}
         {route==='pipeline'&&<Pipeline deals={deals} contacts={contacts} onCreate={createDeal} onMove={moveDeal}/>}
         {route==='tasks'&&<Tasks tasks={tasks} contacts={contacts} onCreate={createTask} onToggle={toggleTask} onDelete={deleteTask}/>}
-        {route==='profile'&&<Profile profile={profile} onSave={saveProfile}/>}
+        {route==='profile'&&<Profile profile={profile} plan={plan} onSave={saveProfile}/>}
         {route==='messages'&&<Messages messages={messages} onSend={sendMsg}/>}
         {route==='plan'&&<Plan plan={plan}/>}
       </div></div><ToastHost/></div>);
