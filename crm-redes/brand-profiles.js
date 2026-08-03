@@ -39,11 +39,11 @@ const BRAND_PROFILES = {
     objective: 'Conversión a programas grupales y consultoría 1:1 High-Ticket',
     visual: 'Cálida pero corporativa, con movimiento, acción y claridad mental.',
   },
-  'evarosazamora@velozzacws.com': {
+  'starlightgardenfarm@velozzacws.com': {
     identity: 'La Arquitecta de la Consciencia',
-    pillar: 'EL TENER',
-    objective: 'Captación de fondos, padrinos corporativos y expansión de voluntarios',
-    visual: 'Documental puro con corrección naturalista y momentos reales.',
+    pillar: 'EL TENER + EL SER',
+    objective: 'Captación de fondos, padrinos corporativos y expansión de la red de voluntarios que sostienen el jardín-granja terapéutica, liderado por su fundadora Eva Rosa Zamora',
+    visual: 'Documental puro con corrección naturalista, luz dorada de campo abierto y momentos reales de siembra, cosecha y cuidado colectivo.',
   },
   'juanmarulanda@velozzacws.com': {
     identity: 'El Criterio Clínico',
