@@ -481,8 +481,7 @@ export default function Home() {
               <ul className="about-list">
                 <li>Estratega de Marcas Personales</li>
                 <li>Productor de Contenido #1 en LATAM</li>
-                <li>Conferencista Internacional</li>
-                <li>Autor y Entrenador</li>
+                <li>Fotografía y Producción Audiovisual Especializada</li>
                 <li>Empresario &amp; Visionario</li>
               </ul>
               <Link href="/contacto" className="button ghost">Más sobre David →</Link>
