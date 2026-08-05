@@ -593,6 +593,87 @@ export default function Home() {
                 <Link href="/contacto" className="btn-plan">Ver Plan</Link>
               </article>
             </div>
+
+            {/* Paquetes de Bodas & Eventos Sociales */}
+            <div style={{ marginTop: '80px', marginBottom: '40px', textAlign: 'center' }}>
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,76,.35), transparent)', marginBottom: '60px' }} />
+              <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '16px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Bodas & Eventos Sociales</h3>
+              <p style={{ color: '#7a7870', fontSize: '13px', maxWidth: '520px', margin: '0 auto' }}>Cobertura fotográfica editorial para bodas, quinceañeras y celebraciones sociales en Bogotá.</p>
+            </div>
+            <div className="plans-grid" style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
+              <article className="plan">
+                <h3 className="plan-title">Editorial Signature</h3>
+                <p>Quinceañeras, cumpleaños y retratos pre-evento</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $450.000</span></div>
+                <div className="period">por sesión</div>
+                <ul className="features">
+                  <li>Experiencia de modelaje pre-evento</li>
+                  <li>30 fotografías high-res</li>
+                  <li>Revelado de autor con color grading</li>
+                  <li>Entrega en formato digital</li>
+                </ul>
+                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+              </article>
+              <article className="plan">
+                <h3 className="plan-title">Social Prestige</h3>
+                <p>15 años, cumpleaños y celebraciones sociales</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $600.000</span></div>
+                <div className="period">por sesión</div>
+                <ul className="features">
+                  <li>Documentación del evento</li>
+                  <li>Selección curada de 100 a 120 fotos</li>
+                  <li>Narrativa documental</li>
+                  <li>Entrega en formato digital</li>
+                </ul>
+                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+              </article>
+              <article className="plan">
+                <h3 className="plan-title">Esencia Ceremonial</h3>
+                <p>Bodas · Cobertura esencial</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $850.000</span></div>
+                <div className="period">por evento</div>
+                <ul className="features">
+                  <li>Ceremonia y recepción</li>
+                  <li>120 a 150 fotos narrativas</li>
+                  <li>Revelado de autor</li>
+                  <li>Entrega 100% digital</li>
+                </ul>
+                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+              </article>
+              <article className="plan featured">
+                <div className="badge">Recomendado</div>
+                <h3 className="plan-title">Crónica de Autor</h3>
+                <p>Bodas · Historia completa</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $1.000.000</span></div>
+                <div className="period">por evento</div>
+                <ul className="features">
+                  <li>Preparativos y ceremonia</li>
+                  <li>Recepción y fiesta</li>
+                  <li>150 a 170 fotos narrativas</li>
+                  <li>Énfasis en detalles</li>
+                  <li>Entrega 100% digital</li>
+                </ul>
+                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+              </article>
+              <article className="plan">
+                <h3 className="plan-title">Firma Velozza</h3>
+                <p>Bodas · Experiencia editorial total</p>
+                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div className="price"><span>COP $1.200.000</span></div>
+                <div className="period">por evento</div>
+                <ul className="features">
+                  <li>Sesión pre-boda antes del evento</li>
+                  <li>Cobertura de preparativos y ceremonia</li>
+                  <li>Entrega de 170 a 220 fotos digitales</li>
+                  <li>Revelado premium y entrega digital</li>
+                </ul>
+                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+              </article>
+            </div>
           </div>
         </section>
 
