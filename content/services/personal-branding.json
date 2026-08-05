@@ -18,9 +18,10 @@
       "currency": "COP",
       "duration": "1 día de grabación",
       "includes": [
-        "8 videos para redes sociales (máximo 2 minutos cada uno)",
+        "6 videos para redes sociales (máximo 1:30 min cada uno)",
         "Asesoría profesional de guiones",
-        "Edición profesional y color grading",
+        "Máximo 7 planos de apoyo por video",
+        "Edición profesional con subtítulos y colorización básica",
         "10 fotos con edición premium",
         "Todo el equipo de grabación incluido",
         "Subtítulos en español e inglés",
@@ -33,9 +34,10 @@
       "currency": "COP",
       "duration": "2 días de grabación",
       "includes": [
-        "12 videos para redes sociales (máximo 2 minutos cada uno)",
+        "9 videos para redes sociales (máximo 1:30 min cada uno)",
         "Asesoría profesional de guiones",
-        "Edición profesional y color grading",
+        "Máximo 7 planos de apoyo por video",
+        "Edición profesional con subtítulos y colorización básica",
         "16 fotos con edición premium",
         "Todo el equipo de grabación incluido",
         "Subtítulos en español e inglés",
@@ -96,7 +98,7 @@
     },
     {
       "question": "¿Cuál es la diferencia entre el Pack Básico y el Pack Premium?",
-      "answer": "El Pack Básico incluye 1 día de grabación con 8 videos y 10 fotos, ideal para comenzar tu estrategia de marca personal. El Pack Premium incluye 2 días de grabación, 12 videos, 16 fotos y 2 sesiones de coaching adicionales, para quienes buscan mayor volumen de contenido."
+      "answer": "El Pack Básico incluye 1 día de grabación con 6 videos y 10 fotos, ideal para comenzar tu estrategia de marca personal. El Pack Premium incluye 2 días de grabación, 9 videos, 16 fotos y 2 sesiones de coaching adicionales, para quienes buscan mayor volumen de contenido."
     },
     {
       "question": "¿Puedo usar los videos para LinkedIn y otras redes al mismo tiempo?",

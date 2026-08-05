@@ -546,10 +546,11 @@ export default function Home() {
                 <div className="price"><span>COP $660.000</span></div>
                 <div className="period">por sesión</div>
                 <ul className="features">
-                  <li>8 videos para redes sociales</li>
+                  <li>6 videos para redes sociales (máx. 1:30 min c/u)</li>
+                  <li>Máximo 7 planos de apoyo por video</li>
                   <li>10 fotos con edición premium</li>
                   <li>Asesoría profesional de guiones</li>
-                  <li>Edición y color grading</li>
+                  <li>Edición con subtítulos y colorización básica</li>
                   <li>Subtítulos español e inglés</li>
                   <li>Múltiples formatos (4K, HD, vertical)</li>
                 </ul>
@@ -563,10 +564,11 @@ export default function Home() {
                 <div className="price"><span>COP $880.000</span></div>
                 <div className="period">por sesión</div>
                 <ul className="features">
-                  <li>12 videos para redes sociales</li>
+                  <li>9 videos para redes sociales (máx. 1:30 min c/u)</li>
+                  <li>Máximo 7 planos de apoyo por video</li>
                   <li>16 fotos con edición premium</li>
                   <li>Asesoría profesional de guiones</li>
-                  <li>Edición y color grading</li>
+                  <li>Edición con subtítulos y colorización básica</li>
                   <li>Subtítulos español e inglés</li>
                   <li>Múltiples formatos (4K, HD, vertical)</li>
                   <li>2 sesiones de coaching on-camera</li>
