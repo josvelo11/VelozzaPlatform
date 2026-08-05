@@ -279,7 +279,7 @@ export default function ServicesPage() {
                   {
                     name: 'Pack Grabación Premium',
                     price: 880000,
-                    duration: '2 días de grabación',
+                    duration: '1 día de grabación',
                     featured: true,
                     items: [
                       '9 videos para redes sociales (máximo 1:30 min cada uno)',

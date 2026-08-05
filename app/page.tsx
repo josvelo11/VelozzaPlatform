@@ -151,6 +151,7 @@ export default function Home() {
           .about-list li { padding: 10px 0; border-bottom: 1px solid #2a2a22; color: #f4f2ec; }
           .plans-grid { grid-template-columns: repeat(5, 1fr); }
           .plans-grid-3 { grid-template-columns: repeat(3, 1fr); }
+          .plans-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 720px; margin: 0 auto; }
           .plan { position: relative; padding: 30px 22px; }
           .plan.featured { box-shadow: inset 0 0 0 1px #c9a84c; }
           .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; padding: 4px 16px; }
@@ -232,6 +233,7 @@ export default function Home() {
             .services-grid, .results-grid { grid-template-columns: repeat(2, 1fr); }
             .plans-grid { grid-template-columns: repeat(5, 1fr); }
             .plans-grid-3 { grid-template-columns: repeat(3, 1fr); }
+            .plans-grid-2 { grid-template-columns: repeat(2, 1fr); }
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
             .footer-grid { grid-template-columns: 1fr 1fr; }
           }
@@ -250,7 +252,7 @@ export default function Home() {
             .photo-stack { min-height: auto; display: grid; gap: 12px; justify-items: center; }
             .metric { position: static; width: 100%; max-width: 340px; }
             .metric.one, .metric.two, .metric.three { top: auto; right: auto; left: auto; bottom: auto; }
-            .services-grid, .results-grid, .plans-grid, .plans-grid-3, .stats-grid { grid-template-columns: 1fr; }
+            .services-grid, .results-grid, .plans-grid, .plans-grid-3, .plans-grid-2, .stats-grid { grid-template-columns: 1fr; }
             .stats-grid { padding: 34px 0; }
             .stat { border-right: 0; border-bottom: 1px solid #2a2a22; }
             .footer-grid { grid-template-columns: 1fr; }
@@ -596,12 +598,19 @@ export default function Home() {
             </div>
 
             {/* Paquetes de Bodas & Eventos Sociales */}
-            <div style={{ marginTop: '80px', marginBottom: '40px', textAlign: 'center' }}>
+            <div style={{ marginTop: '80px', marginBottom: '48px', textAlign: 'center' }}>
               <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,76,.35), transparent)', marginBottom: '60px' }} />
               <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '16px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Bodas & Eventos Sociales</h3>
-              <p style={{ color: '#7a7870', fontSize: '13px', maxWidth: '520px', margin: '0 auto' }}>Cobertura fotográfica editorial para bodas, quinceañeras y celebraciones sociales en Bogotá.</p>
+              <p style={{ color: '#7a7870', fontSize: '13px', maxWidth: '560px', margin: '0 auto' }}>Dos colecciones de cobertura fotográfica editorial, cada una diseñada para un momento distinto de tu vida social.</p>
             </div>
-            <div className="plans-grid">
+
+            {/* Sub-sección: Eventos Sociales */}
+            <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+              <div className="eyebrow" style={{ display: 'inline-flex', justifyContent: 'center', marginBottom: '10px' }}>Colección Social</div>
+              <h4 style={{ color: '#f4f2ec', fontSize: '15px', fontWeight: 600, marginBottom: '10px' }}>Eventos Sociales</h4>
+              <p style={{ color: '#7a7870', fontSize: '12.5px', maxWidth: '460px', margin: '0 auto' }}>Sesiones editoriales para quinceañeras, cumpleaños y celebraciones que merecen dirección visual propia.</p>
+            </div>
+            <div className="plans-grid plans-grid-2" style={{ marginBottom: '64px' }}>
               <article className="plan">
                 <h3 className="plan-title">Editorial Signature</h3>
                 <p>Quinceañeras, cumpleaños y retratos pre-evento</p>
@@ -616,7 +625,8 @@ export default function Home() {
                 </ul>
                 <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
               </article>
-              <article className="plan">
+              <article className="plan featured">
+                <div className="badge">Más solicitado</div>
                 <h3 className="plan-title">Social Prestige</h3>
                 <p>15 años, cumpleaños y celebraciones sociales</p>
                 <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
@@ -630,6 +640,15 @@ export default function Home() {
                 </ul>
                 <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
               </article>
+            </div>
+
+            {/* Sub-sección: Bodas */}
+            <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+              <div className="eyebrow" style={{ display: 'inline-flex', justifyContent: 'center', marginBottom: '10px' }}>Colección Bodas 2026</div>
+              <h4 style={{ color: '#f4f2ec', fontSize: '15px', fontWeight: 600, marginBottom: '10px' }}>Bodas</h4>
+              <p style={{ color: '#7a7870', fontSize: '12.5px', maxWidth: '480px', margin: '0 auto' }}>Una progresión clara, del tarifario 2026: cobertura esencial, historia completa y experiencia editorial total.</p>
+            </div>
+            <div className="plans-grid plans-grid-3">
               <article className="plan">
                 <h3 className="plan-title">Esencia Ceremonial</h3>
                 <p>Bodas · Cobertura esencial</p>
