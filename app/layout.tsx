@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'QDbJmZ45e3mFZQKyDWt7mlsRqdPxgbBIgu1e-2YgnRw',
   },
   openGraph: {
     type: 'website',
