@@ -8,7 +8,7 @@ import { serviceSchema } from '@/lib/seo/schema';
 const socialPackages = [
   {
     name: 'Colección I · Editorial Signature',
-    price: '$330.000 COP',
+    price: '$680.000 COP',
     description: 'Ideal para quinceañeras, cumpleaños especiales y retratos previos al evento con dirección visual.',
     items: [
       'Experiencia de modelaje pre-evento',
@@ -19,7 +19,7 @@ const socialPackages = [
   },
   {
     name: 'Colección II · Social Prestige',
-    price: '$450.000 COP',
+    price: '$800.000 COP',
     description: 'Pensado para 15 años, cumpleaños y celebraciones sociales que necesitan una narrativa documental completa.',
     items: [
       'Documentación del evento',
@@ -34,7 +34,7 @@ const weddingPackages = [
   {
     name: 'Colección I · Esencia Ceremonial',
     subtitle: 'Cobertura esencial',
-    price: '$500.000 COP',
+    price: '$850.000 COP',
     items: [
       'Ceremonia y recepción',
       '120 a 150 fotos narrativas',
@@ -45,7 +45,7 @@ const weddingPackages = [
   {
     name: 'Colección II · Crónica de Autor',
     subtitle: 'Historia completa',
-    price: '$650.000 COP',
+    price: '$1.000.000 COP',
     items: [
       'Preparativos y ceremonia',
       'Recepción y fiesta',
@@ -58,7 +58,7 @@ const weddingPackages = [
   {
     name: 'Colección III · Firma Velozza',
     subtitle: 'Experiencia editorial total',
-    price: '$850.000 COP',
+    price: '$1.200.000 COP',
     items: [
       'Sesión pre-boda antes del evento',
       'Cobertura de preparativos y ceremonia',
