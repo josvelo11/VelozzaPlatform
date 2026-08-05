@@ -8,7 +8,7 @@ import { serviceSchema } from '@/lib/seo/schema';
 const socialPackages = [
   {
     name: 'Colección I · Editorial Signature',
-    price: '$680.000 COP',
+    price: '$450.000 COP',
     description: 'Ideal para quinceañeras, cumpleaños especiales y retratos previos al evento con dirección visual.',
     items: [
       'Experiencia de modelaje pre-evento',
@@ -19,7 +19,7 @@ const socialPackages = [
   },
   {
     name: 'Colección II · Social Prestige',
-    price: '$800.000 COP',
+    price: '$600.000 COP',
     description: 'Pensado para 15 años, cumpleaños y celebraciones sociales que necesitan una narrativa documental completa.',
     items: [
       'Documentación del evento',
