@@ -25,9 +25,37 @@ import { getBrandProfile } from './brand-profiles.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
-const SECRET = process.env.JWT_SECRET || 'dev-secret-cambia-esto';
 
-app.use(cors());
+// Falla en frío en producción si falta JWT_SECRET — un secreto de sesión
+// hardcodeado en el código fuente permite forjar tokens válidos (incluida
+// la agencia, con acceso total a todos los clientes) sin ninguna contraseña.
+// En local sigue arrancando con un aviso, para no romper el setup de desarrollo.
+if (!process.env.JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT) {
+    throw new Error('JWT_SECRET es obligatorio en producción — configúralo como variable de entorno antes de arrancar.');
+  }
+  console.warn('⚠️  JWT_SECRET no está definido — usando un secreto de desarrollo. NO usar así en producción.');
+}
+const SECRET = process.env.JWT_SECRET || 'dev-secret-solo-para-desarrollo-local';
+
+// Solo los orígenes del propio sitio necesitan pegarle a esta API desde el
+// navegador (el frontend vive en el mismo dominio, servido por este mismo
+// Express). Un cors() sin restricciones no aporta nada aquí y amplía la
+// superficie de ataque si alguna vez se roba un token (p. ej. por XSS).
+const ALLOWED_ORIGINS = [
+  'https://velozzacws.com',
+  'https://www.velozzacws.com',
+  process.env.CRM_PUBLIC_URL,
+  !process.env.RAILWAY_ENVIRONMENT && 'http://localhost:4000',
+  !process.env.RAILWAY_ENVIRONMENT && 'http://localhost:3000',
+].filter(Boolean);
+app.use(cors({
+  origin(origin, callback) {
+    // Sin header Origin (curl, apps nativas, server-to-server) → permitir.
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    callback(new Error('Origen no permitido por CORS'));
+  },
+}));
 app.use(express.json());
 
 // Candado extra delante del panel de agencia: antes cualquiera que adivinara
@@ -507,7 +535,7 @@ app.post('/api/clientes/auth/register', (req, res) => {
         capFormat:{ reel:4, carrusel:4, flyer:4 } },
   });
   syncClientSocialProfiles(clientId, normalizedLinks);
-  const user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 8), role:'client', clientId };
+  const user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 12), role:'client', clientId };
   data.users.push(user);
   save();
   res.status(201).json({ token: sign(user), user: { email, role:'client', clientId } });
@@ -845,7 +873,7 @@ function createAgencyClient(payload, { persist = true } = {}) {
   db().users.push({
     id: uid(),
     email,
-    passwordHash: bcrypt.hashSync(password, 8),
+    passwordHash: bcrypt.hashSync(password, 12),
     role: 'client',
     clientId,
   });
@@ -883,7 +911,7 @@ app.post('/api/clientes/agency/team', auth, agencyOnly, requireCapability('clien
   if (!email || !password) return res.status(400).json({ error: 'Correo y contraseña son obligatorios' });
   if (!ROLE_CAPABILITIES[agencyRole]) return res.status(400).json({ error: `Rol inválido. Usa uno de: ${Object.keys(ROLE_CAPABILITIES).join(', ')}` });
   if (findUserByEmail(email)) return res.status(409).json({ error: 'Ese correo ya está registrado' });
-  const user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 8), role: 'agency', clientId: null, agencyRole };
+  const user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 12), role: 'agency', clientId: null, agencyRole };
   db().users.push(user);
   save();
   res.status(201).json({ email: user.email, agencyRole: user.agencyRole });
@@ -947,11 +975,11 @@ app.put('/api/clientes/clients/:id/access', auth, agencyOnly, requireCapability(
   }
   if (!user) {
     if (!email || !password) return res.status(400).json({ error: 'Correo y contraseña son obligatorios para crear el acceso' });
-    user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 8), role: 'client', clientId };
+    user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 12), role: 'client', clientId };
     db().users.push(user);
   } else {
     if (email) user.email = email;
-    if (password) user.passwordHash = bcrypt.hashSync(password, 8);
+    if (password) user.passwordHash = bcrypt.hashSync(password, 12);
   }
   if (email) client.email = email;
   save();
