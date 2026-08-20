@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
+
+export const revalidate = 60;
 import { FAQ } from '@/components/seo/FAQ';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import { getIndustryBySlug } from '@/lib/industries';

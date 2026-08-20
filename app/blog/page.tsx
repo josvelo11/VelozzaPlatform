@@ -4,6 +4,8 @@ import { PremiumIcon } from '@/components/PremiumIcon';
 import { getAllBlogPosts, getAllBlogCategories } from '@/lib/blog';
 import Link from 'next/link';
 
+export const revalidate = 60;
+
 type BlogPageProps = {
   searchParams?: Promise<{
     category?: string;

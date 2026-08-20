@@ -1,6 +1,8 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
 import { PremiumIcon } from '@/components/PremiumIcon';
+
+export const revalidate = 60;
 import Link from 'next/link';
 
 const faqs = [

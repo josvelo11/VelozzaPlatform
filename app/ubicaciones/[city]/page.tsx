@@ -1,6 +1,8 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import { localBusinessSchema } from '@/lib/seo/schema';
+
+export const revalidate = 60;
 import fs from 'fs';
 import path from 'path';
 import { notFound } from 'next/navigation';

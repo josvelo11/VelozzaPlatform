@@ -3,6 +3,8 @@ import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import { getAllCaseStudies } from '@/lib/case-studies';
 
+export const revalidate = 60;
+
 const methodology = [
   {
     icon: 'search' as const,

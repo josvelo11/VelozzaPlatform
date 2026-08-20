@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
+
+export const revalidate = 60;
 import { PremiumIcon } from '@/components/PremiumIcon';
 import { generateMetadata } from '@/lib/seo/metadata';
 import { serviceSchema } from '@/lib/seo/schema';

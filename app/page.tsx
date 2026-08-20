@@ -4,6 +4,8 @@ import { organizationSchema } from '@/lib/seo/schema';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import BrandLogo from '@/components/BrandLogo';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Velozza Creative Works™',
   description:

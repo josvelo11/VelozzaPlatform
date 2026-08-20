@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
+
+export const revalidate = 60;
 import { FAQ } from '@/components/seo/FAQ';
 import { PremiumIcon } from '@/components/PremiumIcon';
 import { getAllCaseStudies, getCaseStudyBySlug, getCaseStudySchema } from '@/lib/case-studies';
