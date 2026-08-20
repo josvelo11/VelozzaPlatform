@@ -169,14 +169,14 @@ export default function BodasPage() {
               <div>
                 <div className="eyebrow">Agenda 2026 abierta</div>
                 <h1 className="hero-title bodas-hero-title" style={{ maxWidth: '11ch' }}>
-                  Paquetes de bodas 2026 con narrativa, elegancia y una firma visual inolvidable
+                  Paquetes de bodas 2026 con narrativa, elegancia y una <span className="text-shimmer">firma visual inolvidable</span>
                 </h1>
                 <p className="hero-copy bodas-hero-copy">
                   Esta página está pensada para mostrar con claridad los paquetes de fotografía de bodas que hoy vendemos en Bogotá. Cada colección cuida los momentos más importantes de tu día con una mezcla de sensibilidad documental, retrato editorial y una entrega visual que se siente premium desde el primer vistazo.
                 </p>
                 <div className="hero-actions bodas-hero-actions">
                   <a
-                    className="cta-primary"
+                    className="cta-primary magnetic"
                     href="https://api.whatsapp.com/send?phone=573193677929&text=Hola%20Velozza%2C%20quiero%20informacion%20sobre%20los%20paquetes%20de%20bodas%202026."
                     target="_blank"
                     rel="noreferrer"
@@ -235,7 +235,7 @@ export default function BodasPage() {
 
             <div className="package-grid two-up">
               {socialPackages.map((pkg, i) => (
-                <article key={pkg.name} className="package-card social-package tilt reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
+                <article key={pkg.name} className="package-card social-package tilt reveal premium-card" style={{ transitionDelay: `${i * 0.1}s` }}>
                   <div className="package-head">
                     <div>
                       <p className="package-kicker">Colección social</p>
@@ -269,7 +269,7 @@ export default function BodasPage() {
 
           <div className="package-grid three-up">
               {weddingPackages.map((pkg, i) => (
-                <article key={pkg.name} className={`package-card wedding-package tilt reveal${pkg.featured ? ' featured' : ''}`} style={{ transitionDelay: `${i * 0.1}s` }}>
+                <article key={pkg.name} className={`package-card wedding-package tilt reveal premium-card${pkg.featured ? ' featured' : ''}`} style={{ transitionDelay: `${i * 0.1}s` }}>
                 <div className="package-badge">{pkg.subtitle}</div>
                 <h3>{pkg.name}</h3>
                 <div className="package-price package-price-large">{pkg.price}</div>
@@ -317,7 +317,7 @@ export default function BodasPage() {
 
             <div className="portfolio-grid">
               {portfolioImages.map((image, i) => (
-                <figure key={image.src} className="portfolio-card tilt reveal" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
+                <figure key={image.src} className="portfolio-card tilt reveal shine-hover" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
                   <img src={image.src} alt={image.alt} loading="lazy" />
                 </figure>
               ))}
@@ -512,6 +512,12 @@ export default function BodasPage() {
           border: 1px solid rgba(255, 255, 255, 0.08);
           background: #121212;
           min-height: 280px;
+          transition: border-color 220ms ease, box-shadow 220ms ease;
+        }
+
+        .portfolio-card:hover {
+          border-color: rgba(244, 207, 99, 0.34);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
         .portfolio-card img {
@@ -519,6 +525,11 @@ export default function BodasPage() {
           height: 100%;
           object-fit: cover;
           display: block;
+          transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .portfolio-card:hover img {
+          transform: scale(1.06);
         }
 
         @media (max-width: 1100px) {

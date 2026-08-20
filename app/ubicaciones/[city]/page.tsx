@@ -1,4 +1,5 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
+import { PremiumIcon } from '@/components/PremiumIcon';
 import { localBusinessSchema } from '@/lib/seo/schema';
 import fs from 'fs';
 import path from 'path';
@@ -40,78 +41,63 @@ export default async function LocationPage({ params }: Props) {
           ]}
         />
 
-        <div className="section-shell" style={{ maxWidth: '800px' }}>
-          <h1 className="reveal" style={{ fontSize: '36px', marginBottom: '20px' }}>
-            {location.city}, {location.region}
-          </h1>
-
+        <section className="section-shell" style={{ paddingBottom: 0 }}>
           <div
-            className="tilt reveal"
-            style={{
-              backgroundColor: '#0f0f0f',
-              borderRadius: '12px',
-              padding: '30px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
-              border: '1px solid rgba(244, 207, 99, 0.16)',
-              color: '#f8f5ed',
-            }}
+            className="hero-shell"
+            style={{ background: 'linear-gradient(180deg, rgba(12,12,10,0.98), rgba(8,8,8,0.98))' }}
           >
-            <p style={{ fontSize: '18px', lineHeight: '1.6', marginBottom: '30px' }}>
-              {location.description}
-            </p>
-
-            <div style={{ display: 'grid', gap: '15px' }}>
-              <div>
-                <h3>Dirección</h3>
-                <p>{location.address}</p>
-                <p>{location.city}, {location.region}, {location.country}</p>
+            <div className="hero-grid" style={{ gridTemplateColumns: '1fr' }}>
+              <div style={{ maxWidth: '760px' }}>
+                <div className="eyebrow">Ubicación Velozza</div>
+                <h1 className="hero-title" style={{ maxWidth: '16ch', fontSize: 'clamp(2.4rem, 5vw, 4rem)' }}>
+                  {location.city}, {location.region}
+                </h1>
+                <p className="hero-copy">{location.description}</p>
               </div>
+            </div>
+          </div>
+        </section>
 
-              <div>
-                <h3>Contacto</h3>
-                <p>
-                  Teléfono:{' '}
-                  <a href={`tel:${location.phone}`} style={{ color: '#f4cf63' }}>
-                    {location.phone}
-                  </a>
-                </p>
-                <p>
-                  Email:{' '}
-                  <a href={`mailto:${location.email}`} style={{ color: '#f4cf63' }}>
-                    {location.email}
-                  </a>
-                </p>
-              </div>
+        <div className="section-shell" style={{ maxWidth: '900px' }}>
+          <div className="location-info-grid reveal">
+            <div className="location-info-tile">
+              <div className="location-info-icon"><PremiumIcon name="target" size={20} /></div>
+              <h3>Dirección</h3>
+              <p>{location.address}</p>
+              <p>{location.city}, {location.region}, {location.country}</p>
+            </div>
 
-              <a
-                href="/contacto"
-                className="shine-hover"
-                style={{
-                  display: 'inline-block',
-                  padding: '12px 24px',
-                  backgroundColor: '#f4cf63',
-                  color: '#0b0b0b',
-                  border: '1px solid rgba(244, 207, 99, 0.2)',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  width: 'fit-content',
-                }}
-              >
-                Agendar Consultoría
-              </a>
+            <div className="location-info-tile">
+              <div className="location-info-icon"><PremiumIcon name="chat" size={20} /></div>
+              <h3>Contacto</h3>
+              <p>
+                Teléfono:{' '}
+                <a href={`tel:${location.phone}`} className="location-info-link">
+                  {location.phone}
+                </a>
+              </p>
+              <p>
+                Email:{' '}
+                <a href={`mailto:${location.email}`} className="location-info-link">
+                  {location.email}
+                </a>
+              </p>
             </div>
           </div>
 
+          <div className="reveal" style={{ marginTop: '32px', textAlign: 'center' }}>
+            <a href="/contacto" className="cta-primary magnetic">
+              Agendar Consultoría
+            </a>
+          </div>
+
           {location.intro && (
-            <section style={{ marginTop: '30px' }}>
-              <h2 style={{ fontSize: '26px', marginBottom: '16px' }}>
+            <section className="reveal detail-section">
+              <h2 className="section-title" style={{ fontSize: '1.7rem' }}>
                 Marketing digital en {location.city}
               </h2>
               {location.intro.map((paragraph: string) => (
-                <p key={paragraph} style={{ fontSize: '17px', lineHeight: '1.7', marginBottom: '16px' }}>
+                <p key={paragraph} className="location-copy">
                   {paragraph}
                 </p>
               ))}
@@ -119,14 +105,15 @@ export default async function LocationPage({ params }: Props) {
           )}
 
           {location.servicesHighlight && (
-            <section style={{ marginTop: '30px' }}>
-              <h2 style={{ fontSize: '26px', marginBottom: '16px' }}>
+            <section className="reveal detail-section">
+              <h2 className="section-title" style={{ fontSize: '1.7rem' }}>
                 Servicios clave en {location.city}
               </h2>
-              <ul style={{ paddingLeft: '20px', display: 'grid', gap: '10px' }}>
+              <ul className="location-services-list">
                 {location.servicesHighlight.map((service: string) => (
-                  <li key={service} style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                    {service}
+                  <li key={service}>
+                    <PremiumIcon name="check" size={17} />
+                    <span>{service}</span>
                   </li>
                 ))}
               </ul>
@@ -134,28 +121,19 @@ export default async function LocationPage({ params }: Props) {
           )}
 
           {location.faqs && (
-            <section style={{ marginTop: '30px' }}>
-              <h2 style={{ fontSize: '26px', marginBottom: '16px' }}>
+            <section className="reveal detail-section" style={{ marginBottom: '48px' }}>
+              <h2 className="section-title" style={{ fontSize: '1.7rem' }}>
                 Preguntas frecuentes en {location.city}
               </h2>
-              <div style={{ display: 'grid', gap: '15px' }}>
+              <div style={{ display: 'grid', gap: '16px' }}>
                 {location.faqs.map((faq: { question: string; answer: string }, i: number) => (
                   <div
                     key={faq.question}
-                    className="tilt reveal"
-                    style={{
-                      backgroundColor: '#0f0f0f',
-                      borderRadius: '12px',
-                      padding: '20px',
-                      border: '1px solid rgba(244, 207, 99, 0.16)',
-                      color: '#f8f5ed',
-                      transitionDelay: `${i * 0.08}s`,
-                    }}
+                    className="tilt reveal premium-card location-faq-card"
+                    style={{ transitionDelay: `${i * 0.08}s` }}
                   >
-                    <h3 style={{ marginTop: 0, marginBottom: '10px', color: '#f4cf63' }}>
-                      {faq.question}
-                    </h3>
-                    <p style={{ margin: 0, lineHeight: '1.6' }}>{faq.answer}</p>
+                    <h3>{faq.question}</h3>
+                    <p>{faq.answer}</p>
                   </div>
                 ))}
               </div>
@@ -163,6 +141,122 @@ export default async function LocationPage({ params }: Props) {
           )}
         </div>
       </main>
+
+      <style>{`
+        .location-info-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 24px;
+          margin-top: 40px;
+        }
+
+        .location-info-tile {
+          padding: 28px;
+          background: rgba(18, 18, 18, 0.92);
+          border: 1px solid var(--line);
+          border-radius: 20px;
+        }
+
+        .location-info-icon {
+          display: inline-flex;
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          align-items: center;
+          justify-content: center;
+          background: rgba(244, 207, 99, 0.10);
+          border: 1px solid rgba(244, 207, 99, 0.18);
+          color: #f4cf63;
+          margin-bottom: 16px;
+        }
+
+        .location-info-tile h3 {
+          margin: 0 0 12px;
+          font-family: Cormorant Garamond, serif;
+          color: #f8f5ed;
+          font-size: 1.15rem;
+        }
+
+        .location-info-tile p {
+          margin: 0 0 4px;
+          color: #c8c6be;
+          line-height: 1.6;
+        }
+
+        .location-info-link {
+          color: #f4cf63;
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 200ms ease;
+        }
+
+        .location-info-link:hover {
+          color: #fff2c9;
+        }
+
+        .detail-section {
+          margin-top: 64px;
+        }
+
+        .location-copy {
+          font-size: 1rem;
+          line-height: 1.75;
+          color: #c8c6be;
+          margin: 0 0 16px;
+        }
+
+        .location-services-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: grid;
+          gap: 12px;
+        }
+
+        .location-services-list li {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          color: #c8c6be;
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+
+        .location-services-list svg {
+          color: #f4cf63;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+
+        .location-faq-card {
+          padding: 24px;
+          background: rgba(18, 18, 18, 0.92);
+          border: 1px solid var(--line);
+          border-radius: 18px;
+        }
+
+        .location-faq-card h3 {
+          margin: 0 0 10px;
+          color: #f4cf63;
+          font-size: 1.05rem;
+        }
+
+        .location-faq-card p {
+          margin: 0;
+          color: #c8c6be;
+          line-height: 1.6;
+        }
+
+        @media (max-width: 640px) {
+          .location-info-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .detail-section {
+            margin-top: 44px;
+          }
+        }
+      `}</style>
     </>
   );
   } catch {

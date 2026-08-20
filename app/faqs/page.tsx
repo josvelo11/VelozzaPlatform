@@ -1,5 +1,6 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
+import { PremiumIcon } from '@/components/PremiumIcon';
 import Link from 'next/link';
 
 const faqs = [
@@ -75,24 +76,39 @@ export default function FAQPage() {
       <Breadcrumb items={[{ name: 'Inicio', href: '/' }, { name: 'FAQs' }]} />
 
       <section className="section-shell">
-        <div className="reveal">
-          <h1 className="section-title">Sistema de FAQs</h1>
-          <p className="section-lead muted">
+        <div className="reveal" style={{ maxWidth: '720px' }}>
+          <div className="eyebrow">Centro de ayuda</div>
+          <h1 className="hero-title" style={{ maxWidth: '12ch', fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)' }}>
+            Sistema de <span className="text-shimmer">FAQs</span>
+          </h1>
+          <p className="hero-copy">
             Respuestas diseñadas para SEO, conversión y reducción de fricción comercial.
           </p>
         </div>
 
-        <div className="reveal">
+        <div className="reveal" style={{ marginTop: '16px' }}>
           <FAQ items={faqs} title="Preguntas frecuentes sobre la plataforma" />
         </div>
 
-        <div className="panel panel-pad reveal" style={{ marginTop: '24px' }}>
-          <h2 style={{ marginTop: 0 }}>Accesos relacionados</h2>
+        <div className="panel panel-pad reveal" style={{ marginTop: '24px', marginBottom: '48px' }}>
+          <h2 style={{ marginTop: 0, marginBottom: '20px' }}>Accesos relacionados</h2>
           <div className="chip-row">
-            <Link href="/casos-de-exito" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>Casos de éxito</Link>
-            <Link href="/servicios" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>Servicios</Link>
-            <Link href="/blog" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>Blog</Link>
-            <Link href="/industrias" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>Industrias</Link>
+            <Link href="/casos-de-exito" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>
+              <PremiumIcon name="star" size={16} />
+              Casos de éxito
+            </Link>
+            <Link href="/servicios" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>
+              <PremiumIcon name="services" size={16} />
+              Servicios
+            </Link>
+            <Link href="/blog" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>
+              <PremiumIcon name="sparkles" size={16} />
+              Blog
+            </Link>
+            <Link href="/industrias" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>
+              <PremiumIcon name="target" size={16} />
+              Industrias
+            </Link>
           </div>
         </div>
       </section>

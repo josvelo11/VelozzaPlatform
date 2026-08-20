@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
+import { PremiumIcon } from '@/components/PremiumIcon';
 import { getAllIndustries } from '@/lib/industries';
 
 const extraIndustries = [
@@ -49,34 +50,90 @@ export default function IndustriesPage() {
       <Breadcrumb items={[{ name: 'Inicio', href: '/' }, { name: 'Industrias' }]} />
 
       <section className="section-shell">
-        <div className="reveal">
-          <h1 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', marginBottom: '16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>Verticales de Mercado</h1>
-          <p style={{ fontSize: '1.08rem', color: '#a7a7a7', marginBottom: '48px', maxWidth: '72ch' }}>
+        <div className="reveal" style={{ maxWidth: '820px', marginBottom: '48px' }}>
+          <div className="eyebrow">Especialización por sector</div>
+          <h1 className="hero-title" style={{ maxWidth: '18ch' }}>Verticales de Mercado</h1>
+          <p className="hero-copy">
             Arquitectura de marca y posicionamiento SEO diseñada para cada industria. No usamos el mismo sistema para todos: cada vertical tiene su propio mapa de autoridad, palabras clave de alto intento de compra y estrategia de conversión.
           </p>
         </div>
 
         <div className="feature-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
           {industries.map((industry, i) => (
-            <article key={industry.slug} className="feature-card tilt reveal" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
-              <span style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '999px', background: 'rgba(212,175,55,0.12)', border: '1px solid rgba(212,175,55,0.22)', color: '#f4cf63', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '14px' }}>{industry.pillar}</span>
-              <h2 style={{ marginTop: 0, marginBottom: '12px', fontSize: '1.4rem', fontFamily: 'Cormorant Garamond, serif' }}>{industry.title}</h2>
-              <p style={{ color: '#efe9d6', marginBottom: '20px', lineHeight: '1.75' }}>{industry.description}</p>
-              <Link href={`/industrias/${industry.slug}`} style={{ color: '#f4cf63', fontWeight: 700, textDecoration: 'none' }}>
-                Ver arquitectura →
+            <article key={industry.slug} className="feature-card tilt reveal premium-card industry-card" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
+              <span className="industry-pillar">{industry.pillar}</span>
+              <h2 className="industry-title">{industry.title}</h2>
+              <p className="industry-description">{industry.description}</p>
+              <Link href={`/industrias/${industry.slug}`} className="industry-link">
+                Ver arquitectura
+                <PremiumIcon name="arrow-right" size={16} />
               </Link>
             </article>
           ))}
           {extraIndustries.map((industry, i) => (
-            <article key={industry.slug} className="feature-card tilt reveal" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
-              <span style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '999px', background: 'rgba(212,175,55,0.12)', border: '1px solid rgba(212,175,55,0.22)', color: '#f4cf63', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '14px' }}>{industry.pillar}</span>
-              <h2 style={{ marginTop: 0, marginBottom: '12px', fontSize: '1.4rem', fontFamily: 'Cormorant Garamond, serif' }}>{industry.title}</h2>
-              <p style={{ color: '#efe9d6', marginBottom: '20px', lineHeight: '1.75' }}>{industry.description}</p>
-              <span style={{ color: '#f4cf63', fontWeight: 700, cursor: 'pointer' }}>Ver arquitectura →</span>
+            <article key={industry.slug} className="feature-card tilt reveal premium-card industry-card" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
+              <span className="industry-pillar">{industry.pillar}</span>
+              <h2 className="industry-title">{industry.title}</h2>
+              <p className="industry-description">{industry.description}</p>
+              <Link href="/contacto" className="industry-link">
+                Consultar sobre este sector
+                <PremiumIcon name="arrow-right" size={16} />
+              </Link>
             </article>
           ))}
         </div>
       </section>
+
+      <style>{`
+        .industry-card {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .industry-pillar {
+          display: inline-flex;
+          align-self: flex-start;
+          padding: 4px 10px;
+          border-radius: 999px;
+          background: rgba(212, 175, 55, 0.12);
+          border: 1px solid rgba(212, 175, 55, 0.22);
+          color: #f4cf63;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          margin-bottom: 16px;
+        }
+
+        .industry-title {
+          margin: 0 0 12px;
+          font-size: 1.4rem;
+          font-family: Cormorant Garamond, serif;
+          color: #f8f5ed;
+        }
+
+        .industry-description {
+          flex: 1;
+          color: #efe9d6;
+          margin-bottom: 20px;
+          line-height: 1.75;
+        }
+
+        .industry-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          width: fit-content;
+          color: #f4cf63;
+          font-weight: 700;
+          text-decoration: none;
+          transition: gap 200ms ease;
+        }
+
+        .industry-link:hover {
+          gap: 14px;
+        }
+      `}</style>
     </main>
   );
 }

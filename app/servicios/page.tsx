@@ -149,14 +149,14 @@ export default function ServicesPage() {
                 Nuestros Servicios
               </div>
               <h1 className="hero-title" style={{ maxWidth: '15ch', marginLeft: 'auto', marginRight: 'auto' }}>
-                Todo lo que tu marca necesita, en un solo lugar
+                Todo lo que tu marca necesita, en un <span className="text-shimmer">solo lugar</span>
               </h1>
               <p className="hero-copy" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
                 Estrategias integrales, ejecución impecable y tecnología inteligente. Diseñamos cada servicio para sumar autoridad, claridad y conversión sin alterar el lenguaje visual que ya define la marca.
               </p>
               <div className="hero-actions" style={{ justifyContent: 'center' }}>
                 <a
-                  className="cta-primary"
+                  className="cta-primary magnetic"
                   href="https://api.whatsapp.com/send?phone=573053090273&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
                   target="_blank"
                   rel="noreferrer"
@@ -229,7 +229,7 @@ export default function ServicesPage() {
             </div>
             <div className="process-grid">
               {processSteps.map((step, i) => (
-                <div key={step.number} className="process-step reveal tilt" style={{ transitionDelay: `${i * 0.1}s` }}>
+                <div key={step.number} className="process-step reveal tilt premium-card" style={{ transitionDelay: `${i * 0.1}s` }}>
                   <div className="process-number">{step.number}</div>
                   <h3>{step.title}</h3>
                   <p>{step.copy}</p>
@@ -256,10 +256,10 @@ export default function ServicesPage() {
 
             {/* Personal Branding Packages */}
             <div style={{ marginBottom: '64px' }}>
-              <h3 style={{ color: '#f8f5ed', fontSize: '22px', marginBottom: '30px', textAlign: 'center' }}>
+              <h3 style={{ color: '#f8f5ed', fontSize: '22px', marginBottom: '32px', textAlign: 'center' }}>
                 Marca Personal & Ejecutivo
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
                 {[
                   {
                     name: 'Pack Grabación Básico',
@@ -296,12 +296,12 @@ export default function ServicesPage() {
                 ].map((pkg, idx) => (
                   <div
                     key={idx}
-                    className="reveal tilt"
+                    className="reveal tilt premium-card"
                     style={{
-                      padding: '30px',
+                      padding: '32px',
                       backgroundColor: '#0f0f0f',
                       border: pkg.featured ? '2px solid #f4cf63' : '1px solid rgba(244, 207, 99, 0.16)',
-                      borderRadius: '12px',
+                      borderRadius: '16px',
                       position: 'relative',
                       display: 'flex',
                       flexDirection: 'column',
@@ -349,17 +349,17 @@ export default function ServicesPage() {
 
             {/* Social Media Packages */}
             <div>
-              <h3 style={{ color: '#f8f5ed', fontSize: '22px', marginBottom: '30px', textAlign: 'center' }}>
+              <h3 style={{ color: '#f8f5ed', fontSize: '22px', marginBottom: '32px', textAlign: 'center' }}>
                 Gestión de Redes Sociales
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
                 <div
-                  className="reveal tilt"
+                  className="reveal tilt premium-card"
                   style={{
-                    padding: '30px',
+                    padding: '32px',
                     backgroundColor: '#0f0f0f',
                     border: '2px solid #f4cf63',
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
@@ -543,7 +543,7 @@ export default function ServicesPage() {
         .service-link-cta {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           width: fit-content;
           margin-top: 6px;
           color: #f4cf63;
@@ -552,6 +552,16 @@ export default function ServicesPage() {
           letter-spacing: 0.08em;
           text-transform: uppercase;
           font-size: 0.82rem;
+          transition: gap 200ms ease, color 200ms ease;
+        }
+
+        .service-link-cta:hover {
+          gap: 14px;
+          color: #f4cf63;
+        }
+
+        .service-link-cta svg {
+          transition: transform 200ms ease;
         }
 
         .service-values {
@@ -605,18 +615,21 @@ export default function ServicesPage() {
 
         .process-step {
           position: relative;
-          padding-top: 10px;
+          padding: 24px 20px 20px;
+          border-radius: 20px;
+          border: 1px solid transparent;
         }
 
         .process-number {
           position: absolute;
-          top: -44px;
-          left: -4px;
+          top: -6px;
+          left: 4px;
           font-family: Cormorant Garamond, serif;
           font-size: clamp(4rem, 7vw, 5.8rem);
           line-height: 1;
-          color: rgba(244, 207, 99, 0.10);
+          color: rgba(244, 207, 99, 0.12);
           user-select: none;
+          pointer-events: none;
         }
 
         .process-step h3 {
@@ -741,11 +754,11 @@ export default function ServicesPage() {
           }
 
           .process-step {
-            padding-top: 6px;
+            padding: 20px 16px 16px;
           }
 
           .process-number {
-            top: -34px;
+            top: -4px;
             font-size: clamp(3.2rem, 16vw, 4.5rem);
           }
 

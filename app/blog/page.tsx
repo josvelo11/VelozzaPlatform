@@ -1,5 +1,6 @@
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
+import { PremiumIcon } from '@/components/PremiumIcon';
 import { getAllBlogPosts, getAllBlogCategories } from '@/lib/blog';
 import Link from 'next/link';
 
@@ -29,40 +30,26 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       />
 
       <section className="section-shell">
-        <div className="reveal">
-          <h1 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', marginBottom: '16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>La Bóveda de Inteligencia</h1>
-          <p style={{ fontSize: '1.08rem', color: '#a7a7a7', marginBottom: '40px', maxWidth: '68ch' }}>
+        <div className="reveal" style={{ maxWidth: '780px' }}>
+          <div className="eyebrow">Blog Velozza</div>
+          <h1 className="hero-title" style={{ maxWidth: '16ch', fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+            La <span className="text-shimmer">Bóveda</span> de Inteligencia
+          </h1>
+          <p className="hero-copy" style={{ marginBottom: '40px' }}>
             Tácticas de retención, neuromarketing y análisis de algoritmos. Las estrategias exactas de arquitectura de marca que aplicamos con nuestros clientes de élite, publicadas para quienes saben aprovecharlas.
           </p>
         </div>
 
         {/* Categorías */}
-        <div style={{ marginBottom: '40px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <Link href="/blog" style={{ textDecoration: 'none' }}>
-            <span
-              style={{
-                display: 'inline-block',
-                padding: '8px 16px',
-                backgroundColor: !selectedCategory ? '#f4cf63' : 'rgba(255,255,255,0.04)',
-                color: !selectedCategory ? '#0b0b0b' : '#efe9d6',
-                borderRadius: '4px',
-              }}
-            >
-              Todos
-            </span>
+        <div className="blog-categories reveal">
+          <Link href="/blog" className={`blog-category-chip${!selectedCategory ? ' active' : ''}`}>
+            Todos
           </Link>
           {categories.map((category) => (
             <Link
               key={category}
               href={`/blog?category=${encodeURIComponent(category)}`}
-              style={{
-                textDecoration: 'none',
-                padding: '8px 16px',
-                backgroundColor: selectedCategory === category ? '#f4cf63' : 'rgba(255,255,255,0.04)',
-                color: selectedCategory === category ? '#0b0b0b' : '#efe9d6',
-                borderRadius: '4px',
-                display: 'inline-block',
-              }}
+              className={`blog-category-chip${selectedCategory === category ? ' active' : ''}`}
             >
               {category}
             </Link>
@@ -70,60 +57,28 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </div>
 
         {/* Posts */}
-        <div style={{ display: 'grid', gap: '30px', marginBottom: '60px' }}>
+        <div style={{ display: 'grid', gap: '24px', marginBottom: '60px' }}>
           {filteredPosts.map((post, i) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="premium-card tilt reveal"
-              style={{ textDecoration: 'none', color: 'inherit', display: 'block', transitionDelay: `${(i % 6) * 0.06}s` }}
+              className="premium-card tilt reveal blog-post-card"
+              style={{ transitionDelay: `${(i % 6) * 0.06}s` }}
             >
-              <article
-                style={{
-                  backgroundColor: 'rgba(18,18,18,0.92)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '22px',
-                  padding: '30px',
-                  boxShadow: '0 14px 40px rgba(0,0,0,0.22)',
-                  display: 'grid',
-                  gridTemplateColumns: '200px 1fr',
-                  gap: '30px',
-                  cursor: 'pointer',
-                }}
-              >
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  style={{
-                    width: '100%',
-                    height: '150px',
-                    borderRadius: '8px',
-                    objectFit: 'cover',
-                  }}
-                />
+              <article className="blog-post-article">
+                <img src={post.image} alt={post.title} className="blog-post-image" />
                 <div>
-                  <span
-                    style={{
-                      backgroundColor: 'rgba(212,175,55,0.10)',
-                      color: '#f4cf63',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      fontWeight: '600',
-                    }}
-                  >
-                    {post.category}
-                  </span>
-                  <h2 style={{ fontSize: '24px', marginTop: '10px', marginBottom: '10px' }}>
-
-                    {post.title}
-                  </h2>
-                  <p style={{ color: '#a7a7a7', marginBottom: '12px' }}>{post.description}</p>
-                  <div style={{ display: 'flex', gap: '15px', fontSize: '14px', color: '#808080' }}>
+                  <span className="blog-post-category">{post.category}</span>
+                  <h2 className="blog-post-title">{post.title}</h2>
+                  <p className="blog-post-description">{post.description}</p>
+                  <div className="blog-post-meta">
                     <span>{post.author}</span>
                     <span>{new Date(post.date).toLocaleDateString('es-CO')}</span>
                     <span>{post.readTime} min de lectura</span>
-                    <span style={{ color: 'var(--accent-strong)', fontWeight: 700 }}>Leer Análisis Completo →</span>
+                    <span className="blog-post-read-more">
+                      Leer Análisis Completo
+                      <PremiumIcon name="arrow-right" size={14} />
+                    </span>
                   </div>
                 </div>
               </article>
@@ -131,6 +86,123 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           ))}
         </div>
       </section>
+
+      <style>{`
+        .blog-categories {
+          margin-bottom: 40px;
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .blog-category-chip {
+          display: inline-block;
+          padding: 8px 16px;
+          border-radius: 999px;
+          text-decoration: none;
+          background-color: rgba(255, 255, 255, 0.04);
+          color: #efe9d6;
+          border: 1px solid var(--line);
+          font-size: 0.9rem;
+          font-weight: 600;
+          transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease;
+        }
+
+        .blog-category-chip:hover {
+          border-color: rgba(244, 207, 99, 0.4);
+          transform: translateY(-2px);
+        }
+
+        .blog-category-chip.active {
+          background-color: #f4cf63;
+          color: #0b0b0b;
+          border-color: transparent;
+        }
+
+        .blog-post-card {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+        }
+
+        .blog-post-article {
+          background-color: rgba(18, 18, 18, 0.92);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 22px;
+          padding: 24px;
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+          display: grid;
+          grid-template-columns: 200px 1fr;
+          gap: 24px;
+        }
+
+        .blog-post-image {
+          width: 100%;
+          height: 150px;
+          border-radius: 12px;
+          object-fit: cover;
+        }
+
+        .blog-post-category {
+          display: inline-block;
+          background-color: rgba(212, 175, 55, 0.10);
+          color: #f4cf63;
+          padding: 4px 10px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .blog-post-title {
+          font-size: 24px;
+          margin-top: 12px;
+          margin-bottom: 10px;
+          font-family: Cormorant Garamond, serif;
+          color: #f8f5ed;
+        }
+
+        .blog-post-description {
+          color: #a7a7a7;
+          margin-bottom: 12px;
+          line-height: 1.6;
+        }
+
+        .blog-post-meta {
+          display: flex;
+          gap: 16px;
+          flex-wrap: wrap;
+          font-size: 14px;
+          color: #a7a7a7;
+        }
+
+        .blog-post-read-more {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          color: var(--accent-strong);
+          font-weight: 700;
+          transition: gap 200ms ease;
+        }
+
+        .blog-post-card:hover .blog-post-read-more {
+          gap: 10px;
+        }
+
+        @media (max-width: 640px) {
+          .blog-post-article {
+            grid-template-columns: 1fr;
+            padding: 18px;
+          }
+
+          .blog-post-image {
+            height: 180px;
+          }
+
+          .blog-post-title {
+            font-size: 20px;
+          }
+        }
+      `}</style>
 
       <FAQ
         items={[
