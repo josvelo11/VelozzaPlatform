@@ -55,13 +55,15 @@ export default function ContactPage() {
         ]}
       />
 
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
-        <h1 style={{ fontSize: '36px', marginBottom: '20px' }}>Contáctanos</h1>
-        <p style={{ fontSize: '18px', color: '#a7a7a7', marginBottom: '40px' }}>
-          ¿Listo para transformar tu negocio? Escríbenos y uno de nuestros especialistas se comunicará contigo en 24 horas.
-        </p>
+      <div className="section-shell" style={{ maxWidth: '1000px' }}>
+        <div className="reveal">
+          <h1 style={{ fontSize: '36px', marginBottom: '20px' }}>Contáctanos</h1>
+          <p style={{ fontSize: '18px', color: '#a7a7a7', marginBottom: '40px' }}>
+            ¿Listo para transformar tu negocio? Escríbenos y uno de nuestros especialistas se comunicará contigo en 24 horas.
+          </p>
+        </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', marginBottom: '60px' }}>
+        <div className="reveal" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', marginBottom: '60px' }}>
           {/* Formulario */}
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '20px' }}>
@@ -208,8 +210,8 @@ export default function ContactPage() {
 
             <div style={{ marginBottom: '30px' }}>
               <h4>Teléfono</h4>
-              <a href="tel:+573213478076" style={{ color: '#f4cf63', textDecoration: 'none' }}>
-                +57 321 347 8076
+              <a href="tel:+573053090273" style={{ color: '#f4cf63', textDecoration: 'none' }}>
+                +57 305 309 0273
               </a>
             </div>
 

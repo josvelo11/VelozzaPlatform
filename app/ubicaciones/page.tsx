@@ -11,11 +11,13 @@ export default function UbicacionesPage() {
           __html: JSON.stringify(organizationSchema()),
         }}
       />
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-        <h1 style={{ fontSize: '36px', marginBottom: '20px' }}>Nuestras Ubicaciones</h1>
-        <p style={{ color: '#666', marginBottom: '40px' }}>
-          Encuentra a Velozza en las principales ciudades de Colombia y Latinoamérica
-        </p>
+      <main className="section-shell" style={{ maxWidth: '1200px' }}>
+        <div className="reveal">
+          <h1 style={{ fontSize: '36px', marginBottom: '20px' }}>Nuestras Ubicaciones</h1>
+          <p style={{ color: '#a7a7a7', marginBottom: '40px' }}>
+            Encuentra a Velozza en las principales ciudades de Colombia y Latinoamérica
+          </p>
+        </div>
 
         <div
           style={{
@@ -24,15 +26,17 @@ export default function UbicacionesPage() {
             gap: '30px',
           }}
         >
-          {['bogota', 'medellin'].map((city) => (
+          {['bogota', 'medellin'].map((city, i) => (
             <div
               key={city}
+              className="feature-card tilt reveal"
               style={{
                 backgroundColor: '#0f0f0f',
                 border: '1px solid rgba(244, 207, 99, 0.18)',
                 borderRadius: '12px',
                 padding: '30px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                transitionDelay: `${i * 0.1}s`,
               }}
             >
               <h3>{city.charAt(0).toUpperCase() + city.slice(1)}</h3>

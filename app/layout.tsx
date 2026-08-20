@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '../styles/globals.css';
 import SiteChrome from '@/components/SiteChrome';
+import SiteAnimations from '@/components/SiteAnimations';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://velozzacws.com'),
@@ -70,6 +71,7 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="x-default" href="https://velozzacws.com/" />
       </head>
       <body>
+        <SiteAnimations />
         <SiteChrome>{children}</SiteChrome>
       </body>
     </html>

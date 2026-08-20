@@ -68,8 +68,8 @@ export default async function ServicePage({ params }: Props) {
           ]}
         />
 
-        <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
-          <div style={{ marginBottom: '40px' }}>
+        <div className="section-shell" style={{ maxWidth: '1000px' }}>
+          <div className="reveal" style={{ marginBottom: '40px' }}>
             <div style={{ width: '72px', height: '72px', borderRadius: '20px', display: 'grid', placeItems: 'center', marginBottom: '20px', background: 'linear-gradient(135deg, rgba(244,207,99,0.18), rgba(15,23,42,0.06))', border: '1px solid rgba(244,207,99,0.26)' }}>
               <PremiumIcon name={service.icon as PremiumIconName} size={30} />
             </div>
@@ -86,11 +86,12 @@ export default async function ServicePage({ params }: Props) {
 
           {/* Benefits */}
           <section style={{ marginBottom: '60px' }}>
-            <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Beneficios</h2>
+            <h2 className="reveal" style={{ fontSize: '24px', marginBottom: '20px' }}>Beneficios</h2>
             <div style={{ display: 'grid', gap: '15px' }}>
               {service.benefits?.map((benefit: string, index: number) => (
                 <div
                   key={index}
+                  className="tilt reveal"
                   style={{
                     display: 'flex',
                     gap: '15px',
@@ -99,6 +100,7 @@ export default async function ServicePage({ params }: Props) {
                     color: '#f8f5ed',
                     border: '1px solid rgba(244, 207, 99, 0.16)',
                     borderRadius: '8px',
+                    transitionDelay: `${(index % 6) * 0.06}s`,
                   }}
                 >
                   <span style={{ color: '#f4cf63', fontSize: '20px' }}>✓</span>
@@ -111,10 +113,10 @@ export default async function ServicePage({ params }: Props) {
           {/* Para quién es (opcional, aditivo) */}
           {service.audience && service.audience.length > 0 && (
             <section style={{ marginBottom: '60px' }}>
-              <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>¿Para quién es este servicio?</h2>
+              <h2 className="reveal" style={{ fontSize: '24px', marginBottom: '20px' }}>¿Para quién es este servicio?</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px' }}>
                 {service.audience.map((item: string, index: number) => (
-                  <div key={index} style={{ display: 'flex', gap: '12px', padding: '15px', backgroundColor: '#0f0f0f', color: '#c8c6be', border: '1px solid rgba(244, 207, 99, 0.16)', borderRadius: '8px', fontSize: '14px', lineHeight: '1.5' }}>
+                  <div key={index} className="tilt reveal" style={{ display: 'flex', gap: '12px', padding: '15px', backgroundColor: '#0f0f0f', color: '#c8c6be', border: '1px solid rgba(244, 207, 99, 0.16)', borderRadius: '8px', fontSize: '14px', lineHeight: '1.5', transitionDelay: `${(index % 6) * 0.06}s` }}>
                     <span style={{ color: '#f4cf63', flexShrink: 0 }}>→</span>
                     <span>{item}</span>
                   </div>

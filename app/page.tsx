@@ -12,6 +12,20 @@ export const metadata: Metadata = {
 
 const schema = organizationSchema();
 
+const brandLogos = [
+  { label: 'Lucy Moreno', href: 'https://www.instagram.com/lucymoreno.enarmonia?igsh=MWYwZm1mbHVqN3Q2cQ==' },
+  { label: 'Dr. Juan Marulanda', href: 'https://www.instagram.com/drjuanmarulanda?igsh=bWFueXA0bmNobDFj' },
+  { label: 'Dra. Adriana Ortega', href: 'https://www.instagram.com/dra.adriana.ortega?igsh=NHhjenFka255M2Nz' },
+  { label: 'Ávila Internacional', href: 'https://www.instagram.com/avilainternacional?igsh=MXZ6eG9obnZ6ZGxxZw==' },
+  { label: 'Eva Rosa Zamora', href: 'https://www.instagram.com/eva_rosa_zamora_lopez?igsh=MW1wbnhvZG85ZjVnbw==' },
+  { label: 'Dicolseg LTDA' },
+  { label: 'Star Light Garden and Farm' },
+  { label: 'Congreso de la República' },
+  { label: 'Banquetes Lili' },
+  { label: 'Mac Fontibón' },
+  { label: 'Premium Services Express' },
+];
+
 const services = [
   { icon: 'target', title: 'Marca Personal & Ejecutivo', copy: 'Posicionamos tu autoridad y te convertimos en la referencia de tu industria.', slug: 'personal-branding' },
   { icon: 'social', title: 'Gestión de Redes Sociales', copy: 'Contenido estratégico que atrae, conecta y convierte tu audiencia.', slug: 'social-media-management' },
@@ -226,7 +240,8 @@ export default function Home() {
           .bottom { display: flex; justify-content: space-between; gap: 18px; align-items: center; border-top: 1px solid #2a2a22; padding: 22px 0; }
           .legal { display: flex; gap: 24px; flex-wrap: wrap; }
           .bottom p, .legal a { color: #7a7870; font-size: 11px; }
-          .wa { position: fixed; right: 28px; bottom: 28px; width: 52px; height: 52px; border-radius: 50%; border: 0; background: #25d366; color: #fff; font-size: 24px; box-shadow: 0 4px 24px rgba(37,211,102,.5); }
+          .wa { position: fixed; right: 28px; bottom: 28px; width: 52px; height: 52px; border-radius: 50%; border: 0; background: #25d366; color: #fff; font-size: 24px; box-shadow: 0 4px 24px rgba(37,211,102,.5); display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 30; transition: transform 200ms ease, box-shadow 200ms ease; }
+          .wa:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(37,211,102,.65); }
           @media (max-width: 1100px) {
             .links { gap: 14px; }
             .hero-grid, .about-grid, .cta-grid { grid-template-columns: 1fr; gap: 42px; }
@@ -260,7 +275,7 @@ export default function Home() {
             .hero-photo { width: 100%; max-width: 340px; height: 460px; }
           }
 
-          /* ============ ANIMATIONS ============ */
+          /* ============ ANIMATIONS (page-specific — shared .reveal/.tilt/shine live in globals.css via SiteAnimations) ============ */
           @keyframes velozzaFadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
           @keyframes velozzaFadeIn { from { opacity: 0; } to { opacity: 1; } }
           .hero-anim { animation: velozzaFadeUp .9s cubic-bezier(.16,1,.3,1) both; }
@@ -268,13 +283,6 @@ export default function Home() {
           .hero-anim.d2 { animation-delay: .2s; }
           .hero-anim.d3 { animation-delay: .34s; }
           .hero-photo-anim { animation: velozzaFadeIn 1.1s ease .25s both; }
-          .metric-anim { animation: velozzaFadeUp .8s cubic-bezier(.16,1,.3,1) both; }
-          .metric.one.metric-anim { animation-delay: .55s; }
-          .metric.two.metric-anim { animation-delay: .7s; }
-          .metric.three.metric-anim { animation-delay: .85s; }
-
-          .reveal { opacity: 0; transform: translateY(32px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
-          .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
           .button.gold { position: relative; overflow: hidden; }
           .button.gold::before {
@@ -284,9 +292,43 @@ export default function Home() {
           }
           .button.gold:hover::before { left: 130%; }
 
+          @keyframes velozzaGlowShift {
+            0%, 100% { background-position: 70% 35%, 18% 72%; }
+            50% { background-position: 60% 45%, 28% 62%; }
+          }
+          .hero::before { background-size: 160% 160%; animation: velozzaGlowShift 14s ease-in-out infinite; }
+
+          @keyframes velozzaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+          .metric-anim { animation: velozzaFadeUp .8s cubic-bezier(.16,1,.3,1) both, velozzaFloat 5s ease-in-out infinite; }
+          .metric.one.metric-anim { animation-delay: .55s, 2.1s; }
+          .metric.two.metric-anim { animation-delay: .7s, 2.5s; }
+          .metric.three.metric-anim { animation-delay: .85s, 2.9s; }
+
+          @keyframes velozzaShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+          .accent {
+            background: linear-gradient(90deg, #c9a84c 0%, #fff2c9 22%, #f0d98a 45%, #c9a84c 68%, #f0d98a 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: velozzaShimmer 6s linear infinite;
+          }
+
+          .brand-marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+          .brand-list-track { display: flex; gap: 40px; width: max-content; animation: velozzaMarquee 32s linear infinite; }
+          .brand-marquee:hover .brand-list-track { animation-play-state: paused; }
+          @keyframes velozzaMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          .brand-link, .brand-static { font-family: Montserrat, sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+          .brand-link { color: #f0d98a; text-decoration: underline; text-decoration-color: #c9a84c; text-underline-offset: 4px; }
+          .brand-static { color: rgba(244,242,236,.24); }
+
+          .icon { transition: transform 220ms ease; }
+          .service:hover .icon { transform: rotate(-8deg) scale(1.12); }
+
           @media (prefers-reduced-motion: reduce) {
-            .hero-anim, .hero-photo-anim, .metric-anim, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+            .hero-anim, .hero-photo-anim, .metric-anim { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
             .button.gold::before { display: none; }
+            .hero::before { animation: none !important; }
+            .accent { animation: none !important; }
+            .brand-list-track { animation: none !important; }
           }
         `}</style>
 
@@ -359,18 +401,16 @@ export default function Home() {
         <section className="brands">
           <div className="wrap">
             <div className="brand-copy">Clientes y aliados que han confiado en nuestro trabajo.</div>
-            <div className="brand-list">
-              <a href="https://www.instagram.com/lucymoreno.enarmonia?igsh=MWYwZm1mbHVqN3Q2cQ==" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Lucy Moreno</a>
-              <a href="https://www.instagram.com/drjuanmarulanda?igsh=bWFueXA0bmNobDFj" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Dr. Juan Marulanda</a>
-              <a href="https://www.instagram.com/dra.adriana.ortega?igsh=NHhjenFka255M2Nz" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Dra. Adriana Ortega</a>
-              <a href="https://www.instagram.com/avilainternacional?igsh=MXZ6eG9obnZ6ZGxxZw==" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Ávila Internacional</a>
-              <a href="https://www.instagram.com/eva_rosa_zamora_lopez?igsh=MW1wbnhvZG85ZjVnbw==" target="_blank" rel="noopener noreferrer" style={{ color: '#f0d98a', textDecoration: 'underline', textDecorationColor: '#c9a84c', textUnderlineOffset: '4px', cursor: 'pointer' }}>Eva Rosa Zamora</a>
-              <span>Dicolseg LTDA</span>
-              <span>Star Light Garden and Farm</span>
-              <span>Andes Energy</span>
-              <span>Congreso de la República</span>
-              <span>Banquetes Lili Mac Fontibón</span>
-              <span>Premium Services Express</span>
+          </div>
+          <div className="brand-marquee">
+            <div className="brand-list-track">
+              {[...brandLogos, ...brandLogos].map((b, i) =>
+                b.href ? (
+                  <a key={i} href={b.href} target="_blank" rel="noopener noreferrer" className="brand-link">{b.label}</a>
+                ) : (
+                  <span key={i} className="brand-static">{b.label}</span>
+                )
+              )}
             </div>
           </div>
         </section>
@@ -385,7 +425,7 @@ export default function Home() {
             <div className="services-grid">
               {services.map(({ icon, title, copy, slug }, i) => (
                 <Link href={slug === 'contacto' ? '/contacto' : `/servicios/${slug}`} className="service-link reveal" style={{ transitionDelay: `${i * 0.08}s` }} key={title}>
-                  <article className="service">
+                  <article className="service tilt">
                     <div className="icon"><PremiumIcon name={icon as any} size={22} /></div>
                     <h3>{title}</h3>
                     <p>{copy}</p>
@@ -425,7 +465,7 @@ export default function Home() {
             </div>
             <div className="results-grid">
               {results.map(([icon, value, label], index) => (
-                <article className="result reveal" style={{ transitionDelay: `${index * 0.1}s` }} key={label}>
+                <article className="result reveal tilt" style={{ transitionDelay: `${index * 0.1}s` }} key={label}>
                   <div className="thumb" style={{ background: index === 1 ? 'linear-gradient(160deg,#1a1e14 0%,#0e0c08 100%)' : index === 2 ? 'linear-gradient(160deg,#1a1214 0%,#0e0c08 100%)' : index === 3 ? 'linear-gradient(160deg,#141a1a 0%,#0e0c08 100%)' : 'linear-gradient(160deg,#1e1c14 0%,#0e0c08 100%)' }}>
                     <div className="play"><PremiumIcon name={icon as any} size={18} /></div>
                   </div>
@@ -532,7 +572,7 @@ export default function Home() {
             </div>
             <div className="plans-grid">
               {plans.map(([name, copy, price, features], index) => (
-                <article className={`plan ${index === 2 ? 'featured' : ''}`} key={`${name}-${index}`}>
+                <article className={`plan tilt ${index === 2 ? 'featured' : ''}`} key={`${name}-${index}`}>
                   {index === 2 ? <div className="badge">Más Popular</div> : null}
                   <h3 className="plan-title">{name}</h3>
                   <p>{copy}</p>
@@ -567,7 +607,7 @@ export default function Home() {
               <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '50px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Paquetes de Producción & Redes</h3>
             </div>
             <div className="plans-grid plans-grid-3">
-              <article className="plan">
+              <article className="plan tilt">
                 <h3 className="plan-title">Pack Básico</h3>
                 <p>Marca Personal · 1 día de grabación</p>
                 <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
@@ -584,7 +624,7 @@ export default function Home() {
                 </ul>
                 <Link href="/contacto" className="btn-plan">Ver Pack</Link>
               </article>
-              <article className="plan featured">
+              <article className="plan featured tilt">
                 <div className="badge">Recomendado</div>
                 <h3 className="plan-title">Pack Premium</h3>
                 <p>Marca Personal · 1 día de grabación</p>
@@ -603,7 +643,7 @@ export default function Home() {
                 </ul>
                 <Link href="/contacto" className="btn-plan">Ver Pack</Link>
               </article>
-              <article className="plan">
+              <article className="plan tilt">
                 <h3 className="plan-title">Redes Sociales</h3>
                 <p>Gestión orgánica mensual de contenido</p>
                 <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
@@ -636,7 +676,7 @@ export default function Home() {
               <p style={{ color: '#7a7870', fontSize: '12.5px', maxWidth: '460px', margin: '0 auto' }}>Sesiones editoriales para quinceañeras, cumpleaños y celebraciones que merecen dirección visual propia.</p>
             </div>
             <div className="plans-grid plans-grid-2" style={{ marginBottom: '64px' }}>
-              <article className="plan">
+              <article className="plan tilt">
                 <h3 className="plan-title">Editorial Signature</h3>
                 <p>Quinceañeras, cumpleaños y retratos pre-evento</p>
                 <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
@@ -650,7 +690,7 @@ export default function Home() {
                 </ul>
                 <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
               </article>
-              <article className="plan featured">
+              <article className="plan featured tilt">
                 <div className="badge">Más solicitado</div>
                 <h3 className="plan-title">Social Prestige</h3>
                 <p>15 años, cumpleaños y celebraciones sociales</p>
@@ -674,7 +714,7 @@ export default function Home() {
               <p style={{ color: '#7a7870', fontSize: '12.5px', maxWidth: '480px', margin: '0 auto' }}>Una progresión clara, del tarifario 2026: cobertura esencial, historia completa y experiencia editorial total.</p>
             </div>
             <div className="plans-grid plans-grid-3">
-              <article className="plan">
+              <article className="plan tilt">
                 <h3 className="plan-title">Esencia Ceremonial</h3>
                 <p>Bodas · Cobertura esencial</p>
                 <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
@@ -688,7 +728,7 @@ export default function Home() {
                 </ul>
                 <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
               </article>
-              <article className="plan featured">
+              <article className="plan featured tilt">
                 <div className="badge">Recomendado</div>
                 <h3 className="plan-title">Crónica de Autor</h3>
                 <p>Bodas · Historia completa</p>
@@ -704,7 +744,7 @@ export default function Home() {
                 </ul>
                 <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
               </article>
-              <article className="plan">
+              <article className="plan tilt">
                 <h3 className="plan-title">Firma Velozza</h3>
                 <p>Bodas · Experiencia editorial total</p>
                 <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
@@ -756,7 +796,7 @@ export default function Home() {
               <p>Construimos marcas que lideran y generan resultados.</p>
               <div className="powered">Estrategia · Producción · Tecnología</div>
               <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
-                <a href="tel:+573213478076" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 321 347 8076</a>
+                <a href="tel:+573053090273" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 305 309 0273</a>
                 <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
                 <a href="https://instagram.com/velozzacws" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>@velozzacws</a>
               </div>
@@ -780,69 +820,7 @@ export default function Home() {
           </div>
         </footer>
 
-        <button className="wa" aria-label="WhatsApp"><PremiumIcon name="chat" size={22} /></button>
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function () {
-                function animateCount(el) {
-                  if (el.dataset.counted) return;
-                  el.dataset.counted = '1';
-                  var target = parseFloat(el.getAttribute('data-count'));
-                  var prefix = el.getAttribute('data-prefix') || '';
-                  var suffix = el.getAttribute('data-suffix') || '';
-                  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                  if (reduceMotion || isNaN(target)) {
-                    el.textContent = prefix + target + suffix;
-                    return;
-                  }
-                  var dur = 1100, start = null;
-                  function step(ts) {
-                    if (!start) start = ts;
-                    var p = Math.min((ts - start) / dur, 1);
-                    var eased = 1 - Math.pow(1 - p, 3);
-                    el.textContent = prefix + Math.round(target * eased) + suffix;
-                    if (p < 1) requestAnimationFrame(step);
-                  }
-                  requestAnimationFrame(step);
-                }
-                function revealTarget(el) {
-                  el.classList.add('is-visible');
-                  if (el.hasAttribute('data-count')) animateCount(el);
-                  el.querySelectorAll('[data-count]').forEach(animateCount);
-                }
-                function init() {
-                  document.querySelectorAll('.hero [data-count]').forEach(function (el) {
-                    setTimeout(function () { animateCount(el); }, 650);
-                  });
-                  var targets = document.querySelectorAll('.reveal');
-                  if (!('IntersectionObserver' in window)) {
-                    targets.forEach(revealTarget);
-                    return;
-                  }
-                  var io = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                      if (entry.isIntersecting) {
-                        revealTarget(entry.target);
-                        io.unobserve(entry.target);
-                      }
-                    });
-                  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
-                  targets.forEach(function (el) { io.observe(el); });
-                  setTimeout(function () {
-                    document.querySelectorAll('.reveal:not(.is-visible)').forEach(revealTarget);
-                  }, 2500);
-                }
-                if (document.readyState === 'loading') {
-                  document.addEventListener('DOMContentLoaded', init);
-                } else {
-                  init();
-                }
-              })();
-            `,
-          }}
-        />
+        <a href="https://api.whatsapp.com/send?phone=573053090273&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita." target="_blank" rel="noopener noreferrer" className="wa" aria-label="WhatsApp"><PremiumIcon name="chat" size={22} /></a>
       </main>
     </>
   );

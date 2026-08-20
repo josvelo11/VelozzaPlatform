@@ -22,44 +22,60 @@ export default async function CaseStudyDetailPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <main style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 20px' }}>
-        <Breadcrumb
-          items={[
-            { name: 'Inicio', href: '/' },
-            { name: 'Casos de Éxito', href: '/casos-de-exito' },
-            { name: study.title },
-          ]}
-        />
+      <main>
+        <section className="section-shell" style={{ maxWidth: '900px' }}>
+          <Breadcrumb
+            items={[
+              { name: 'Inicio', href: '/' },
+              { name: 'Casos de Éxito', href: '/casos-de-exito' },
+              { name: study.title },
+            ]}
+          />
 
-        <p style={{ color: '#f4cf63', fontWeight: 700 }}>{study.industry}</p>
-        <h1 style={{ fontSize: '40px', marginTop: 0 }}>{study.title}</h1>
-        <p style={{ color: '#efe9d6', fontSize: '18px' }}>{study.challenge}</p>
+          <div className="reveal" style={{ marginTop: '24px' }}>
+            <div className="eyebrow">{study.industry}</div>
+            <h1 className="hero-title" style={{ maxWidth: '20ch', fontSize: 'clamp(2.2rem, 5vw, 3.4rem)' }}>{study.title}</h1>
+            <p className="hero-copy">{study.challenge}</p>
+          </div>
 
-        <section style={{ marginTop: '40px' }}>
-          <h2>Estratégia</h2>
-          <ul>
-            {study.strategy.map((item) => <li key={item}>{item}</li>)}
-          </ul>
+          <section className="panel panel-pad reveal" style={{ marginTop: '40px' }}>
+            <h2 className="section-title" style={{ fontSize: '1.6rem', color: '#f4cf63' }}>Estrategia</h2>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px' }}>
+              {study.strategy.map((item) => (
+                <li key={item} style={{ display: 'flex', gap: '10px', color: '#c8c6be', lineHeight: 1.7 }}>
+                  <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="panel panel-pad reveal" style={{ marginTop: '24px', transitionDelay: '.1s' }}>
+            <h2 className="section-title" style={{ fontSize: '1.6rem', color: '#f4cf63' }}>Resultados</h2>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px' }}>
+              {study.results.map((item) => (
+                <li key={item} style={{ display: 'flex', gap: '10px', color: '#c8c6be', lineHeight: 1.7 }}>
+                  <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="panel panel-pad reveal" style={{ marginTop: '24px', background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(15,15,15,0.98))', transitionDelay: '.2s' }}>
+            <h2 className="section-title" style={{ fontSize: '1.6rem', color: '#f4cf63' }}>Testimonio</h2>
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.3rem', lineHeight: 1.6, fontStyle: 'italic', color: '#f8f5ed' }}>{study.testimonial}</p>
+          </section>
+
+          <div className="reveal" style={{ marginTop: '32px' }}>
+            <FAQ
+              items={[
+                { question: '¿Qué se optimizó primero?', answer: 'Arquitectura, contenido, schema y autoridad de marca.' },
+                { question: '¿El resultado fue orgánico?', answer: 'Sí, los resultados se construyeron con tráfico y autoridad orgánica.' },
+              ]}
+            />
+          </div>
         </section>
-
-        <section style={{ marginTop: '40px' }}>
-          <h2>Resultados</h2>
-          <ul>
-            {study.results.map((item) => <li key={item}>{item}</li>)}
-          </ul>
-        </section>
-
-        <section style={{ marginTop: '40px', padding: '24px', background: '#0f0f0f', border: '1px solid rgba(244, 207, 99, 0.18)', borderRadius: '12px' }}>
-          <h2>Testimonio</h2>
-          <p>{study.testimonial}</p>
-        </section>
-
-        <FAQ
-          items={[
-            { question: '¿Qué se optimizó primero?', answer: 'Arquitectura, contenido, schema y autoridad de marca.' },
-            { question: '¿El resultado fue orgánico?', answer: 'Sí, los resultados se construyeron con tráfico y autoridad orgánica.' },
-          ]}
-        />
       </main>
     </>
   );

@@ -29,7 +29,7 @@ export default async function IndustryPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px' }}>
+      <main className="section-shell" style={{ maxWidth: '1100px' }}>
         <Breadcrumb
           items={[
             { name: 'Inicio', href: '/' },
@@ -38,22 +38,29 @@ export default async function IndustryPage({ params }: Props) {
           ]}
         />
 
-        <p style={{ color: '#f4cf63', fontWeight: 700 }}>Arquitectura programática</p>
-        <h1 style={{ fontSize: '40px', marginTop: 0 }}>{industry.title}</h1>
-        <p style={{ fontSize: '18px', color: '#efe9d6' }}>{industry.description}</p>
+        <div className="reveal" style={{ marginTop: '16px' }}>
+          <div className="eyebrow">Arquitectura programática</div>
+          <h1 className="hero-title" style={{ maxWidth: '18ch', fontSize: 'clamp(2.2rem, 5vw, 3.2rem)' }}>{industry.title}</h1>
+          <p className="hero-copy">{industry.description}</p>
+        </div>
 
-        <section style={{ marginTop: '30px' }}>
-          <h2>Intención de búsqueda</h2>
-          <ul>
-            {industry.intent.map((item) => <li key={item}>{item}</li>)}
+        <section className="panel panel-pad reveal" style={{ marginTop: '30px' }}>
+          <h2 className="section-title" style={{ fontSize: '1.5rem', color: '#f4cf63' }}>Intención de búsqueda</h2>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px' }}>
+            {industry.intent.map((item) => (
+              <li key={item} style={{ display: 'flex', gap: '10px', color: '#c8c6be', lineHeight: 1.7 }}>
+                <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
           </ul>
         </section>
 
-        <section style={{ marginTop: '30px' }}>
-          <h2>Ciudades objetivo</h2>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <section className="reveal" style={{ marginTop: '30px' }}>
+          <h2 className="section-title" style={{ fontSize: '1.5rem' }}>Ciudades objetivo</h2>
+          <div className="chip-row">
             {industry.cities.map((city) => (
-              <Link key={city} href={`/ubicaciones/${city}`} style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(244, 207, 99, 0.25)', borderRadius: '999px', color: '#f4cf63', textDecoration: 'none' }}>
+              <Link key={city} href={`/ubicaciones/${city}`} className="chip-button cta-secondary" style={{ color: '#f4cf63' }}>
                 {city}
               </Link>
             ))}
@@ -61,17 +68,22 @@ export default async function IndustryPage({ params }: Props) {
         </section>
 
         {industry.painPoints && (
-          <section style={{ marginTop: '30px' }}>
-            <h2>Dolores del sector</h2>
-            <ul>
-              {industry.painPoints.map((item) => <li key={item}>{item}</li>)}
+          <section className="panel panel-pad reveal" style={{ marginTop: '30px' }}>
+            <h2 className="section-title" style={{ fontSize: '1.5rem', color: '#f4cf63' }}>Dolores del sector</h2>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px' }}>
+              {industry.painPoints.map((item) => (
+                <li key={item} style={{ display: 'flex', gap: '10px', color: '#c8c6be', lineHeight: 1.7 }}>
+                  <span style={{ color: '#f4cf63', flexShrink: 0 }}>✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </section>
         )}
 
         {industry.approach && (
-          <section style={{ marginTop: '30px' }}>
-            <h2>Cómo lo aborda Velozza</h2>
+          <section className="reveal" style={{ marginTop: '30px' }}>
+            <h2 className="section-title" style={{ fontSize: '1.5rem' }}>Cómo lo aborda Velozza</h2>
             {industry.approach.map((paragraph) => (
               <p key={paragraph} style={{ fontSize: '17px', lineHeight: '1.7', color: '#efe9d6' }}>
                 {paragraph}
@@ -81,7 +93,9 @@ export default async function IndustryPage({ params }: Props) {
         )}
 
         {industry.faqs && (
-          <FAQ title="Preguntas frecuentes del sector" items={industry.faqs} />
+          <div className="reveal">
+            <FAQ title="Preguntas frecuentes del sector" items={industry.faqs} />
+          </div>
         )}
 
         <FAQ

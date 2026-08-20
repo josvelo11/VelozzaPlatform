@@ -157,7 +157,7 @@ export default function ServicesPage() {
               <div className="hero-actions" style={{ justifyContent: 'center' }}>
                 <a
                   className="cta-primary"
-                  href="https://api.whatsapp.com/send?phone=573213478076&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
+                  href="https://api.whatsapp.com/send?phone=573053090273&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita."
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -172,11 +172,11 @@ export default function ServicesPage() {
         </div>
 
         <div style={{ marginTop: '36px', display: 'grid', gap: '18px' }}>
-          {services.map((service) => (
+          {services.map((service, i) => (
             <section
               key={service.number}
-              className={`panel service-panel ${service.reverse ? 'reverse' : ''}`}
-              style={{ overflow: 'hidden' }}
+              className={`panel service-panel reveal ${service.reverse ? 'reverse' : ''}`}
+              style={{ overflow: 'hidden', transitionDelay: `${Math.min(i, 4) * 0.08}s` }}
             >
               <div className="service-media">
                 <img src={service.image} alt={service.title} style={{ objectPosition: service.imagePosition }} />
@@ -228,8 +228,8 @@ export default function ServicesPage() {
               </h2>
             </div>
             <div className="process-grid">
-              {processSteps.map((step) => (
-                <div key={step.number} className="process-step">
+              {processSteps.map((step, i) => (
+                <div key={step.number} className="process-step reveal tilt" style={{ transitionDelay: `${i * 0.1}s` }}>
                   <div className="process-number">{step.number}</div>
                   <h3>{step.title}</h3>
                   <p>{step.copy}</p>
@@ -296,6 +296,7 @@ export default function ServicesPage() {
                 ].map((pkg, idx) => (
                   <div
                     key={idx}
+                    className="reveal tilt"
                     style={{
                       padding: '30px',
                       backgroundColor: '#0f0f0f',
@@ -304,6 +305,7 @@ export default function ServicesPage() {
                       position: 'relative',
                       display: 'flex',
                       flexDirection: 'column',
+                      transitionDelay: `${idx * 0.1}s`,
                     }}
                   >
                     {pkg.featured && (
@@ -352,6 +354,7 @@ export default function ServicesPage() {
               </h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' }}>
                 <div
+                  className="reveal tilt"
                   style={{
                     padding: '30px',
                     backgroundColor: '#0f0f0f',

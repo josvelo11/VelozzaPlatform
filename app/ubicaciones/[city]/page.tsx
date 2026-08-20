@@ -40,12 +40,13 @@ export default async function LocationPage({ params }: Props) {
           ]}
         />
 
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 20px' }}>
-          <h1 style={{ fontSize: '36px', marginBottom: '20px' }}>
+        <div className="section-shell" style={{ maxWidth: '800px' }}>
+          <h1 className="reveal" style={{ fontSize: '36px', marginBottom: '20px' }}>
             {location.city}, {location.region}
           </h1>
 
           <div
+            className="tilt reveal"
             style={{
               backgroundColor: '#0f0f0f',
               borderRadius: '12px',
@@ -82,19 +83,25 @@ export default async function LocationPage({ params }: Props) {
                 </p>
               </div>
 
-              <button
+              <a
+                href="/contacto"
+                className="shine-hover"
                 style={{
+                  display: 'inline-block',
                   padding: '12px 24px',
                   backgroundColor: '#f4cf63',
                   color: '#0b0b0b',
                   border: '1px solid rgba(244, 207, 99, 0.2)',
                   borderRadius: '4px',
                   fontSize: '16px',
-                  cursor: 'pointer',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  textAlign: 'center',
+                  width: 'fit-content',
                 }}
               >
                 Agendar Consultoría
-              </button>
+              </a>
             </div>
           </div>
 
@@ -132,15 +139,17 @@ export default async function LocationPage({ params }: Props) {
                 Preguntas frecuentes en {location.city}
               </h2>
               <div style={{ display: 'grid', gap: '15px' }}>
-                {location.faqs.map((faq: { question: string; answer: string }) => (
+                {location.faqs.map((faq: { question: string; answer: string }, i: number) => (
                   <div
                     key={faq.question}
+                    className="tilt reveal"
                     style={{
                       backgroundColor: '#0f0f0f',
                       borderRadius: '12px',
                       padding: '20px',
                       border: '1px solid rgba(244, 207, 99, 0.16)',
                       color: '#f8f5ed',
+                      transitionDelay: `${i * 0.08}s`,
                     }}
                   >
                     <h3 style={{ marginTop: 0, marginBottom: '10px', color: '#f4cf63' }}>

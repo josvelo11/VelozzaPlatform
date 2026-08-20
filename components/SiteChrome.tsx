@@ -165,7 +165,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
               <BrandLogo variant="transparent" style={{ width: 184, maxWidth: '100%' }} priority />
               <p style={{ color: '#7a7870' }}>Ingeniería visual y posicionamiento premium para marcas y líderes que exigen dominar su mercado.</p>
               <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
-                <a href="tel:+573213478076" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 321 347 8076</a>
+                <a href="tel:+573053090273" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 305 309 0273</a>
                 <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
                 <a href="https://instagram.com/velozzacws" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>@velozzacws</a>
               </div>

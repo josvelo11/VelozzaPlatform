@@ -75,14 +75,18 @@ export default function FAQPage() {
       <Breadcrumb items={[{ name: 'Inicio', href: '/' }, { name: 'FAQs' }]} />
 
       <section className="section-shell">
-        <h1 className="section-title">Sistema de FAQs</h1>
-        <p className="section-lead muted">
-          Respuestas diseñadas para SEO, conversión y reducción de fricción comercial.
-        </p>
+        <div className="reveal">
+          <h1 className="section-title">Sistema de FAQs</h1>
+          <p className="section-lead muted">
+            Respuestas diseñadas para SEO, conversión y reducción de fricción comercial.
+          </p>
+        </div>
 
-        <FAQ items={faqs} title="Preguntas frecuentes sobre la plataforma" />
+        <div className="reveal">
+          <FAQ items={faqs} title="Preguntas frecuentes sobre la plataforma" />
+        </div>
 
-        <div className="panel panel-pad" style={{ marginTop: '24px' }}>
+        <div className="panel panel-pad reveal" style={{ marginTop: '24px' }}>
           <h2 style={{ marginTop: 0 }}>Accesos relacionados</h2>
           <div className="chip-row">
             <Link href="/casos-de-exito" className="chip-button cta-secondary" style={{ color: '#f8f5ed' }}>Casos de éxito</Link>

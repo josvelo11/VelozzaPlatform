@@ -234,8 +234,8 @@ export default function BodasPage() {
             </div>
 
             <div className="package-grid two-up">
-              {socialPackages.map((pkg) => (
-                <article key={pkg.name} className="package-card social-package">
+              {socialPackages.map((pkg, i) => (
+                <article key={pkg.name} className="package-card social-package tilt reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                   <div className="package-head">
                     <div>
                       <p className="package-kicker">Colección social</p>
@@ -268,8 +268,8 @@ export default function BodasPage() {
           </div>
 
           <div className="package-grid three-up">
-              {weddingPackages.map((pkg) => (
-                <article key={pkg.name} className={`package-card wedding-package${pkg.featured ? ' featured' : ''}`}>
+              {weddingPackages.map((pkg, i) => (
+                <article key={pkg.name} className={`package-card wedding-package tilt reveal${pkg.featured ? ' featured' : ''}`} style={{ transitionDelay: `${i * 0.1}s` }}>
                 <div className="package-badge">{pkg.subtitle}</div>
                 <h3>{pkg.name}</h3>
                 <div className="package-price package-price-large">{pkg.price}</div>
@@ -316,8 +316,8 @@ export default function BodasPage() {
             </div>
 
             <div className="portfolio-grid">
-              {portfolioImages.map((image) => (
-                <figure key={image.src} className="portfolio-card">
+              {portfolioImages.map((image, i) => (
+                <figure key={image.src} className="portfolio-card tilt reveal" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
                   <img src={image.src} alt={image.alt} loading="lazy" />
                 </figure>
               ))}

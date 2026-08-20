@@ -28,11 +28,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         ]}
       />
 
-      <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-        <h1 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', marginBottom: '16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>La Bóveda de Inteligencia</h1>
-        <p style={{ fontSize: '1.08rem', color: '#a7a7a7', marginBottom: '40px', maxWidth: '68ch' }}>
-          Tácticas de retención, neuromarketing y análisis de algoritmos. Las estrategias exactas de arquitectura de marca que aplicamos con nuestros clientes de élite, publicadas para quienes saben aprovecharlas.
-        </p>
+      <section className="section-shell">
+        <div className="reveal">
+          <h1 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', marginBottom: '16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>La Bóveda de Inteligencia</h1>
+          <p style={{ fontSize: '1.08rem', color: '#a7a7a7', marginBottom: '40px', maxWidth: '68ch' }}>
+            Tácticas de retención, neuromarketing y análisis de algoritmos. Las estrategias exactas de arquitectura de marca que aplicamos con nuestros clientes de élite, publicadas para quienes saben aprovecharlas.
+          </p>
+        </div>
 
         {/* Categorías */}
         <div style={{ marginBottom: '40px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -69,11 +71,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
         {/* Posts */}
         <div style={{ display: 'grid', gap: '30px', marginBottom: '60px' }}>
-          {filteredPosts.map((post) => (
+          {filteredPosts.map((post, i) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
+              className="premium-card tilt reveal"
+              style={{ textDecoration: 'none', color: 'inherit', display: 'block', transitionDelay: `${(i % 6) * 0.06}s` }}
             >
               <article
                 style={{
@@ -86,7 +89,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                   gridTemplateColumns: '200px 1fr',
                   gap: '30px',
                   cursor: 'pointer',
-                  transition: 'box-shadow 0.3s ease',
                 }}
               >
                 <img

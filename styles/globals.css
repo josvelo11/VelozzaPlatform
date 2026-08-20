@@ -179,6 +179,19 @@ a {
   background: rgba(255, 255, 255, 0.04);
 }
 
+@keyframes velozzaHeroShellGlow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-14px, 10px) scale(1.08); }
+}
+.hero-shell::before { animation: velozzaHeroShellGlow 13s ease-in-out infinite; }
+.hero-shell::after { animation: velozzaHeroShellGlow 16s ease-in-out infinite reverse; }
+
+@keyframes velozzaHeroShellIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.hero-shell { animation: velozzaHeroShellIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
 .hero-grid {
   position: relative;
   z-index: 1;
@@ -237,6 +250,30 @@ a {
   font-weight: 700;
   border: 1px solid transparent;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.cta-primary::before,
+.cta-secondary::before,
+.chip-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+.cta-primary:hover::before,
+.cta-secondary:hover::before,
+.chip-button:hover::before {
+  left: 130%;
 }
 
 .cta-primary {
@@ -248,13 +285,34 @@ a {
 .cta-primary:hover,
 .cta-secondary:hover,
 .chip-button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(212, 175, 55, 0.32);
 }
 
 .cta-secondary {
   background: rgba(255, 255, 255, 0.04);
   color: #fff;
   border-color: rgba(212, 175, 55, 0.18);
+}
+
+.cta-secondary:hover,
+.chip-button:hover {
+  border-color: rgba(244, 207, 99, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-shell,
+  .hero-shell::before,
+  .hero-shell::after,
+  .cta-primary,
+  .cta-secondary,
+  .chip-button,
+  .cta-primary::before,
+  .cta-secondary::before,
+  .chip-button::before {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 .section-shell {
@@ -341,6 +399,13 @@ a {
   background: rgba(18, 18, 18, 0.92);
   border-radius: 20px;
   border: 1px solid var(--line);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(244, 207, 99, 0.34);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 }
 
 .stat-value {
@@ -513,4 +578,90 @@ a {
 .message {
   color: var(--text);
   font-size: 0.95rem;
+}
+
+/* ============================================================
+   SITE-WIDE PREMIUM ANIMATION SYSTEM
+   Powers scroll-reveal, tilt, shimmer and shine across every
+   page via components/SiteAnimations.tsx. Reusable utilities —
+   apply the class names below to any element on any page.
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tilt {
+  will-change: transform;
+  transition: transform 120ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.premium-card {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+.premium-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(244, 207, 99, 0.12);
+}
+
+@keyframes velozzaShimmerGlobal {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, var(--accent) 0%, #fff2c9 22%, var(--accent-strong) 45%, var(--accent) 68%, var(--accent-strong) 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: velozzaShimmerGlobal 6s linear infinite;
+}
+
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shine-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+.shine-hover:hover::before {
+  left: 130%;
+}
+
+@keyframes velozzaFadeUpGlobal {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-anim-g {
+  animation: velozzaFadeUpGlobal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .tilt,
+  .premium-card,
+  .text-shimmer,
+  .shine-hover::before,
+  .hero-anim-g {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
