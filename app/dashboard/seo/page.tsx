@@ -15,7 +15,7 @@ const metrics = [
 const topPages = [
   { page: '/servicios/seo-services', clicks: '1,240' },
   { page: '/blog/personal-branding-2025', clicks: '890' },
-  { page: '/casos-de-exito/brandlift-co', clicks: '640' },
+  { page: '/casos-de-exito/fiesta-auto-newsletter', clicks: '640' },
 ];
 
 export default function SEODashboardPage() {

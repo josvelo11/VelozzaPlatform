@@ -37,15 +37,15 @@ const faqs = [
   },
   {
     question: '¿En qué ciudades y países trabaja Velozza?',
-    answer: 'Tenemos oficinas en Bogotá y Medellín, y hemos acompañado a más de 250 marcas en más de 7 países. También trabajamos con clientes en Estados Unidos, como negocios del mercado latino en Florida. Al operar de forma remota y presencial, podemos atenderte estés donde estés, con reuniones virtuales y procesos de trabajo 100% digitales.',
+    answer: 'Tenemos oficinas en Bogotá y Medellín, y trabajamos con marcas y profesionales en distintos países de la región. También trabajamos con clientes en Estados Unidos, como negocios del mercado latino en Florida. Al operar de forma remota y presencial, podemos atenderte estés donde estés, con reuniones virtuales y procesos de trabajo 100% digitales.',
   },
   {
     question: '¿Cómo es el proceso de trabajo con Velozza?',
     answer: 'Nuestro proceso tiene cuatro etapas: primero una consulta estratégica para entender tu negocio y objetivos; luego un análisis de marca donde evaluamos tu posicionamiento actual y tu competencia; después construimos un plan de acción con prioridades claras; y finalmente pasamos a producción y ejecución continua, con seguimiento de resultados en cada ciclo.',
   },
   {
-    question: '¿Qué es Lozara Intelligence™?',
-    answer: 'Lozara Intelligence™ es nuestra metodología propia de estrategia de marca potenciada con inteligencia artificial. Combina análisis de posicionamiento, arquetipos de identidad y datos de mercado para definir cómo debe hablar, verse y venderse tu marca. Es la base de todo lo que producimos: cada pieza de contenido y cada campaña responde a esa estrategia, no a la improvisación.',
+    question: '¿Cómo definen la estrategia de marca de cada cliente?',
+    answer: 'Con una metodología propia de estrategia de marca potenciada con inteligencia artificial. Combina análisis de posicionamiento, arquetipos de identidad y datos de mercado para definir cómo debe hablar, verse y venderse tu marca. Es la base de todo lo que producimos: cada pieza de contenido y cada campaña responde a esa estrategia, no a la improvisación.',
   },
   {
     question: '¿Hacen fotografía y video de eventos sociales y bodas?',

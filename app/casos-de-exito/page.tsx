@@ -17,7 +17,7 @@ export default function CaseStudiesPage() {
       <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
         <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Casos de Éxito</h1>
         <p style={{ fontSize: '18px', color: '#a7a7a7', marginBottom: '40px' }}>
-          Resultados reales de crecimiento orgánico, branding y leads para clientes en Latinoamérica y EEUU hispano.
+          Resultados reales, documentados caso por caso, con datos verificables — sin cifras genéricas. Vamos publicando cada caso a medida que lo cerramos con nuestros clientes.
         </p>
 
         <div style={{ display: 'grid', gap: '30px' }}>

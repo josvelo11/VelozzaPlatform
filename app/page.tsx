@@ -22,10 +22,10 @@ const services = [
 ];
 
 const results = [
-  ['+487%', 'Crecimiento Orgánico'],
-  ['+2.3M', 'Alcance Generado'],
-  ['+3,800', 'Leads Generados'],
-  ['+320%', 'ROI en Campañas'],
+  ['target', '01', 'Consulta Estratégica'],
+  ['analytics', '02', 'Análisis de Marca'],
+  ['sparkles', '03', 'Plan de Acción'],
+  ['video', '04', 'Producción y Ejecución'],
 ];
 
 type PlanPrice = string | { cop: string; usd: string };
@@ -131,7 +131,7 @@ export default function Home() {
           .service p { font-size: 13px; margin: 0 0 18px; }
           .link { color: #f0d98a; text-decoration: none; font-family: Montserrat, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
           .stats { background: #141410; border-top: 1px solid #2a2a22; border-bottom: 1px solid #2a2a22; }
-          .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); padding: 46px 0; }
+          .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 46px 0; }
           .stat { text-align: center; padding: 10px 12px; border-right: 1px solid #2a2a22; }
           .stat:last-child { border-right: 0; }
           .stat .value { font-size: 48px; line-height: 1; font-weight: 700; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -234,7 +234,7 @@ export default function Home() {
             .plans-grid { grid-template-columns: repeat(5, 1fr); }
             .plans-grid-3 { grid-template-columns: repeat(3, 1fr); }
             .plans-grid-2 { grid-template-columns: repeat(2, 1fr); }
-            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .footer-grid { grid-template-columns: 1fr 1fr; }
           }
           @media (max-width: 640px) {
@@ -259,6 +259,35 @@ export default function Home() {
             .bottom { flex-direction: column; align-items: flex-start; }
             .hero-photo { width: 100%; max-width: 340px; height: 460px; }
           }
+
+          /* ============ ANIMATIONS ============ */
+          @keyframes velozzaFadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+          @keyframes velozzaFadeIn { from { opacity: 0; } to { opacity: 1; } }
+          .hero-anim { animation: velozzaFadeUp .9s cubic-bezier(.16,1,.3,1) both; }
+          .hero-anim.d1 { animation-delay: .05s; }
+          .hero-anim.d2 { animation-delay: .2s; }
+          .hero-anim.d3 { animation-delay: .34s; }
+          .hero-photo-anim { animation: velozzaFadeIn 1.1s ease .25s both; }
+          .metric-anim { animation: velozzaFadeUp .8s cubic-bezier(.16,1,.3,1) both; }
+          .metric.one.metric-anim { animation-delay: .55s; }
+          .metric.two.metric-anim { animation-delay: .7s; }
+          .metric.three.metric-anim { animation-delay: .85s; }
+
+          .reveal { opacity: 0; transform: translateY(32px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+          .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+          .button.gold { position: relative; overflow: hidden; }
+          .button.gold::before {
+            content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);
+            transform: skewX(-20deg); transition: left .7s ease; pointer-events: none;
+          }
+          .button.gold:hover::before { left: 130%; }
+
+          @media (prefers-reduced-motion: reduce) {
+            .hero-anim, .hero-photo-anim, .metric-anim, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+            .button.gold::before { display: none; }
+          }
         `}</style>
 
         <header className="nav wrap">
@@ -281,48 +310,45 @@ export default function Home() {
         <section className="hero">
           <div className="wrap hero-grid">
             <div>
-              <div className="eyebrow">Impulsado por Lozara Intelligence™</div>
-              <h1>
+              <div className="eyebrow hero-anim d1">Estrategia, Producción y Tecnología Propia</div>
+              <h1 className="hero-anim d1">
                 Construimos<br />
                 Marcas.<br />
                 Generamos<br />
                 Demanda.<br />
                 <span className="accent">Impulsamos<br />Líderes.</span>
               </h1>
-              <p className="hero-copy">Estrategias de marca personal y marketing digital diseñadas para posicionar tu autoridad, atraer clientes ideales y generar crecimiento medible y sostenible.</p>
-              <div className="actions">
+              <p className="hero-copy hero-anim d2">Estrategias de marca personal y marketing digital diseñadas para posicionar tu autoridad, atraer clientes ideales y generar crecimiento medible y sostenible.</p>
+              <div className="actions hero-anim d3">
                 <Link href="/contacto" className="button gold">Agenda tu Consulta Gratuita →</Link>
                 <Link href="/casos-de-exito" className="button ghost"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</Link>
               </div>
             </div>
 
-            <div className="photo-stack">
+            <div className="photo-stack hero-photo-anim">
               <div className="photo hero-photo">
                 <img src="/founder-arms.jpg" alt="David Velozza" />
                 <div className="watermark">VELOZZA<br />CREATIVE</div>
               </div>
 
-              <div className="metric one">
-                <div className="label">Crecimiento de Audiencia</div>
-                <div className="metric-value">+214%</div>
-                <div className="sub">En los últimos 90 días</div>
+              <div className="metric one metric-anim">
+                <div className="label">Experiencia</div>
+                <div className="metric-value" data-count="10" data-prefix="+">+10</div>
+                <div className="sub">Años liderando en LatAm</div>
                 <div className="bars">{[30, 45, 35, 60, 50, 75, 65, 90, 100].map((h, i) => <span key={i} style={{ height: `${h}%` }} />)}</div>
               </div>
 
-              <div className="metric two">
-                <div className="label">Leads Generados</div>
-                <div className="metric-value">1,382</div>
-                <div className="sub">Este mes</div>
-                <div className="dots"><span className="dot" /><span className="dot" /><span className="dot" /><span className="dot" /><span className="dot off" /></div>
+              <div className="metric two metric-anim">
+                <div className="label">Servicios</div>
+                <div className="metric-value" data-count="8">8</div>
+                <div className="sub">Líneas integrales</div>
+                <div className="dots"><span className="dot" /><span className="dot" /><span className="dot" /><span className="dot" /><span className="dot" /></div>
               </div>
 
-              <div className="metric three">
-                <div className="label">Autoridad de Marca</div>
-                <div className="score">95<small>/100</small></div>
-                <div className="sub">Puntaje de Posicionamiento</div>
-                <div style={{ marginTop: 8, height: 3, background: 'rgba(255,255,255,.08)', borderRadius: 2, overflow: 'hidden' }}>
-                  <div style={{ width: '95%', height: '100%', background: 'linear-gradient(135deg, #f0d98a, #c9a84c)' }} />
-                </div>
+              <div className="metric three metric-anim">
+                <div className="label">Cobertura</div>
+                <div className="score"><span data-count="100">100</span><small>%</small></div>
+                <div className="sub">Digital y Presencial</div>
               </div>
             </div>
           </div>
@@ -351,14 +377,14 @@ export default function Home() {
 
         <section className="section" id="servicios">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head reveal">
               <div className="eyebrow">Nuestros Servicios</div>
               <h2 className="title">Soluciones que generan <span className="accent">resultados reales</span></h2>
               <p className="subtitle">Estrategias integrales, ejecución impecable y tecnología inteligente.</p>
             </div>
             <div className="services-grid">
-              {services.map(({ icon, title, copy, slug }) => (
-                <Link href={slug === 'contacto' ? '/contacto' : `/servicios/${slug}`} className="service-link" key={title}>
+              {services.map(({ icon, title, copy, slug }, i) => (
+                <Link href={slug === 'contacto' ? '/contacto' : `/servicios/${slug}`} className="service-link reveal" style={{ transitionDelay: `${i * 0.08}s` }} key={title}>
                   <article className="service">
                     <div className="icon"><PremiumIcon name={icon as any} size={22} /></div>
                     <h3>{title}</h3>
@@ -374,15 +400,14 @@ export default function Home() {
         <section className="stats">
           <div className="wrap stats-grid">
             {[
-              ['+250', 'Marcas Posicionadas'],
-              ['+10M', 'Personas Alcanzadas'],
-              ['+35M', 'Leads Generados'],
-              ['+300%', 'Crecimiento Promedio'],
-              ['+7', 'Países Atendidos'],
-            ].map(([value, label]) => (
-              <div className="stat" key={label}>
-                <div className="value">{value}</div>
-                <div className="name">{label}</div>
+              { value: 8, prefix: '', suffix: '', label: 'Líneas de Servicio' },
+              { value: 10, prefix: '+', suffix: '', label: 'Años de Experiencia' },
+              { value: 2, prefix: '', suffix: '', label: 'Mercados: Colombia y Estados Unidos' },
+              { value: 100, prefix: '', suffix: '%', label: 'Digital y Presencial' },
+            ].map((stat, i) => (
+              <div className="stat reveal" style={{ transitionDelay: `${i * 0.08}s` }} key={stat.label}>
+                <div className="value" data-count={stat.value} data-prefix={stat.prefix} data-suffix={stat.suffix}>{stat.prefix}{stat.value}{stat.suffix}</div>
+                <div className="name">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -390,19 +415,19 @@ export default function Home() {
 
         <section className="section" id="resultados">
           <div className="wrap">
-            <div className="section-head" style={{ display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+            <div className="section-head reveal" style={{ display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'flex-end', flexWrap: 'wrap' }}>
               <div>
-                <div className="eyebrow">Resultados</div>
-                <h2 className="title">Resultados que hablan<br />por <span className="accent">nosotros</span></h2>
-                <p className="subtitle">Historias reales de marcas que crecieron con Velozza.</p>
+                <div className="eyebrow">Proceso</div>
+                <h2 className="title">Así trabajamos<br />con <span className="accent">cada marca</span></h2>
+                <p className="subtitle">Un proceso claro, sin improvisación: de la estrategia a la ejecución.</p>
               </div>
-              <Link href="/casos-de-exito" className="button gold">Ver Casos de Éxito →</Link>
+              <Link href="/servicios" className="button gold">Ver Nuestros Servicios →</Link>
             </div>
             <div className="results-grid">
-              {results.map(([value, label], index) => (
-                <article className="result" key={label}>
+              {results.map(([icon, value, label], index) => (
+                <article className="result reveal" style={{ transitionDelay: `${index * 0.1}s` }} key={label}>
                   <div className="thumb" style={{ background: index === 1 ? 'linear-gradient(160deg,#1a1e14 0%,#0e0c08 100%)' : index === 2 ? 'linear-gradient(160deg,#1a1214 0%,#0e0c08 100%)' : index === 3 ? 'linear-gradient(160deg,#141a1a 0%,#0e0c08 100%)' : 'linear-gradient(160deg,#1e1c14 0%,#0e0c08 100%)' }}>
-                    <div className="play"><PremiumIcon name="play" size={18} /></div>
+                    <div className="play"><PremiumIcon name={icon as any} size={18} /></div>
                   </div>
                   <div className="meta">
                     <div className="result-metric">{value}</div>
@@ -416,7 +441,7 @@ export default function Home() {
 
         <section className="section" id="galeria">
           <div className="wrap">
-            <div className="section-head" style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <div className="section-head reveal" style={{ textAlign: 'center', marginBottom: '60px' }}>
               <div className="eyebrow" style={{ justifyContent: 'center' }}>Proceso de Trabajo</div>
               <h2 className="title">Detrás de cada <span className="accent">marca</span></h2>
               <p className="subtitle">Sesiones profesionales de grabación y producción de contenido de alto impacto.</p>
@@ -463,7 +488,7 @@ export default function Home() {
                 { src: '/photoshoot-2.jpg', alt: 'Equipo de producción en acción' },
                 { src: '/photoshoot-3.jpg', alt: 'Trabajo colaborativo de grabación' },
               ].map((photo, idx) => (
-                <div key={idx} className="photo-gallery-item">
+                <div key={idx} className="photo-gallery-item reveal" style={{ transitionDelay: `${idx * 0.12}s` }}>
                   <img src={photo.src} alt={photo.alt} />
                 </div>
               ))}
@@ -474,17 +499,17 @@ export default function Home() {
 
         <section className="about" id="nosotros">
           <div className="wrap section about-grid">
-            <div className="photo about-photo">
+            <div className="photo about-photo reveal">
               <img src="/founder-fulllength.jpg" alt="David Velozza" />
               <div className="watermark">David Velozza</div>
             </div>
-            <div>
+            <div className="reveal" style={{ transitionDelay: '.15s' }}>
               <div className="eyebrow">Fundador &amp; CEO · Velozza Creative Works</div>
               <h2 className="about-title">Liderazgo.<br />Visión.<br />Ejecución.</h2>
-              <p className="about-copy">Con más de 15 años de experiencia, David Velozza y su equipo han ayudado a miles de líderes a transformar su presencia y multiplicar su impacto.</p>
+              <p className="about-copy">Con más de 10 años de experiencia, David Velozza y su equipo ayudan a líderes y marcas a transformar su presencia y multiplicar su impacto.</p>
               <ul className="about-list">
                 <li>Estratega de Marcas Personales</li>
-                <li>Productor de Contenido #1 en LATAM</li>
+                <li>Especialista en Producción de Contenido para Marcas Personales</li>
                 <li>Fotografía y Producción Audiovisual Especializada</li>
                 <li>Empresario &amp; Visionario</li>
               </ul>
@@ -495,7 +520,7 @@ export default function Home() {
 
         <section className="section" id="planes">
           <div className="wrap">
-            <div className="section-head" style={{ textAlign: 'center' }}>
+            <div className="section-head reveal" style={{ textAlign: 'center' }}>
               <div className="eyebrow" style={{ justifyContent: 'center' }}>Planes</div>
               <h2 className="title">Elige el plan que impulsa tu crecimiento</h2>
               <p className="subtitle" style={{ marginLeft: 'auto', marginRight: 'auto' }}>Soluciones flexibles diseñadas para cada etapa de tu marca.</p>
@@ -698,7 +723,7 @@ export default function Home() {
         </section>
 
         <section className="cta">
-          <div className="wrap cta-grid">
+          <div className="wrap cta-grid reveal">
             <div>
               <h2 className="cta-title">Hablemos de tu visión y construyamos tu próximo nivel.</h2>
               <p className="cta-copy">Una estrategia personalizada puede cambiar el rumbo de tu marca.</p>
@@ -729,7 +754,7 @@ export default function Home() {
                 <BrandLogo variant="transparent" style={{ width: 180 }} priority />
               </Link>
               <p>Construimos marcas que lideran y generan resultados.</p>
-              <div className="powered">Powered by LoZaRa Intelligence™</div>
+              <div className="powered">Estrategia · Producción · Tecnología</div>
               <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
                 <a href="tel:+573213478076" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 321 347 8076</a>
                 <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
@@ -756,6 +781,68 @@ export default function Home() {
         </footer>
 
         <button className="wa" aria-label="WhatsApp"><PremiumIcon name="chat" size={22} /></button>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                function animateCount(el) {
+                  if (el.dataset.counted) return;
+                  el.dataset.counted = '1';
+                  var target = parseFloat(el.getAttribute('data-count'));
+                  var prefix = el.getAttribute('data-prefix') || '';
+                  var suffix = el.getAttribute('data-suffix') || '';
+                  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                  if (reduceMotion || isNaN(target)) {
+                    el.textContent = prefix + target + suffix;
+                    return;
+                  }
+                  var dur = 1100, start = null;
+                  function step(ts) {
+                    if (!start) start = ts;
+                    var p = Math.min((ts - start) / dur, 1);
+                    var eased = 1 - Math.pow(1 - p, 3);
+                    el.textContent = prefix + Math.round(target * eased) + suffix;
+                    if (p < 1) requestAnimationFrame(step);
+                  }
+                  requestAnimationFrame(step);
+                }
+                function revealTarget(el) {
+                  el.classList.add('is-visible');
+                  if (el.hasAttribute('data-count')) animateCount(el);
+                  el.querySelectorAll('[data-count]').forEach(animateCount);
+                }
+                function init() {
+                  document.querySelectorAll('.hero [data-count]').forEach(function (el) {
+                    setTimeout(function () { animateCount(el); }, 650);
+                  });
+                  var targets = document.querySelectorAll('.reveal');
+                  if (!('IntersectionObserver' in window)) {
+                    targets.forEach(revealTarget);
+                    return;
+                  }
+                  var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                      if (entry.isIntersecting) {
+                        revealTarget(entry.target);
+                        io.unobserve(entry.target);
+                      }
+                    });
+                  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+                  targets.forEach(function (el) { io.observe(el); });
+                  setTimeout(function () {
+                    document.querySelectorAll('.reveal:not(.is-visible)').forEach(revealTarget);
+                  }, 2500);
+                }
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', init);
+                } else {
+                  init();
+                }
+              })();
+            `,
+          }}
+        />
       </main>
     </>
   );

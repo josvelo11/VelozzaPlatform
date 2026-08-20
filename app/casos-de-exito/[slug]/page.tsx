@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
-import { getCaseStudyBySlug, getCaseStudySchema } from '@/lib/case-studies';
+import { getAllCaseStudies, getCaseStudyBySlug, getCaseStudySchema } from '@/lib/case-studies';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return ['brandlift-co', 'law-firm-la'].map((slug) => ({ slug }));
+  return getAllCaseStudies().map((study) => ({ slug: study.slug }));
 }
 
 export default async function CaseStudyDetailPage({ params }: Props) {
