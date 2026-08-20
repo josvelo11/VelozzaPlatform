@@ -75,18 +75,13 @@ export default function Home() {
           .button { border: 0; cursor: pointer; font-family: Montserrat, sans-serif; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; justify-content: center; text-decoration: none; }
           .button, .service, .result, .plan, .cta-item, .photo, .brand-list span, .links a, .social, .footer a { transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease, filter 180ms ease; }
           .gold { background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; padding: 14px 24px; }
-          .ghost { background: transparent; color: #f4f2ec; border: 1px solid rgba(244,242,236,.22); padding: 14px 24px; }
+          .ghost { background: transparent; color: #f4f2ec; border: 1px solid rgba(244,242,236,.22); padding: 14px 24px; transition: border-color 220ms ease, background-color 220ms ease, transform 220ms ease; }
+          .ghost:hover { border-color: rgba(240,217,138,.55); background: rgba(240,217,138,.06); transform: translateY(-2px); }
+          .cta .ghost:hover { border-color: rgba(26,18,0,.5); background: rgba(26,18,0,.08); }
           .links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
           .links a { color: rgba(244,242,236,.66); text-decoration: none; font-family: Montserrat, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
           .links a:hover, .footer a:hover, .link:hover { color: #f0d98a; }
           .hero { position: relative; overflow: hidden; }
-          .hero::before {
-            content: ''; position: absolute; inset: 0;
-            background:
-              radial-gradient(ellipse 60% 70% at 70% 35%, rgba(201,168,76,.14), transparent 62%),
-              radial-gradient(ellipse 35% 50% at 18% 72%, rgba(201,168,76,.05), transparent 60%);
-            pointer-events: none;
-          }
           .hero-grid { position: relative; z-index: 1; padding: 72px 0 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 54px; align-items: center; }
           .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; font-family: Montserrat, sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: #f0d98a; }
           .eyebrow::before { content: ''; width: 28px; height: 1px; background: #c9a84c; }
@@ -117,10 +112,14 @@ export default function Home() {
           .score { font-size: 30px; font-weight: 700; line-height: 1; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
           .score small { font-size: 16px; opacity: .55; }
           .arrow { text-align: center; padding: 12px 0 18px; color: rgba(201,168,76,.42); font-size: 22px; }
-          .brands { border-top: 1px solid #2a2a22; border-bottom: 1px solid #2a2a22; padding: 28px 0; }
+          .brands {
+            border-top: 1px solid transparent; border-bottom: 1px solid transparent;
+            border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
+            padding: 28px 0;
+          }
           .brand-copy { text-align: center; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #7a7870; margin-bottom: 18px; }
           .brand-list { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; font-family: Montserrat, sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(244,242,236,.24); }
-          .section { padding: 90px 0; }
+          .section { padding: 96px 0; }
           .section-head { margin-bottom: 34px; }
           .title { margin: 0; font-size: clamp(34px, 4vw, 56px); line-height: 1.05; }
           .subtitle { margin: 10px 0 0; color: #7a7870; font-size: 14px; max-width: 720px; }
@@ -144,31 +143,54 @@ export default function Home() {
           .service p, .plan p, .about-copy { color: #7a7870; line-height: 1.65; }
           .service p { font-size: 13px; margin: 0 0 18px; }
           .link { color: #f0d98a; text-decoration: none; font-family: Montserrat, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-          .stats { background: #141410; border-top: 1px solid #2a2a22; border-bottom: 1px solid #2a2a22; }
+          .stats {
+            background: #141410; border-top: 1px solid transparent; border-bottom: 1px solid transparent;
+            border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
+          }
           .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 46px 0; }
-          .stat { text-align: center; padding: 10px 12px; border-right: 1px solid #2a2a22; }
+          .stat { text-align: center; padding: 10px 12px 22px; border-right: 1px solid #2a2a22; }
           .stat:last-child { border-right: 0; }
-          .stat .value { font-size: 48px; line-height: 1; font-weight: 700; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+          .stat .value { font-size: 48px; line-height: 1; font-weight: 700; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
+          .stat .value::after { content: ''; position: absolute; left: 50%; bottom: -10px; width: 24px; height: 2px; background: linear-gradient(90deg, #f0d98a, #c9a84c); transform: translateX(-50%); opacity: .7; }
           .stat .name { margin-top: 6px; color: #7a7870; font-size: 11.5px; }
           .results-grid { grid-template-columns: repeat(4, 1fr); }
-          .thumb { aspect-ratio: 3 / 4; display: grid; place-items: center; }
-          .play { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; font-size: 18px; }
+          .thumb { aspect-ratio: 3 / 4; display: grid; place-items: center; position: relative; }
+          .step-eyebrow { position: absolute; top: 14px; left: 14px; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(240,217,138,.55); }
+          .play { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; font-size: 18px; transition: transform 220ms cubic-bezier(.16,1,.3,1); }
+          .result:hover .play { transform: scale(1.1) rotate(-6deg); }
           .result { border: 1px solid #2a2a22; overflow: hidden; }
           .result .meta { padding: 16px; }
           .result-metric { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
           .result-label { color: #7a7870; font-size: 11px; }
-          .about { background: #141410; border-top: 1px solid #2a2a22; }
+          .about {
+            background: #141410; border-top: 1px solid transparent;
+            border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
+          }
           .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 76px; align-items: center; }
           .about-photo .watermark { bottom: auto; top: 24px; right: 24px; color: rgba(240,217,138,.26); }
+          .about-photo { transition: transform 260ms cubic-bezier(.16,1,.3,1), box-shadow 260ms ease; }
+          .about-photo:hover { transform: translateY(-3px); box-shadow: 0 34px 90px -24px rgba(0,0,0,.65), 0 12px 32px rgba(0,0,0,.42), 0 0 0 1px rgba(201,168,76,.1); }
           .about-title { margin: 0 0 18px; font-size: clamp(38px, 4.6vw, 58px); line-height: 1.05; }
           .about-list { margin: 0 0 30px; padding: 0; list-style: none; }
-          .about-list li { padding: 10px 0; border-bottom: 1px solid #2a2a22; color: #f4f2ec; }
+          .about-list li { padding: 10px 4px; border-bottom: 1px solid #2a2a22; color: #f4f2ec; display: flex; align-items: center; gap: 10px; transition: padding-left 220ms cubic-bezier(.16,1,.3,1), color 220ms ease; }
+          .about-list li:hover { padding-left: 10px; color: #f0d98a; }
+          .about-list li svg { color: #c9a84c; flex: 0 0 auto; }
           .plans-grid { grid-template-columns: repeat(5, 1fr); }
           .plans-grid-3 { grid-template-columns: repeat(3, 1fr); }
           .plans-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 720px; margin: 0 auto; }
           .plan { position: relative; padding: 30px 22px; }
-          .plan.featured { box-shadow: inset 0 0 0 1px #c9a84c; }
-          .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; padding: 4px 16px; }
+          .plan.featured {
+            background: linear-gradient(165deg, rgba(201,168,76,.14), rgba(24,24,19,1) 60%);
+            box-shadow: inset 0 0 0 1px rgba(201,168,76,.65), 0 24px 60px -18px rgba(201,168,76,.16);
+            z-index: 1;
+          }
+          .plan.featured::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, #f0d98a, #c9a84c, #f0d98a, transparent);
+          }
+          .plan.featured .plan-title, .plan.featured .price { color: #f8ecc7; }
+          .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; padding: 4px 16px; box-shadow: 0 6px 18px rgba(201,168,76,.35); transition: transform 220ms ease; }
+          .plan:hover .badge { transform: translateX(-50%) scale(1.06); }
           .price { margin: 2px 0; font-size: 30px; font-weight: 700; }
           .price-stack {
             display: grid;
@@ -217,8 +239,11 @@ export default function Home() {
           .period { font-size: 10px; color: #7a7870; margin-bottom: 20px; }
           .features { list-style: none; margin: 0 0 24px; padding: 0; }
           .features li { padding: 7px 0; color: #c8c6be; border-bottom: 1px solid rgba(255,255,255,.04); }
-          .btn-plan { width: 100%; padding: 12px; border: 1px solid #2a2a22; background: transparent; color: rgba(244,242,236,.74); font-family: Montserrat, sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-          .cta { background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; padding: 72px 0; }
+          .btn-plan { display: block; text-align: center; text-decoration: none; width: 100%; padding: 12px; border: 1px solid #2a2a22; background: transparent; color: rgba(244,242,236,.74); font-family: Montserrat, sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; transition: border-color 220ms ease, color 220ms ease, background-color 220ms ease; }
+          .btn-plan:hover { border-color: rgba(240,217,138,.55); color: #f0d98a; background: rgba(240,217,138,.06); }
+          .plan.featured .btn-plan { border-color: rgba(201,168,76,.4); }
+          .cta { background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; padding: 72px 0; position: relative; overflow: hidden; }
+          .cta-decor { position: absolute; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(255,255,255,.35), transparent 70%); opacity: .5; }
           .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
           .cta-title { margin: 0 0 10px; font-size: clamp(30px, 3.5vw, 46px); line-height: 1.1; font-weight: 700; }
           .cta-copy { margin: 0; color: rgba(26,18,0,.68); }
@@ -227,12 +252,16 @@ export default function Home() {
           .cta-icon { width: 40px; height: 40px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgba(26,18,0,.16); background: rgba(26,18,0,.08); }
           .cta-name { font-family: Montserrat, sans-serif; font-weight: 800; font-size: 13px; margin-bottom: 2px; }
           .cta-detail { font-size: 12px; color: rgba(26,18,0,.55); }
-          .footer { background: #080806; border-top: 1px solid #2a2a22; }
+          .footer {
+            background: #080806; border-top: 1px solid transparent;
+            border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
+          }
           .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 46px; padding: 60px 0 38px; }
           .footer-brand p { color: #7a7870; font-size: 13px; line-height: 1.6; margin: 16px 0; }
           .powered { font-family: Montserrat, sans-serif; font-size: 9px; letter-spacing: .14em; font-weight: 800; text-transform: uppercase; color: #f0d98a; }
           .socials { display: flex; gap: 10px; margin-top: 18px; }
-          .social { width: 34px; height: 34px; border: 1px solid #2a2a22; display: grid; place-items: center; color: #7a7870; text-decoration: none; }
+          .social { width: 34px; height: 34px; border: 1px solid #2a2a22; display: grid; place-items: center; color: #7a7870; text-decoration: none; transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background-color 220ms ease; }
+          .social:hover { border-color: rgba(240,217,138,.5); color: #f0d98a; background: rgba(240,217,138,.08); transform: translateY(-3px); }
           .footer h4 { font-family: Montserrat, sans-serif; font-size: 9.5px; letter-spacing: .2em; font-weight: 800; text-transform: uppercase; margin: 0 0 18px; }
           .footer ul { list-style: none; padding: 0; margin: 0; }
           .footer li { margin: 0 0 11px; }
@@ -240,8 +269,13 @@ export default function Home() {
           .bottom { display: flex; justify-content: space-between; gap: 18px; align-items: center; border-top: 1px solid #2a2a22; padding: 22px 0; }
           .legal { display: flex; gap: 24px; flex-wrap: wrap; }
           .bottom p, .legal a { color: #7a7870; font-size: 11px; }
-          .wa { position: fixed; right: 28px; bottom: 28px; width: 52px; height: 52px; border-radius: 50%; border: 0; background: #25d366; color: #fff; font-size: 24px; box-shadow: 0 4px 24px rgba(37,211,102,.5); display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 30; transition: transform 200ms ease, box-shadow 200ms ease; }
-          .wa:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(37,211,102,.65); }
+          .wa { position: fixed; right: 28px; bottom: 28px; width: 52px; height: 52px; border-radius: 50%; border: 0; background: #25d366; color: #fff; font-size: 24px; box-shadow: 0 4px 24px rgba(37,211,102,.5); display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 30; transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease; }
+          .wa::before {
+            content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid rgba(37,211,102,.55);
+            animation: waPulse 2.4s cubic-bezier(.16,1,.3,1) infinite;
+          }
+          .wa:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(37,211,102,.65); background: #22c55e; }
+          @keyframes waPulse { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.5); opacity: 0; } }
           @media (max-width: 1100px) {
             .links { gap: 14px; }
             .hero-grid, .about-grid, .cta-grid { grid-template-columns: 1fr; gap: 42px; }
@@ -292,12 +326,6 @@ export default function Home() {
           }
           .button.gold:hover::before { left: 130%; }
 
-          @keyframes velozzaGlowShift {
-            0%, 100% { background-position: 70% 35%, 18% 72%; }
-            50% { background-position: 60% 45%, 28% 62%; }
-          }
-          .hero::before { background-size: 160% 160%; animation: velozzaGlowShift 14s ease-in-out infinite; }
-
           @keyframes velozzaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
           .metric-anim { animation: velozzaFadeUp .8s cubic-bezier(.16,1,.3,1) both, velozzaFloat 5s ease-in-out infinite; }
           .metric.one.metric-anim { animation-delay: .55s, 2.1s; }
@@ -305,12 +333,28 @@ export default function Home() {
           .metric.three.metric-anim { animation-delay: .85s, 2.9s; }
 
           @keyframes velozzaShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-          .accent {
+          .accent.text-shimmer {
             background: linear-gradient(90deg, #c9a84c 0%, #fff2c9 22%, #f0d98a 45%, #c9a84c 68%, #f0d98a 100%);
             background-size: 250% 100%;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
             animation: velozzaShimmer 6s linear infinite;
           }
+
+          .hero-glow { position: absolute; pointer-events: none; z-index: 0; will-change: transform; }
+          .hero-glow.g1 { top: -8%; right: -6%; width: 60%; height: 76%; background: radial-gradient(ellipse 60% 70% at 70% 35%, rgba(201,168,76,.16), transparent 62%); }
+          .hero-glow.g2 { bottom: -10%; left: -8%; width: 44%; height: 60%; background: radial-gradient(ellipse 35% 50% at 18% 72%, rgba(201,168,76,.06), transparent 60%); }
+
+          .photo-frame { position: relative; }
+          .photo-frame::before {
+            content: ''; position: absolute; inset: -14px; border: 1px solid rgba(201,168,76,.26);
+            pointer-events: none; z-index: -1; transition: inset 260ms cubic-bezier(.16,1,.3,1), border-color 260ms ease;
+          }
+          .photo-frame:hover::before { inset: -10px; border-color: rgba(240,217,138,.5); }
+          .photo-frame .corner { position: absolute; width: 18px; height: 18px; border: 1.5px solid #f0d98a; opacity: .85; pointer-events: none; z-index: 2; }
+          .photo-frame .corner.tl { top: -14px; left: -14px; border-right: 0; border-bottom: 0; }
+          .photo-frame .corner.br { bottom: -14px; right: -14px; border-left: 0; border-top: 0; }
+          .photo img { transition: transform 700ms cubic-bezier(.16,1,.3,1); }
+          .photo:hover img { transform: scale(1.045); }
 
           .brand-marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
           .brand-list-track { display: flex; gap: 40px; width: max-content; animation: velozzaMarquee 32s linear infinite; }
@@ -318,7 +362,8 @@ export default function Home() {
           @keyframes velozzaMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           .brand-link, .brand-static { font-family: Montserrat, sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
           .brand-link { color: #f0d98a; text-decoration: underline; text-decoration-color: #c9a84c; text-underline-offset: 4px; }
-          .brand-static { color: rgba(244,242,236,.24); }
+          .brand-static { color: rgba(244,242,236,.48); transition: color 220ms ease, transform 220ms ease; }
+          .brand-static:hover, .brand-link:hover { color: #f0d98a; transform: translateY(-2px); }
 
           .icon { transition: transform 220ms ease; }
           .service:hover .icon { transform: rotate(-8deg) scale(1.12); }
@@ -326,9 +371,10 @@ export default function Home() {
           @media (prefers-reduced-motion: reduce) {
             .hero-anim, .hero-photo-anim, .metric-anim { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
             .button.gold::before { display: none; }
-            .hero::before { animation: none !important; }
-            .accent { animation: none !important; }
+            .accent.text-shimmer { animation: none !important; }
+            .photo:hover img { transform: none !important; }
             .brand-list-track { animation: none !important; }
+            .wa::before { animation: none !important; display: none; }
           }
         `}</style>
 
@@ -350,6 +396,8 @@ export default function Home() {
         </header>
 
         <section className="hero">
+          <div className="hero-glow g1 parallax-layer" data-speed="0.06" />
+          <div className="hero-glow g2 parallax-layer" data-speed="0.1" />
           <div className="wrap hero-grid">
             <div>
               <div className="eyebrow hero-anim d1">Estrategia, Producción y Tecnología Propia</div>
@@ -358,19 +406,23 @@ export default function Home() {
                 Marcas.<br />
                 Generamos<br />
                 Demanda.<br />
-                <span className="accent">Impulsamos<br />Líderes.</span>
+                <span className="accent text-shimmer">Impulsamos<br />Líderes.</span>
               </h1>
               <p className="hero-copy hero-anim d2">Estrategias de marca personal y marketing digital diseñadas para posicionar tu autoridad, atraer clientes ideales y generar crecimiento medible y sostenible.</p>
               <div className="actions hero-anim d3">
                 <Link href="/contacto" className="button gold magnetic">Agenda tu Consulta Gratuita →</Link>
-                <Link href="/casos-de-exito" className="button ghost"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</Link>
+                <Link href="/casos-de-exito" className="button ghost shine-hover"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</Link>
               </div>
             </div>
 
             <div className="photo-stack hero-photo-anim">
-              <div className="photo hero-photo">
-                <img src="/founder-arms.jpg" alt="David Velozza" />
-                <div className="watermark">VELOZZA<br />CREATIVE</div>
+              <div className="photo-frame">
+                <span className="corner tl" aria-hidden="true" />
+                <span className="corner br" aria-hidden="true" />
+                <div className="photo hero-photo">
+                  <img src="/founder-arms.jpg" alt="David Velozza" />
+                  <div className="watermark">VELOZZA<br />CREATIVE</div>
+                </div>
               </div>
 
               <div className="metric one metric-anim">
@@ -467,6 +519,7 @@ export default function Home() {
               {results.map(([icon, value, label], index) => (
                 <article className="result reveal tilt" style={{ transitionDelay: `${index * 0.1}s` }} key={label}>
                   <div className="thumb" style={{ background: index === 1 ? 'linear-gradient(160deg,#1a1e14 0%,#0e0c08 100%)' : index === 2 ? 'linear-gradient(160deg,#1a1214 0%,#0e0c08 100%)' : index === 3 ? 'linear-gradient(160deg,#141a1a 0%,#0e0c08 100%)' : 'linear-gradient(160deg,#1e1c14 0%,#0e0c08 100%)' }}>
+                    <div className="step-eyebrow">Paso {value}</div>
                     <div className="play"><PremiumIcon name={icon as any} size={18} /></div>
                   </div>
                   <div className="meta">
@@ -489,6 +542,7 @@ export default function Home() {
             <style>{`
               .photo-gallery {
                 display: grid;
+                align-items: start;
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 25px;
                 max-width: 1100px;
@@ -499,27 +553,34 @@ export default function Home() {
                 position: relative;
                 overflow: hidden;
                 border: 1px solid rgba(201, 168, 76, 0.18);
-                box-shadow: 0 10px 40px rgba(0,0,0,.45);
+                box-shadow: 0 20px 56px -18px rgba(0,0,0,.55), 0 8px 24px rgba(0,0,0,.4);
                 aspect-ratio: 3 / 4;
                 border-radius: 8px;
-                transition: transform 180ms ease, box-shadow 180ms ease;
+                transition: transform 220ms cubic-bezier(.16,1,.3,1), box-shadow 220ms cubic-bezier(.16,1,.3,1), border-color 220ms ease;
               }
               .photo-gallery-item:hover {
                 transform: translateY(-4px);
-                box-shadow: 0 20px 48px rgba(0,0,0,.6);
+                border-color: rgba(240,217,138,.45);
+                box-shadow: 0 28px 70px -18px rgba(0,0,0,.7), 0 10px 30px rgba(0,0,0,.5);
               }
               .photo-gallery-item img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 display: block;
+                transition: transform 700ms cubic-bezier(.16,1,.3,1);
               }
+              .photo-gallery-item:hover img { transform: scale(1.06); }
               .photo-gallery-item::after {
                 content: '';
                 position: absolute;
                 inset: auto 0 0 0;
                 height: 100px;
                 background: linear-gradient(to top, rgba(12,12,10,.96), transparent);
+                pointer-events: none;
+              }
+              @media (min-width: 760px) {
+                .photo-gallery-item.offset { margin-top: 40px; }
               }
             `}</style>
             <div className="photo-gallery">
@@ -528,7 +589,7 @@ export default function Home() {
                 { src: '/photoshoot-2.jpg', alt: 'Equipo de producción en acción' },
                 { src: '/photoshoot-3.jpg', alt: 'Trabajo colaborativo de grabación' },
               ].map((photo, idx) => (
-                <div key={idx} className="photo-gallery-item reveal" style={{ transitionDelay: `${idx * 0.12}s` }}>
+                <div key={idx} className={`photo-gallery-item tilt reveal${idx === 1 ? ' offset' : ''}`} style={{ transitionDelay: `${idx * 0.12}s` }}>
                   <img src={photo.src} alt={photo.alt} />
                 </div>
               ))}
@@ -548,12 +609,12 @@ export default function Home() {
               <h2 className="about-title">Liderazgo.<br />Visión.<br />Ejecución.</h2>
               <p className="about-copy">Con más de 10 años de experiencia, David Velozza y su equipo ayudan a líderes y marcas a transformar su presencia y multiplicar su impacto.</p>
               <ul className="about-list">
-                <li>Estratega de Marcas Personales</li>
-                <li>Especialista en Producción de Contenido para Marcas Personales</li>
-                <li>Fotografía y Producción Audiovisual Especializada</li>
-                <li>Empresario &amp; Visionario</li>
+                <li><PremiumIcon name="check" size={16} />Estratega de Marcas Personales</li>
+                <li><PremiumIcon name="check" size={16} />Especialista en Producción de Contenido para Marcas Personales</li>
+                <li><PremiumIcon name="check" size={16} />Fotografía y Producción Audiovisual Especializada</li>
+                <li><PremiumIcon name="check" size={16} />Empresario &amp; Visionario</li>
               </ul>
-              <Link href="/contacto" className="button ghost">Más sobre David →</Link>
+              <Link href="/contacto" className="button ghost shine-hover">Más sobre David →</Link>
             </div>
           </div>
         </section>
@@ -596,7 +657,7 @@ export default function Home() {
                   </div>
                   <div className="period">/mes</div>
                   <ul className="features">{features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-                  <Link href="/contacto" className="btn-plan">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</Link>
+                  <Link href="/contacto" className="btn-plan shine-hover">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</Link>
                 </article>
               ))}
             </div>
@@ -622,7 +683,7 @@ export default function Home() {
                   <li>Subtítulos español e inglés</li>
                   <li>Múltiples formatos (4K, HD, vertical)</li>
                 </ul>
-                <Link href="/contacto" className="btn-plan">Ver Pack</Link>
+                <Link href="/contacto" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
               <article className="plan featured tilt">
                 <div className="badge">Recomendado</div>
@@ -641,7 +702,7 @@ export default function Home() {
                   <li>Múltiples formatos (4K, HD, vertical)</li>
                   <li>2 sesiones de coaching on-camera</li>
                 </ul>
-                <Link href="/contacto" className="btn-plan">Ver Pack</Link>
+                <Link href="/contacto" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
               <article className="plan tilt">
                 <h3 className="plan-title">Redes Sociales</h3>
@@ -658,7 +719,7 @@ export default function Home() {
                   <li>100% contenido orgánico</li>
                   <li>Calendario de publicación</li>
                 </ul>
-                <Link href="/contacto" className="btn-plan">Ver Plan</Link>
+                <Link href="/contacto" className="btn-plan shine-hover">Ver Plan</Link>
               </article>
             </div>
 
@@ -688,7 +749,7 @@ export default function Home() {
                   <li>Revelado de autor con color grading</li>
                   <li>Entrega en formato digital</li>
                 </ul>
-                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+                <Link href="/servicios/bodas" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
               <article className="plan featured tilt">
                 <div className="badge">Más solicitado</div>
@@ -703,7 +764,7 @@ export default function Home() {
                   <li>Narrativa documental</li>
                   <li>Entrega en formato digital</li>
                 </ul>
-                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+                <Link href="/servicios/bodas" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
             </div>
 
@@ -726,7 +787,7 @@ export default function Home() {
                   <li>Revelado de autor</li>
                   <li>Entrega 100% digital</li>
                 </ul>
-                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+                <Link href="/servicios/bodas" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
               <article className="plan featured tilt">
                 <div className="badge">Recomendado</div>
@@ -742,7 +803,7 @@ export default function Home() {
                   <li>Énfasis en detalles</li>
                   <li>Entrega 100% digital</li>
                 </ul>
-                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+                <Link href="/servicios/bodas" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
               <article className="plan tilt">
                 <h3 className="plan-title">Firma Velozza</h3>
@@ -756,18 +817,20 @@ export default function Home() {
                   <li>Entrega de 170 a 220 fotos digitales</li>
                   <li>Revelado premium y entrega digital</li>
                 </ul>
-                <Link href="/servicios/bodas" className="btn-plan">Ver Pack</Link>
+                <Link href="/servicios/bodas" className="btn-plan shine-hover">Ver Pack</Link>
               </article>
             </div>
           </div>
         </section>
 
         <section className="cta">
+          <div className="cta-decor parallax-layer" data-speed="0.05" style={{ width: 320, height: 320, top: -140, right: '8%' }} />
+          <div className="cta-decor parallax-layer" data-speed="0.08" style={{ width: 200, height: 200, bottom: -100, left: '4%' }} />
           <div className="wrap cta-grid reveal">
             <div>
               <h2 className="cta-title">Hablemos de tu visión y construyamos tu próximo nivel.</h2>
               <p className="cta-copy">Una estrategia personalizada puede cambiar el rumbo de tu marca.</p>
-              <Link href="/contacto" className="button ghost" style={{ marginTop: 28, borderColor: 'rgba(26,18,0,.2)', color: '#1a1200' }}>Agendar Ahora →</Link>
+              <Link href="/contacto" className="button ghost magnetic" style={{ marginTop: 28, borderColor: 'rgba(26,18,0,.2)', color: '#1a1200' }}>Agendar Ahora →</Link>
             </div>
             <ul className="cta-list">
               {[
@@ -799,6 +862,10 @@ export default function Home() {
                 <a href="tel:+573053090273" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 305 309 0273</a>
                 <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
                 <a href="https://instagram.com/velozzacws" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>@velozzacws</a>
+              </div>
+              <div className="socials">
+                <a className="social" href="https://api.whatsapp.com/send?phone=573053090273&text=Hola%20Velozza%2C%20quiero%20iniciar%20una%20consultor%C3%ADa%20gratuita." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><PremiumIcon name="chat" size={16} /></a>
+                <a className="social" href="https://instagram.com/velozzacws" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><PremiumIcon name="instagram" size={16} /></a>
               </div>
             </div>
             <div>
