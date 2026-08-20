@@ -67,6 +67,54 @@ export default function SiteAnimations() {
       });
     }
 
+    // Magnetic pull — reserve for 1-2 focal elements per screen (primary CTA)
+    if (!reduceMotion) {
+      document.querySelectorAll('.magnetic').forEach((el) => {
+        const onMove = (e: Event) => {
+          const me = e as MouseEvent;
+          const r = el.getBoundingClientRect();
+          const x = (me.clientX - r.left - r.width / 2) * 0.3;
+          const y = (me.clientY - r.top - r.height / 2) * 0.3;
+          (el as HTMLElement).style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        };
+        const onLeave = () => {
+          (el as HTMLElement).style.transform = '';
+        };
+        el.addEventListener('mousemove', onMove);
+        el.addEventListener('mouseleave', onLeave);
+        cleanups.push(() => {
+          el.removeEventListener('mousemove', onMove);
+          el.removeEventListener('mouseleave', onLeave);
+        });
+      });
+    }
+
+    // Subtle parallax on decorative layers only — never on text/interactive content
+    if (!reduceMotion) {
+      const layers = Array.from(document.querySelectorAll<HTMLElement>('.parallax-layer'));
+      if (layers.length) {
+        let ticking = false;
+        const applyParallax = () => {
+          layers.forEach((el) => {
+            const speed = parseFloat(el.dataset.speed || '0.08');
+            const rect = el.getBoundingClientRect();
+            const centerDelta = rect.top + rect.height / 2 - window.innerHeight / 2;
+            el.style.transform = `translateY(${(centerDelta * speed).toFixed(1)}px)`;
+          });
+          ticking = false;
+        };
+        const onScroll = () => {
+          if (!ticking) {
+            requestAnimationFrame(applyParallax);
+            ticking = true;
+          }
+        };
+        applyParallax();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        cleanups.push(() => window.removeEventListener('scroll', onScroll));
+      }
+    }
+
     // Scroll reveal + counters
     const targets = document.querySelectorAll('.reveal');
     let safetyTimer: ReturnType<typeof setTimeout> | undefined;

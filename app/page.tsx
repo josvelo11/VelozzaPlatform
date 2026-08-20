@@ -362,7 +362,7 @@ export default function Home() {
               </h1>
               <p className="hero-copy hero-anim d2">Estrategias de marca personal y marketing digital diseñadas para posicionar tu autoridad, atraer clientes ideales y generar crecimiento medible y sostenible.</p>
               <div className="actions hero-anim d3">
-                <Link href="/contacto" className="button gold">Agenda tu Consulta Gratuita →</Link>
+                <Link href="/contacto" className="button gold magnetic">Agenda tu Consulta Gratuita →</Link>
                 <Link href="/casos-de-exito" className="button ghost"><PremiumIcon name="arrow-right" size={14} /> Ver Casos de Éxito</Link>
               </div>
             </div>
