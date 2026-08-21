@@ -27,6 +27,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
 
+// Railway pone un único reverse proxy delante de este servicio y manda
+// X-Forwarded-For. Sin declarar ese hop de confianza, express-rate-limit no
+// puede distinguir IPs reales detrás del proxy y todas las peticiones caen en
+// el mismo bucket — en el límite de login eso significa que un solo cliente
+// bloqueado por intentos fallidos bloquea a TODOS los demás clientes también.
+if (process.env.RAILWAY_ENVIRONMENT) app.set('trust proxy', 1);
+
 // Falla en frío en producción si falta JWT_SECRET — un secreto de sesión
 // hardcodeado en el código fuente permite forjar tokens válidos (incluida
 // la agencia, con acceso total a todos los clientes) sin ninguna contraseña.
@@ -47,6 +54,12 @@ const ALLOWED_ORIGINS = [
   'https://velozzacws.com',
   'https://www.velozzacws.com',
   process.env.CRM_PUBLIC_URL,
+  // El propio dominio público de este servicio en Railway — sin esto, entrar
+  // directo a la URL de Railway del CRM (en vez de un dominio propio detrás
+  // de CRM_PUBLIC_URL) queda bloqueado por CORS porque el navegador manda ese
+  // origin en el login y no estaba en la lista. Se autodetecta con la env var
+  // que Railway ya inyecta, así no depende de configurarla a mano.
+  process.env.RAILWAY_PUBLIC_DOMAIN && `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`,
   !process.env.RAILWAY_ENVIRONMENT && 'http://localhost:4000',
   !process.env.RAILWAY_ENVIRONMENT && 'http://localhost:3000',
 ].filter(Boolean);
