@@ -23,6 +23,7 @@ import {
   saveMediaFile, loadMediaAsDataUri, deleteMediaFile,
 } from './db.js';
 import { getBrandProfile } from './brand-profiles.js';
+import { COURSES_CATALOG, getCourse, totalLessonsCount } from './courses-catalog.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -947,15 +948,26 @@ function createAgencyClient(payload, { persist = true } = {}) {
 // login compartido y cualquiera se auto-asignaba el rol desde el navegador.
 // Solo un 'owner' puede crear otras cuentas de agencia, cada una con su propio
 // email/password y un agencyRole fijo (owner/strategist/trafficker/closer).
+// Lista el equipo de agencia (sin passwordHash, obviamente) — para que David
+// pueda ver quién tiene cuenta sin tener que adivinar o pedírmelo a mí.
+app.get('/api/clientes/agency/team', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
+  const team = db().users.filter(u => u.role === 'agency').map(u => ({ id: u.id, email: u.email, agencyRole: u.agencyRole }));
+  res.json(team);
+});
+
 app.post('/api/clientes/agency/team', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
-  const { email, password, agencyRole } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Correo y contraseña son obligatorios' });
+  const { email, agencyRole } = req.body;
+  // La contraseña es opcional: si no se manda una, se autogenera y se
+  // devuelve una sola vez en la respuesta — mismo patrón que
+  // reset-password, para no depender de que alguien piense una contraseña.
+  const password = req.body.password || generarPasswordTemporal();
+  if (!email) return res.status(400).json({ error: 'El correo es obligatorio' });
   if (!ROLE_CAPABILITIES[agencyRole]) return res.status(400).json({ error: `Rol inválido. Usa uno de: ${Object.keys(ROLE_CAPABILITIES).join(', ')}` });
   if (findUserByEmail(email)) return res.status(409).json({ error: 'Ese correo ya está registrado' });
   const user = { id: uid(), email, passwordHash: bcrypt.hashSync(password, 12), role: 'agency', clientId: null, agencyRole };
   db().users.push(user);
   save();
-  res.status(201).json({ email: user.email, agencyRole: user.agencyRole });
+  res.status(201).json({ email: user.email, agencyRole: user.agencyRole, password });
 });
 
 app.get('/api/clientes/clients', auth, agencyOnly, (req, res) => {
@@ -963,7 +975,14 @@ app.get('/api/clientes/clients', auth, agencyOnly, (req, res) => {
     const pending = db().content.filter(x => x.clientId === c.id && x.status === 'pending').length;
     const plan = planFor(c.id);
     const connected = Object.values(db().socials[c.id] || {}).filter(s => s.connected).length;
+    // El email de acceso real es el de la cuenta (users), no el de contacto
+    // del negocio (clients.email) — pueden divergir si alguien los cambió
+    // por separado. Si el cliente todavía no tiene cuenta de acceso creada
+    // (varios siguen en onboarding), se cae al email de contacto como
+    // referencia y loginEmail queda null.
+    const loginUser = db().users.find(u => u.role === 'client' && u.clientId === c.id);
     return { id: c.id, fullName: c.fullName, businessSector: c.businessSector,
+             email: loginUser?.email || c.email || '', hasLogin: !!loginUser,
              avatarUrl: c.avatarUrl || '', pending, connected, planUsed: plan.used, planTotal: plan.total };
   });
   res.json(list);
@@ -1185,6 +1204,66 @@ app.get('/api/clientes/tendencias', auth, (req, res) => {
     }
   }
   res.json({ disponible: false, slug: candidatos[0] });
+});
+
+// ---------------------------------------------------------------------------
+//  MINI CURSOS
+//  Catálogo fijo (courses-catalog.js, mismo para todos los clientes) +
+//  progreso por cliente (db().courseProgress, dinámico). El catálogo no se
+//  edita desde la app en esta primera versión — es contenido curado por la
+//  agencia; lo único que cambia por cliente es qué lecciones marcó como
+//  completadas.
+// ---------------------------------------------------------------------------
+const leccionKey = (courseId, leccionId) => `${courseId}:${leccionId}`;
+const serializeCatalog = () => COURSES_CATALOG.map(c => ({ id: c.id, categoria: c.categoria, title: c.title, subtitle: c.subtitle, icon: c.icon, resumen: c.resumen,
+  lecciones: c.lecciones.map(l => ({ id: l.id, titulo: l.titulo, minutos: l.minutos, cuerpo: l.cuerpo, accionables: l.accionables })) }));
+
+app.get('/api/clientes/cursos', auth, (req, res) => {
+  res.json(serializeCatalog());
+});
+
+// Catálogo público, sin login — usado por la página "Formación Plus" en
+// velozzacws.com mientras esa sección no exige cuenta. No expone nada
+// sensible (es contenido educativo, pensado para ser público de todas
+// formas) — cuando se active login ahí, el progreso seguirá viviendo en los
+// endpoints de arriba (protegidos), esto no cambia.
+app.get('/api/clientes/cursos/publico', (req, res) => {
+  res.json(serializeCatalog());
+});
+
+app.get('/api/clientes/cursos/progreso', auth, (req, res) => {
+  const id = resolveClientId(req, res); if (!id) return;
+  db().courseProgress ||= {};
+  const completed = db().courseProgress[id]?.completed || [];
+  res.json({ completed });
+});
+
+app.post('/api/clientes/cursos/progreso', auth, (req, res) => {
+  const id = resolveClientId(req, res); if (!id) return;
+  const { courseId, leccionId, completado } = req.body;
+  if (!getCourse(courseId)) return res.status(404).json({ error: 'Curso no existe' });
+  db().courseProgress ||= {};
+  db().courseProgress[id] ||= { completed: [] };
+  const key = leccionKey(courseId, leccionId);
+  const set = new Set(db().courseProgress[id].completed);
+  if (completado) set.add(key); else set.delete(key);
+  db().courseProgress[id].completed = [...set];
+  db().courseProgress[id].updatedAt = new Date().toISOString();
+  save();
+  res.json({ completed: db().courseProgress[id].completed });
+});
+
+// Vista agregada para la agencia — quién está avanzando en los mini cursos y
+// quién no los ha empezado, para saber si vale la pena empujarlo en una
+// conversación con el cliente en vez de asumir que ya los vio.
+app.get('/api/clientes/cursos/resumen', auth, agencyOnly, (req, res) => {
+  db().courseProgress ||= {};
+  const total = totalLessonsCount();
+  const resumen = db().clients.map(c => {
+    const completed = db().courseProgress[c.id]?.completed || [];
+    return { clientId: c.id, fullName: c.fullName, completados: completed.length, total, updatedAt: db().courseProgress[c.id]?.updatedAt || null };
+  });
+  res.json(resumen);
 });
 
 app.get('/api/clientes/agency-ops', auth, agencyOnly, (req, res) => {

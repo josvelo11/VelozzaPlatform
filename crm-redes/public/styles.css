@@ -425,3 +425,25 @@ tr:hover .row-actions{opacity:1}
 .social-link-item small{grid-area:handle;font-size:11px;color:var(--muted-2);font-family:var(--font-mono)}
 .social-link-item b{grid-area:state;font-size:10.5px;color:var(--muted)}
 .social-link-item:hover{border-color:#CFCDC4;background:#fff}
+
+/* ===== MINI CURSOS ===== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lesson-pane{animation:fadeInUp .28s ease}
+@media (prefers-reduced-motion:reduce){.lesson-pane{animation:none}}
+.course-thumb{border-radius:var(--radius) var(--radius) 0 0;padding:22px 20px;position:relative;overflow:hidden}
+.course-thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% -10%,rgba(255,255,255,.28),transparent 60%)}
+.course-card{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;overflow:hidden}
+.course-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.lesson-row{transition:background .15s ease}
+.lesson-row:hover{background:rgba(255,107,74,.05)}
+.lesson-check{transition:background .15s ease,border-color .15s ease,transform .1s ease}
+.lesson-check:active{transform:scale(.9)}
+.course-thumb .thumb-pattern{position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.10) 0px, rgba(255,255,255,.10) 1px, transparent 1px, transparent 13px);opacity:.6}
+.course-thumb .thumb-watermark{position:absolute;right:-22px;top:-16px;opacity:.16;transform:rotate(-10deg)}
+.course-thumb .thumb-eyebrow{display:inline-block;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.2);font-size:10px;font-weight:700;letter-spacing:.6px;color:#fff;position:relative;z-index:1}
+@keyframes slideIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+.slide-pane{animation:slideIn .3s cubic-bezier(.2,.7,.3,1)}
+@media (prefers-reduced-motion:reduce){.slide-pane{animation:none}}
+.slide-dot{transition:width .2s ease,background .2s ease}
+.home-course-pill{transition:transform .15s ease}
+.home-course-pill:hover{transform:translateY(-2px)}

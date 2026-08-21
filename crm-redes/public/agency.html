@@ -99,6 +99,10 @@ const API={
   tendenciasCiclo:(fecha)=>apiFetch('/tendencias/ciclo/'+encodeURIComponent(fecha)),
   tendenciasCliente:(cid)=>apiFetch('/tendencias',{clientId:cid}),
   resetPassword:(cid)=>apiFetch('/clients/'+cid+'/reset-password',{method:'POST'}),
+  agencyTeam:()=>apiFetch('/agency/team'),
+  createAgencyTeamMember:(b)=>apiFetch('/agency/team',{method:'POST',body:b}),
+  cursos:()=>apiFetch('/cursos'),
+  cursosResumen:()=>apiFetch('/cursos/resumen'),
 };
 /* ===== CONSTANTES / HELPERS (compartido con el portal) ===== */
 
@@ -186,6 +190,7 @@ const icons={
   close:<><path d="M6 6l12 12M18 6L6 18"/></>,
   money:<><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2 0 012.5-1.5c1.4 0 2.5.7 2.5 1.8 0 2.4-5 1.4-5 3.6 0 1.1 1.1 1.8 2.5 1.8a2.5 2 0 002.5-1.5"/></>,
   zap:<><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></>,
+  book:<><path d="M4 5.5c3-1.3 6-1.3 8 0v14c-2-1.3-5-1.3-8 0v-14z"/><path d="M20 5.5c-3-1.3-6-1.3-8 0v14c2-1.3 5-1.3 8 0v-14z"/></>,
   inbox:<><path d="M3 13h5l2 3h4l2-3h5"/><path d="M5 4h14l2 9v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5z"/></>,
 };
 let toastFn=()=>{};
@@ -1283,6 +1288,41 @@ function ResetPasswordModal({result,onClose}){
     </div>
   </Modal>);
 }
+const AGENCY_ROLE_LABELS={owner:'Owner',strategist:'Estratega',trafficker:'Trafficker',closer:'Closer'};
+function NewTeamMemberModal({open,onClose,onCreate}){
+  const[email,setEmail]=useState('');const[role,setRole]=useState('strategist');const[busy,setBusy]=useState(false);
+  if(!open) return null;
+  const submit=async()=>{
+    if(!email){toastErr('Pon un correo');return;}
+    setBusy(true);
+    try{await onCreate({email,agencyRole:role});setEmail('');setRole('strategist');}
+    finally{setBusy(false);}
+  };
+  return (<Modal title="Nuevo miembro del equipo" onClose={onClose}
+    footer={<><button className="btn btn-ghost" onClick={onClose}>Cancelar</button><button className="btn btn-primary" onClick={submit} disabled={busy}>{busy?'Creando...':'Crear cuenta'}</button></>}>
+    <div className="field"><label>Correo</label><input className="input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="nombre@velozzacws.com"/></div>
+    <div className="field"><label>Rol</label><select className="input" value={role} onChange={e=>setRole(e.target.value)}>{Object.keys(AGENCY_ROLE_LABELS).map(r=><option key={r} value={r}>{AGENCY_ROLE_LABELS[r]}</option>)}</select></div>
+    <p style={{fontSize:12,color:'var(--muted)'}}>La contraseña se genera sola — la verás una vez al crear la cuenta, para copiarla y pasársela a la persona.</p>
+  </Modal>);
+}
+function Equipo({team,onNew,canManage}){
+  return (<div className="grid" style={{gap:18}}>
+    <div className="card card-pad" style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12}}>
+      <div><div className="section-title"><Ico d={icons.contacts} size={16}/>Equipo de agencia</div>
+        <p className="section-sub" style={{marginTop:4}}>Cuentas reales por persona — cada una con su propio correo, contraseña y rol.</p></div>
+      <button className="btn btn-primary btn-sm" onClick={onNew} disabled={!canManage}><Ico d={icons.plus} size={14}/>Nuevo miembro</button>
+    </div>
+    {!team.length?<Empty title="Todavía no hay cuentas de equipo" sub="Solo existe el acceso original — crea la primera cuenta con nombre propio." ic={icons.contacts}/>:
+    <div className="card" style={{overflow:'hidden'}}>
+      <table style={{width:'100%',borderCollapse:'collapse'}}><tbody>
+        {team.map(m=>(<tr key={m.id} style={{borderBottom:'1px solid var(--line)'}}>
+          <td style={{padding:'14px 18px',fontSize:13.5}}>{m.email}</td>
+          <td style={{padding:'14px 18px'}}><span className="pill pill-violet">{AGENCY_ROLE_LABELS[m.agencyRole]||m.agencyRole}</span></td>
+        </tr>))}
+      </tbody></table>
+    </div>}
+  </div>);
+}
 function ExportDataModal({open,onClose,onExportAll,onExportCurrent,hasClient}){
   if(!open) return null;
   return (<Modal title="Exportar datos" onClose={onClose} footer={<button className="btn btn-ghost" onClick={onClose}>Cerrar</button>}>
@@ -1402,6 +1442,56 @@ function Tendencias(){
   </div>);
 }
 
+function MiniCursosAgencia(){
+  const[resumen,setResumen]=useState([]);const[cursos,setCursos]=useState([]);
+  const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
+  const[openCourse,setOpenCourse]=useState(null);const[openLeccion,setOpenLeccion]=useState(null);
+  useEffect(()=>{
+    Promise.all([API.cursosResumen(),API.cursos()])
+      .then(([r,c])=>{setResumen(r);setCursos(c);setLoading(false);})
+      .catch(e=>{setError(e.message);setLoading(false);});
+  },[]);
+  if(loading) return <div className="card card-pad"><p style={{fontSize:13,color:'var(--muted)'}}>Cargando mini cursos…</p></div>;
+  if(error) return <Empty title="No se pudo cargar" sub={error} ic={icons.book}/>;
+  const totalLecciones=cursos.reduce((s,c)=>s+c.lecciones.length,0);
+  return (<div className="grid" style={{gap:18}}>
+    <div className="card card-pad">
+      <div className="section-title"><Ico d={icons.book} size={16}/>Mini Cursos — avance por cliente</div>
+      <p className="section-sub" style={{marginTop:4}}>5 cursos de formación (hablar en cámara, vestimenta según profesión, expresión oral, asesoría de imagen, poses) disponibles para todos los clientes en su portal.</p>
+    </div>
+    {!resumen.length?<Empty title="Sin clientes todavía" ic={icons.book}/>:
+    <div className="card" style={{overflow:'hidden'}}>
+      <table style={{width:'100%',borderCollapse:'collapse'}}><tbody>
+        {resumen.map(r=>{const pct=totalLecciones?Math.round(r.completados/totalLecciones*100):0;
+          return (<tr key={r.clientId} style={{borderBottom:'1px solid var(--line)'}}>
+            <td style={{padding:'14px 18px',fontSize:13.5,fontWeight:600}}>{r.fullName}</td>
+            <td style={{padding:'14px 18px',width:180}}><div className="plan-mini-bar" style={{background:'#F1F0EB'}}><div className="plan-mini-fill" style={{width:pct+'%'}}/></div></td>
+            <td style={{padding:'14px 18px',fontSize:12.5,color:'var(--muted)',fontFamily:'var(--font-mono)'}}>{r.completados}/{totalLecciones}</td>
+            <td style={{padding:'14px 18px',fontSize:11.5,color:'var(--muted-2)'}}>{r.updatedAt?new Date(r.updatedAt).toLocaleDateString('es-CO'):'Sin empezar'}</td>
+          </tr>);})}
+      </tbody></table>
+    </div>}
+    <div className="card card-pad">
+      <div className="section-title" style={{marginBottom:12}}><Ico d={icons.grid} size={16}/>Contenido del catálogo</div>
+      <div className="grid" style={{gap:8}}>
+        {cursos.map(c=>(<div key={c.id} className="card" style={{padding:0,overflow:'hidden'}}>
+          <div style={{padding:'12px 16px',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer'}} onClick={()=>setOpenCourse(openCourse===c.id?null:c.id)}>
+            <div><div style={{fontWeight:600,fontSize:13.5}}>{c.title}</div><div style={{fontSize:12,color:'var(--muted)'}}>{c.lecciones.length} lecciones</div></div>
+          </div>
+          {openCourse===c.id&&<div style={{borderTop:'1px solid var(--line)'}}>
+            {c.lecciones.map(l=>(<div key={l.id} style={{borderTop:'1px solid var(--line)'}}>
+              <div style={{padding:'10px 16px',fontSize:13,cursor:'pointer',display:'flex',justifyContent:'space-between'}} onClick={()=>setOpenLeccion(openLeccion===l.id?null:l.id)}>
+                <span>{l.titulo}</span><span style={{color:'var(--muted-2)',fontSize:11.5}}>{l.minutos} min</span>
+              </div>
+              {openLeccion===l.id&&<div style={{padding:'0 16px 16px'}}><MarkdownLite md={l.cuerpo}/></div>}
+            </div>))}
+          </div>}
+        </div>))}
+      </div>
+    </div>
+  </div>);
+}
+
 /* ===== APP DE LA AGENCIA ===== */
 function App(){
   const[user,setUser]=useState(null);const[ready,setReady]=useState(false);
@@ -1429,11 +1519,19 @@ function App(){
   const[exportDataOpen,setExportDataOpen]=useState(false);
   const[resetPasswordResult,setResetPasswordResult]=useState(null);
   const[resettingPassword,setResettingPassword]=useState(false);
+  const[agencyTeam,setAgencyTeam]=useState([]);
+  const[newTeamMemberOpen,setNewTeamMemberOpen]=useState(false);
 
   useEffect(()=>{(async()=>{if(getToken()){try{const u=await API.me();if(u.role==='agency')setUser(u);else setToken(null);}catch{setToken(null);}}setReady(true);})();},[]);
   useEffect(()=>{localStorage.setItem(AGENCY_ROLE_KEY,agencyRole);},[agencyRole]);
   const loadClients=async()=>{const list=await API.clients();setClients(list);if(list.length&&!sel)setSel(list[0].id);};
   useEffect(()=>{if(user)loadClients().catch(e=>toastErr(e.message));},[user]);
+  const loadAgencyTeam=async()=>{try{setAgencyTeam(await API.agencyTeam());}catch{}};
+  useEffect(()=>{if(user)loadAgencyTeam();},[user,agencyRole]);
+  const createTeamMember=async(f)=>{
+    try{const r=await API.createAgencyTeamMember(f);await loadAgencyTeam();setNewTeamMemberOpen(false);setResetPasswordResult(r);toast('Cuenta de equipo creada');}
+    catch(e){toastErr(e.message);}
+  };
   const loadAgencyMetrics=async()=>{setAgencyMetrics(await API.agencyMetrics());};
   useEffect(()=>{if(user)loadAgencyMetrics().catch(()=>{});},[user]);
   const loadOpsMetrics=async()=>{setOpsMetrics(await API.agencyOps());};
@@ -1635,7 +1733,7 @@ function App(){
   const tasksDue=tasks.filter(t=>!t.done&&t.due<=todayStr).length;
   const overviewActivity=sel?activity:(agencyMetrics?.recent||[]);
   const overviewActivityTitle=selClient?'Actividad del cliente seleccionado':'Actividad reciente';
-  const views=[{k:'overview',l:'Resumen'},...(can('ops.view')?[{k:'operations',l:'Operaciones'}]:[]),{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'tendencias',l:'Tendencias'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'calendar',l:'Citas'},{k:'automations',l:'Automatización'},{k:'templates',l:'Plantillas'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'},{k:'activity',l:'Historial'}];
+  const views=[{k:'overview',l:'Resumen'},...(can('ops.view')?[{k:'operations',l:'Operaciones'}]:[]),{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'tendencias',l:'Tendencias'},{k:'cursos',l:'Mini Cursos'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'calendar',l:'Citas'},{k:'automations',l:'Automatización'},{k:'templates',l:'Plantillas'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'},{k:'activity',l:'Historial'},...(can('clients.manage')?[{k:'equipo',l:'Equipo'}]:[])];
   return (<div className="app">
     <aside className="sidebar">
       <div className="brand"><div className="brand-mark violet">P</div><div><div className="brand-name">Pauta&nbsp;Studio</div><div className="brand-sub">Panel agencia</div></div></div>
@@ -1660,19 +1758,19 @@ function App(){
       <div className="nav" style={{gap:8,flex:'1 1 auto',minHeight:0,overflowY:'auto',paddingRight:4}}>{clients.map(c=>(<button key={c.id} className={'client-row'+(sel===c.id?' active':'')} onClick={()=>setSel(c.id)} style={{padding:'10px 12px'}}>
         <div className="client-av" style={{width:34,height:34,fontSize:13}}>{c.avatarUrl?<img src={c.avatarUrl} alt={c.fullName||'cliente'}/>:(c.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
         <div style={{flex:1,minWidth:0,textAlign:'left'}}><div style={{fontSize:13,fontWeight:600,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.fullName}</div>
-          <div style={{fontSize:11,color:'#8E8EA8'}}>{c.planUsed}/{c.planTotal} pubs</div></div>
+          <div style={{fontSize:11,color:'#8E8EA8',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.hasLogin?c.email:'Sin cuenta de acceso'}</div></div>
         {c.pending>0&&<span className="nav-badge" style={{position:'static'}}>{c.pending}</span>}</button>))}</div>
       <div className="side-foot"><button className="logout-btn" onClick={logout}><Ico d={icons.out} size={15}/> Cerrar sesión</button></div>
     </aside>
     <div className="main">
-      <header className="topbar"><div><h1>{view==='overview'?'Resumen de agencia':view==='operations'?'Centro de operaciones':view==='tendencias'?'Inteligencia de tendencias':(selClient?.fullName||'Selecciona un cliente')}</h1><div className="crumb">{view==='overview'?'Visión operativa global':view==='operations'?'SLA y productividad del equipo':view==='tendencias'?'Qué publicar, por qué, y cuándo — por cliente':(selClient?.businessSector||'Panel de gestión')}</div></div>
+      <header className="topbar"><div><h1>{view==='overview'?'Resumen de agencia':view==='operations'?'Centro de operaciones':view==='tendencias'?'Inteligencia de tendencias':view==='equipo'?'Equipo de agencia':view==='cursos'?'Mini Cursos':(selClient?.fullName||'Selecciona un cliente')}</h1><div className="crumb">{view==='overview'?'Visión operativa global':view==='operations'?'SLA y productividad del equipo':view==='tendencias'?'Qué publicar, por qué, y cuándo — por cliente':view==='equipo'?'Cuentas del equipo interno':view==='cursos'?'Formación para clientes · avance y contenido':(selClient?.businessSector||'Panel de gestión')}</div></div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
           <label style={{fontSize:12,color:'var(--muted)'}}>Rol</label>
           <span className="input" style={{minWidth:170,display:'inline-flex',alignItems:'center',color:'#fff',background:'rgba(108,92,231,.14)',cursor:'default'}} title="Asignado por el servidor según tu cuenta — ya no se elige aquí">{agencyRole}</span>
         </div></header>
       <div className="content">
         <>
-          {selClient&&view!=='tendencias'&&<div className="card card-pad" style={{marginBottom:14,border:'1px solid rgba(108,92,231,.14)',background:'linear-gradient(180deg, rgba(108,92,231,.08), rgba(255,255,255,.96))'}}>
+          {selClient&&view!=='tendencias'&&view!=='equipo'&&view!=='cursos'&&<div className="card card-pad" style={{marginBottom:14,border:'1px solid rgba(108,92,231,.14)',background:'linear-gradient(180deg, rgba(108,92,231,.08), rgba(255,255,255,.96))'}}>
             <div style={{display:'flex',justifyContent:'space-between',gap:16,alignItems:'center',flexWrap:'wrap'}}>
               <div style={{display:'flex',alignItems:'center',gap:14,minWidth:0}}>
                 <div className="client-av" style={{width:56,height:56,fontSize:18,flex:'0 0 auto'}}>{selClient.avatarUrl?<img src={selClient.avatarUrl} alt={selClient.fullName||'cliente'}/>:(selClient.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
@@ -1716,6 +1814,7 @@ function App(){
           {view==='content'&&<ClientContent content={content} onCreate={createContent} onImport={importContent} onStatusChange={setContentStatus} onUpdate={updateContent} canWriteContent={can('content.write')} canApproveContent={can('content.approve')}/>} 
           {view==='analytics'&&<Analytics metrics={metrics} content={content} formulas={formulas} onCreateFormula={createFormula} onUpdateFormula={updateFormula} onDeleteFormula={deleteFormula} canManageReports={can('reports.manage')}/>}
           {view==='tendencias'&&<Tendencias/>}
+          {view==='cursos'&&<MiniCursosAgencia/>}
           {view==='contacts'&&<Contacts contacts={contacts} onCreate={createContact} onUpdate={updateContact} onDelete={deleteContact}/>}
           {view==='pipeline'&&<Pipeline deals={deals} contacts={contacts} onCreate={createDeal} onMove={moveDeal}/>}
           {view==='tasks'&&<Tasks tasks={tasks} contacts={contacts} onCreate={createTask} onToggle={toggleTask} onDelete={deleteTask}/>}
@@ -1726,7 +1825,8 @@ function App(){
           {view==='inbox'&&<Inbox conversations={conversations} onReply={replyConv} onRead={readConv} onToggleStatus={toggleConvStatus}/>}
           {view==='messages'&&<ClientMessages messages={messages} onSend={sendMsg}/>}
           {view==='plan'&&<ClientPlan plan={plan} profile={profile} socials={socials}/>}
-          {view==='activity'&&<ActivityFeed logs={activity}/>} 
+          {view==='activity'&&<ActivityFeed logs={activity}/>}
+          {view==='equipo'&&<Equipo team={agencyTeam} onNew={()=>setNewTeamMemberOpen(true)} canManage={can('clients.manage')}/>} 
           </>}
         </>
       </div></div>
