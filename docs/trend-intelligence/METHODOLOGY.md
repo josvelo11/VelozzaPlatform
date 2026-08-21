@@ -68,6 +68,20 @@ Fuentes: [Metricool](https://metricool.com/best-time-to-post-social-networks/), 
    cliente** (carpeta `reportes-tendencias/`, la fecha más reciente antes de hoy)
    si existe, para dar continuidad — no contradecir sin explicar, no repetir lo
    mismo dos ciclos seguidos sin decir por qué sigue vigente.
+7. **Consultar qué está buscando la gente ahora mismo.** Con WebFetch, traer el
+   feed de tendencias diarias de Google para el país del cliente —
+   `https://trends.google.com/trending/rss?geo=CO` (o `geo=US` para Fiesta Auto/
+   Florida) — trae los trending reales de hoy con tráfico y noticias
+   relacionadas. Evaluar cada uno: ¿alguno conecta genuinamente con el gremio o
+   un momento real que vive la audiencia de este cliente? Nunca forzar la
+   conexión — la mayoría de los días nada de la lista aplica, y forzarlo se lee
+   oportunista, no relevante. Luego correr un WebSearch de intención de búsqueda
+   propia del gremio (ej. `"qué busca la gente sobre [gremio] en Google 2026"`,
+   `"preguntas frecuentes [gremio]"`) — esto es distinto al feed de Google
+   Trends: es lo que la gente busca *sobre la industria*, no lo viral nacional
+   de hoy. Ambos van en la sección "Qué está buscando la gente ahora mismo" del
+   reporte, incluso cuando la respuesta honesta es "nada de lo trending hoy
+   aplica a este cliente."
 
 ## Template del reporte (uno por cliente, por ciclo)
 
@@ -85,6 +99,14 @@ explícitamente, no inventar cifras.]
 
 ## Tendencias del gremio esta semana
 1. [Tendencia] — fuente: [link]
+
+## Qué está buscando la gente ahora mismo
+[Google Trends del país (trends.google.com/trending/rss?geo=XX, fecha) — ¿algún
+trending nacional de hoy conecta genuinamente con este gremio/cliente? Si sí,
+describir el ángulo de newsjacking sin forzarlo. Si no, decirlo explícitamente:
+"nada de lo trending hoy aplica a este cliente" — no es un hueco que llenar.
+Aparte, intención de búsqueda propia del gremio (qué preguntas/temas busca la
+gente sobre este tema en Google) — fuente del WebSearch.]
 
 ## Qué publicar (3-5 piezas concretas)
 - [Formato] · [Ángulo situacional] · Por qué: [mecánica específica] · Cuándo: [día/hora/canal]
@@ -162,3 +184,6 @@ nunca un reemplazo de esta doctrina ni de la voz real de marca del cliente.
   porque está de moda en otro lado.
 - Inventar cifras de caída de visualizaciones específicas de un cliente sin datos
   reales — decir explícitamente que no hay datos de desempeño disponibles.
+- Forzar una conexión entre un trending nacional de Google Trends y el gremio de
+  un cliente cuando genuinamente no la hay — la mayoría de los días nada aplica,
+  y forzar el vínculo se lee oportunista y desalineado de marca.
