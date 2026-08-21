@@ -10,7 +10,7 @@ export function CourseCardProgress({ courseId, total }: { courseId: string; tota
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,.5)' }}>
+        <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,.68)' }}>
           {ready && done > 0 ? (done === total ? 'Completado' : 'En progreso') : `${total} lecciones`}
         </span>
         {ready && done > 0 && (

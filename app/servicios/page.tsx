@@ -249,7 +249,7 @@ export default function ServicesPage() {
               <h2 className="section-title" style={{ color: '#f4cf63', marginBottom: '16px' }}>
                 Nuestros Paquetes de Precios
               </h2>
-              <p style={{ color: '#a7a7a7', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
+              <p style={{ color: '#c9c9c9', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
                 Soluciones diseñadas para cada etapa de tu negocio. Invierte en lo que realmente genera resultados.
               </p>
             </div>
@@ -327,12 +327,12 @@ export default function ServicesPage() {
                       </div>
                     )}
                     <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#f8f5ed' }}>{pkg.name}</h4>
-                    <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '20px' }}>{pkg.duration}</p>
+                    <p style={{ fontSize: '12px', color: '#c9c9c9', marginBottom: '20px' }}>{pkg.duration}</p>
                     <div style={{ marginBottom: '25px' }}>
                       <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>
                         ${pkg.price.toLocaleString('es-CO')}
                       </span>
-                      <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>COP</span>
+                      <span style={{ color: '#c9c9c9', marginLeft: '8px' }}>COP</span>
                     </div>
                     <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px', flex: 1 }}>
                       {pkg.items.map((item, i) => (
@@ -382,11 +382,11 @@ export default function ServicesPage() {
                     Plan Básico
                   </div>
                   <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#f8f5ed' }}>Plan Básico - Orgánico</h4>
-                  <p style={{ fontSize: '12px', color: '#a7a7a7', marginBottom: '5px' }}>1 mes de gestión</p>
-                  <p style={{ fontSize: '11px', color: '#a7a7a7', marginBottom: '20px', fontStyle: 'italic' }}>Pago mes anticipado</p>
+                  <p style={{ fontSize: '12px', color: '#c9c9c9', marginBottom: '5px' }}>1 mes de gestión</p>
+                  <p style={{ fontSize: '11px', color: '#c9c9c9', marginBottom: '20px', fontStyle: 'italic' }}>Pago mes anticipado</p>
                   <div style={{ marginBottom: '25px' }}>
                     <span style={{ fontSize: '32px', fontWeight: 'bold', color: '#f4cf63' }}>$880.000</span>
-                    <span style={{ color: '#a7a7a7', marginLeft: '8px' }}>COP/mes</span>
+                    <span style={{ color: '#c9c9c9', marginLeft: '8px' }}>COP/mes</span>
                   </div>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px', flex: 1 }}>
                     {[
@@ -643,7 +643,7 @@ export default function ServicesPage() {
 
         .process-step p {
           margin: 0;
-          color: #a7a7a7;
+          color: #c9c9c9;
         }
 
         .service-cta {

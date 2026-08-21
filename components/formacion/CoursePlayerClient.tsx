@@ -70,7 +70,7 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
                     style={{
                       fontSize: '0.85rem',
                       fontWeight: active ? 600 : 500,
-                      color: active ? '#fdfaf1' : 'rgba(255,255,255,.62)',
+                      color: active ? '#fdfaf1' : 'rgba(255,255,255,.8)',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -78,7 +78,7 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
                   >
                     {i + 1}. {l.titulo}
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,.4)' }}>{l.minutos} min</div>
+                  <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,.62)' }}>{l.minutos} min</div>
                 </div>
               </div>
             );

@@ -103,9 +103,9 @@ export default function Home() {
           .metric.one { top: -18px; right: -34px; }
           .metric.two { left: -42px; bottom: 116px; }
           .metric.three { right: -24px; bottom: -10px; }
-          .label { font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #7a7870; }
+          .label { font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #a3a099; }
           .metric-value { font-size: 34px; font-weight: 700; line-height: 1; margin-top: 4px; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-          .sub { margin-top: 4px; font-size: 10px; color: #7a7870; }
+          .sub { margin-top: 4px; font-size: 10px; color: #a3a099; }
           .bars { display: flex; gap: 2px; align-items: flex-end; height: 28px; margin-top: 8px; }
           .bars span { flex: 1; background: linear-gradient(135deg, #f0d98a, #c9a84c); border-radius: 1px; opacity: .8; }
           .dots { display: flex; gap: 5px; margin-top: 8px; }
@@ -119,12 +119,12 @@ export default function Home() {
             border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
             padding: 28px 0;
           }
-          .brand-copy { text-align: center; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #7a7870; margin-bottom: 18px; }
+          .brand-copy { text-align: center; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #a3a099; margin-bottom: 18px; }
           .brand-list { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; font-family: Montserrat, sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(244,242,236,.24); }
           .section { padding: 96px 0; }
           .section-head { margin-bottom: 34px; }
           .title { margin: 0; font-size: clamp(34px, 4vw, 56px); line-height: 1.05; }
-          .subtitle { margin: 10px 0 0; color: #7a7870; font-size: 14px; max-width: 720px; }
+          .subtitle { margin: 10px 0 0; color: #a3a099; font-size: 14px; max-width: 720px; }
           .services-grid, .results-grid, .plans-grid { display: grid; gap: 1px; background: #2a2a22; }
           .services-grid { grid-template-columns: repeat(3, 1fr); }
           .service, .result, .plan { background: #181813; cursor: pointer; }
@@ -142,7 +142,7 @@ export default function Home() {
           }
           .icon { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 18px; background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.16); }
           .service h3, .plan-title { margin: 0 0 10px; font-size: 21px; }
-          .service p, .plan p, .about-copy { color: #7a7870; line-height: 1.65; }
+          .service p, .plan p, .about-copy { color: #a3a099; line-height: 1.65; }
           .service p { font-size: 13px; margin: 0 0 18px; }
           .link { color: #f0d98a; text-decoration: none; font-family: Montserrat, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
           .stats {
@@ -154,7 +154,7 @@ export default function Home() {
           .stat:last-child { border-right: 0; }
           .stat .value { font-size: 48px; line-height: 1; font-weight: 700; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
           .stat .value::after { content: ''; position: absolute; left: 50%; bottom: -10px; width: 24px; height: 2px; background: linear-gradient(90deg, #f0d98a, #c9a84c); transform: translateX(-50%); opacity: .7; }
-          .stat .name { margin-top: 6px; color: #7a7870; font-size: 11.5px; }
+          .stat .name { margin-top: 6px; color: #a3a099; font-size: 11.5px; }
           .results-grid { grid-template-columns: repeat(4, 1fr); }
           .thumb { aspect-ratio: 3 / 4; display: grid; place-items: center; position: relative; }
           .step-eyebrow { position: absolute; top: 14px; left: 14px; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: rgba(240,217,138,.55); }
@@ -163,7 +163,7 @@ export default function Home() {
           .result { border: 1px solid #2a2a22; overflow: hidden; }
           .result .meta { padding: 16px; }
           .result-metric { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #f0d98a, #c9a84c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-          .result-label { color: #7a7870; font-size: 11px; }
+          .result-label { color: #a3a099; font-size: 11px; }
           .about {
             background: #141410; border-top: 1px solid transparent;
             border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
@@ -238,7 +238,7 @@ export default function Home() {
             width: 100%;
             background: linear-gradient(90deg, transparent, rgba(240,217,138,.35), transparent);
           }
-          .period { font-size: 10px; color: #7a7870; margin-bottom: 20px; }
+          .period { font-size: 10px; color: #a3a099; margin-bottom: 20px; }
           .features { list-style: none; margin: 0 0 24px; padding: 0; }
           .features li { padding: 7px 0; color: #c8c6be; border-bottom: 1px solid rgba(255,255,255,.04); }
           .btn-plan { display: block; text-align: center; text-decoration: none; width: 100%; padding: 12px; border: 1px solid #2a2a22; background: transparent; color: rgba(244,242,236,.74); font-family: Montserrat, sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; transition: border-color 220ms ease, color 220ms ease, background-color 220ms ease; }
@@ -259,18 +259,18 @@ export default function Home() {
             border-image: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent) 1;
           }
           .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 46px; padding: 60px 0 38px; }
-          .footer-brand p { color: #7a7870; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+          .footer-brand p { color: #a3a099; font-size: 13px; line-height: 1.6; margin: 16px 0; }
           .powered { font-family: Montserrat, sans-serif; font-size: 9px; letter-spacing: .14em; font-weight: 800; text-transform: uppercase; color: #f0d98a; }
           .socials { display: flex; gap: 10px; margin-top: 18px; }
-          .social { width: 34px; height: 34px; border: 1px solid #2a2a22; display: grid; place-items: center; color: #7a7870; text-decoration: none; transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background-color 220ms ease; }
+          .social { width: 34px; height: 34px; border: 1px solid #2a2a22; display: grid; place-items: center; color: #a3a099; text-decoration: none; transition: transform 220ms ease, border-color 220ms ease, color 220ms ease, background-color 220ms ease; }
           .social:hover { border-color: rgba(240,217,138,.5); color: #f0d98a; background: rgba(240,217,138,.08); transform: translateY(-3px); }
           .footer h4 { font-family: Montserrat, sans-serif; font-size: 9.5px; letter-spacing: .2em; font-weight: 800; text-transform: uppercase; margin: 0 0 18px; }
           .footer ul { list-style: none; padding: 0; margin: 0; }
           .footer li { margin: 0 0 11px; }
-          .footer a { color: #7a7870; text-decoration: none; font-size: 13px; }
+          .footer a { color: #a3a099; text-decoration: none; font-size: 13px; }
           .bottom { display: flex; justify-content: space-between; gap: 18px; align-items: center; border-top: 1px solid #2a2a22; padding: 22px 0; }
           .legal { display: flex; gap: 24px; flex-wrap: wrap; }
-          .bottom p, .legal a { color: #7a7870; font-size: 11px; }
+          .bottom p, .legal a { color: #a3a099; font-size: 11px; }
           .wa { position: fixed; right: 28px; bottom: 28px; width: 52px; height: 52px; border-radius: 50%; border: 0; background: #25d366; color: #fff; font-size: 24px; box-shadow: 0 4px 24px rgba(37,211,102,.5); display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 30; transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease; }
           .wa::before {
             content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid rgba(37,211,102,.55);
@@ -640,7 +640,7 @@ export default function Home() {
                   {index === 2 ? <div className="badge">Más Popular</div> : null}
                   <h3 className="plan-title">{name}</h3>
                   <p>{copy}</p>
-                  <div style={{ fontSize: 9.5, color: '#7a7870' }}>Desde</div>
+                  <div style={{ fontSize: 9.5, color: '#a3a099' }}>Desde</div>
                   <div className="price">
                     {typeof price === 'string' ? (
                       <span>{price}</span>
@@ -674,7 +674,7 @@ export default function Home() {
               <article className="plan tilt">
                 <h3 className="plan-title">Pack Básico</h3>
                 <p>Marca Personal · 1 día de grabación</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $660.000</span></div>
                 <div className="period">por sesión</div>
                 <ul className="features">
@@ -692,7 +692,7 @@ export default function Home() {
                 <div className="badge">Recomendado</div>
                 <h3 className="plan-title">Pack Premium</h3>
                 <p>Marca Personal · 1 día de grabación</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $880.000</span></div>
                 <div className="period">por sesión</div>
                 <ul className="features">
@@ -710,7 +710,7 @@ export default function Home() {
               <article className="plan tilt">
                 <h3 className="plan-title">Redes Sociales</h3>
                 <p>Gestión orgánica mensual de contenido</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $880.000</span></div>
                 <div className="period">/mes · pago anticipado</div>
                 <ul className="features">
@@ -730,20 +730,20 @@ export default function Home() {
             <div style={{ marginTop: '80px', marginBottom: '48px', textAlign: 'center' }}>
               <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,76,.35), transparent)', marginBottom: '60px' }} />
               <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '16px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Bodas & Eventos Sociales</h3>
-              <p style={{ color: '#7a7870', fontSize: '13px', maxWidth: '560px', margin: '0 auto' }}>Dos colecciones de cobertura fotográfica editorial, cada una diseñada para un momento distinto de tu vida social.</p>
+              <p style={{ color: '#a3a099', fontSize: '13px', maxWidth: '560px', margin: '0 auto' }}>Dos colecciones de cobertura fotográfica editorial, cada una diseñada para un momento distinto de tu vida social.</p>
             </div>
 
             {/* Sub-sección: Eventos Sociales */}
             <div style={{ marginBottom: '30px', textAlign: 'center' }}>
               <div className="eyebrow" style={{ display: 'inline-flex', justifyContent: 'center', marginBottom: '10px' }}>Colección Social</div>
               <h4 style={{ color: '#f4f2ec', fontSize: '15px', fontWeight: 600, marginBottom: '10px' }}>Eventos Sociales</h4>
-              <p style={{ color: '#7a7870', fontSize: '12.5px', maxWidth: '460px', margin: '0 auto' }}>Sesiones editoriales para quinceañeras, cumpleaños y celebraciones que merecen dirección visual propia.</p>
+              <p style={{ color: '#a3a099', fontSize: '12.5px', maxWidth: '460px', margin: '0 auto' }}>Sesiones editoriales para quinceañeras, cumpleaños y celebraciones que merecen dirección visual propia.</p>
             </div>
             <div className="plans-grid plans-grid-2" style={{ marginBottom: '64px' }}>
               <article className="plan tilt">
                 <h3 className="plan-title">Editorial Signature</h3>
                 <p>Quinceañeras, cumpleaños y retratos pre-evento</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $450.000</span></div>
                 <div className="period">por sesión</div>
                 <ul className="features">
@@ -758,7 +758,7 @@ export default function Home() {
                 <div className="badge">Más solicitado</div>
                 <h3 className="plan-title">Social Prestige</h3>
                 <p>15 años, cumpleaños y celebraciones sociales</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $600.000</span></div>
                 <div className="period">por sesión</div>
                 <ul className="features">
@@ -775,13 +775,13 @@ export default function Home() {
             <div style={{ marginBottom: '30px', textAlign: 'center' }}>
               <div className="eyebrow" style={{ display: 'inline-flex', justifyContent: 'center', marginBottom: '10px' }}>Colección Bodas 2026</div>
               <h4 style={{ color: '#f4f2ec', fontSize: '15px', fontWeight: 600, marginBottom: '10px' }}>Bodas</h4>
-              <p style={{ color: '#7a7870', fontSize: '12.5px', maxWidth: '480px', margin: '0 auto' }}>Una progresión clara, del tarifario 2026: cobertura esencial, historia completa y experiencia editorial total.</p>
+              <p style={{ color: '#a3a099', fontSize: '12.5px', maxWidth: '480px', margin: '0 auto' }}>Una progresión clara, del tarifario 2026: cobertura esencial, historia completa y experiencia editorial total.</p>
             </div>
             <div className="plans-grid plans-grid-3">
               <article className="plan tilt">
                 <h3 className="plan-title">Esencia Ceremonial</h3>
                 <p>Bodas · Cobertura esencial</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $850.000</span></div>
                 <div className="period">por evento</div>
                 <ul className="features">
@@ -796,7 +796,7 @@ export default function Home() {
                 <div className="badge">Recomendado</div>
                 <h3 className="plan-title">Crónica de Autor</h3>
                 <p>Bodas · Historia completa</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $1.000.000</span></div>
                 <div className="period">por evento</div>
                 <ul className="features">
@@ -811,7 +811,7 @@ export default function Home() {
               <article className="plan tilt">
                 <h3 className="plan-title">Firma Velozza</h3>
                 <p>Bodas · Experiencia editorial total</p>
-                <div style={{ fontSize: 9.5, color: '#7a7870' }}>Inversión</div>
+                <div style={{ fontSize: 9.5, color: '#a3a099' }}>Inversión</div>
                 <div className="price"><span>COP $1.200.000</span></div>
                 <div className="period">por evento</div>
                 <ul className="features">

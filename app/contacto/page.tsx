@@ -339,7 +339,7 @@ export default function ContactPage() {
 
         .contact-hours p {
           margin: 0 0 4px;
-          color: #a7a7a7;
+          color: #c9c9c9;
           font-size: 0.92rem;
         }
 

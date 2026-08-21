@@ -10,7 +10,7 @@ export default function UnauthorizedPage() {
         <h2 style={{ fontSize: '32px', color: '#f8f5ed', marginBottom: '20px' }}>
           Unauthorized Access
         </h2>
-        <p style={{ fontSize: '16px', color: '#a7a7a7', marginBottom: '40px', lineHeight: '1.6' }}>
+        <p style={{ fontSize: '16px', color: '#c9c9c9', marginBottom: '40px', lineHeight: '1.6' }}>
           You don't have permission to access this resource. Please contact your administrator if you believe this is a mistake.
         </p>
         <Link

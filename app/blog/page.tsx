@@ -164,7 +164,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         }
 
         .blog-post-description {
-          color: #a7a7a7;
+          color: #c9c9c9;
           margin-bottom: 12px;
           line-height: 1.6;
         }
@@ -174,7 +174,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           gap: 16px;
           flex-wrap: wrap;
           font-size: 14px;
-          color: #a7a7a7;
+          color: #c9c9c9;
         }
 
         .blog-post-read-more {

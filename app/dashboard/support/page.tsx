@@ -114,7 +114,7 @@ export default function Support() {
                       <span style={{
                         padding: '4px 8px',
                         backgroundColor: ticket.status === 'Resuelto' ? 'rgba(244,207,99,0.15)' : ticket.status === 'En progreso' ? 'rgba(201,168,76,0.14)' : 'rgba(123,98,32,0.20)',
-                        color: ticket.status === 'Resuelto' ? '#f4cf63' : ticket.status === 'En progreso' ? '#f8f5ed' : '#a7a7a7',
+                        color: ticket.status === 'Resuelto' ? '#f4cf63' : ticket.status === 'En progreso' ? '#f8f5ed' : '#c9c9c9',
                         borderRadius: '999px',
                         fontSize: '12px'
                       }}>

@@ -96,10 +96,15 @@ export function SlideDeck({ cuerpo, accionables, courseId, leccionId }: SlideDec
 
       {slides.length > 1 && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 24 }}>
-          <button className="player-nav-btn" onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0}>
-            <PremiumIcon name="chevron-left" size={15} /> Anterior
+          <button
+            className="player-nav-btn"
+            onClick={() => setIdx((i) => Math.max(0, i - 1))}
+            disabled={idx === 0}
+            aria-label="Diapositiva anterior"
+          >
+            <PremiumIcon name="chevron-left" size={15} /> <span className="player-nav-label">Anterior</span>
           </button>
-          <div style={{ display: 'flex', gap: 7 }}>
+          <div style={{ display: 'flex', gap: 7, flexShrink: 0 }}>
             {slides.map((_, i) => (
               <span key={i} className={`slide-dot${i === idx ? ' active' : ''}`} onClick={() => setIdx(i)} />
             ))}
@@ -108,8 +113,9 @@ export function SlideDeck({ cuerpo, accionables, courseId, leccionId }: SlideDec
             className="player-nav-btn"
             onClick={() => setIdx((i) => Math.min(slides.length - 1, i + 1))}
             disabled={idx === slides.length - 1}
+            aria-label="Siguiente diapositiva"
           >
-            Siguiente <PremiumIcon name="chevron-right" size={15} />
+            <span className="player-nav-label">Siguiente</span> <PremiumIcon name="chevron-right" size={15} />
           </button>
         </div>
       )}

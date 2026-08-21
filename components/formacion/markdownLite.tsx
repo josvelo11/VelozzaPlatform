@@ -114,7 +114,7 @@ export function MarkdownLite({ md }: { md: string }) {
           return (
             <Tag key={idx} style={{ margin: '0 0 8px 20px', display: 'grid', gap: 8 }}>
               {b.items.map((it, j) => (
-                <li key={j} style={{ fontSize: '1rem', lineHeight: 1.65, color: 'rgba(255,255,255,.82)' }}>
+                <li key={j} style={{ fontSize: '1rem', lineHeight: 1.65, color: 'rgba(255,255,255,.9)' }}>
                   {renderInline(it, `${idx}-${j}`)}
                 </li>
               ))}
@@ -122,7 +122,7 @@ export function MarkdownLite({ md }: { md: string }) {
           );
         }
         return (
-          <p key={idx} style={{ fontSize: '1rem', lineHeight: 1.75, color: 'rgba(255,255,255,.82)', marginBottom: 14 }}>
+          <p key={idx} style={{ fontSize: '1rem', lineHeight: 1.75, color: 'rgba(255,255,255,.9)', marginBottom: 14 }}>
             {renderInline(b.text, String(idx))}
           </p>
         );

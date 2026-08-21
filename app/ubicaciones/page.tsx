@@ -81,7 +81,7 @@ export default function UbicacionesPage() {
         .location-copy {
           flex: 1;
           margin: 0 0 20px;
-          color: #a7a7a7;
+          color: #c9c9c9;
           line-height: 1.7;
         }
 

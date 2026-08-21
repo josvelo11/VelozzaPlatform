@@ -37,7 +37,7 @@ export default function SEODashboardPage() {
       <div className="stat-grid" style={{ marginTop: '28px', marginBottom: '32px' }}>
         {metrics.map((metric) => (
           <div key={metric.label} className="stat-card">
-            <p style={{ color: '#a7a7a7', margin: 0 }}>{metric.label}</p>
+            <p style={{ color: '#c9c9c9', margin: 0 }}>{metric.label}</p>
             <h3 style={{ margin: '10px 0 0', fontSize: '28px' }}>{metric.value}</h3>
           </div>
         ))}

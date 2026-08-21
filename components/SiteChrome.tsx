@@ -164,7 +164,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
           <div className="footer-grid site-chrome-footer-grid" style={{ marginBottom: '40px' }}>
             <div>
               <BrandLogo variant="transparent" style={{ width: 184, maxWidth: '100%' }} priority />
-              <p style={{ color: '#7a7870' }}>Ingeniería visual y posicionamiento premium para marcas y líderes que exigen dominar su mercado.</p>
+              <p style={{ color: '#a3a099' }}>Ingeniería visual y posicionamiento premium para marcas y líderes que exigen dominar su mercado.</p>
               <div style={{ display: 'grid', gap: '10px', marginTop: '18px' }}>
                 <a href="tel:+573053090273" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>+57 305 309 0273</a>
                 <a href="mailto:ceo@velozzacws.com" style={{ color: '#f0d98a', textDecoration: 'none', fontWeight: 700 }}>ceo@velozzacws.com</a>
@@ -194,7 +194,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             </div>
           </div>
           <div style={{ borderTop: '1px solid #2a2a22', paddingTop: '20px', textAlign: 'center' }}>
-            <p style={{ color: '#7a7870' }}>&copy; 2025 Velozza Creative Works. Todos los derechos reservados.</p>
+            <p style={{ color: '#a3a099' }}>&copy; 2025 Velozza Creative Works. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

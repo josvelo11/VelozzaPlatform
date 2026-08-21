@@ -382,7 +382,7 @@ export default async function ServicePage({ params }: Props) {
         .detail-process-card p {
           position: relative;
           margin: 0;
-          color: #a7a7a7;
+          color: #c9c9c9;
           line-height: 1.6;
         }
 
@@ -434,13 +434,13 @@ export default async function ServicePage({ params }: Props) {
 
         .detail-package-duration {
           font-size: 12px;
-          color: #a7a7a7;
+          color: #c9c9c9;
           margin-bottom: 20px;
         }
 
         .detail-package-billing {
           font-size: 11px;
-          color: #a7a7a7;
+          color: #c9c9c9;
           margin-bottom: 20px;
           font-style: italic;
           margin-top: -14px;
@@ -454,7 +454,7 @@ export default async function ServicePage({ params }: Props) {
         }
 
         .detail-package-currency {
-          color: #a7a7a7;
+          color: #c9c9c9;
           margin-left: 8px;
           font-size: 16px;
           font-weight: 600;

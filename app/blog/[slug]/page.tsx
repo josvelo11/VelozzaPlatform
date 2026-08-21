@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: Props) {
               {post.category}
             </span>
             <h1 style={{ fontSize: '36px', marginTop: '10px' }}>{post.title}</h1>
-            <div style={{ display: 'flex', gap: '20px', color: '#a7a7a7', marginTop: '15px' }}>
+            <div style={{ display: 'flex', gap: '20px', color: '#c9c9c9', marginTop: '15px' }}>
               <span>{post.author}</span>
               <span>{new Date(post.date).toLocaleDateString('es-CO')}</span>
               <span>{post.readTime} min de lectura</span>
