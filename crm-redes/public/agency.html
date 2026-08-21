@@ -95,6 +95,9 @@ const API={
   conversations:(cid)=>apiFetch('/conversations',{clientId:cid}),
   replyConversation:(cid,id,text)=>apiFetch('/conversations/'+id+'/reply',{method:'POST',body:{text},clientId:cid}),
   updateConversation:(cid,id,b)=>apiFetch('/conversations/'+id,{method:'PUT',body:b,clientId:cid}),
+  tendenciasCiclos:()=>apiFetch('/tendencias/ciclos'),
+  tendenciasCiclo:(fecha)=>apiFetch('/tendencias/ciclo/'+encodeURIComponent(fecha)),
+  tendenciasCliente:(cid)=>apiFetch('/tendencias',{clientId:cid}),
 };
 /* ===== CONSTANTES / HELPERS (compartido con el portal) ===== */
 
@@ -1293,6 +1296,95 @@ function ActivityFeed({logs}){
   </div>))}</div>);
 }
 
+/* ===== TENDENCIAS (compartido con el portal) ===== */
+
+// Parser mínimo a propósito: solo cubre lo que el template de reportes de
+// tendencias realmente produce (h1/h2, listas, negrita, links) — no es un
+// markdown genérico.
+function renderInline(text,keyPrefix){
+  const nodes=[];const regex=/\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
+  let last=0,m,i=0;
+  while((m=regex.exec(text))){
+    if(m.index>last) nodes.push(text.slice(last,m.index));
+    if(m[1]!==undefined) nodes.push(<a key={keyPrefix+'-l'+i} href={m[2]} target="_blank" rel="noopener noreferrer" style={{color:'var(--primary)',textDecoration:'underline'}}>{m[1]}</a>);
+    else nodes.push(<b key={keyPrefix+'-b'+i}>{m[3]}</b>);
+    last=regex.lastIndex;i++;
+  }
+  if(last<text.length) nodes.push(text.slice(last));
+  return nodes;
+}
+function MarkdownLite({md}){
+  if(!md) return null;
+  const lines=md.split('\n');const blocks=[];let i=0;
+  while(i<lines.length){
+    const line=lines[i];
+    if(/^#\s+/.test(line)){blocks.push({t:'h1',text:line.replace(/^#\s+/,'')});i++;continue;}
+    if(/^##\s+/.test(line)){blocks.push({t:'h2',text:line.replace(/^##\s+/,'')});i++;continue;}
+    if(/^-\s+/.test(line)){const items=[];while(i<lines.length&&/^-\s+/.test(lines[i])){items.push(lines[i].replace(/^-\s+/,''));i++;}blocks.push({t:'ul',items});continue;}
+    if(/^\d+\.\s+/.test(line)){const items=[];while(i<lines.length&&/^\d+\.\s+/.test(lines[i])){items.push(lines[i].replace(/^\d+\.\s+/,''));i++;}blocks.push({t:'ol',items});continue;}
+    if(line.trim()===''){i++;continue;}
+    const para=[line];i++;
+    while(i<lines.length&&lines[i].trim()!==''&&!/^#|^-\s|^\d+\.\s/.test(lines[i])){para.push(lines[i]);i++;}
+    blocks.push({t:'p',text:para.join(' ')});
+  }
+  return <div className="md-lite">{blocks.map((b,idx)=>{
+    if(b.t==='h1') return null;
+    if(b.t==='h2'){
+      const destacado=/buscando|Continuidad/i.test(b.text);
+      return <div key={idx} className="section-title" style={{marginTop:idx===0?0:18,marginBottom:8,color:destacado?'var(--violet)':undefined}}>{destacado&&<Ico d={icons.search} size={15}/>}{b.text}</div>;
+    }
+    if(b.t==='ul') return <ul key={idx} style={{margin:'0 0 4px 18px',display:'grid',gap:6}}>{b.items.map((it,j)=><li key={j} style={{fontSize:13.5,color:'var(--ink)',lineHeight:1.55}}>{renderInline(it,idx+'-'+j)}</li>)}</ul>;
+    if(b.t==='ol') return <ol key={idx} style={{margin:'0 0 4px 18px',display:'grid',gap:6}}>{b.items.map((it,j)=><li key={j} style={{fontSize:13.5,color:'var(--ink)',lineHeight:1.55}}>{renderInline(it,idx+'-'+j)}</li>)}</ol>;
+    return <p key={idx} style={{fontSize:13.5,color:'var(--ink)',lineHeight:1.6,marginBottom:10}}>{renderInline(b.text,idx)}</p>;
+  })}</div>;
+}
+function Tendencias(){
+  const[ciclos,setCiclos]=useState([]);const[fecha,setFecha]=useState(null);const[ciclo,setCiclo]=useState(null);
+  const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
+  const[abierto,setAbierto]=useState(null);const[resumenAbierto,setResumenAbierto]=useState(true);
+  useEffect(()=>{(async()=>{
+    try{const r=await API.tendenciasCiclos();setCiclos(r.ciclos);if(r.ciclos.length) setFecha(r.ciclos[0]);else setLoading(false);}
+    catch(e){setError(e.message);setLoading(false);}
+  })();},[]);
+  useEffect(()=>{
+    if(!fecha) return;
+    setLoading(true);
+    API.tendenciasCiclo(fecha).then(d=>{setCiclo(d);setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});
+  },[fecha]);
+  if(error) return <Empty title="No se pudieron cargar los reportes" sub={error} ic={icons.zap}/>;
+  if(loading&&!ciclo) return <div className="card card-pad"><p style={{fontSize:13,color:'var(--muted)'}}>Cargando reportes de tendencias…</p></div>;
+  if(!ciclos.length) return <Empty title="Aún no hay reportes de tendencias" sub="El primer ciclo se genera cada 2 días vía la rutina automática, o puedes correrla manualmente." ic={icons.zap}/>;
+  return (<div className="grid" style={{gap:18}}>
+    <div className="card card-pad" style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12}}>
+      <div><div className="section-title"><Ico d={icons.zap} size={16}/>Inteligencia de tendencias por cliente</div>
+        <p className="section-sub" style={{marginTop:4}}>Investigación real por gremio + Google Trends, cada 2 días — qué publicar, por qué, y cuándo.</p></div>
+      <div className="field" style={{margin:0,minWidth:190}}><label style={{fontSize:12,color:'var(--muted)'}}>Ciclo</label>
+        <select className="input" value={fecha||''} onChange={e=>setFecha(e.target.value)}>{ciclos.map(f=><option key={f} value={f}>{f}</option>)}</select></div>
+    </div>
+    {ciclo?.resumen&&<div className="card card-pad">
+      <button onClick={()=>setResumenAbierto(v=>!v)} style={{display:'flex',alignItems:'center',gap:8,width:'100%',justifyContent:'space-between'}}>
+        <span className="section-title"><Ico d={icons.grid} size={16}/>Resumen del ciclo</span>
+        <span style={{fontSize:12,color:'var(--muted)'}}>{resumenAbierto?'Ocultar':'Ver'}</span>
+      </button>
+      {resumenAbierto&&<div style={{marginTop:10}}><MarkdownLite md={ciclo.resumen}/></div>}
+    </div>}
+    <div className="grid" style={{gridTemplateColumns:'repeat(auto-fit, minmax(320px, 1fr))',gap:14}}>
+      {ciclo?.reportes?.map(r=>{
+        const metaMatch=r.markdown.match(/\*\*Gremio:\*\*\s*([^\n·]+)/);
+        const gremio=metaMatch?metaMatch[1].trim():null;
+        const tituloLimpio=r.title.split(/\s+—\s+Reporte/)[0];
+        const abiertoAqui=abierto===r.slug;
+        return (<div key={r.slug} className="card" style={{padding:18,display:'flex',flexDirection:'column',gap:10}}>
+          <div><div style={{fontFamily:'var(--font-display)',fontWeight:600,fontSize:15}}>{tituloLimpio}</div>
+            {gremio&&<div style={{fontSize:12,color:'var(--muted)',marginTop:3}}>{gremio}</div>}</div>
+          <button className="btn btn-ghost btn-sm" style={{alignSelf:'flex-start'}} onClick={()=>setAbierto(abiertoAqui?null:r.slug)}>{abiertoAqui?'Ocultar reporte':'Ver reporte completo'}</button>
+          {abiertoAqui&&<div style={{borderTop:'1px solid var(--line)',paddingTop:12,marginTop:2}}><MarkdownLite md={r.markdown}/></div>}
+        </div>);
+      })}
+    </div>
+  </div>);
+}
+
 /* ===== APP DE LA AGENCIA ===== */
 function App(){
   const[user,setUser]=useState(null);const[ready,setReady]=useState(false);
@@ -1514,7 +1606,7 @@ function App(){
   const tasksDue=tasks.filter(t=>!t.done&&t.due<=todayStr).length;
   const overviewActivity=sel?activity:(agencyMetrics?.recent||[]);
   const overviewActivityTitle=selClient?'Actividad del cliente seleccionado':'Actividad reciente';
-  const views=[{k:'overview',l:'Resumen'},...(can('ops.view')?[{k:'operations',l:'Operaciones'}]:[]),{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'calendar',l:'Citas'},{k:'automations',l:'Automatización'},{k:'templates',l:'Plantillas'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'},{k:'activity',l:'Historial'}];
+  const views=[{k:'overview',l:'Resumen'},...(can('ops.view')?[{k:'operations',l:'Operaciones'}]:[]),{k:'content',l:'Parrilla'},{k:'analytics',l:'Reportes'},{k:'tendencias',l:'Tendencias'},{k:'contacts',l:'Contactos'},{k:'pipeline',l:'Embudo'},{k:'tasks',l:'Tareas',badge:tasksDue},{k:'campaigns',l:'Campañas'},{k:'calendar',l:'Citas'},{k:'automations',l:'Automatización'},{k:'templates',l:'Plantillas'},{k:'inbox',l:'Bandeja',badge:unread},{k:'messages',l:'Chat'},{k:'plan',l:'Plan'},{k:'activity',l:'Historial'}];
   return (<div className="app">
     <aside className="sidebar">
       <div className="brand"><div className="brand-mark violet">P</div><div><div className="brand-name">Pauta&nbsp;Studio</div><div className="brand-sub">Panel agencia</div></div></div>
@@ -1543,14 +1635,14 @@ function App(){
       <div className="side-foot"><button className="logout-btn" onClick={logout}><Ico d={icons.out} size={15}/> Cerrar sesión</button></div>
     </aside>
     <div className="main">
-      <header className="topbar"><div><h1>{view==='overview'?'Resumen de agencia':view==='operations'?'Centro de operaciones':(selClient?.fullName||'Selecciona un cliente')}</h1><div className="crumb">{view==='overview'?'Visión operativa global':view==='operations'?'SLA y productividad del equipo':(selClient?.businessSector||'Panel de gestión')}</div></div>
+      <header className="topbar"><div><h1>{view==='overview'?'Resumen de agencia':view==='operations'?'Centro de operaciones':view==='tendencias'?'Inteligencia de tendencias':(selClient?.fullName||'Selecciona un cliente')}</h1><div className="crumb">{view==='overview'?'Visión operativa global':view==='operations'?'SLA y productividad del equipo':view==='tendencias'?'Qué publicar, por qué, y cuándo — por cliente':(selClient?.businessSector||'Panel de gestión')}</div></div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
           <label style={{fontSize:12,color:'var(--muted)'}}>Rol</label>
           <span className="input" style={{minWidth:170,display:'inline-flex',alignItems:'center',color:'#fff',background:'rgba(108,92,231,.14)',cursor:'default'}} title="Asignado por el servidor según tu cuenta — ya no se elige aquí">{agencyRole}</span>
         </div></header>
       <div className="content">
         <>
-          {selClient&&<div className="card card-pad" style={{marginBottom:14,border:'1px solid rgba(108,92,231,.14)',background:'linear-gradient(180deg, rgba(108,92,231,.08), rgba(255,255,255,.96))'}}>
+          {selClient&&view!=='tendencias'&&<div className="card card-pad" style={{marginBottom:14,border:'1px solid rgba(108,92,231,.14)',background:'linear-gradient(180deg, rgba(108,92,231,.08), rgba(255,255,255,.96))'}}>
             <div style={{display:'flex',justifyContent:'space-between',gap:16,alignItems:'center',flexWrap:'wrap'}}>
               <div style={{display:'flex',alignItems:'center',gap:14,minWidth:0}}>
                 <div className="client-av" style={{width:56,height:56,fontSize:18,flex:'0 0 auto'}}>{selClient.avatarUrl?<img src={selClient.avatarUrl} alt={selClient.fullName||'cliente'}/>:(selClient.fullName||'?').split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
@@ -1592,7 +1684,8 @@ function App(){
           {view!=='overview'&&view!=='operations'&&!sel&&<Empty title="Elige un cliente" sub="Selecciona un cliente para continuar." ic={icons.contacts}/>}
           {view!=='overview'&&view!=='operations'&&!!sel&&<>
           {view==='content'&&<ClientContent content={content} onCreate={createContent} onImport={importContent} onStatusChange={setContentStatus} onUpdate={updateContent} canWriteContent={can('content.write')} canApproveContent={can('content.approve')}/>} 
-          {view==='analytics'&&<Analytics metrics={metrics} content={content} formulas={formulas} onCreateFormula={createFormula} onUpdateFormula={updateFormula} onDeleteFormula={deleteFormula} canManageReports={can('reports.manage')}/>} 
+          {view==='analytics'&&<Analytics metrics={metrics} content={content} formulas={formulas} onCreateFormula={createFormula} onUpdateFormula={updateFormula} onDeleteFormula={deleteFormula} canManageReports={can('reports.manage')}/>}
+          {view==='tendencias'&&<Tendencias/>}
           {view==='contacts'&&<Contacts contacts={contacts} onCreate={createContact} onUpdate={updateContact} onDelete={deleteContact}/>}
           {view==='pipeline'&&<Pipeline deals={deals} contacts={contacts} onCreate={createDeal} onMove={moveDeal}/>}
           {view==='tasks'&&<Tasks tasks={tasks} contacts={contacts} onCreate={createTask} onToggle={toggleTask} onDelete={deleteTask}/>}

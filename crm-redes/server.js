@@ -10,6 +10,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import jwt from 'jsonwebtoken';
@@ -1056,6 +1057,94 @@ app.get('/api/clientes/agency-metrics', auth, agencyOnly, (req, res) => {
 app.get('/api/clientes/agency/capabilities', auth, agencyOnly, (req, res) => {
   const role = resolveAgencyRole(req);
   res.json({ role, capabilities: ROLE_CAPABILITIES[role] });
+});
+
+// ---------------------------------------------------------------------------
+//  INTELIGENCIA DE TENDENCIAS
+//  Lee los reportes de `reportes-tendencias/YYYY-MM-DD/[slug].md`, un
+//  directorio hermano de crm-redes (mismo repo). Son archivos generados por
+//  el sistema de tendencias (skill local + rutina en la nube cada 2 días),
+//  no datos de la base — por eso se leen del filesystem, no de db().
+// ---------------------------------------------------------------------------
+const TENDENCIAS_DIR = path.join(__dirname, '..', 'reportes-tendencias');
+const FECHA_RE = /^\d{4}-\d{2}-\d{2}$/;
+const SLUG_RE = /^[a-z0-9-]+$/;
+
+function slugifyNombre(str) {
+  return String(str || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Los reportes se generan a partir del nombre corto del cliente (roster de
+// `docs/trend-intelligence/METHODOLOGY.md`), pero el CRM a veces guarda el
+// nombre completo con el negocio despu\u00e9s de un guion largo \u2014 ej. "Eva Rosa
+// Zamora \u2014 Star Light Garden and Farm" debe encontrar `eva-rosa-zamora.md`.
+// Se prueban ambos candidatos, nombre completo primero.
+function candidatosSlug(fullName) {
+  const candidatos = [slugifyNombre(fullName)];
+  const antesDelGuion = String(fullName || '').split(/[\u2014\u2013]|(?:\s-\s)/)[0].trim();
+  if (antesDelGuion && antesDelGuion !== fullName) candidatos.push(slugifyNombre(antesDelGuion));
+  return [...new Set(candidatos)].filter(Boolean);
+}
+
+function listCiclosTendencias() {
+  if (!fs.existsSync(TENDENCIAS_DIR)) return [];
+  return fs.readdirSync(TENDENCIAS_DIR, { withFileTypes: true })
+    .filter(d => d.isDirectory() && FECHA_RE.test(d.name))
+    .map(d => d.name)
+    .sort()
+    .reverse();
+}
+
+function leerReportesDeCiclo(fecha) {
+  const dir = path.join(TENDENCIAS_DIR, fecha);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .filter(f => f.endsWith('.md') && f !== '00-resumen.md')
+    .map(f => {
+      const slug = f.replace(/\.md$/, '');
+      const markdown = fs.readFileSync(path.join(dir, f), 'utf8');
+      const titleMatch = markdown.match(/^#\s+(.+)$/m);
+      return { slug, title: titleMatch ? titleMatch[1] : slug, markdown };
+    });
+}
+
+// Ciclos disponibles — solo agencia (vista de auditoría cruzada de clientes).
+app.get('/api/clientes/tendencias/ciclos', auth, agencyOnly, (req, res) => {
+  res.json({ ciclos: listCiclosTendencias() });
+});
+
+// Un ciclo completo (resumen + todos los reportes de clientes) — solo agencia.
+app.get('/api/clientes/tendencias/ciclo/:fecha', auth, agencyOnly, (req, res) => {
+  const { fecha } = req.params;
+  if (!FECHA_RE.test(fecha)) return res.status(400).json({ error: 'Fecha inválida' });
+  const dir = path.join(TENDENCIAS_DIR, fecha);
+  if (!fs.existsSync(dir)) return res.status(404).json({ error: 'Ciclo no encontrado' });
+  const resumenPath = path.join(dir, '00-resumen.md');
+  const resumen = fs.existsSync(resumenPath) ? fs.readFileSync(resumenPath, 'utf8') : null;
+  res.json({ fecha, resumen, reportes: leerReportesDeCiclo(fecha) });
+});
+
+// Reporte más reciente de UN cliente — agencia (?clientId=) o el propio cliente autenticado.
+app.get('/api/clientes/tendencias', auth, (req, res) => {
+  const id = resolveClientId(req, res); if (!id) return;
+  const client = findClient(id);
+  if (!client) return res.status(404).json({ error: 'Cliente no existe' });
+  const candidatos = candidatosSlug(client.fullName).filter(s => SLUG_RE.test(s));
+  if (!candidatos.length) return res.json({ disponible: false });
+
+  for (const fecha of listCiclosTendencias()) {
+    for (const slug of candidatos) {
+      const file = path.join(TENDENCIAS_DIR, fecha, `${slug}.md`);
+      if (fs.existsSync(file)) {
+        return res.json({ disponible: true, fecha, slug, markdown: fs.readFileSync(file, 'utf8') });
+      }
+    }
+  }
+  res.json({ disponible: false, slug: candidatos[0] });
 });
 
 app.get('/api/clientes/agency-ops', auth, agencyOnly, (req, res) => {

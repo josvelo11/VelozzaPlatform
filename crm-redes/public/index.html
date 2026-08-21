@@ -44,6 +44,7 @@ const API={
   getCampaigns:()=>apiFetch('/campaigns'), createCampaign:(b)=>apiFetch('/campaigns',{method:'POST',body:b}),
   getAutomations:()=>apiFetch('/automations'), createAutomation:(b)=>apiFetch('/automations',{method:'POST',body:b}), updateAutomation:(id,b)=>apiFetch(`/automations/${id}`,{method:'PUT',body:b}),
   getConversations:()=>apiFetch('/conversations'), replyConversation:(id,text)=>apiFetch(`/conversations/${id}/reply`,{method:'POST',body:{text}}), updateConversation:(id,b)=>apiFetch(`/conversations/${id}`,{method:'PUT',body:b}),
+  getTendencias:()=>apiFetch('/tendencias'),
 };
 
 /* ======================= CONSTANTES / HELPERS ======================= */
@@ -197,7 +198,7 @@ function Sidebar({route,setRoute,pendingCount,tasksDue,unreadCount,plan,onLogout
     {group:'Tu cuenta'},{key:'profile',label:'Mi perfil',ic:icons.user},{key:'plan',label:'Mi plan',ic:icons.plan},
     {key:'dashboard',label:'Resumen',ic:icons.home},
     {group:'Marketing'},{key:'content',label:'Parrilla y calendario',ic:icons.grid},{key:'socials',label:'Redes sociales',ic:icons.share},{key:'campaigns',label:'Campañas',ic:icons.mega},{key:'automations',label:'Automatizaciones',ic:icons.zap},{key:'approvals',label:'Aprobaciones',ic:icons.check,badge:pendingCount},
-    {group:'Analítica'},{key:'analytics',label:'Reportes',ic:icons.chart},
+    {group:'Analítica'},{key:'analytics',label:'Reportes',ic:icons.chart},{key:'tendencias',label:'Tendencias',ic:icons.zap},
     {group:'CRM'},{key:'contacts',label:'Contactos',ic:icons.contacts},{key:'pipeline',label:'Embudo de ventas',ic:icons.funnel},{key:'tasks',label:'Tareas',ic:icons.task,badge:tasksDue},
     {group:'Comunicación'},{key:'inbox',label:'Bandeja de entrada',ic:icons.inbox,badge:unreadCount},{key:'messages',label:'Mensajes',ic:icons.chat},
   ];
@@ -707,8 +708,67 @@ function Plan({plan}){
     <div className="kpi-row" style={{gridTemplateColumns:'repeat(3,1fr)'}}>{[['Disponibles este mes',plan.total-plan.used,'restan','var(--mint)','rgba(25,185,140,.12)'],['Publicaciones del plan',plan.total,'incluidas','var(--violet)','rgba(108,92,231,.12)'],['Uso del plan',Math.round(pct*100)+'%','consumido','var(--primary)','rgba(255,107,74,.12)']].map((k,i)=>(<div className="kpi" key={i}><div className="k-ico" style={{background:k[4],color:k[3]}}><Ico d={icons.plan} size={18}/></div><div className="k-val">{k[1]}</div><div className="k-lbl">{k[0]}</div><div style={{fontSize:11.5,color:'var(--muted-2)',marginTop:4}}>{k[2]}</div></div>))}</div></div>);
 }
 
+/* ======================= TENDENCIAS ======================= */
+
+// Parser mínimo a propósito: solo cubre lo que el template de reportes de
+// tendencias realmente produce (h1/h2, listas, negrita, links) — no es un
+// markdown genérico.
+function renderInline(text,keyPrefix){
+  const nodes=[];const regex=/\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
+  let last=0,m,i=0;
+  while((m=regex.exec(text))){
+    if(m.index>last) nodes.push(text.slice(last,m.index));
+    if(m[1]!==undefined) nodes.push(<a key={keyPrefix+'-l'+i} href={m[2]} target="_blank" rel="noopener noreferrer" style={{color:'var(--primary)',textDecoration:'underline'}}>{m[1]}</a>);
+    else nodes.push(<b key={keyPrefix+'-b'+i}>{m[3]}</b>);
+    last=regex.lastIndex;i++;
+  }
+  if(last<text.length) nodes.push(text.slice(last));
+  return nodes;
+}
+function MarkdownLite({md}){
+  if(!md) return null;
+  const lines=md.split('\n');const blocks=[];let i=0;
+  while(i<lines.length){
+    const line=lines[i];
+    if(/^#\s+/.test(line)){blocks.push({t:'h1',text:line.replace(/^#\s+/,'')});i++;continue;}
+    if(/^##\s+/.test(line)){blocks.push({t:'h2',text:line.replace(/^##\s+/,'')});i++;continue;}
+    if(/^-\s+/.test(line)){const items=[];while(i<lines.length&&/^-\s+/.test(lines[i])){items.push(lines[i].replace(/^-\s+/,''));i++;}blocks.push({t:'ul',items});continue;}
+    if(/^\d+\.\s+/.test(line)){const items=[];while(i<lines.length&&/^\d+\.\s+/.test(lines[i])){items.push(lines[i].replace(/^\d+\.\s+/,''));i++;}blocks.push({t:'ol',items});continue;}
+    if(line.trim()===''){i++;continue;}
+    const para=[line];i++;
+    while(i<lines.length&&lines[i].trim()!==''&&!/^#|^-\s|^\d+\.\s/.test(lines[i])){para.push(lines[i]);i++;}
+    blocks.push({t:'p',text:para.join(' ')});
+  }
+  return <div className="md-lite">{blocks.map((b,idx)=>{
+    if(b.t==='h1') return null;
+    if(b.t==='h2'){
+      const destacado=/buscando|Continuidad/i.test(b.text);
+      return <div key={idx} className="section-title" style={{marginTop:idx===0?0:18,marginBottom:8,color:destacado?'var(--violet)':undefined}}>{destacado&&<Ico d={icons.search} size={15}/>}{b.text}</div>;
+    }
+    if(b.t==='ul') return <ul key={idx} style={{margin:'0 0 4px 18px',display:'grid',gap:6}}>{b.items.map((it,j)=><li key={j} style={{fontSize:13.5,color:'var(--ink)',lineHeight:1.55}}>{renderInline(it,idx+'-'+j)}</li>)}</ul>;
+    if(b.t==='ol') return <ol key={idx} style={{margin:'0 0 4px 18px',display:'grid',gap:6}}>{b.items.map((it,j)=><li key={j} style={{fontSize:13.5,color:'var(--ink)',lineHeight:1.55}}>{renderInline(it,idx+'-'+j)}</li>)}</ol>;
+    return <p key={idx} style={{fontSize:13.5,color:'var(--ink)',lineHeight:1.6,marginBottom:10}}>{renderInline(b.text,idx)}</p>;
+  })}</div>;
+}
+function Tendencias(){
+  const[data,setData]=useState(null);const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
+  useEffect(()=>{
+    API.getTendencias().then(d=>{setData(d);setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});
+  },[]);
+  if(loading) return <div className="card card-pad"><p style={{fontSize:13,color:'var(--muted)'}}>Cargando tu reporte de tendencias…</p></div>;
+  if(error) return <Empty title="No se pudo cargar tu reporte" sub={error} ic={icons.zap}/>;
+  if(!data?.disponible) return <Empty title="Aún no hay un reporte para tu cuenta" sub="Se genera cada 2 días — vuelve a revisar pronto, o pregúntale a tu equipo de Velozza." ic={icons.zap}/>;
+  return (<div className="grid" style={{gap:18,maxWidth:860}}>
+    <div className="card card-pad">
+      <div className="section-title"><Ico d={icons.zap} size={16}/>Tu reporte de tendencias</div>
+      <p className="section-sub" style={{marginTop:4}}>Investigación real de tu gremio + lo que la gente está buscando ahora mismo — qué publicamos, por qué, y cuándo. Actualizado {data.fecha}.</p>
+    </div>
+    <div className="card card-pad"><MarkdownLite md={data.markdown}/></div>
+  </div>);
+}
+
 /* ======================= APP ======================= */
-const TITLES={dashboard:['Resumen','Inicio · Vista general'],analytics:['Reportes','Analítica · Rendimiento de tu negocio'],socials:['Redes sociales','Marketing · Interconecta tus cuentas'],content:['Parrilla y calendario','Marketing · Tu contenido programado'],campaigns:['Campañas','Marketing · Email y redes'],automations:['Automatizaciones','Marketing · Flujos que trabajan por ti'],approvals:['Aprobaciones','Marketing · Visto bueno de piezas'],contacts:['Contactos','CRM · Tu audiencia y leads'],pipeline:['Embudo de ventas','CRM · Oportunidades por etapa'],tasks:['Tareas','CRM · Agenda y seguimiento'],inbox:['Bandeja de entrada','Comunicación · Mensajes de tus clientes'],profile:['Mi perfil','Cuenta · Datos y redes'],messages:['Mensajes','Comunicación con tu equipo'],plan:['Mi plan','Cuenta · Publicaciones incluidas']};
+const TITLES={dashboard:['Resumen','Inicio · Vista general'],analytics:['Reportes','Analítica · Rendimiento de tu negocio'],tendencias:['Tendencias','Analítica · Qué publicar, por qué, y cuándo'],socials:['Redes sociales','Marketing · Interconecta tus cuentas'],content:['Parrilla y calendario','Marketing · Tu contenido programado'],campaigns:['Campañas','Marketing · Email y redes'],automations:['Automatizaciones','Marketing · Flujos que trabajan por ti'],approvals:['Aprobaciones','Marketing · Visto bueno de piezas'],contacts:['Contactos','CRM · Tu audiencia y leads'],pipeline:['Embudo de ventas','CRM · Oportunidades por etapa'],tasks:['Tareas','CRM · Agenda y seguimiento'],inbox:['Bandeja de entrada','Comunicación · Mensajes de tus clientes'],profile:['Mi perfil','Cuenta · Datos y redes'],messages:['Mensajes','Comunicación con tu equipo'],plan:['Mi plan','Cuenta · Publicaciones incluidas']};
 
 function App(){
   const[user,setUser]=useState(null);const[ready,setReady]=useState(false);const[route,setRoute]=useState('profile');
@@ -760,6 +820,7 @@ function App(){
       <div className="content">
         {route==='dashboard'&&<Dashboard profile={profile} plan={plan} content={content} metrics={metrics} tasks={tasks} deals={deals} setRoute={setRoute}/>}
         {route==='analytics'&&<Analytics metrics={metrics} content={content}/>}
+        {route==='tendencias'&&<Tendencias/>}
         {route==='socials'&&<Socials socials={socials} onToggle={toggleSocial} profile={profile}/>}
         {route==='content'&&<ContentView content={content}/>}
         {route==='campaigns'&&<Campaigns campaigns={campaigns} onCreate={createCampaign}/>}
