@@ -98,6 +98,7 @@ const API={
   tendenciasCiclos:()=>apiFetch('/tendencias/ciclos'),
   tendenciasCiclo:(fecha)=>apiFetch('/tendencias/ciclo/'+encodeURIComponent(fecha)),
   tendenciasCliente:(cid)=>apiFetch('/tendencias',{clientId:cid}),
+  resetPassword:(cid)=>apiFetch('/clients/'+cid+'/reset-password',{method:'POST'}),
 };
 /* ===== CONSTANTES / HELPERS (compartido con el portal) ===== */
 
@@ -1266,6 +1267,22 @@ function ImportClientsModal({open,onClose,onImport}){
   </Modal>);
 }
 
+function ResetPasswordModal({result,onClose}){
+  const[copied,setCopied]=useState(false);
+  useEffect(()=>{setCopied(false);},[result]);
+  if(!result) return null;
+  const copy=()=>{navigator.clipboard.writeText(result.password);setCopied(true);setTimeout(()=>setCopied(false),2000);};
+  return (<Modal title="Contraseña restablecida" onClose={onClose} footer={<button className="btn btn-primary" onClick={onClose}>Listo</button>}>
+    <p style={{fontSize:13,color:'var(--muted)',marginBottom:14,lineHeight:1.55}}>Esta contraseña no se vuelve a mostrar — cópiala y pásasela al cliente ahora. Su contraseña anterior dejó de funcionar.</p>
+    <div className="field"><label>Correo</label><input className="input" readOnly value={result.email}/></div>
+    <div className="field"><label>Contraseña nueva</label>
+      <div style={{display:'flex',gap:8}}>
+        <input className="input" readOnly value={result.password} style={{fontFamily:'var(--font-mono)'}}/>
+        <button className="btn btn-ghost btn-sm" onClick={copy} style={{flex:'0 0 auto'}}>{copied?'Copiado':'Copiar'}</button>
+      </div>
+    </div>
+  </Modal>);
+}
 function ExportDataModal({open,onClose,onExportAll,onExportCurrent,hasClient}){
   if(!open) return null;
   return (<Modal title="Exportar datos" onClose={onClose} footer={<button className="btn btn-ghost" onClick={onClose}>Cerrar</button>}>
@@ -1410,6 +1427,8 @@ function App(){
   const[planClientOpen,setPlanClientOpen]=useState(false);
   const[importClientsOpen,setImportClientsOpen]=useState(false);
   const[exportDataOpen,setExportDataOpen]=useState(false);
+  const[resetPasswordResult,setResetPasswordResult]=useState(null);
+  const[resettingPassword,setResettingPassword]=useState(false);
 
   useEffect(()=>{(async()=>{if(getToken()){try{const u=await API.me();if(u.role==='agency')setUser(u);else setToken(null);}catch{setToken(null);}}setReady(true);})();},[]);
   useEffect(()=>{localStorage.setItem(AGENCY_ROLE_KEY,agencyRole);},[agencyRole]);
@@ -1487,6 +1506,16 @@ function App(){
       setPlanClientOpen(false);
       toast('Plan actualizado');
     }catch(e){toastErr(e.message);}
+  };
+
+  const resetClientPassword=async()=>{
+    if(!can('clients.manage')){toastErr('Tu rol no puede restablecer contraseñas');return;}
+    if(!sel) return;
+    if(!window.confirm(`¿Restablecer la contraseña de ${selClient?.fullName||'este cliente'}? Su contraseña actual dejará de funcionar de inmediato.`)) return;
+    setResettingPassword(true);
+    try{const r=await API.resetPassword(sel);setResetPasswordResult(r);toast('Contraseña restablecida');}
+    catch(e){toastErr(e.message);}
+    finally{setResettingPassword(false);}
   };
 
   const deleteClient=async()=>{
@@ -1617,6 +1646,7 @@ function App(){
           <button className="btn btn-ghost btn-sm" onClick={()=>setImportClientsOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.grid} size={14}/>Importar</button>
           <button className="btn btn-ghost btn-sm" onClick={()=>setPlanClientOpen(true)} disabled={!sel||!can('clients.manage')}><Ico d={icons.plan} size={14}/>Plan</button>
           <button className="btn btn-ghost btn-sm" onClick={()=>setEditClientOpen(true)} disabled={!sel||!can('clients.manage')}><Ico d={icons.edit} size={14}/>Editar</button>
+          <button className="btn btn-ghost btn-sm" onClick={resetClientPassword} disabled={!sel||!can('clients.manage')||resettingPassword}><Ico d={icons.link} size={14}/>Restablecer clave</button>
           <button className="btn btn-ghost btn-sm" onClick={deleteClient} disabled={!sel||!can('clients.manage')}><Ico d={icons.trash} size={14}/>Eliminar</button>
           <button className="btn btn-ghost btn-sm" onClick={()=>setCreateClientOpen(true)} disabled={!can('clients.manage')}><Ico d={icons.plus} size={14}/>Nuevo</button>
         </div>
@@ -1724,6 +1754,7 @@ function App(){
       <PlanModal open={planClientOpen} onClose={()=>setPlanClientOpen(false)} onSubmit={updatePlan} initial={plan}/>
       <ImportClientsModal open={importClientsOpen} onClose={()=>setImportClientsOpen(false)} onImport={importClients}/>
       <ExportDataModal open={exportDataOpen} onClose={()=>setExportDataOpen(false)} onExportAll={exportAllClients} onExportCurrent={exportCurrentClient} hasClient={!!sel}/>
+      <ResetPasswordModal result={resetPasswordResult} onClose={()=>setResetPasswordResult(null)}/>
       <ToastHost/></div>);
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);

@@ -12,6 +12,7 @@ import express from 'express';
 import cors from 'cors';
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -585,6 +586,32 @@ app.put('/api/clientes/profile', auth, (req, res) => {
   logActivity({ clientId: id, action: 'client-updated', detail: 'Se actualizó la ficha del cliente' });
   const { plan, ...profile } = c;
   res.json({ ...profile, brand: getBrandProfile(profile.email) });
+});
+
+// Genera una contraseña temporal legible — sin caracteres ambiguos (0/O, 1/l/I)
+// para que el cliente pueda transcribirla a mano sin errores.
+function generarPasswordTemporal() {
+  const alfabeto = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+  let pass = '';
+  for (let i = 0; i < 10; i++) pass += alfabeto[crypto.randomInt(alfabeto.length)];
+  return pass + '#' + crypto.randomInt(10);
+}
+
+// Restablece la contraseña de la cuenta de acceso de un cliente. Solo
+// agencia, y solo con la misma capacidad que ya protege editar/eliminar
+// clientes — es una acción sensible sobre la cuenta de otra persona.
+// La contraseña nueva se devuelve UNA sola vez en la respuesta; nunca se
+// guarda en texto plano en ningún lado (solo su hash, como cualquier otra).
+app.post('/api/clientes/clients/:id/reset-password', auth, agencyOnly, requireCapability('clients.manage'), (req, res) => {
+  const client = findClient(req.params.id);
+  if (!client) return res.status(404).json({ error: 'Cliente no existe' });
+  const user = db().users.find(u => u.role === 'client' && u.clientId === client.id);
+  if (!user) return res.status(404).json({ error: 'Este cliente todavía no tiene una cuenta de acceso' });
+  const nuevaPassword = generarPasswordTemporal();
+  user.passwordHash = bcrypt.hashSync(nuevaPassword, 8);
+  save();
+  logActivity({ clientId: client.id, action: 'password-reset', detail: `Contraseña restablecida por la agencia (rol: ${resolveAgencyRole(req)})` });
+  res.json({ ok: true, email: user.email, password: nuevaPassword });
 });
 
 // ---------------------------------------------------------------------------
