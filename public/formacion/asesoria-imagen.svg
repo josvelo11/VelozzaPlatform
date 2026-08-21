@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.20"/>
+      <stop offset="55%" stop-color="#d4af37" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="frameGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4cf63"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+    <linearGradient id="figureGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f4cf63"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f5ed" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#f8f5ed" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#f8f5ed" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
+
+  <!-- ambient glow behind the mirror -->
+  <circle cx="480" cy="290" r="280" fill="url(#glow2)"/>
+
+  <!-- faint scattered texture dots -->
+  <g fill="#f4cf63">
+    <circle cx="100" cy="100" r="1.8" opacity="0.3"/>
+    <circle cx="720" cy="90" r="2" opacity="0.28"/>
+    <circle cx="90" cy="500" r="1.6" opacity="0.28"/>
+    <circle cx="730" cy="520" r="1.8" opacity="0.25"/>
+    <circle cx="150" cy="300" r="1.4" opacity="0.22"/>
+  </g>
+
+  <!-- mirror stand -->
+  <g stroke="#d4af37" stroke-width="2" opacity="0.5" fill="none">
+    <line x1="410" y1="480" x2="360" y2="545"/>
+    <line x1="550" y1="480" x2="600" y2="545"/>
+    <line x1="345" y1="548" x2="615" y2="548"/>
+  </g>
+
+  <!-- mirror frame (arched cheval mirror) -->
+  <path d="M 370 200
+           A 110 110 0 0 1 590 200
+           L 590 460
+           Q 590 480 570 480
+           L 390 480
+           Q 370 480 370 460
+           Z"
+        fill="#d4af37" fill-opacity="0.04" stroke="url(#frameGrad)" stroke-width="3.5"/>
+
+  <!-- inset glass edge -->
+  <path d="M 382 208
+           A 98 98 0 0 1 578 208
+           L 578 452
+           Q 578 468 564 468
+           L 396 468
+           Q 382 468 382 452
+           Z"
+        fill="none" stroke="#f8f5ed" stroke-width="1" opacity="0.18"/>
+
+  <!-- diagonal light shine across the glass -->
+  <polygon points="400,220 430,220 520,440 490,440" fill="url(#shine)"/>
+
+  <!-- reflected, refined silhouette inside the mirror -->
+  <g>
+    <circle cx="480" cy="270" r="38" fill="url(#figureGrad)" opacity="0.92"/>
+    <path d="M 424 340
+             C 424 296 536 296 536 340
+             L 560 452
+             Q 480 480 400 452
+             Z"
+          fill="url(#figureGrad)" opacity="0.85"/>
+  </g>
+
+  <!-- raw / unrefined silhouette standing outside the mirror, built from angular facets -->
+  <g stroke="#f8f5ed" stroke-width="2" fill="none" opacity="0.55" stroke-linejoin="round">
+    <polygon points="230,222 258,235 268,262 258,290 230,303 202,290 192,262 202,235" />
+    <polyline points="196,440 188,345 232,305 260,320 288,305 332,345 324,440" />
+  </g>
+
+  <!-- thin baseline connecting the two figures -->
+  <line x1="150" y1="470" x2="650" y2="470" stroke="#d4af37" stroke-width="1" opacity="0.15"/>
+</svg>

@@ -676,3 +676,212 @@ a {
     transform: none !important;
   }
 }
+
+/* ============================================================
+   FORMACIÓN PLUS — academia / reproductor de curso
+   ============================================================ */
+.course-catalog-card {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.course-catalog-thumb {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: #0b0b0b;
+}
+.course-catalog-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.course-catalog-card:hover .course-catalog-thumb img {
+  transform: scale(1.04);
+}
+.course-catalog-body {
+  padding: 24px 26px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+.course-hero-illustration {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: #0b0b0b;
+}
+.course-hero-illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.slide-image {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 22px;
+  max-width: 640px;
+  background: #0b0b0b;
+}
+.slide-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.course-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 760px) {
+  .course-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.course-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(244, 207, 99, 0.06));
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  color: var(--accent-strong);
+}
+.course-progress-track {
+  height: 5px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.course-progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.player-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .player-layout { grid-template-columns: 1fr; }
+}
+.player-sidebar {
+  position: sticky;
+  top: 24px;
+  border-radius: 24px;
+}
+.lesson-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.lesson-row:hover { background: rgba(212, 175, 55, 0.06); }
+.lesson-row.active {
+  background: rgba(212, 175, 55, 0.09);
+  border-left-color: var(--accent);
+}
+.lesson-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  color: #0b0b0b;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.lesson-check:active { transform: scale(0.88); }
+.lesson-check.done {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  border-color: transparent;
+}
+
+@keyframes formacionSlideIn {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.slide-pane { animation: formacionSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .slide-pane { animation: none !important; }
+}
+.slide-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+.slide-dot.active {
+  width: 24px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+.slide-eyebrow {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.action-slide {
+  padding: 26px 28px;
+  border-radius: 20px;
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+}
+.action-slide li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.86);
+}
+.action-slide li + li { margin-top: 12px; }
+.player-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.player-nav-btn:hover:not(:disabled) { border-color: rgba(244, 207, 99, 0.5); transform: translateY(-2px); }
+.player-nav-btn:disabled { opacity: 0.32; cursor: default; }
+.course-finished-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #0b0b0b;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 20px;
+}

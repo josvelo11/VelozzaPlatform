@@ -147,6 +147,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             <a href="/servicios" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Servicios</a>
             <a href="/blog" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Blog</a>
             <a href="/casos-de-exito" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Casos de éxito</a>
+            <a href="/formacion-plus" style={{ color: '#f0d98a', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Formación Plus</a>
             <a href="/industrias" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Industrias</a>
             <a href="/faqs" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>FAQs</a>
             <a href="/contacto" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Contacto</a>
@@ -186,6 +187,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
               <h4>Recursos</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 <li><a href="/blog" style={{ color: '#f0d98a' }}>Blog</a></li>
+                <li><a href="/formacion-plus" style={{ color: '#f0d98a' }}>Formación Plus</a></li>
                 <li><a href="/ubicaciones" style={{ color: '#f0d98a' }}>Ubicaciones</a></li>
                 <li><a href="/contacto" style={{ color: '#f0d98a' }}>Contacto</a></li>
               </ul>

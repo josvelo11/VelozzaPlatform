@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="vpGlow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="#d4af37" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vpFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1a14"/>
+      <stop offset="100%" stop-color="#0b0b0b"/>
+    </linearGradient>
+    <linearGradient id="vpRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="vpGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#f4cf63"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
+
+  <!-- ambient glow behind the garment -->
+  <ellipse cx="420" cy="330" rx="270" ry="270" fill="url(#vpGlow)"/>
+
+  <!-- faint scattered texture dots -->
+  <g fill="#f4cf63">
+    <circle cx="120" cy="90" r="1.8" opacity="0.3"/>
+    <circle cx="700" cy="110" r="1.6" opacity="0.25"/>
+    <circle cx="680" cy="500" r="2" opacity="0.25"/>
+    <circle cx="90" cy="500" r="1.6" opacity="0.28"/>
+    <circle cx="740" cy="300" r="1.4" opacity="0.2"/>
+  </g>
+
+  <!-- thin full-bleed frame -->
+  <rect x="42" y="42" width="716" height="516" fill="none" stroke="#d4af37" stroke-opacity="0.10" stroke-width="1"/>
+
+  <!-- hanger: hook + triangular bar -->
+  <g>
+    <path d="M 420 92 C 406 92 398 102 400 114 C 402 126 414 130 424 124"
+          fill="none" stroke="url(#vpGold)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 420 122 L 322 190 L 342 200 L 420 148 L 498 200 L 518 190 Z"
+          fill="none" stroke="url(#vpGold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- garment silhouette hanging from the bar: structured blazer/coat, profile-leaning -->
+  <g>
+    <path d="M 322 190
+             C 268 214 244 268 254 316
+             L 236 486
+             Q 234 506 254 508
+             L 388 512
+             L 396 430
+             L 404 430
+             L 414 512
+             L 548 508
+             Q 568 506 566 486
+             L 548 316
+             C 558 268 534 214 480 190
+             L 456 168
+             L 420 200
+             L 384 168
+             Z"
+          fill="url(#vpFill)" stroke="#d4af37" stroke-width="2" stroke-opacity="0.9" stroke-linejoin="round"/>
+
+    <!-- rim light along the right-hand edge, as if lit from one side -->
+    <path d="M 480 190 C 534 214 558 268 548 316 L 566 486 Q 568 506 548 508 L 414 512"
+          fill="none" stroke="url(#vpRim)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+
+    <!-- lapel notch lines -->
+    <path d="M 384 168 L 420 236 L 456 168" fill="none" stroke="#f8f5ed" stroke-width="1.2" stroke-opacity="0.3"/>
+
+    <!-- geometric fabric fold lines cascading down the body -->
+    <g stroke="#f8f5ed" stroke-opacity="0.16" stroke-width="1" fill="none">
+      <path d="M 300 300 L 280 480"/>
+      <path d="M 340 270 L 322 500"/>
+      <path d="M 460 268 L 486 498"/>
+      <path d="M 500 298 L 524 478"/>
+    </g>
+    <g stroke="#d4af37" stroke-opacity="0.22" stroke-width="1" fill="none">
+      <path d="M 396 236 L 392 430"/>
+      <path d="M 404 236 L 408 430"/>
+    </g>
+
+    <!-- center vent hem accent -->
+    <line x1="400" y1="440" x2="400" y2="510" stroke="#d4af37" stroke-opacity="0.3" stroke-width="1"/>
+  </g>
+
+  <!-- abstract figure-in-profile emerging beside the garment: head + shoulder gesture, minimal -->
+  <g>
+    <ellipse cx="612" cy="330" rx="34" ry="42" fill="url(#vpFill)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.85" transform="rotate(-6 612 330)"/>
+    <path d="M 634 302 C 646 314 648 348 632 364" fill="none" stroke="url(#vpRim)" stroke-width="2" stroke-linecap="round" transform="rotate(-6 612 330)"/>
+    <path d="M 586 366
+             L 578 372
+             Q 560 382 558 404
+             L 552 470
+             Q 550 486 566 486
+             L 620 486
+             Q 636 486 634 470
+             L 628 404
+             Q 626 384 608 372
+             L 600 366
+             Z"
+          fill="url(#vpFill)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.75" stroke-linejoin="round"/>
+  </g>
+
+  <!-- thin baseline / ground -->
+  <line x1="200" y1="540" x2="600" y2="540" stroke="#d4af37" stroke-width="1" opacity="0.18"/>
+</svg>

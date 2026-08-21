@@ -19,6 +19,7 @@ import {
   Play,
   Search,
   Settings2,
+  Shirt,
   Sparkles,
   Smartphone,
   SlidersHorizontal,
@@ -59,7 +60,8 @@ export type PremiumIconName =
   | 'arrow-right'
   | 'sparkles'
   | 'instagram'
-  | 'chat';
+  | 'chat'
+  | 'shirt';
 
 const iconMap: Record<PremiumIconName, LucideIcon> = {
   target: Target,
@@ -92,6 +94,7 @@ const iconMap: Record<PremiumIconName, LucideIcon> = {
   sparkles: Sparkles,
   instagram: Camera,
   chat: MessageCircle,
+  shirt: Shirt,
 };
 
 interface PremiumIconProps {
