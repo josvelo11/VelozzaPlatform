@@ -388,6 +388,7 @@ export default function Home() {
             <li><a href="/servicios">Servicios</a></li>
             <li><a href="/blog">Blog</a></li>
             <li><a href="/casos-de-exito">Casos de éxito</a></li>
+            <li><a href="/formacion-plus" style={{ color: '#f0d98a' }}>Formación Plus</a></li>
             <li><a href="/industrias">Industrias</a></li>
             <li><a href="/faqs">FAQs</a></li>
             <li><a href="/contacto">Contacto</a></li>
@@ -876,7 +877,7 @@ export default function Home() {
             </div>
             <div>
               <h4>Recursos</h4>
-              <ul><li><Link href="/blog">Recursos</Link></li><li><Link href="/#resultados">Resultados</Link></li><li><Link href="/#planes">Planes</Link></li><li><Link href="/servicios/automatizacion-ia">Autoridad de Marca</Link></li></ul>
+              <ul><li><Link href="/blog">Recursos</Link></li><li><Link href="/formacion-plus">Formación Plus</Link></li><li><Link href="/#resultados">Resultados</Link></li><li><Link href="/#planes">Planes</Link></li><li><Link href="/servicios/automatizacion-ia">Autoridad de Marca</Link></li></ul>
             </div>
             <div>
               <h4>Empresa</h4>
