@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="rpGlow" cx="46%" cy="48%" r="52%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.18"/>
+      <stop offset="48%" stop-color="#d4af37" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rpFigureFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1a14"/>
+      <stop offset="100%" stop-color="#0b0b0b"/>
+    </linearGradient>
+    <linearGradient id="rpRim" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0.9"/>
+    </linearGradient>
+    <radialGradient id="rpFocusGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
+
+  <!-- ambient glow behind the sitter -->
+  <ellipse cx="415" cy="300" rx="255" ry="270" fill="url(#rpGlow)"/>
+
+  <!-- rule-of-thirds guide lines -->
+  <g stroke="#d4af37" stroke-opacity="0.13" stroke-width="1">
+    <line x1="266.7" y1="64" x2="266.7" y2="544"/>
+    <line x1="533.3" y1="64" x2="533.3" y2="544"/>
+    <line x1="80" y1="204" x2="720" y2="204"/>
+    <line x1="80" y1="396" x2="720" y2="396"/>
+  </g>
+
+  <!-- diagonal guide lines converging on the sitter's head -->
+  <g stroke="#d4af37" stroke-opacity="0.18" stroke-width="1" fill="none">
+    <line x1="80" y1="64" x2="410" y2="150"/>
+    <line x1="720" y1="64" x2="460" y2="150"/>
+    <line x1="80" y1="544" x2="360" y2="440"/>
+    <line x1="720" y1="544" x2="500" y2="450"/>
+  </g>
+
+  <!-- portrait crop frame: a tall headshot guide within the wider viewfinder -->
+  <rect x="278" y="64" width="292" height="480" fill="none" stroke="#d4af37" stroke-opacity="0.16" stroke-width="1"/>
+  <g stroke="#f4cf63" stroke-width="2" fill="none" stroke-opacity="0.8" stroke-linecap="square">
+    <path d="M 278 92 L 278 64 L 306 64"/>
+    <path d="M 542 64 L 570 64 L 570 92"/>
+    <path d="M 570 516 L 570 544 L 542 544"/>
+    <path d="M 306 544 L 278 544 L 278 516"/>
+  </g>
+
+  <!-- outer full-bleed viewfinder frame -->
+  <g stroke="#d4af37" stroke-width="2.2" fill="none" stroke-linecap="square" stroke-opacity="0.55">
+    <path d="M 66 122 L 66 66 L 122 66"/>
+    <path d="M 678 66 L 734 66 L 734 122"/>
+    <path d="M 734 478 L 734 534 L 678 534"/>
+    <path d="M 122 534 L 66 534 L 66 478"/>
+  </g>
+
+  <!-- exposure ticks along the thirds lines -->
+  <g stroke="#d4af37" stroke-opacity="0.5" stroke-width="1.5">
+    <line x1="266.7" y1="64" x2="266.7" y2="76"/>
+    <line x1="533.3" y1="64" x2="533.3" y2="76"/>
+    <line x1="266.7" y1="532" x2="266.7" y2="544"/>
+    <line x1="533.3" y1="532" x2="533.3" y2="544"/>
+  </g>
+
+  <!-- 3/4-turn head-and-shoulders silhouette, facing left toward the frame's open space -->
+  <g>
+    <!-- shoulders / torso -->
+    <path d="M 320 310
+             Q 322 270 368 258
+             L 412 248
+             Q 452 240 486 246
+             Q 528 254 536 300
+             C 552 350, 548 440, 508 508
+             Q 448 534 388 528
+             Q 336 522 312 480
+             Q 292 398 320 310 Z"
+          fill="url(#rpFigureFill)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" stroke-linejoin="round"/>
+
+    <!-- rim light along the back/right edge, turned away from the key light -->
+    <path d="M 486 246 Q 528 254 536 300 C 552 350, 548 440, 508 508"
+          fill="none" stroke="url(#rpRim)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- lapel/collar line keeps the bust structured, not literal -->
+    <path d="M 398 262 L 442 314 L 478 254" fill="none" stroke="#f8f5ed" stroke-width="1.1" stroke-opacity="0.24"/>
+
+    <!-- neck -->
+    <path d="M 402 252 L 408 220 L 442 218 L 450 250 Z" fill="url(#rpFigureFill)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.75"/>
+
+    <!-- head, tilted in the same 3/4 gesture -->
+    <ellipse cx="428" cy="178" rx="40" ry="50" fill="url(#rpFigureFill)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" transform="rotate(6 428 178)"/>
+    <path d="M 456 148 C 470 162, 470 200, 452 220" fill="none" stroke="url(#rpRim)" stroke-width="2.4" stroke-linecap="round" transform="rotate(6 428 178)"/>
+  </g>
+
+  <!-- circular focus ring locking onto the portrait, with cardinal focus ticks -->
+  <g stroke="#f4cf63" stroke-width="1.3" fill="none" opacity="0.8">
+    <circle cx="428" cy="178" r="92"/>
+    <line x1="428" y1="86" x2="428" y2="102"/>
+    <line x1="428" y1="254" x2="428" y2="270"/>
+    <line x1="336" y1="178" x2="352" y2="178"/>
+    <line x1="504" y1="178" x2="520" y2="178"/>
+  </g>
+  <circle cx="428" cy="178" r="3" fill="#f4cf63" opacity="0.9"/>
+
+  <!-- lens focus-distance scale accent, lower-left corner -->
+  <g transform="translate(150 480)" opacity="0.9">
+    <circle cx="0" cy="0" r="48" fill="url(#rpFocusGlow)"/>
+    <circle cx="0" cy="0" r="34" fill="none" stroke="#d4af37" stroke-opacity="0.4" stroke-width="1"/>
+    <g stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.6">
+      <line x1="0" y1="-34" x2="0" y2="-24"/>
+      <line x1="24" y1="-24" x2="17" y2="-17"/>
+      <line x1="34" y1="0" x2="24" y2="0"/>
+      <line x1="24" y1="24" x2="17" y2="17"/>
+      <line x1="-24" y1="-24" x2="-17" y2="-17"/>
+      <line x1="-34" y1="0" x2="-24" y2="0"/>
+      <line x1="-24" y1="24" x2="-17" y2="17"/>
+    </g>
+    <line x1="0" y1="0" x2="-12" y2="-30" stroke="#f4cf63" stroke-width="1.4" stroke-opacity="0.85"/>
+    <circle cx="0" cy="0" r="4" fill="#f4cf63" opacity="0.85"/>
+  </g>
+
+  <!-- exposure meter ladder, upper right -->
+  <g stroke="#f8f5ed" stroke-opacity="0.3" stroke-width="1.2">
+    <line x1="612" y1="140" x2="612" y2="154"/>
+    <line x1="626" y1="140" x2="626" y2="154"/>
+    <line x1="640" y1="136" x2="640" y2="158"/>
+    <line x1="654" y1="140" x2="654" y2="154"/>
+    <line x1="668" y1="140" x2="668" y2="154"/>
+  </g>
+  <circle cx="640" cy="147" r="2" fill="#f4cf63" opacity="0.7"/>
+
+  <!-- faint texture dots -->
+  <g fill="#f4cf63">
+    <circle cx="96" cy="500" r="1.6" opacity="0.22"/>
+    <circle cx="700" cy="500" r="1.8" opacity="0.2"/>
+    <circle cx="720" cy="200" r="1.4" opacity="0.2"/>
+  </g>
+</svg>

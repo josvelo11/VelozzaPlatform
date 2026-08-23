@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="qnGlow" cx="50%" cy="55%" r="60%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.17"/>
+      <stop offset="48%" stop-color="#d4af37" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="qnFigureFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1a14"/>
+      <stop offset="100%" stop-color="#0b0b0b"/>
+    </linearGradient>
+    <linearGradient id="qnRim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="qnGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#f4cf63"/>
+    </linearGradient>
+    <radialGradient id="qnSparkleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
+
+  <!-- ambient glow behind the gown -->
+  <ellipse cx="400" cy="360" rx="300" ry="260" fill="url(#qnGlow)"/>
+
+  <!-- rule-of-thirds guide lines -->
+  <g stroke="#d4af37" stroke-opacity="0.14" stroke-width="1">
+    <line x1="266.7" y1="70" x2="266.7" y2="560"/>
+    <line x1="533.3" y1="70" x2="533.3" y2="560"/>
+    <line x1="90" y1="200" x2="710" y2="200"/>
+    <line x1="90" y1="400" x2="710" y2="400"/>
+  </g>
+
+  <!-- radiating composition guide lines toward the bodice -->
+  <g stroke="#d4af37" stroke-opacity="0.2" stroke-width="1" fill="none">
+    <line x1="70" y1="80" x2="380" y2="230"/>
+    <line x1="730" y1="80" x2="420" y2="230"/>
+    <line x1="70" y1="550" x2="260" y2="470"/>
+    <line x1="730" y1="550" x2="540" y2="470"/>
+  </g>
+
+  <!-- viewfinder corner brackets -->
+  <g stroke="#d4af37" stroke-width="2.5" fill="none" stroke-linecap="square">
+    <path d="M 70 130 L 70 70 L 130 70"/>
+    <path d="M 670 70 L 730 70 L 730 130"/>
+    <path d="M 730 500 L 730 560 L 670 560"/>
+    <path d="M 130 560 L 70 560 L 70 500"/>
+  </g>
+
+  <!-- exposure tick marks along the frame edges -->
+  <g stroke="#d4af37" stroke-opacity="0.5" stroke-width="1.5">
+    <line x1="266.7" y1="70" x2="266.7" y2="82"/>
+    <line x1="533.3" y1="70" x2="533.3" y2="82"/>
+    <line x1="266.7" y1="548" x2="266.7" y2="560"/>
+    <line x1="533.3" y1="548" x2="533.3" y2="560"/>
+  </g>
+
+  <!-- quinceañera silhouette: fitted bodice flaring into a voluminous ball-gown skirt -->
+  <g>
+    <!-- wide bell skirt -->
+    <path d="M 348 328
+             Q 296 350 264 424
+             Q 226 502 216 558
+             L 584 558
+             Q 574 502 536 424
+             Q 504 350 452 328
+             Q 400 344 348 328 Z"
+          fill="url(#qnFigureFill)" stroke="#d4af37" stroke-width="1.9" stroke-opacity="0.88" stroke-linejoin="round"/>
+
+    <!-- skirt rim light along the right sweep -->
+    <path d="M 452 328 Q 504 350 536 424 Q 574 502 584 558"
+          fill="none" stroke="url(#qnRim)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- gown fold lines fanning from waist to hem -->
+    <g stroke="#f8f5ed" stroke-opacity="0.16" stroke-width="1" fill="none">
+      <path d="M 372 336 Q 330 430 298 552"/>
+      <path d="M 396 332 Q 370 440 356 556"/>
+      <path d="M 424 332 Q 434 440 440 556"/>
+      <path d="M 448 336 Q 484 430 504 552"/>
+    </g>
+    <g stroke="#d4af37" stroke-opacity="0.2" stroke-width="1" fill="none">
+      <path d="M 340 340 Q 280 440 240 554"/>
+      <path d="M 460 340 Q 520 440 560 554"/>
+    </g>
+
+    <!-- fitted bodice -->
+    <path d="M 366 246
+             Q 366 216 400 210
+             Q 434 216 434 246
+             L 452 328
+             Q 400 342 348 328 Z"
+          fill="url(#qnFigureFill)" stroke="#d4af37" stroke-width="1.9" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <path d="M 400 210 Q 434 216 434 246 L 452 328"
+          fill="none" stroke="url(#qnRim)" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 380 224 L 400 264 L 420 224" fill="none" stroke="#f8f5ed" stroke-width="1" stroke-opacity="0.26"/>
+
+    <!-- neck -->
+    <path d="M 390 212 L 396 190 L 412 188 L 418 210 Z" fill="url(#qnFigureFill)" stroke="#d4af37" stroke-width="1.3" stroke-opacity="0.75"/>
+
+    <!-- head -->
+    <ellipse cx="402" cy="152" rx="38" ry="46" fill="url(#qnFigureFill)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" transform="rotate(-5 402 152)"/>
+    <path d="M 426 120 C 439 134, 440 172, 424 190" fill="none" stroke="url(#qnRim)" stroke-width="2.3" stroke-linecap="round" transform="rotate(-5 402 152)"/>
+  </g>
+
+  <!-- delicate tiara across the head, with small gem dots -->
+  <g transform="rotate(-5 402 152)">
+    <path d="M 368 118 Q 402 92 436 118" fill="none" stroke="url(#qnGold)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 380 122 Q 402 104 424 122" fill="none" stroke="#f4cf63" stroke-width="1.2" stroke-opacity="0.6"/>
+    <circle cx="368" cy="118" r="2.4" fill="#f4cf63"/>
+    <circle cx="388" cy="103" r="2.6" fill="#f4cf63"/>
+    <circle cx="402" cy="98" r="3.4" fill="#f4cf63"/>
+    <circle cx="416" cy="103" r="2.6" fill="#f4cf63"/>
+    <circle cx="436" cy="118" r="2.4" fill="#f4cf63"/>
+  </g>
+
+  <!-- sparkle accent motif, lower-right corner -->
+  <g transform="translate(660 470)" opacity="0.92">
+    <circle cx="0" cy="0" r="50" fill="url(#qnSparkleGlow)"/>
+    <path d="M 0 -26 Q 5 -6 26 0 Q 5 6 0 26 Q -5 6 -26 0 Q -5 -6 0 -26 Z" fill="#f4cf63" opacity="0.85"/>
+    <path d="M 34 22 Q 37 30 46 32 Q 37 34 34 42 Q 31 34 22 32 Q 31 30 34 22 Z" fill="#d4af37" opacity="0.7"/>
+    <path d="M -30 -30 Q -28 -24 -22 -22 Q -28 -20 -30 -14 Q -32 -20 -38 -22 Q -32 -24 -30 -30 Z" fill="#f8f5ed" opacity="0.55"/>
+  </g>
+
+  <!-- small companion sparkle near the tiara -->
+  <g transform="translate(452 108)" opacity="0.85">
+    <path d="M 0 -10 Q 2 -2 10 0 Q 2 2 0 10 Q -2 2 -10 0 Q -2 -2 0 -10 Z" fill="#f4cf63"/>
+  </g>
+
+  <!-- faint scattered texture dots -->
+  <g fill="#f4cf63">
+    <circle cx="130" cy="110" r="1.8" opacity="0.28"/>
+    <circle cx="700" cy="150" r="1.6" opacity="0.22"/>
+    <circle cx="110" cy="500" r="1.6" opacity="0.22"/>
+  </g>
+
+  <!-- thin frame line, full bleed -->
+  <rect x="40" y="40" width="720" height="520" fill="none" stroke="#d4af37" stroke-opacity="0.10" stroke-width="1"/>
+
+  <!-- thin baseline / ground -->
+  <line x1="180" y1="560" x2="620" y2="560" stroke="#d4af37" stroke-width="1" opacity="0.18"/>
+</svg>
