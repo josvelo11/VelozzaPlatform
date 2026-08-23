@@ -1,150 +1,104 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
   <defs>
-    <radialGradient id="bdGlow" cx="46%" cy="46%" r="56%">
+    <radialGradient id="bdGlow" cx="50%" cy="46%" r="55%">
       <stop offset="0%" stop-color="#d4af37" stop-opacity="0.18"/>
-      <stop offset="48%" stop-color="#d4af37" stop-opacity="0.07"/>
       <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="bdFigureFill" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1c1a14"/>
-      <stop offset="100%" stop-color="#0b0b0b"/>
+    <linearGradient id="bdSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2620"/>
+      <stop offset="100%" stop-color="#0f0e0b"/>
+    </linearGradient>
+    <linearGradient id="bdHair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a2e10"/>
+      <stop offset="100%" stop-color="#1c1a14"/>
     </linearGradient>
     <linearGradient id="bdRim" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
       <stop offset="100%" stop-color="#f4cf63" stop-opacity="0.9"/>
     </linearGradient>
-    <linearGradient id="bdVeilFill" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f8f5ed" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#f8f5ed" stop-opacity="0.02"/>
+    <linearGradient id="bdVeil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8f5ed" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#f8f5ed" stop-opacity="0.03"/>
     </linearGradient>
-    <radialGradient id="bdClockGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.32"/>
-      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
-  <!-- background -->
-  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
-
-  <!-- ambient glow behind the bride -->
-  <ellipse cx="430" cy="320" rx="270" ry="270" fill="url(#bdGlow)"/>
-
-  <!-- rule-of-thirds guide lines -->
+  <ellipse cx="400" cy="310" rx="270" ry="260" fill="url(#bdGlow)"/>
   <g stroke="#d4af37" stroke-opacity="0.14" stroke-width="1">
     <line x1="266.7" y1="70" x2="266.7" y2="530"/>
     <line x1="533.3" y1="70" x2="533.3" y2="530"/>
     <line x1="90" y1="200" x2="710" y2="200"/>
     <line x1="90" y1="400" x2="710" y2="400"/>
   </g>
-
-  <!-- radiating composition guide lines -->
-  <g stroke="#d4af37" stroke-opacity="0.2" stroke-width="1" fill="none">
-    <line x1="70" y1="80" x2="420" y2="175"/>
-    <line x1="730" y1="100" x2="480" y2="200"/>
-    <line x1="70" y1="530" x2="360" y2="440"/>
-    <line x1="730" y1="530" x2="560" y2="470"/>
-  </g>
-
-  <!-- viewfinder corner brackets -->
   <g stroke="#d4af37" stroke-width="2.5" fill="none" stroke-linecap="square">
     <path d="M 70 130 L 70 70 L 130 70"/>
     <path d="M 670 70 L 730 70 L 730 130"/>
     <path d="M 730 470 L 730 530 L 670 530"/>
     <path d="M 130 530 L 70 530 L 70 470"/>
   </g>
-
-  <!-- exposure tick marks along the frame edges -->
-  <g stroke="#d4af37" stroke-opacity="0.5" stroke-width="1.5">
-    <line x1="266.7" y1="70" x2="266.7" y2="82"/>
-    <line x1="533.3" y1="70" x2="533.3" y2="82"/>
-    <line x1="266.7" y1="518" x2="266.7" y2="530"/>
-    <line x1="533.3" y1="518" x2="533.3" y2="530"/>
-  </g>
-
-  <!-- flowing veil trailing from the head down to the lower-left -->
-  <g>
-    <path d="M 410 150
-             C 338 190 276 258 256 348
-             C 242 416 238 476 258 528
-             C 300 496 330 438 346 378
-             C 362 318 382 258 412 200 Z"
-          fill="url(#bdVeilFill)" stroke="#f8f5ed" stroke-width="1" stroke-opacity="0.3"/>
-    <path d="M 398 162 C 350 210 312 278 300 356 C 293 412 296 462 308 502"
-          fill="none" stroke="#f8f5ed" stroke-width="1" stroke-opacity="0.22"/>
-    <path d="M 406 156 C 366 198 336 254 322 320"
-          fill="none" stroke="#d4af37" stroke-width="1" stroke-opacity="0.28"/>
-  </g>
-
-  <!-- bride silhouette: 3/4 turn bust with bridal neckline -->
-  <g>
-    <path d="M 350 300
-             Q 350 266 398 256
-             L 448 248
-             Q 488 244 536 238
-             Q 594 246 598 298
-             C 624 352, 624 442, 576 508
-             Q 508 532 440 528
-             Q 374 526 344 484
-             Q 318 400 350 300 Z"
-          fill="url(#bdFigureFill)" stroke="#d4af37" stroke-width="1.9" stroke-opacity="0.9" stroke-linejoin="round"/>
-
-    <!-- rim light along the right/back edge -->
-    <path d="M 536 238 Q 594 246 598 298 C 624 352, 624 442, 576 508"
-          fill="none" stroke="url(#bdRim)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <!-- sweetheart neckline hint -->
-    <path d="M 392 260 L 440 316 L 484 252" fill="none" stroke="#f8f5ed" stroke-width="1.1" stroke-opacity="0.28"/>
-
-    <!-- neck -->
-    <path d="M 416 256 L 424 222 L 458 218 L 468 250 Z" fill="url(#bdFigureFill)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.75"/>
-
-    <!-- head -->
-    <ellipse cx="440" cy="178" rx="42" ry="52" fill="url(#bdFigureFill)" stroke="#d4af37" stroke-width="1.9" stroke-opacity="0.9" transform="rotate(-7 440 178)"/>
-    <path d="M 466 144 C 480 158, 482 200, 464 218" fill="none" stroke="url(#bdRim)" stroke-width="2.5" stroke-linecap="round" transform="rotate(-7 440 178)"/>
-
-    <!-- crown veil comb line at the head -->
-    <path d="M 402 152 Q 440 132 480 152" fill="none" stroke="#f8f5ed" stroke-width="1.2" stroke-opacity="0.32"/>
-  </g>
-
-  <!-- clock accent: wedding-day timeline motif, lower-right -->
-  <g transform="translate(650 480)" opacity="0.92">
-    <circle cx="0" cy="0" r="52" fill="url(#bdClockGlow)"/>
-    <circle cx="0" cy="0" r="40" fill="none" stroke="#d4af37" stroke-opacity="0.55" stroke-width="1.4"/>
-    <g stroke="#d4af37" stroke-opacity="0.5" stroke-width="1.4">
-      <line x1="0" y1="-40" x2="0" y2="-33"/>
-      <line x1="0" y1="40" x2="0" y2="33"/>
-      <line x1="-40" y1="0" x2="-33" y2="0"/>
-      <line x1="40" y1="0" x2="33" y2="0"/>
-    </g>
-    <g stroke="#d4af37" stroke-opacity="0.3" stroke-width="1">
-      <line x1="-28.3" y1="-28.3" x2="-23.3" y2="-23.3"/>
-      <line x1="28.3" y1="-28.3" x2="23.3" y2="-23.3"/>
-      <line x1="-28.3" y1="28.3" x2="-23.3" y2="23.3"/>
-      <line x1="28.3" y1="28.3" x2="23.3" y2="23.3"/>
-    </g>
-    <line x1="0" y1="0" x2="0" y2="-24" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="16" y2="10" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round"/>
-    <circle cx="0" cy="0" r="2.2" fill="#f4cf63"/>
-  </g>
-
-  <!-- day-of timeline ribbon along the base -->
-  <g stroke="#f8f5ed" stroke-opacity="0.3" stroke-width="1.2">
-    <line x1="270" y1="558" x2="270" y2="568"/>
-    <line x1="320" y1="558" x2="320" y2="568"/>
-    <line x1="370" y1="554" x2="370" y2="572"/>
-    <line x1="420" y1="558" x2="420" y2="568"/>
-    <line x1="470" y1="558" x2="470" y2="568"/>
-  </g>
-  <line x1="260" y1="563" x2="480" y2="563" stroke="#d4af37" stroke-opacity="0.22" stroke-width="1"/>
-  <circle cx="370" cy="563" r="2.4" fill="#f4cf63" opacity="0.75"/>
-
-  <!-- faint scattered texture dots -->
-  <g fill="#f4cf63">
-    <circle cx="700" cy="140" r="1.6" opacity="0.24"/>
-    <circle cx="120" cy="480" r="1.6" opacity="0.2"/>
-    <circle cx="150" cy="100" r="1.4" opacity="0.2"/>
-  </g>
-
-  <!-- thin frame line, full bleed -->
   <rect x="40" y="40" width="720" height="520" fill="none" stroke="#d4af37" stroke-opacity="0.10" stroke-width="1"/>
+
+  <g transform="translate(390 340)">
+    <!-- veil: translucent shape trailing from the crown down past the frame, drawn behind the figure -->
+    <path d="M -10 -150 C -60 -120, -84 -50, -78 40 C -74 110, -60 170, -40 200
+             C -56 150, -60 90, -54 30 C -48 -40, -30 -100, 6 -140 Z"
+          fill="url(#bdVeil)" stroke="#f8f5ed" stroke-width="1" stroke-opacity="0.3"/>
+    <path d="M 8 -148 C 44 -114, 62 -50, 56 40 C 52 108, 44 164, 30 196" fill="none" stroke="#f8f5ed" stroke-width="1" stroke-opacity="0.35"/>
+
+    <!-- shoulders/torso -->
+    <path d="M -68 190 L -76 120 C -78 88, -66 58, -40 34 C -26 22, -12 16, 2 14
+             C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 72 190 Z"
+          fill="url(#bdSkin)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <path d="M 2 14 C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 74 190"
+          fill="none" stroke="url(#bdRim)" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -14 -8 C -18 8, -19 22, -17 36 L 15 36 C 17 22, 16 8, 12 -8 Z"
+          fill="url(#bdSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.7"/>
+    <path d="M -38 -78 C -42 -48, -35 -22, -14 -8 C -2 0, 2 0, 14 -8 C 35 -22, 42 -48, 38 -78
+             C 35 -106, 18 -122, 0 -122 C -18 -122, -35 -106, -38 -78 Z"
+          fill="url(#bdSkin)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.9"/>
+    <path d="M -28 -68 Q -18 -74 -8 -70" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
+    <path d="M 8 -70 Q 18 -74 28 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
+    <path d="M -27 -58 Q -18 -53 -6 -57" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
+    <path d="M 6 -57 Q 18 -53 27 -58" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
+    <path d="M -12 -25 Q 0 -20 12 -25" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.7"/>
+    <path d="M -14 -8 C -2 0, 2 0, 14 -8" fill="none" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.3"/>
+    <!-- hair: updo (fits under a veil/tiara) -->
+    <path d="M -42 -76 C -56 -118, -30 -156, 10 -160 C 50 -164, 76 -140, 76 -106
+             C 74 -122, 68 -136, 56 -144 C 62 -128, 60 -112, 50 -102
+             C 46 -122, 34 -134, 16 -136 C -4 -138, -22 -122, -30 -100
+             C -26 -122, -32 -138, -42 -76 Z"
+          fill="url(#bdHair)" stroke="none" opacity="0.85"/>
+    <g fill="none" stroke-linecap="round">
+      <path d="M -38 -74 C -52 -114, -30 -154, 10 -158 C 50 -162, 78 -138, 78 -104" stroke="#d4af37" stroke-width="2.4" stroke-opacity="0.9"/>
+      <path d="M -30 -88 C -38 -116, -18 -138, 12 -142" stroke="#f4cf63" stroke-width="1.6" stroke-opacity="0.7"/>
+      <path d="M 42 -78 C 56 -86, 68 -98, 70 -112" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.8"/>
+    </g>
+    <!-- delicate tiara arc across the forehead -->
+    <path d="M -26 -92 Q 0 -104 26 -92" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-opacity="0.85"/>
+    <circle cx="0" cy="-101" r="2.5" fill="#f4cf63"/>
+    <circle cx="-13" cy="-97" r="1.6" fill="#f4cf63" opacity="0.8"/>
+    <circle cx="13" cy="-97" r="1.6" fill="#f4cf63" opacity="0.8"/>
+  </g>
+
+  <!-- clock accent, lower-right (día-de-la-boda = wedding-day schedule) -->
+  <g transform="translate(660 470)" opacity="0.9">
+    <circle cx="0" cy="0" r="34" fill="none" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.6"/>
+    <circle cx="0" cy="0" r="2.4" fill="#f4cf63"/>
+    <line x1="0" y1="0" x2="0" y2="-20" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="14" y2="8" stroke="#d4af37" stroke-width="1.6" stroke-linecap="round"/>
+    <g stroke="#d4af37" stroke-width="1" stroke-opacity="0.5">
+      <line x1="0" y1="-34" x2="0" y2="-29"/>
+      <line x1="0" y1="34" x2="0" y2="29"/>
+      <line x1="-34" y1="0" x2="-29" y2="0"/>
+      <line x1="34" y1="0" x2="29" y2="0"/>
+    </g>
+  </g>
+  <!-- small timeline tick ribbon -->
+  <g transform="translate(140 500)" stroke="#d4af37" stroke-opacity="0.4" stroke-width="1.2">
+    <line x1="0" y1="0" x2="120" y2="0"/>
+    <line x1="0" y1="-5" x2="0" y2="5"/>
+    <line x1="40" y1="-5" x2="40" y2="5"/>
+    <line x1="80" y1="-5" x2="80" y2="5"/>
+    <line x1="120" y1="-5" x2="120" y2="5"/>
+  </g>
 </svg>

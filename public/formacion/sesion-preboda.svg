@@ -1,142 +1,109 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
   <defs>
-    <radialGradient id="pbGlow" cx="52%" cy="58%" r="58%">
-      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.17"/>
-      <stop offset="48%" stop-color="#d4af37" stop-opacity="0.07"/>
+    <radialGradient id="pbGlow" cx="50%" cy="70%" r="60%">
+      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="pbFigureFill" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1c1a14"/>
-      <stop offset="100%" stop-color="#0b0b0b"/>
+    <radialGradient id="pbSun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f8f5ed" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#f4cf63" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pbSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2620"/>
+      <stop offset="100%" stop-color="#0f0e0b"/>
+    </linearGradient>
+    <linearGradient id="pbSkin2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#211d16"/>
+      <stop offset="100%" stop-color="#0b0a08"/>
+    </linearGradient>
+    <linearGradient id="pbHair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a2e10"/>
+      <stop offset="100%" stop-color="#1c1a14"/>
     </linearGradient>
     <linearGradient id="pbRim" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
       <stop offset="100%" stop-color="#f4cf63" stop-opacity="0.9"/>
     </linearGradient>
-    <radialGradient id="pbSunGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#d4af37" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="pbSunCore" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#f4cf63"/>
-      <stop offset="100%" stop-color="#d4af37"/>
-    </linearGradient>
   </defs>
 
-  <!-- background -->
-  <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
-
-  <!-- ambient glow behind the couple -->
-  <ellipse cx="470" cy="340" rx="290" ry="260" fill="url(#pbGlow)"/>
-
-  <!-- rule-of-thirds guide lines -->
-  <g stroke="#d4af37" stroke-opacity="0.14" stroke-width="1">
-    <line x1="266.7" y1="70" x2="266.7" y2="530"/>
-    <line x1="533.3" y1="70" x2="533.3" y2="530"/>
-    <line x1="90" y1="200" x2="710" y2="200"/>
-    <line x1="90" y1="400" x2="710" y2="400"/>
+  <rect x="0" y="0" width="800" height="600" fill="url(#pbGlow)"/>
+  <!-- low golden-hour sun -->
+  <circle cx="560" cy="420" r="90" fill="url(#pbSun)"/>
+  <g stroke="#f4cf63" stroke-width="1" stroke-opacity="0.3">
+    <line x1="560" y1="300" x2="560" y2="330"/>
+    <line x1="440" y1="420" x2="470" y2="420"/>
+    <line x1="480" y1="340" x2="500" y2="360"/>
+    <line x1="640" y1="340" x2="620" y2="360"/>
   </g>
+  <line x1="60" y1="470" x2="740" y2="470" stroke="#d4af37" stroke-opacity="0.18" stroke-width="1"/>
 
-  <!-- radiating composition guide lines toward the low horizon -->
-  <g stroke="#d4af37" stroke-opacity="0.18" stroke-width="1" fill="none">
-    <line x1="70" y1="90" x2="450" y2="505"/>
-    <line x1="730" y1="90" x2="450" y2="505"/>
-    <line x1="70" y1="530" x2="450" y2="505"/>
-    <line x1="730" y1="530" x2="450" y2="505"/>
-  </g>
-
-  <!-- viewfinder corner brackets -->
   <g stroke="#d4af37" stroke-width="2.5" fill="none" stroke-linecap="square">
     <path d="M 70 130 L 70 70 L 130 70"/>
     <path d="M 670 70 L 730 70 L 730 130"/>
     <path d="M 730 470 L 730 530 L 670 530"/>
     <path d="M 130 530 L 70 530 L 70 470"/>
   </g>
-
-  <!-- exposure tick marks along the frame edges -->
-  <g stroke="#d4af37" stroke-opacity="0.5" stroke-width="1.5">
-    <line x1="266.7" y1="70" x2="266.7" y2="82"/>
-    <line x1="533.3" y1="70" x2="533.3" y2="82"/>
-    <line x1="266.7" y1="518" x2="266.7" y2="530"/>
-    <line x1="533.3" y1="518" x2="533.3" y2="530"/>
-  </g>
-
-  <!-- thin horizon line -->
-  <line x1="150" y1="530" x2="650" y2="530" stroke="#d4af37" stroke-opacity="0.16" stroke-width="1"/>
-
-  <!-- golden-hour sun, low in frame, between the two figures -->
-  <g>
-    <circle cx="450" cy="505" r="105" fill="url(#pbSunGlow)"/>
-    <g stroke="#d4af37" stroke-opacity="0.45" stroke-width="1.3" stroke-linecap="round">
-      <line x1="450" y1="452" x2="450" y2="404"/>
-      <line x1="472" y1="472" x2="508" y2="436"/>
-      <line x1="428" y1="472" x2="392" y2="436"/>
-      <line x1="492" y1="497" x2="538" y2="480"/>
-      <line x1="408" y1="497" x2="362" y2="480"/>
-      <line x1="498" y1="514" x2="546" y2="518"/>
-      <line x1="402" y1="514" x2="354" y2="518"/>
-      <line x1="486" y1="530" x2="522" y2="552"/>
-      <line x1="414" y1="530" x2="378" y2="552"/>
-    </g>
-    <circle cx="450" cy="505" r="22" fill="url(#pbSunCore)" opacity="0.85"/>
-  </g>
-
-  <!-- figure B: further partner, standing to the right, slightly behind -->
-  <g>
-    <path d="M 690 330
-             Q 690 300 650 292
-             L 610 286
-             Q 578 282 538 278
-             Q 490 284 486 328
-             C 466 372, 466 448, 506 500
-             Q 562 520 618 516
-             Q 672 514 696 480
-             Q 718 408 690 330 Z"
-          fill="url(#pbFigureFill)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.85" stroke-linejoin="round"/>
-    <path d="M 650 292 Q 690 300 690 330 C 718 380, 718 448, 696 480"
-          fill="none" stroke="url(#pbRim)" stroke-width="2.4" stroke-linecap="round" opacity="0.75"/>
-    <ellipse cx="600" cy="240" rx="34" ry="42" fill="url(#pbFigureFill)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.85" transform="rotate(6 600 240)"/>
-    <path d="M 618 206 C 630 218, 632 254, 616 270" fill="none" stroke="url(#pbRim)" stroke-width="2" stroke-linecap="round" transform="rotate(6 600 240)"/>
-  </g>
-
-  <!-- figure A: nearer partner, standing to the left, in front, close together -->
-  <g>
-    <path d="M 300 320
-             Q 300 282 352 270
-             L 404 262
-             Q 446 258 496 252
-             Q 556 260 562 316
-             C 590 374, 590 468, 538 536
-             Q 466 562 394 558
-             Q 324 556 292 512
-             Q 264 422 300 320 Z"
-          fill="url(#pbFigureFill)" stroke="#d4af37" stroke-width="2" stroke-opacity="0.92" stroke-linejoin="round"/>
-    <path d="M 496 252 Q 556 260 562 316 C 590 374, 590 468, 538 536"
-          fill="none" stroke="url(#pbRim)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M 344 274 L 388 328 L 428 264" fill="none" stroke="#f8f5ed" stroke-width="1.1" stroke-opacity="0.24"/>
-    <ellipse cx="388" cy="196" rx="40" ry="50" fill="url(#pbFigureFill)" stroke="#d4af37" stroke-width="1.9" stroke-opacity="0.92" transform="rotate(-6 388 196)"/>
-    <path d="M 414 160 C 428 174, 430 216, 412 234" fill="none" stroke="url(#pbRim)" stroke-width="2.4" stroke-linecap="round" transform="rotate(-6 388 196)"/>
-  </g>
-
-  <!-- faint scattered texture / atmospheric dust motes -->
-  <g fill="#f4cf63">
-    <circle cx="130" cy="120" r="1.8" opacity="0.28"/>
-    <circle cx="712" cy="150" r="1.6" opacity="0.22"/>
-    <circle cx="690" cy="220" r="1.4" opacity="0.2"/>
-    <circle cx="110" cy="380" r="1.6" opacity="0.24"/>
-  </g>
-
-  <!-- thin frame line, full bleed -->
   <rect x="40" y="40" width="720" height="520" fill="none" stroke="#d4af37" stroke-opacity="0.10" stroke-width="1"/>
 
-  <!-- exposure meter ladder, upper right -->
-  <g stroke="#f8f5ed" stroke-opacity="0.3" stroke-width="1.2">
-    <line x1="628" y1="130" x2="628" y2="144"/>
-    <line x1="642" y1="130" x2="642" y2="144"/>
-    <line x1="656" y1="126" x2="656" y2="148"/>
-    <line x1="670" y1="130" x2="670" y2="144"/>
-    <line x1="684" y1="130" x2="684" y2="144"/>
+  <!-- figure B: behind, slightly right -->
+  <g transform="translate(478 372) scale(0.85) rotate(-5)" opacity="0.9">
+    <path d="M -66 190 L -74 122 C -76 90, -64 60, -38 36 C -24 24, -10 18, 4 16
+             C 20 20, 34 30, 44 46 C 58 68, 62 96, 56 128 L 50 190 Z"
+          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.8" stroke-linejoin="round"/>
+    <path d="M -14 -6 C -18 10, -19 24, -17 38 L 15 38 C 17 24, 16 10, 12 -6 Z"
+          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.6"/>
+    <path d="M -38 -76 C -42 -46, -35 -20, -14 -6 C -2 2, 2 2, 14 -6 C 35 -20, 42 -46, 38 -76
+             C 35 -104, 18 -120, 0 -120 C -18 -120, -35 -104, -38 -76 Z"
+          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.85"/>
+    <path d="M -28 -66 Q -18 -72 -8 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.7"/>
+    <path d="M 8 -68 Q 18 -72 28 -66" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.7"/>
+    <path d="M -27 -56 Q -18 -51 -6 -55" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.8"/>
+    <path d="M 6 -55 Q 18 -51 27 -56" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.8"/>
+    <path d="M -12 -23 Q 0 -18 12 -23" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.65"/>
+    <path d="M -38 -74 C -48 -110, -28 -144, 8 -148 C 42 -152, 60 -126, 54 -94
+             C 50 -106, 42 -118, 30 -124 C 36 -110, 34 -98, 24 -88
+             C 22 -108, 10 -122, -8 -124 C -26 -126, -36 -94, -38 -74 Z"
+          fill="url(#pbHair)" stroke="none" opacity="0.85"/>
+    <g fill="none" stroke-linecap="round">
+      <path d="M -38 -72 C -46 -108, -28 -142, 8 -146 C 42 -150, 58 -124, 52 -92" stroke="#d4af37" stroke-width="2.2" stroke-opacity="0.85"/>
+      <path d="M 36 -74 C 46 -68, 52 -58, 50 -46" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.75"/>
+    </g>
+    <ellipse cx="50" cy="-44" rx="14" ry="11" fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.3" stroke-opacity="0.75"/>
   </g>
-  <circle cx="656" cy="137" r="2" fill="#f4cf63" opacity="0.65"/>
+
+  <!-- figure A: foreground, left, walking pose (slight lean) -->
+  <g transform="translate(332 358) rotate(3)">
+    <path d="M -68 190 L -76 120 C -78 88, -66 58, -40 34 C -26 22, -12 16, 2 14
+             C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 72 190 Z"
+          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <path d="M 2 14 C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 74 190"
+          fill="none" stroke="url(#pbRim)" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -14 -8 C -18 8, -19 22, -17 36 L 15 36 C 17 22, 16 8, 12 -8 Z"
+          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.7"/>
+    <path d="M -38 -78 C -42 -48, -35 -22, -14 -8 C -2 0, 2 0, 14 -8 C 35 -22, 42 -48, 38 -78
+             C 35 -106, 18 -122, 0 -122 C -18 -122, -35 -106, -38 -78 Z"
+          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.9"/>
+    <path d="M -28 -68 Q -18 -74 -8 -70" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
+    <path d="M 8 -70 Q 18 -74 28 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
+    <path d="M -27 -58 Q -18 -53 -6 -57" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
+    <path d="M 6 -57 Q 18 -53 27 -58" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
+    <path d="M -12 -25 Q 0 -20 12 -25" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.7"/>
+    <path d="M -14 -8 C -2 0, 2 0, 14 -8" fill="none" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.3"/>
+    <path d="M -42 -76 C -58 -122, -32 -166, 10 -170 C 54 -174, 84 -140, 72 -94
+             C 68 -66, 62 -26, 70 22
+             C 56 -24, 50 -64, 54 -100 C 44 -80, 30 -66, 8 -64
+             C 26 -86, 30 -120, 12 -146 C -8 -164, -32 -154, -44 -128
+             C -40 -100, -46 -66, -52 -30
+             C -56 -66, -54 -100, -42 -76 Z"
+          fill="url(#pbHair)" stroke="none" opacity="0.85"/>
+    <g fill="none" stroke-linecap="round">
+      <path d="M -38 -74 C -52 -118, -30 -160, 10 -164 C 50 -168, 80 -138, 70 -96
+               C 66 -68, 60 -28, 68 20" stroke="#d4af37" stroke-width="2.4" stroke-opacity="0.9"/>
+      <path d="M -32 -86 C -46 -82, -56 -62, -52 -34 C -49 -10, -54 24, -46 60"
+            stroke="#d4af37" stroke-width="2.2" stroke-opacity="0.85"/>
+      <path d="M -22 -116 C -8 -152, 22 -162, 46 -146" stroke="#f4cf63" stroke-width="1.5" stroke-opacity="0.65"/>
+    </g>
+  </g>
 </svg>
