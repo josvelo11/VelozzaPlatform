@@ -13,12 +13,16 @@ interface SlideDeckProps {
 
 function SlideImage({ src }: { src: string }) {
   const [broken, setBroken] = useState(false);
-  useEffect(() => setBroken(false), [src]);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    setBroken(false);
+    setLoaded(false);
+  }, [src]);
   if (broken) return null;
   return (
-    <div className="slide-image">
+    <div className={`slide-image${loaded ? ' is-loaded' : ''}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt="" onError={() => setBroken(true)} />
+      <img src={src} alt="" onLoad={() => setLoaded(true)} onError={() => setBroken(true)} />
     </div>
   );
 }

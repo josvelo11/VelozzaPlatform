@@ -25,19 +25,25 @@ export default async function FormacionPlusPage() {
         <div className="hero-shell" style={{ background: 'linear-gradient(180deg, rgba(12,12,10,0.98), rgba(8,8,8,0.98))' }}>
           <div className="hero-grid" style={{ gridTemplateColumns: '1fr', justifyItems: 'center', textAlign: 'center' }}>
             <div style={{ maxWidth: 840 }}>
-              <div className="eyebrow" style={{ justifyContent: 'center' }}>
+              <div className="eyebrow hero-anim-g" style={{ justifyContent: 'center' }}>
                 <PremiumIcon name="sparkles" size={14} /> Academia Velozza · acceso abierto por tiempo limitado
               </div>
-              <h1 className="hero-title" style={{ maxWidth: '18ch', marginLeft: 'auto', marginRight: 'auto' }}>
+              <h1
+                className="hero-title hero-anim-g"
+                style={{ maxWidth: '18ch', marginLeft: 'auto', marginRight: 'auto', animationDelay: '0.12s' }}
+              >
                 Formación <span className="text-shimmer">Plus</span>
               </h1>
-              <p className="hero-copy" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+              <p
+                className="hero-copy hero-anim-g"
+                style={{ marginLeft: 'auto', marginRight: 'auto', animationDelay: '0.24s' }}
+              >
                 {courses.length} mini cursos, {totalLecciones} lecciones — todo lo que necesitas para verte y sonar como una
                 autoridad frente a cámara, y para llegar list@ a tu próxima sesión de fotos: presencia, imagen, poses,
                 vestuario y las técnicas que usan las marcas personales y los fotógrafos más fuertes de LatAm. Diseñado por
                 el mismo equipo que construye el contenido de nuestros clientes.
               </p>
-              <div className="hero-actions" style={{ justifyContent: 'center' }}>
+              <div className="hero-actions hero-anim-g" style={{ justifyContent: 'center', animationDelay: '0.36s' }}>
                 {courses[0] && (
                   <Link href={`/formacion-plus/${courses[0].id}`} className="cta-primary magnetic">
                     Empezar ahora <PremiumIcon name="arrow-right" size={16} />
