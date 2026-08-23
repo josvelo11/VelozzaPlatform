@@ -244,6 +244,78 @@ export default function Home() {
           .btn-plan { display: block; text-align: center; text-decoration: none; width: 100%; padding: 12px; border: 1px solid #2a2a22; background: transparent; color: rgba(244,242,236,.74); font-family: Montserrat, sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; transition: border-color 220ms ease, color 220ms ease, background-color 220ms ease; }
           .btn-plan:hover { border-color: rgba(240,217,138,.55); color: #f0d98a; background: rgba(240,217,138,.06); }
           .plan.featured .btn-plan { border-color: rgba(201,168,76,.4); }
+
+          /* ============ Membership Plans (5-tier) — redesigned layout, scoped to #planes monthly grid ============ */
+          .plans-grid-core {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: stretch;
+          }
+          .plans-grid-core .plan,
+          .plans-grid-premium .plan {
+            display: flex;
+            flex-direction: column;
+            background: #14140f;
+            border: 1px solid rgba(201,168,76,.14);
+            padding: 40px 30px;
+            transition: transform 280ms cubic-bezier(.16,1,.3,1), border-color 280ms ease, box-shadow 280ms ease, background 280ms ease;
+          }
+          .plans-grid-core .plan .btn-plan,
+          .plans-grid-premium .plan .btn-plan { margin-top: auto; }
+          .plans-grid-core .plan:not(.featured):hover,
+          .plans-grid-premium .plan:hover {
+            transform: translateY(-6px);
+            border-color: rgba(201,168,76,.42);
+            background: #17160f;
+            box-shadow: 0 20px 48px rgba(0,0,0,.4), inset 0 0 0 1px rgba(244,207,99,.08);
+          }
+          .plans-grid-core .plan-title,
+          .plans-grid-premium .plan-title { font-size: 23px; }
+          .plans-grid-core .plan.featured {
+            border: 1px solid rgba(201,168,76,.7);
+            background: linear-gradient(165deg, rgba(201,168,76,.16), #14140f 62%);
+            box-shadow: 0 34px 80px -22px rgba(201,168,76,.28), inset 0 0 0 1px rgba(201,168,76,.55);
+            transform: scale(1.06);
+            z-index: 2;
+          }
+          .plans-grid-premium {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 880px;
+            margin: 0 auto;
+          }
+          .plans-grid-premium .plan {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(160deg, #17150d, #0e0d09 72%);
+            border-color: rgba(201,168,76,.24);
+          }
+          .plans-grid-premium .plan::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 130% 70% at 100% -10%, rgba(201,168,76,.12), transparent 60%);
+            pointer-events: none;
+          }
+          .plans-divider {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 56px 0 32px;
+            font-family: Montserrat, sans-serif;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: #a3a099;
+          }
+          .plans-divider::before, .plans-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,.28), transparent);
+          }
           .cta { background: linear-gradient(135deg, #f0d98a, #c9a84c); color: #1a1200; padding: 72px 0; position: relative; overflow: hidden; }
           .cta-decor { position: absolute; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(255,255,255,.35), transparent 70%); opacity: .5; }
           .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
@@ -285,6 +357,9 @@ export default function Home() {
             .plans-grid { grid-template-columns: repeat(5, 1fr); }
             .plans-grid-3 { grid-template-columns: repeat(3, 1fr); }
             .plans-grid-2 { grid-template-columns: repeat(2, 1fr); }
+            .plans-grid-core { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+            .plans-grid-core .plan.featured { grid-column: 1 / -1; transform: none; }
+            .plans-grid-premium { grid-template-columns: repeat(2, 1fr); max-width: 640px; gap: 22px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .footer-grid { grid-template-columns: 1fr 1fr; }
           }
@@ -303,7 +378,11 @@ export default function Home() {
             .photo-stack { min-height: auto; display: grid; gap: 12px; justify-items: center; }
             .metric { position: static; width: 100%; max-width: 340px; }
             .metric.one, .metric.two, .metric.three { top: auto; right: auto; left: auto; bottom: auto; }
-            .services-grid, .results-grid, .plans-grid, .plans-grid-3, .plans-grid-2, .stats-grid { grid-template-columns: 1fr; }
+            .services-grid, .results-grid, .plans-grid, .plans-grid-3, .plans-grid-2, .plans-grid-core, .plans-grid-premium, .stats-grid { grid-template-columns: 1fr; }
+            .plans-grid-core .plan.featured { grid-column: auto; transform: none; }
+            .plans-grid-premium { max-width: 100%; }
+            .plans-grid-core, .plans-grid-premium { gap: 18px; }
+            .plans-grid-core .plan, .plans-grid-premium .plan { padding: 32px 24px; }
             .stats-grid { padding: 34px 0; }
             .stat { border-right: 0; border-bottom: 1px solid #2a2a22; }
             .footer-grid { grid-template-columns: 1fr; }
@@ -634,10 +713,42 @@ export default function Home() {
             <div style={{ marginBottom: '40px', textAlign: 'center' }}>
               <h3 style={{ color: '#f4f2ec', fontSize: '18px', marginBottom: '50px', textAlign: 'center', fontFamily: 'Cormorant Garamond', letterSpacing: '.05em', textTransform: 'uppercase' }}>Planes de Membresía Mensual</h3>
             </div>
-            <div className="plans-grid">
-              {plans.map(([name, copy, price, features], index) => (
+            <div className="plans-grid-core">
+              {plans.slice(0, 3).map(([name, copy, price, features], index) => (
                 <article className={`plan tilt ${index === 2 ? 'featured' : ''}`} key={`${name}-${index}`}>
                   {index === 2 ? <div className="badge">Más Popular</div> : null}
+                  <h3 className="plan-title">{name}</h3>
+                  <p>{copy}</p>
+                  <div style={{ fontSize: 9.5, color: '#a3a099' }}>Desde</div>
+                  <div className="price">
+                    {typeof price === 'string' ? (
+                      <span>{price}</span>
+                    ) : (
+                      <div className="price-stack" aria-label={`${price.usd} y ${price.cop}`}>
+                        <div className="price-row price-row-usd">
+                          <span className="price-chip">USD</span>
+                          <span className="price-value price-value-usd">{price.usd}</span>
+                        </div>
+                        <div className="price-divider" />
+                        <div className="price-row price-row-cop">
+                          <span className="price-chip">COP</span>
+                          <span className="price-value">{price.cop}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="period">/mes</div>
+                  <ul className="features">{features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+                  <Link href="/contacto" className="btn-plan shine-hover">{name === 'Elite' ? 'Hablar con un Asesor' : 'Ver Plan'}</Link>
+                </article>
+              ))}
+            </div>
+
+            <div className="plans-divider">Planes Premium &amp; A Medida</div>
+
+            <div className="plans-grid-premium">
+              {plans.slice(3, 5).map(([name, copy, price, features], i) => (
+                <article className="plan tilt" key={`${name}-${i + 3}`}>
                   <h3 className="plan-title">{name}</h3>
                   <p>{copy}</p>
                   <div style={{ fontSize: 9.5, color: '#a3a099' }}>Desde</div>
