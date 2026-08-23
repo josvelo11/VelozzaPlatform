@@ -26,8 +26,12 @@ export interface FormacionCurso {
 // catálogo vacío en vez de tumbarse.
 export async function getAllCourses(): Promise<FormacionCurso[]> {
   try {
+    // no-store a propósito: el Data Cache de Next con `next:{revalidate}` quedó
+    // pegado a una respuesta vieja entre despliegues, sobreviviendo incluso a un
+    // rebuild --from-source. `export const revalidate = 3600` en la página ya
+    // controla el cacheo, así que este fetch puede ir siempre fresco.
     const res = await fetch(getCrmUrl('/api/clientes/cursos/publico'), {
-      next: { revalidate: 3600 },
+      cache: 'no-store',
     });
     if (!res.ok) return [];
     return (await res.json()) as FormacionCurso[];
