@@ -83,8 +83,11 @@
   <g transform="translate(388 300)" opacity="0.6">
     <circle cx="0" cy="0" r="130" fill="none" stroke="#f4cf63" stroke-opacity="0.18" stroke-width="1"/>
   </g>
-  <g transform="translate(140 470)" opacity="0.85">
-    <circle cx="0" cy="0" r="34" fill="url(#sbFabric)"/>
+  <g transform="translate(140 470)" opacity="0.9">
     <circle cx="0" cy="0" r="34" fill="none" stroke="#d4af37" stroke-opacity="0.3" stroke-width="1"/>
+    <path d="M -20 15 C -23 -5, -11 -20, 9 -18 C 23 -16, 29 -3, 22 9
+             C 15 -2, 4 -7, -5 -2 C -13 2, -17 10, -20 15 Z"
+          fill="url(#sbFabric)" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.55" stroke-linejoin="round"/>
+    <path d="M -14 6 C -9 -5, 1 -9, 11 -4" fill="none" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.6" stroke-linecap="round"/>
   </g>
 </svg>

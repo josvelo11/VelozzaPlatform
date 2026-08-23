@@ -1,17 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
   <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
   <defs>
-    <radialGradient id="spGlow" cx="50%" cy="48%" r="58%">
-      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.2"/>
+    <radialGradient id="spGlow" cx="50%" cy="47%" r="55%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="spGap" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f8f5ed" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#f4cf63" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="spSkin" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#2a2620"/>
       <stop offset="100%" stop-color="#0f0e0b"/>
-    </linearGradient>
-    <linearGradient id="spSkin2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#211d16"/>
-      <stop offset="100%" stop-color="#0b0a08"/>
     </linearGradient>
     <linearGradient id="spHair" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#3a2e10"/>
@@ -23,7 +24,8 @@
     </linearGradient>
   </defs>
 
-  <ellipse cx="400" cy="310" rx="280" ry="260" fill="url(#spGlow)"/>
+  <ellipse cx="400" cy="300" rx="290" ry="260" fill="url(#spGlow)"/>
+
   <g stroke="#d4af37" stroke-opacity="0.14" stroke-width="1">
     <line x1="266.7" y1="70" x2="266.7" y2="530"/>
     <line x1="533.3" y1="70" x2="533.3" y2="530"/>
@@ -38,35 +40,79 @@
   </g>
   <rect x="40" y="40" width="720" height="520" fill="none" stroke="#d4af37" stroke-opacity="0.10" stroke-width="1"/>
 
-  <!-- figure B: set back, smaller, right side, turned toward figure A -->
-  <g transform="translate(486 366) scale(0.82) rotate(-6)" opacity="0.92">
-    <path d="M -66 190 L -74 122 C -76 90, -64 60, -38 36 C -24 24, -10 18, 4 16
-             C 20 20, 34 30, 44 46 C 58 68, 62 96, 56 128 L 50 190 Z"
-          fill="url(#spSkin2)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.8" stroke-linejoin="round"/>
-    <path d="M -14 -6 C -18 10, -19 24, -17 38 L 15 38 C 17 24, 16 10, 12 -6 Z"
-          fill="url(#spSkin2)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.6"/>
-    <path d="M -38 -76 C -42 -46, -35 -20, -14 -6 C -2 2, 2 2, 14 -6 C 35 -20, 42 -46, 38 -76
-             C 35 -104, 18 -120, 0 -120 C -18 -120, -35 -104, -38 -76 Z"
-          fill="url(#spSkin2)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.85"/>
-    <path d="M -28 -66 Q -18 -72 -8 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.7"/>
-    <path d="M 8 -68 Q 18 -72 28 -66" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.7"/>
-    <path d="M -27 -56 Q -18 -51 -6 -55" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.8"/>
-    <path d="M 6 -55 Q 18 -51 27 -56" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.8"/>
-    <path d="M -12 -23 Q 0 -18 12 -23" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.65"/>
-    <!-- hair: sleek low bun -->
-    <path d="M -38 -74 C -48 -110, -28 -144, 8 -148 C 42 -152, 60 -126, 54 -94
-             C 50 -106, 42 -118, 30 -124 C 36 -110, 34 -98, 24 -88
-             C 22 -108, 10 -122, -8 -124 C -26 -126, -36 -94, -38 -74 Z"
-          fill="url(#spHair)" stroke="none" opacity="0.85"/>
-    <g fill="none" stroke-linecap="round">
-      <path d="M -38 -72 C -46 -108, -28 -142, 8 -146 C 42 -150, 58 -124, 52 -92" stroke="#d4af37" stroke-width="2.2" stroke-opacity="0.85"/>
-      <path d="M 36 -74 C 46 -68, 52 -58, 50 -46" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.75"/>
-    </g>
-    <ellipse cx="50" cy="-44" rx="14" ry="11" fill="url(#spSkin2)" stroke="#d4af37" stroke-width="1.3" stroke-opacity="0.75"/>
+  <!-- faint scattered texture dots -->
+  <g fill="#f4cf63">
+    <circle cx="110" cy="95" r="1.6" opacity="0.25"/>
+    <circle cx="700" cy="110" r="1.8" opacity="0.25"/>
+    <circle cx="120" cy="500" r="1.6" opacity="0.22"/>
+    <circle cx="690" cy="495" r="1.8" opacity="0.22"/>
   </g>
 
-  <!-- figure A: foreground, left side -->
-  <g transform="translate(340 350)">
+  <!-- negative-space glow: the compositional heart of this piece is the warm gap between the two profiles -->
+  <ellipse cx="400" cy="288" rx="72" ry="118" fill="url(#spGap)"/>
+  <g stroke="#f4cf63" stroke-opacity="0.35" stroke-width="1" fill="none">
+    <path d="M 400 176 A 92 92 0 0 0 400 400"/>
+    <path d="M 400 176 A 92 92 0 0 1 400 400"/>
+  </g>
+
+  <!-- FIGURE A: profile, facing right, toward the gap -->
+  <g transform="translate(300 350)">
+    <!-- shoulders / torso -->
+    <path d="M -68 190 L -76 120 C -78 88, -66 58, -40 34 C -26 22, -12 16, 2 14
+             C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 72 190 Z"
+          fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <path d="M 2 14 C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 74 190"
+          fill="none" stroke="url(#spRim)" stroke-width="3" stroke-linecap="round"/>
+    <!-- neck -->
+    <path d="M -14 -8 C -18 8, -19 22, -17 36 L 15 36 C 17 22, 16 8, 12 -8 Z"
+          fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.7"/>
+
+    <!-- head, true profile: forehead / brow / nose / lips / chin silhouette -->
+    <path d="M -8 -152
+             C 12 -154, 24 -136, 22 -114
+             C 21 -104, 14 -98, 16 -90
+             C 20 -82, 34 -76, 38 -68
+             C 41 -62, 28 -56, 22 -52
+             C 19 -48, 30 -46, 26 -42
+             C 23 -38, 18 -34, 16 -30
+             C 14 -24, 22 -20, 18 -14
+             C 14 -8, 4 -6, 0 -6
+             C -8 -6, -14 -10, -18 -14
+             C -28 -24, -38 -40, -42 -60
+             C -46 -80, -44 -96, -38 -108
+             C -34 -132, -20 -150, -8 -152 Z"
+          fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.7" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <!-- rim light along the back of the skull -->
+    <path d="M -8 -152 C -34 -150, -46 -130, -42 -108 C -38 -88, -30 -70, -18 -56"
+          fill="none" stroke="url(#spRim)" stroke-width="2.4" stroke-linecap="round" opacity="0.65"/>
+
+    <!-- brow -->
+    <path d="M 0 -120 Q 12 -126 20 -118" fill="none" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.8" stroke-linecap="round"/>
+    <!-- closed almond eye with lash -->
+    <path d="M 2 -108 Q 12 -114 20 -107" fill="none" stroke="#f4cf63" stroke-width="1.7" stroke-opacity="0.9" stroke-linecap="round"/>
+    <path d="M 4 -103 Q 12 -100 18 -103" fill="none" stroke="#f8f5ed" stroke-width="1.3" stroke-opacity="0.5" stroke-linecap="round"/>
+    <!-- ear -->
+    <path d="M -20 -72 Q -30 -64 -24 -50 Q -19 -58 -15 -63" fill="none" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.5"/>
+    <!-- soft lip curve -->
+    <path d="M 15 -46 Q 21 -44 24 -40" fill="none" stroke="#f4cf63" stroke-width="1.1" stroke-opacity="0.4" stroke-linecap="round"/>
+
+    <!-- hair: mass under strands, loose length trailing past the shoulder -->
+    <path d="M -8 -156 C -40 -158, -56 -134, -54 -100 C -52 -70, -46 -40, -40 -10
+             C -46 12, -50 36, -44 58 C -36 32, -32 2, -32 -28 C -30 -60, -24 -92, -6 -114
+             C 6 -128, 12 -144, 2 -156 Z"
+          fill="url(#spHair)" opacity="0.85"/>
+    <g fill="none" stroke-linecap="round">
+      <path d="M -6 -154 C -36 -156, -50 -132, -48 -100 C -46 -72, -40 -44, -34 -16"
+            stroke="#d4af37" stroke-width="2" stroke-opacity="0.85"/>
+      <path d="M -30 -120 C -38 -90, -40 -60, -36 -30 C -34 -4, -38 20, -42 44"
+            stroke="#f4cf63" stroke-width="1.4" stroke-opacity="0.6"/>
+      <path d="M 0 -152 C -18 -150, -30 -138, -36 -122"
+            stroke="#f8f5ed" stroke-width="1.1" stroke-opacity="0.3"/>
+    </g>
+  </g>
+
+  <!-- FIGURE B: mirrored profile, facing left, toward the gap -->
+  <g transform="translate(500 350) scale(-1 1)">
     <path d="M -68 190 L -76 120 C -78 88, -66 58, -40 34 C -26 22, -12 16, 2 14
              C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 72 190 Z"
           fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" stroke-linejoin="round"/>
@@ -74,39 +120,41 @@
           fill="none" stroke="url(#spRim)" stroke-width="3" stroke-linecap="round"/>
     <path d="M -14 -8 C -18 8, -19 22, -17 36 L 15 36 C 17 22, 16 8, 12 -8 Z"
           fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.7"/>
-    <path d="M -38 -78 C -42 -48, -35 -22, -14 -8 C -2 0, 2 0, 14 -8 C 35 -22, 42 -48, 38 -78
-             C 35 -106, 18 -122, 0 -122 C -18 -122, -35 -106, -38 -78 Z"
-          fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.9"/>
-    <path d="M -28 -68 Q -18 -74 -8 -70" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
-    <path d="M 8 -70 Q 18 -74 28 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
-    <path d="M -27 -58 Q -18 -53 -6 -57" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
-    <path d="M 6 -57 Q 18 -53 27 -58" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
-    <path d="M -12 -25 Q 0 -20 12 -25" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.7"/>
-    <path d="M -14 -8 C -2 0, 2 0, 14 -8" fill="none" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.3"/>
-    <!-- hair: loose waves -->
-    <path d="M -42 -76 C -58 -122, -32 -166, 10 -170 C 54 -174, 84 -140, 72 -94
-             C 68 -66, 62 -26, 70 22
-             C 56 -24, 50 -64, 54 -100 C 44 -80, 30 -66, 8 -64
-             C 26 -86, 30 -120, 12 -146 C -8 -164, -32 -154, -44 -128
-             C -40 -100, -46 -66, -52 -30
-             C -56 -66, -54 -100, -42 -76 Z"
-          fill="url(#spHair)" stroke="none" opacity="0.85"/>
+
+    <path d="M -8 -152
+             C 12 -154, 24 -136, 22 -114
+             C 21 -104, 14 -98, 16 -90
+             C 20 -82, 34 -76, 38 -68
+             C 41 -62, 28 -56, 22 -52
+             C 19 -48, 30 -46, 26 -42
+             C 23 -38, 18 -34, 16 -30
+             C 14 -24, 22 -20, 18 -14
+             C 14 -8, 4 -6, 0 -6
+             C -8 -6, -14 -10, -18 -14
+             C -28 -24, -38 -40, -42 -60
+             C -46 -80, -44 -96, -38 -108
+             C -34 -132, -20 -150, -8 -152 Z"
+          fill="url(#spSkin)" stroke="#d4af37" stroke-width="1.7" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <path d="M -8 -152 C -34 -150, -46 -130, -42 -108 C -38 -88, -30 -70, -18 -56"
+          fill="none" stroke="url(#spRim)" stroke-width="2.4" stroke-linecap="round" opacity="0.65"/>
+
+    <path d="M 0 -120 Q 12 -126 20 -118" fill="none" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.8" stroke-linecap="round"/>
+    <path d="M 2 -108 Q 12 -114 20 -107" fill="none" stroke="#f4cf63" stroke-width="1.7" stroke-opacity="0.9" stroke-linecap="round"/>
+    <path d="M 4 -103 Q 12 -100 18 -103" fill="none" stroke="#f8f5ed" stroke-width="1.3" stroke-opacity="0.5" stroke-linecap="round"/>
+    <path d="M -20 -72 Q -30 -64 -24 -50 Q -19 -58 -15 -63" fill="none" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.5"/>
+    <path d="M 15 -46 Q 21 -44 24 -40" fill="none" stroke="#f4cf63" stroke-width="1.1" stroke-opacity="0.4" stroke-linecap="round"/>
+
+    <path d="M -8 -156 C -40 -158, -56 -134, -54 -100 C -52 -70, -46 -40, -40 -10
+             C -46 12, -50 36, -44 58 C -36 32, -32 2, -32 -28 C -30 -60, -24 -92, -6 -114
+             C 6 -128, 12 -144, 2 -156 Z"
+          fill="url(#spHair)" opacity="0.85"/>
     <g fill="none" stroke-linecap="round">
-      <path d="M -38 -74 C -52 -118, -30 -160, 10 -164 C 50 -168, 80 -138, 70 -96
-               C 66 -68, 60 -28, 68 20" stroke="#d4af37" stroke-width="2.4" stroke-opacity="0.9"/>
-      <path d="M -32 -86 C -46 -82, -56 -62, -52 -34 C -49 -10, -54 24, -46 60"
-            stroke="#d4af37" stroke-width="2.2" stroke-opacity="0.85"/>
-      <path d="M -22 -116 C -8 -152, 22 -162, 46 -146" stroke="#f4cf63" stroke-width="1.5" stroke-opacity="0.65"/>
-    </g>
-  </g>
-
-  <!-- soft focus ring marking the connection between the two -->
-  <circle cx="410" cy="330" r="18" fill="none" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.4"/>
-
-  <g transform="translate(140 470)" opacity="0.9">
-    <circle cx="0" cy="0" r="46" fill="none" stroke="#d4af37" stroke-opacity="0.25" stroke-width="1"/>
-    <g stroke="#d4af37" stroke-width="1.2" fill="none" stroke-opacity="0.55">
-      <path d="M 0 -30 L 18 -8 L 8 18 L -8 18 L -18 -8 Z"/>
+      <path d="M -6 -154 C -36 -156, -50 -132, -48 -100 C -46 -72, -40 -44, -34 -16"
+            stroke="#d4af37" stroke-width="2" stroke-opacity="0.85"/>
+      <path d="M -30 -120 C -38 -90, -40 -60, -36 -30 C -34 -4, -38 20, -42 44"
+            stroke="#f4cf63" stroke-width="1.4" stroke-opacity="0.6"/>
+      <path d="M 0 -152 C -18 -150, -30 -138, -36 -122"
+            stroke="#f8f5ed" stroke-width="1.1" stroke-opacity="0.3"/>
     </g>
   </g>
 </svg>

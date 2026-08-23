@@ -2,7 +2,7 @@
   <rect x="0" y="0" width="800" height="600" fill="#0b0b0b"/>
   <defs>
     <radialGradient id="pbGlow" cx="50%" cy="70%" r="60%">
-      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.22"/>
+      <stop offset="0%" stop-color="#f4cf63" stop-opacity="0.20"/>
       <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="pbSun" cx="50%" cy="50%" r="50%">
@@ -18,18 +18,18 @@
       <stop offset="0%" stop-color="#211d16"/>
       <stop offset="100%" stop-color="#0b0a08"/>
     </linearGradient>
-    <linearGradient id="pbHair" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3a2e10"/>
-      <stop offset="100%" stop-color="#1c1a14"/>
-    </linearGradient>
-    <linearGradient id="pbRim" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#f4cf63" stop-opacity="0.9"/>
-    </linearGradient>
   </defs>
 
   <rect x="0" y="0" width="800" height="600" fill="url(#pbGlow)"/>
-  <!-- low golden-hour sun -->
+
+  <g stroke="#d4af37" stroke-opacity="0.14" stroke-width="1">
+    <line x1="266.7" y1="70" x2="266.7" y2="530"/>
+    <line x1="533.3" y1="70" x2="533.3" y2="530"/>
+    <line x1="90" y1="200" x2="710" y2="200"/>
+    <line x1="90" y1="400" x2="710" y2="400"/>
+  </g>
+
+  <!-- low golden-hour sun sitting on the horizon, off to the right -->
   <circle cx="560" cy="420" r="90" fill="url(#pbSun)"/>
   <g stroke="#f4cf63" stroke-width="1" stroke-opacity="0.3">
     <line x1="560" y1="300" x2="560" y2="330"/>
@@ -37,7 +37,13 @@
     <line x1="480" y1="340" x2="500" y2="360"/>
     <line x1="640" y1="340" x2="620" y2="360"/>
   </g>
-  <line x1="60" y1="470" x2="740" y2="470" stroke="#d4af37" stroke-opacity="0.18" stroke-width="1"/>
+  <!-- horizon line: the frame reads as a landscape, not a portrait crop -->
+  <line x1="60" y1="430" x2="740" y2="430" stroke="#d4af37" stroke-opacity="0.22" stroke-width="1"/>
+  <!-- faint reflected glints along the ground -->
+  <g stroke="#f4cf63" stroke-opacity="0.18" stroke-width="1">
+    <line x1="500" y1="442" x2="620" y2="442"/>
+    <line x1="520" y1="456" x2="600" y2="456"/>
+  </g>
 
   <g stroke="#d4af37" stroke-width="2.5" fill="none" stroke-linecap="square">
     <path d="M 70 130 L 70 70 L 130 70"/>
@@ -47,63 +53,50 @@
   </g>
   <rect x="40" y="40" width="720" height="520" fill="none" stroke="#d4af37" stroke-opacity="0.10" stroke-width="1"/>
 
-  <!-- figure B: behind, slightly right -->
-  <g transform="translate(478 372) scale(0.85) rotate(-5)" opacity="0.9">
-    <path d="M -66 190 L -74 122 C -76 90, -64 60, -38 36 C -24 24, -10 18, 4 16
-             C 20 20, 34 30, 44 46 C 58 68, 62 96, 56 128 L 50 190 Z"
-          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.8" stroke-linejoin="round"/>
-    <path d="M -14 -6 C -18 10, -19 24, -17 38 L 15 38 C 17 24, 16 10, 12 -6 Z"
-          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.6"/>
-    <path d="M -38 -76 C -42 -46, -35 -20, -14 -6 C -2 2, 2 2, 14 -6 C 35 -20, 42 -46, 38 -76
-             C 35 -104, 18 -120, 0 -120 C -18 -120, -35 -104, -38 -76 Z"
-          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.85"/>
-    <path d="M -28 -66 Q -18 -72 -8 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.7"/>
-    <path d="M 8 -68 Q 18 -72 28 -66" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.7"/>
-    <path d="M -27 -56 Q -18 -51 -6 -55" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.8"/>
-    <path d="M 6 -55 Q 18 -51 27 -56" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.8"/>
-    <path d="M -12 -23 Q 0 -18 12 -23" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.65"/>
-    <path d="M -38 -74 C -48 -110, -28 -144, 8 -148 C 42 -152, 60 -126, 54 -94
-             C 50 -106, 42 -118, 30 -124 C 36 -110, 34 -98, 24 -88
-             C 22 -108, 10 -122, -8 -124 C -26 -126, -36 -94, -38 -74 Z"
-          fill="url(#pbHair)" stroke="none" opacity="0.85"/>
-    <g fill="none" stroke-linecap="round">
-      <path d="M -38 -72 C -46 -108, -28 -142, 8 -146 C 42 -150, 58 -124, 52 -92" stroke="#d4af37" stroke-width="2.2" stroke-opacity="0.85"/>
-      <path d="M 36 -74 C 46 -68, 52 -58, 50 -46" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.75"/>
-    </g>
-    <ellipse cx="50" cy="-44" rx="14" ry="11" fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.3" stroke-opacity="0.75"/>
+  <!-- faint scattered texture dots, sparse -->
+  <g fill="#f4cf63">
+    <circle cx="110" cy="90" r="1.6" opacity="0.22"/>
+    <circle cx="700" cy="100" r="1.6" opacity="0.2"/>
   </g>
 
-  <!-- figure A: foreground, left, walking pose (slight lean) -->
-  <g transform="translate(332 358) rotate(3)">
-    <path d="M -68 190 L -76 120 C -78 88, -66 58, -40 34 C -26 22, -12 16, 2 14
-             C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 72 190 Z"
-          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.9" stroke-linejoin="round"/>
-    <path d="M 2 14 C 22 16, 40 24, 54 40 C 74 62, 82 90, 78 122 L 74 190"
-          fill="none" stroke="url(#pbRim)" stroke-width="3" stroke-linecap="round"/>
-    <path d="M -14 -8 C -18 8, -19 22, -17 36 L 15 36 C 17 22, 16 8, 12 -8 Z"
-          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.7"/>
-    <path d="M -38 -78 C -42 -48, -35 -22, -14 -8 C -2 0, 2 0, 14 -8 C 35 -22, 42 -48, 38 -78
-             C 35 -106, 18 -122, 0 -122 C -18 -122, -35 -106, -38 -78 Z"
-          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.9"/>
-    <path d="M -28 -68 Q -18 -74 -8 -70" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
-    <path d="M 8 -70 Q 18 -74 28 -68" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.75"/>
-    <path d="M -27 -58 Q -18 -53 -6 -57" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
-    <path d="M 6 -57 Q 18 -53 27 -58" fill="none" stroke="#f8f5ed" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85"/>
-    <path d="M -12 -25 Q 0 -20 12 -25" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.7"/>
-    <path d="M -14 -8 C -2 0, 2 0, 14 -8" fill="none" stroke="#f4cf63" stroke-width="1" stroke-opacity="0.3"/>
-    <path d="M -42 -76 C -58 -122, -32 -166, 10 -170 C 54 -174, 84 -140, 72 -94
-             C 68 -66, 62 -26, 70 22
-             C 56 -24, 50 -64, 54 -100 C 44 -80, 30 -66, 8 -64
-             C 26 -86, 30 -120, 12 -146 C -8 -164, -32 -154, -44 -128
-             C -40 -100, -46 -66, -52 -30
-             C -56 -66, -54 -100, -42 -76 Z"
-          fill="url(#pbHair)" stroke="none" opacity="0.85"/>
-    <g fill="none" stroke-linecap="round">
-      <path d="M -38 -74 C -52 -118, -30 -160, 10 -164 C 50 -168, 80 -138, 70 -96
-               C 66 -68, 60 -28, 68 20" stroke="#d4af37" stroke-width="2.4" stroke-opacity="0.9"/>
-      <path d="M -32 -86 C -46 -82, -56 -62, -52 -34 C -49 -10, -54 24, -46 60"
-            stroke="#d4af37" stroke-width="2.2" stroke-opacity="0.85"/>
-      <path d="M -22 -116 C -8 -152, 22 -162, 46 -146" stroke="#f4cf63" stroke-width="1.5" stroke-opacity="0.65"/>
-    </g>
+  <!-- motion / footprint trail, fading back to the left -->
+  <g fill="#d4af37">
+    <ellipse cx="238" cy="431" rx="7" ry="2.6" opacity="0.22" transform="rotate(-8 238 431)"/>
+    <ellipse cx="213" cy="433" rx="7" ry="2.6" opacity="0.14" transform="rotate(-8 213 433)"/>
+    <ellipse cx="190" cy="435" rx="7" ry="2.6" opacity="0.08" transform="rotate(-8 190 435)"/>
   </g>
+
+  <!-- two small, distant full-body silhouettes, walking hand-in-hand toward the sun -->
+  <!-- figure B: slightly behind, smaller, faded -->
+  <g transform="translate(352 424) scale(-0.85 0.85)" opacity="0.82">
+    <circle cx="0" cy="-134" r="12" fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.3" stroke-opacity="0.75"/>
+    <line x1="0" y1="-121" x2="2" y2="-114" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.6"/>
+    <path d="M -14 -112 C -19 -96, -17 -76, -10 -58 L 8 -58 C 15 -76, 17 -96, 12 -112
+             C 6 -118, -8 -118, -14 -112 Z"
+          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.8" stroke-linejoin="round"/>
+    <path d="M 6 -58 C 12 -44, 18 -28, 26 -8 L 34 -4 C 26 -22, 18 -40, 10 -56 Z"
+          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.75" stroke-linejoin="round"/>
+    <path d="M -8 -58 C -14 -44, -20 -28, -26 -10 L -34 -6 C -26 -24, -18 -42, -10 -56 Z"
+          fill="url(#pbSkin2)" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.75" stroke-linejoin="round"/>
+    <path d="M 10 -108 Q 24 -100 30 -86" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-opacity="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- figure A: foreground, closer, leading -->
+  <g transform="translate(272 428)">
+    <circle cx="0" cy="-134" r="12" fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.85"/>
+    <line x1="0" y1="-121" x2="2" y2="-114" stroke="#d4af37" stroke-width="1.3" stroke-opacity="0.7"/>
+    <path d="M -14 -112 C -19 -96, -17 -76, -10 -58 L 8 -58 C 15 -76, 17 -96, 12 -112
+             C 6 -118, -8 -118, -14 -112 Z"
+          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.6" stroke-opacity="0.9" stroke-linejoin="round"/>
+    <path d="M 12 -112 C 17 -96, 15 -76, 8 -58" fill="none" stroke="#f4cf63" stroke-width="1.6" stroke-opacity="0.55" stroke-linecap="round"/>
+    <path d="M 6 -58 C 12 -44, 18 -28, 26 -8 L 34 -4 C 26 -22, 18 -40, 10 -56 Z"
+          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.85" stroke-linejoin="round"/>
+    <path d="M -8 -58 C -14 -44, -20 -28, -26 -10 L -34 -6 C -26 -24, -18 -42, -10 -56 Z"
+          fill="url(#pbSkin)" stroke="#d4af37" stroke-width="1.4" stroke-opacity="0.85" stroke-linejoin="round"/>
+    <path d="M 10 -108 Q 24 -100 30 -86" fill="none" stroke="#f4cf63" stroke-width="1.8" stroke-opacity="0.85" stroke-linecap="round"/>
+  </g>
+
+  <!-- joined hands accent, sealing the two figures together -->
+  <line x1="302" y1="342" x2="324" y2="351" stroke="#f4cf63" stroke-width="2.2" stroke-opacity="0.8" stroke-linecap="round"/>
+  <circle cx="313" cy="346" r="2.4" fill="#f8f5ed" opacity="0.85"/>
 </svg>
