@@ -54,9 +54,15 @@ export default function SiteAnimations() {
           const y = (me.clientY - r.top) / r.height - 0.5;
           (el as HTMLElement).style.transform =
             `perspective(700px) rotateY(${(x * 7).toFixed(2)}deg) rotateX(${(-y * 7).toFixed(2)}deg) translateY(-4px) scale(1.015)`;
+          // Cursor-reactive spotlight (Stripe/Linear-style) — pure CSS custom
+          // properties, consumed by .premium-card::after, no extra listeners.
+          (el as HTMLElement).style.setProperty('--spot-x', `${((x + 0.5) * 100).toFixed(1)}%`);
+          (el as HTMLElement).style.setProperty('--spot-y', `${((y + 0.5) * 100).toFixed(1)}%`);
+          (el as HTMLElement).style.setProperty('--spot-o', '1');
         };
         const onLeave = () => {
           (el as HTMLElement).style.transform = '';
+          (el as HTMLElement).style.setProperty('--spot-o', '0');
         };
         el.addEventListener('mousemove', onMove);
         el.addEventListener('mouseleave', onLeave);

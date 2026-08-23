@@ -612,12 +612,86 @@ a {
 }
 
 .premium-card {
+  position: relative;
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
 }
 .premium-card:hover {
   transform: translateY(-6px);
   border-color: rgba(212, 175, 55, 0.45) !important;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(244, 207, 99, 0.12);
+}
+/* Cursor-reactive spotlight — position driven by --spot-x/--spot-y (set on
+   mousemove in SiteAnimations.tsx), visibility by --spot-o. Pure CSS, GPU-cheap
+   (opacity only), sits above the card's own background but below its content. */
+.premium-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(280px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(244, 207, 99, 0.16), transparent 70%);
+  opacity: var(--spot-o, 0);
+  transition: opacity 300ms ease;
+}
+.premium-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Richer "materialize" entrance for the course catalog cards specifically —
+   blur+scale+translate instead of the site-wide plain fade-up, so this page
+   reads as more alive than the baseline .reveal used elsewhere on the site. */
+.course-catalog-card.reveal {
+  transform: translateY(28px) scale(0.94);
+  filter: blur(6px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.course-catalog-card.reveal.is-visible {
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* Ambient drifting light field in the Formación Plus hero — bigger and more
+   present than the generic .hero-shell corner blobs, gives the very first
+   screen continuous life instead of a one-shot entrance. */
+.formacion-orb {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(50px);
+  opacity: 0.55;
+}
+.formacion-orb-a {
+  width: 480px;
+  height: 480px;
+  top: -180px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.35), transparent 70%);
+  animation: formacionOrbDriftA 18s ease-in-out infinite;
+}
+.formacion-orb-b {
+  width: 360px;
+  height: 360px;
+  bottom: -160px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(244, 207, 99, 0.22), transparent 70%);
+  animation: formacionOrbDriftB 22s ease-in-out infinite;
+}
+@keyframes formacionOrbDriftA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(1.12); }
+  66% { transform: translate(20px, -20px) scale(0.94); }
+}
+@keyframes formacionOrbDriftB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(36px, -24px) scale(1.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .premium-card::after { display: none; }
+  .course-catalog-card.reveal { filter: none !important; }
+  .formacion-orb { animation: none !important; }
 }
 
 @keyframes velozzaShimmerGlobal {

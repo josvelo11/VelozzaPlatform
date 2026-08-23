@@ -23,6 +23,8 @@ export default async function FormacionPlusPage() {
 
       <section className="section-shell">
         <div className="hero-shell" style={{ background: 'linear-gradient(180deg, rgba(12,12,10,0.98), rgba(8,8,8,0.98))' }}>
+          <div className="formacion-orb formacion-orb-a" aria-hidden="true" />
+          <div className="formacion-orb formacion-orb-b" aria-hidden="true" />
           <div className="hero-grid" style={{ gridTemplateColumns: '1fr', justifyItems: 'center', textAlign: 'center' }}>
             <div style={{ maxWidth: 840 }}>
               <div className="eyebrow hero-anim-g" style={{ justifyContent: 'center' }}>
