@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Formación Plus — Academia Velozza',
   description:
-    'Mini cursos prácticos para verte y sonar seguro frente a cámara: presencia en cámara, imagen profesional, expresión oral, asesoría de imagen y poses. Gratis, por tiempo limitado.',
+    'Mini cursos prácticos de Velozza: presencia en cámara, imagen profesional y expresión oral para tu marca personal, más guías de preparación para tu sesión de fotos — retrato, pareja, boudoir, preboda, boda y quinceañera. Gratis, por tiempo limitado.',
 };
 
 export default async function FormacionPlusPage() {
@@ -33,8 +33,9 @@ export default async function FormacionPlusPage() {
               </h1>
               <p className="hero-copy" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
                 {courses.length} mini cursos, {totalLecciones} lecciones — todo lo que necesitas para verte y sonar como una
-                autoridad frente a cámara: presencia, imagen, expresión oral y las técnicas que usan las marcas personales
-                más fuertes de LatAm. Diseñado por el mismo equipo que construye el contenido de nuestros clientes.
+                autoridad frente a cámara, y para llegar list@ a tu próxima sesión de fotos: presencia, imagen, poses,
+                vestuario y las técnicas que usan las marcas personales y los fotógrafos más fuertes de LatAm. Diseñado por
+                el mismo equipo que construye el contenido de nuestros clientes.
               </p>
               <div className="hero-actions" style={{ justifyContent: 'center' }}>
                 {courses[0] && (

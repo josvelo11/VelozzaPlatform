@@ -44,7 +44,9 @@ export async function getCourseBySlug(slug: string): Promise<FormacionCurso | nu
 // El campo `icon` del catálogo (definido en courses-catalog.js) ya usa estos
 // mismos nombres de PremiumIcon — esto solo valida y da un fallback seguro
 // si algún día se agrega un curso con un ícono que no exista en el set.
-const KNOWN_COURSE_ICONS = new Set<PremiumIconName>(['video', 'shirt', 'chat', 'user', 'camera']);
+const KNOWN_COURSE_ICONS = new Set<PremiumIconName>([
+  'video', 'shirt', 'chat', 'user', 'camera', 'users', 'star', 'sparkles', 'instagram',
+]);
 export function courseIconName(icon: string): PremiumIconName {
   return KNOWN_COURSE_ICONS.has(icon as PremiumIconName) ? (icon as PremiumIconName) : 'sparkles';
 }
