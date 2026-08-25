@@ -1457,7 +1457,7 @@ function MiniCursosAgencia(){
   return (<div className="grid" style={{gap:18}}>
     <div className="card card-pad">
       <div className="section-title"><Ico d={icons.book} size={16}/>Mini Cursos — avance por cliente</div>
-      <p className="section-sub" style={{marginTop:4}}>5 cursos de formación (hablar en cámara, vestimenta según profesión, expresión oral, asesoría de imagen, poses) disponibles para todos los clientes en su portal.</p>
+      <p className="section-sub" style={{marginTop:4}}>{cursos.length} cursos de formación — presencia en cámara, imagen y preparación para sesiones fotográficas — disponibles para todos los clientes en su portal.</p>
     </div>
     {!resumen.length?<Empty title="Sin clientes todavía" ic={icons.book}/>:
     <div className="card" style={{overflow:'hidden'}}>
