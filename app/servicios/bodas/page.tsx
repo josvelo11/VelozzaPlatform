@@ -72,44 +72,56 @@ const weddingPackages = [
 
 const portfolioImages = [
   {
-    src: '/bodas/boda-preparativos-bn.jpg',
-    alt: 'Preparativos del novio en blanco y negro',
+    src: '/bodas/boda-beso-recepcion.jpg',
+    alt: 'Novios besándose durante la recepción rodeados de invitados',
   },
   {
-    src: '/bodas/boda-preparativos-espejo.jpg',
-    alt: 'Preparativos de novia frente al espejo',
+    src: '/bodas/boda-velo-abrazo-pareja.jpg',
+    alt: 'Novios abrazados bajo el velo en un jardín, mejilla con mejilla',
   },
   {
-    src: '/bodas/boda-complicidad.jpg',
-    alt: 'Momento de complicidad de los novios durante la boda',
+    src: '/bodas/boda-pareja-carga-alegria.jpg',
+    alt: 'Novio cargando a la novia entre risas en el jardín',
   },
   {
-    src: '/bodas/boda-iglesia-color.jpg',
-    alt: 'Retrato de pareja en iglesia durante la ceremonia',
+    src: '/bodas/boda-pareja-flores-jardin.jpg',
+    alt: 'Novios mirándose entre flores en primer plano',
   },
   {
-    src: '/bodas/boda-espejo-novia.jpg',
-    alt: 'Novia preparándose frente al espejo antes de la ceremonia',
+    src: '/bodas/boda-baile-formal-bn.jpg',
+    alt: 'Novios bailando en un salón elegante, foto en blanco y negro',
   },
   {
-    src: '/bodas/boda-ceremonia.jpg',
-    alt: 'Ceremonia de boda fotografiada por Velozza Creative Works',
+    src: '/bodas/boda-retrato-novia-emotiva-bn.jpg',
+    alt: 'Retrato emotivo de la novia en blanco y negro con luz cálida',
   },
   {
-    src: '/bodas/boda-oracion-altar.jpg',
-    alt: 'Novios en oración durante la ceremonia religiosa',
+    src: '/bodas/boda-novia-vista-ciudad.jpg',
+    alt: 'Novia de espaldas contemplando la vista de la ciudad y las montañas',
   },
   {
-    src: '/bodas/boda-retrato-novia.jpg',
-    alt: 'Retrato de novia en una boda de Bogotá',
+    src: '/bodas/boda-novia-brazos-terraza.jpg',
+    alt: 'Novia con los brazos en alto sobre una terraza con vista a las montañas',
   },
   {
-    src: '/bodas/boda-beso-salida.jpg',
-    alt: 'Beso de salida de los novios al final de la ceremonia',
+    src: '/bodas/boda-novia-sonrisa-jardin.jpg',
+    alt: 'Novia riendo con los ojos cerrados en un sendero de jardín',
   },
   {
-    src: '/bodas/boda-retrato-pareja.jpg',
-    alt: 'Retrato de pareja en boda capturado por Velozza Creative Works',
+    src: '/bodas/boda-novia-ramo-velo.jpg',
+    alt: 'Novia sentada con velo y ramo de flores en un interior cálido',
+  },
+  {
+    src: '/bodas/boda-retrato-novia-jardin-lago.jpg',
+    alt: 'Retrato cercano de la novia junto a un lago al atardecer',
+  },
+  {
+    src: '/bodas/boda-quince-vestido-negro.jpg',
+    alt: 'Quinceañera con vestido negro y dorado en un jardín de bambú',
+  },
+  {
+    src: '/bodas/boda-quince-vestido-azul.jpg',
+    alt: 'Quinceañera ajustándose la tiara con vestido azul claro',
   },
 ];
 
@@ -142,14 +154,14 @@ export const metadata = generateMetadata({
     'fotógrafo de bodas velozza',
   ],
   url: '/servicios/bodas',
-  image: 'https://velozzacws.com/bodas/boda-ceremonia.jpg',
+  image: 'https://velozzacws.com/bodas/boda-pareja-piscina-infinita.jpg',
 });
 
 export default function BodasPage() {
   const schema = serviceSchema(
     'Paquetes de Fotografía para Bodas 2026',
     'Cobertura fotográfica premium para bodas y eventos sociales en Bogotá, con paquetes 2026, dirección visual y narrativa cinematográfica.',
-    'https://velozzacws.com/bodas/boda-ceremonia.jpg',
+    'https://velozzacws.com/bodas/boda-pareja-piscina-infinita.jpg',
     'https://velozzacws.com/servicios/bodas'
   );
 
@@ -198,7 +210,7 @@ export default function BodasPage() {
 
               <div className="hero-side panel panel-pad">
                 <figure className="hero-photo-frame">
-                  <img src="/bodas/boda-ceremonia.jpg" alt="Fotografía principal de boda de Velozza Creative Works" />
+                  <img src="/bodas/boda-pareja-piscina-infinita.jpg" alt="Pareja de novios abrazados en una piscina infinita frente a las montañas" />
                 </figure>
               </div>
             </div>
