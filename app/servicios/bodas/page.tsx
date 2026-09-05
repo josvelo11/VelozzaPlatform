@@ -90,6 +90,8 @@ const portfolioGroups = [
       { src: '/bodas/pareja-formal-mirada-bn.jpg', caption: 'Ojos que se encuentran', alt: 'Pareja de novios mirándose fijamente en blanco y negro, ella con esmoquin blanco y negro', width: 1571, height: 2200 },
       { src: '/bodas/novia-velo-ramo-bn.jpg', caption: 'El ramo y el velo', alt: 'Novia sentada con velo y ramo de flores en blanco y negro', width: 1571, height: 2200 },
       { src: '/bodas/boda-novia-ramo-velo.jpg', caption: 'Antes de salir', alt: 'Novia sentada con velo y ramo de flores en un interior cálido', width: 1571, height: 2200 },
+      { src: '/bodas/novia-vista-mar.jpg', caption: 'Frente al mar', alt: 'Novia de espaldas contemplando el mar desde una terraza, con un tocado de cristales', width: 1759, height: 2200 },
+      { src: '/bodas/novia-lampara-calida.jpg', caption: 'Bajo luz cálida', alt: 'Retrato de la novia bajo una lámpara cálida rodeada de plantas tropicales', width: 1759, height: 2200 },
     ],
   },
   {
@@ -103,6 +105,7 @@ const portfolioGroups = [
       { src: '/bodas/boda-pareja-flores-jardin.jpg', caption: 'Entre flores', alt: 'Novios mirándose entre flores en primer plano', width: 1571, height: 2200 },
       { src: '/bodas/novia-perfil-jardin-fondo.jpg', caption: 'Caminando hacia él', alt: 'Novia de perfil en primer plano con su pareja desenfocada al fondo del jardín', width: 1466, height: 2200 },
       { src: '/bodas/boda-novia-sonrisa-jardin.jpg', caption: 'Risas en el sendero', alt: 'Novia riendo con los ojos cerrados en un sendero de jardín', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-recostados-jardin-bn.jpg', caption: 'El mundo se detiene', alt: 'Novios recostados mirándose fijamente entre bambúes, foto en blanco y negro', width: 2200, height: 1466 },
     ],
   },
   {
@@ -117,11 +120,11 @@ const portfolioGroups = [
     title: 'Novia · Jardín y Lago',
     subtitle: 'Retratos íntimos entre naturaleza, agua en calma y luz dorada.',
     images: [
-      { src: '/bodas/novia-jardin-dorado.jpg', caption: 'Luz de atardecer', alt: 'Novia junto a un lago iluminada por la luz dorada del atardecer', width: 1571, height: 2200 },
-      { src: '/bodas/boda-retrato-novia-jardin-lago.jpg', caption: 'Junto al agua', alt: 'Retrato cercano de la novia junto a un lago al atardecer', width: 1571, height: 2200 },
+      { src: '/bodas/boda-retrato-novia-jardin-lago.jpg', caption: 'Un momento de quietud', alt: 'Novia sentada en una banca de hierro en un jardín, con los ojos cerrados', width: 1571, height: 2200 },
       { src: '/bodas/novia-perfil-ciudad-verde.jpg', caption: 'Entre el jardín y la ciudad', alt: 'Novia de perfil con un edificio y árboles de fondo', width: 1466, height: 2200 },
       { src: '/bodas/novia-brazos-cruzados-luz.jpg', caption: 'Un momento de calma', alt: 'Novia con los brazos cruzados y ojos cerrados bajo la luz del sol', width: 1466, height: 2200 },
       { src: '/bodas/novia-caminando-jardin.jpg', caption: 'Paseo entre los árboles', alt: 'Novia caminando de perfil por un sendero de piedra junto a un lago', width: 1571, height: 2200 },
+      { src: '/bodas/novia-vestido-lago-jardin.jpg', caption: 'Entre el jardín y el agua', alt: 'Novia de perfil junto a un lago rodeado de vegetación, mirando hacia abajo', width: 1760, height: 2200 },
     ],
   },
   {
@@ -129,7 +132,15 @@ const portfolioGroups = [
     subtitle: 'Porque también documentamos la celebración tal como sucede.',
     images: [
       { src: '/bodas/boda-beso-recepcion.jpg', caption: 'El beso de la fiesta', alt: 'Novios besándose durante la recepción rodeados de invitados', width: 2200, height: 1466 },
-      { src: '/bodas/boda-baile-formal-bn.jpg', caption: 'El primer baile', alt: 'Novios bailando en un salón elegante, foto en blanco y negro', width: 1571, height: 2200 },
+      { src: '/bodas/boda-baile-formal-luces.jpg', caption: 'El primer baile', alt: 'Novios bailando en un salón elegante con luces doradas', width: 1571, height: 2200 },
+    ],
+  },
+  {
+    title: 'Editorial',
+    subtitle: 'La misma dirección de arte, llevada a una sesión de moda atemporal.',
+    images: [
+      { src: '/bodas/editorial-elegancia-atemporal.jpg', caption: 'Elegancia atemporal', alt: 'Modelo con traje blanco, pañoleta y gafas de sol junto a un lago, estilo editorial en blanco y negro', width: 1571, height: 2200 },
+      { src: '/bodas/editorial-mirada-lente-jardin.jpg', caption: 'Actitud en cada detalle', alt: 'Modelo con traje blanco y gafas de sol posando frente a un jardín de bambú', width: 1571, height: 2200 },
     ],
   },
   {
@@ -137,8 +148,8 @@ const portfolioGroups = [
     subtitle: 'Una noche de cuento en un salón lleno de luces cálidas.',
     images: [
       { src: '/bodas/quince-azul-lampara.jpg', caption: 'La princesa del salón', alt: 'Quinceañera con vestido azul claro bajo una lámpara de fibra natural', width: 1760, height: 2200 },
-      { src: '/bodas/quince-azul-arco.jpg', caption: 'Bajo el arco dorado', alt: 'Quinceañera posando dentro de un arco decorativo dorado', width: 1760, height: 2200 },
-      { src: '/bodas/quince-azul-recostada.jpg', caption: 'Un instante de ensueño', alt: 'Quinceañera recostada contra una pared con los ojos cerrados', width: 1760, height: 2200 },
+      { src: '/bodas/quince-azul-arco.jpg', caption: 'Bajo el arco', alt: 'Quinceañera posando dentro de un arco decorativo metálico', width: 1760, height: 2200 },
+      { src: '/bodas/quince-azul-recostada.jpg', caption: 'Un instante de ensueño', alt: 'Quinceañera apoyada contra una pared, mirando hacia arriba', width: 1760, height: 2200 },
       { src: '/bodas/boda-quince-vestido-azul.jpg', caption: 'Quince años de magia', alt: 'Quinceañera ajustándose la tiara con vestido azul claro', width: 1760, height: 2200 },
       { src: '/bodas/quince-azul-manos-cintura.jpg', caption: 'Lista para brillar', alt: 'Quinceañera con vestido azul claro y las manos en la cintura', width: 1760, height: 2200 },
     ],
