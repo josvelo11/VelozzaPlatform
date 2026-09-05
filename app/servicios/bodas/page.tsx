@@ -584,13 +584,13 @@ export default function BodasPage() {
         }
 
         .portfolio-grid {
-          display: grid;
-          gap: 16px;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          columns: 3;
+          column-gap: 16px;
         }
 
         .portfolio-card {
-          margin: 0;
+          margin: 0 0 16px;
+          break-inside: avoid;
           border-radius: 22px;
           overflow: hidden;
           border: 1px solid rgba(255, 255, 255, 0.08);
@@ -605,8 +605,7 @@ export default function BodasPage() {
 
         .portfolio-card img {
           width: 100%;
-          height: 280px;
-          object-fit: cover;
+          height: auto;
           display: block;
           transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -635,9 +634,12 @@ export default function BodasPage() {
           }
 
           .three-up,
-          .two-up,
-          .portfolio-grid {
+          .two-up {
             grid-template-columns: 1fr 1fr;
+          }
+
+          .portfolio-grid {
+            columns: 2;
           }
 
           .bodas-hero-grid {
@@ -692,9 +694,12 @@ export default function BodasPage() {
           }
 
           .three-up,
-          .two-up,
-          .portfolio-grid {
+          .two-up {
             grid-template-columns: 1fr;
+          }
+
+          .portfolio-grid {
+            columns: 1;
           }
 
           .bodas-hero-title {
@@ -725,10 +730,6 @@ export default function BodasPage() {
 
           .package-card h3 {
             font-size: 1.45rem;
-          }
-
-          .portfolio-card img {
-            height: 220px;
           }
 
           .hero-photo-frame {
