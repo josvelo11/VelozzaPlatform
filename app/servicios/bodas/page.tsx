@@ -260,7 +260,7 @@ export default function BodasPage() {
 
               <div className="hero-side panel panel-pad">
                 <figure className="hero-photo-frame">
-                  <img src="/bodas/boda-pareja-piscina-infinita.jpg" alt="Pareja de novios abrazados en una piscina infinita frente a las montañas" width={1466} height={2200} />
+                  <img src="/bodas/boda-pareja-piscina-infinita.jpg" alt="Pareja de novios abrazados en una piscina infinita frente a las montañas" width={1466} height={2200} draggable={false} />
                 </figure>
               </div>
             </div>
@@ -388,7 +388,7 @@ export default function BodasPage() {
                 <div className="portfolio-grid">
                   {group.images.map((image, i) => (
                     <figure key={image.src} className="portfolio-card tilt reveal shine-hover" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
-                      <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+                      <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" draggable={false} />
                       <figcaption>{image.caption}</figcaption>
                     </figure>
                   ))}
@@ -464,6 +464,8 @@ export default function BodasPage() {
           height: 100%;
           object-fit: cover;
           display: block;
+          -webkit-user-drag: none;
+          user-select: none;
         }
 
         .package-kicker,
@@ -618,6 +620,8 @@ export default function BodasPage() {
           width: 100%;
           height: auto;
           display: block;
+          -webkit-user-drag: none;
+          user-select: none;
           transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
