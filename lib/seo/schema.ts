@@ -11,7 +11,7 @@ export function organizationSchema(): SchemaConfig {
     name: 'Velozza Creative Works',
     alternateName: 'Velozza',
     url: 'https://velozzacws.com',
-    logo: 'https://velozzacws.com/logo.png',
+    logo: 'https://velozzacws.com/brand/velozza_logo_con_fondo_negro_1080.png',
     description: 'Agencia de marketing digital, personal branding y crecimiento empresarial en Latinoamérica',
     sameAs: [
       'https://www.instagram.com/velozzacws',
@@ -118,7 +118,7 @@ export function localBusinessSchema(
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: `Velozza Creative Works - ${city}`,
-    image: 'https://velozzacws.com/logo.png',
+    image: 'https://velozzacws.com/brand/velozza_logo_con_fondo_negro_1080.png',
     address: {
       '@type': 'PostalAddress',
       streetAddress: address,

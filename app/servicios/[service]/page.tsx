@@ -50,7 +50,7 @@ export default async function ServicePage({ params }: Props) {
     const schema = serviceSchema(
       service.title,
       service.longDescription,
-      '/service-image.jpg',
+      'https://velozzacws.com/brand/velozza_logo_con_fondo_negro_1080.png',
       `https://velozzacws.com/servicios/${serviceSlug}`
     );
 
