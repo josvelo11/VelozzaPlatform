@@ -89,6 +89,7 @@ const portfolioGroups = [
       { src: '/bodas/novia-terraza-ciudad.jpg', caption: 'Mirando el horizonte', alt: 'Novia sentada en una terraza con vista a los edificios de la ciudad' },
       { src: '/bodas/pareja-formal-mirada-bn.jpg', caption: 'Ojos que se encuentran', alt: 'Pareja de novios mirándose fijamente en blanco y negro, ella con esmoquin blanco y negro' },
       { src: '/bodas/novia-velo-ramo-bn.jpg', caption: 'El ramo y el velo', alt: 'Novia sentada con velo y ramo de flores en blanco y negro' },
+      { src: '/bodas/boda-novia-ramo-velo.jpg', caption: 'Antes de salir', alt: 'Novia sentada con velo y ramo de flores en un interior cálido' },
     ],
   },
   {
@@ -101,6 +102,7 @@ const portfolioGroups = [
       { src: '/bodas/pareja-abrazo-cofia.jpg', caption: 'Un abrazo sin prisa', alt: 'Novios abrazados con los ojos cerrados en un jardín, ella con flor en la oreja' },
       { src: '/bodas/boda-pareja-flores-jardin.jpg', caption: 'Entre flores', alt: 'Novios mirándose entre flores en primer plano' },
       { src: '/bodas/novia-perfil-jardin-fondo.jpg', caption: 'Caminando hacia él', alt: 'Novia de perfil en primer plano con su pareja desenfocada al fondo del jardín' },
+      { src: '/bodas/boda-novia-sonrisa-jardin.jpg', caption: 'Risas en el sendero', alt: 'Novia riendo con los ojos cerrados en un sendero de jardín' },
     ],
   },
   {
