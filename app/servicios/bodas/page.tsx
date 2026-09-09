@@ -17,6 +17,7 @@ const socialPackages = [
       '30 fotografías high-res',
       'Revelado de autor con color grading',
       'Entrega en formato digital',
+      'Entrega en 21 a 30 días calendario',
     ],
   },
   {
@@ -28,6 +29,7 @@ const socialPackages = [
       'Selección curada de 100 a 120 fotos',
       'Narrativa documental',
       'Entrega en formato digital',
+      'Entrega en 21 a 30 días calendario',
     ],
   },
 ];
@@ -42,6 +44,7 @@ const weddingPackages = [
       '120 a 150 fotos narrativas',
       'Revelado de autor',
       'Entrega 100% digital',
+      'Entrega en 21 a 30 días calendario',
     ],
   },
   {
@@ -54,6 +57,7 @@ const weddingPackages = [
       '150 a 170 fotos narrativas',
       'Énfasis en detalles',
       'Entrega 100% digital',
+      'Entrega en 21 a 30 días calendario',
     ],
     featured: true,
   },
@@ -66,6 +70,7 @@ const weddingPackages = [
       'Cobertura de preparativos y ceremonia',
       'Entrega de 170 a 220 fotos digitales',
       'Revelado premium y entrega digital',
+      'Entrega en 21 a 30 días calendario',
     ],
   },
 ];
@@ -190,6 +195,11 @@ const faqs = [
     question: '¿También cubres otros eventos sociales?',
     answer:
       'Sí. Además de bodas, Velozza cubre quinceañeras, cumpleaños, aniversarios, pedidas de mano y sesiones editoriales previas al evento.',
+  },
+  {
+    question: '¿Cuánto tiempo tardan en entregar las fotos?',
+    answer:
+      'La entrega estándar va de 21 a 30 días calendario a partir de la fecha del evento, según el volumen de trabajo del momento — esto incluye temporada alta. Si necesitas las fotos antes de ese plazo, ofrecemos entrega prioritaria con un valor adicional — coméntanoslo al cotizar para definir el costo según la urgencia.',
   },
 ];
 
@@ -356,6 +366,10 @@ export default function BodasPage() {
               </article>
             ))}
           </div>
+
+          <p className="delivery-note">
+            <strong>Tiempo de entrega:</strong> todos los paquetes de fotografía y eventos sociales se entregan entre <strong>21 y 30 días calendario</strong> a partir del evento, incluyendo temporada alta. Si necesitas las fotos antes de ese plazo, la entrega prioritaria tiene un valor adicional.
+          </p>
 
         </section>
 
@@ -562,6 +576,21 @@ export default function BodasPage() {
           background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(17, 17, 17, 0.96));
           border-color: rgba(244, 207, 99, 0.32);
           transform: translateY(-6px);
+        }
+
+        .delivery-note {
+          margin: 24px 0 0;
+          padding: 16px 20px;
+          border-radius: 14px;
+          border: 1px solid rgba(244, 207, 99, 0.24);
+          background: rgba(212, 175, 55, 0.08);
+          color: #efe9d6;
+          font-size: 0.92rem;
+          line-height: 1.6;
+        }
+
+        .delivery-note strong {
+          color: #f4cf63;
         }
 
         .package-action {
