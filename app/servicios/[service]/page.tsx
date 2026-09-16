@@ -1,4 +1,6 @@
+import type { Metadata } from 'next';
 import { serviceSchema } from '@/lib/seo/schema';
+import { generateMetadata as buildMetadata } from '@/lib/seo/metadata';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
 import { PremiumIcon, type PremiumIconName } from '@/components/PremiumIcon';
@@ -26,6 +28,25 @@ export function generateStaticParams() {
   ].map(
     (service) => ({ service })
   );
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { service: serviceSlug } = await params;
+  try {
+    const filePath = path.join(process.cwd(), `content/services/${serviceSlug}.json`);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const service = JSON.parse(content);
+
+    return buildMetadata({
+      title: service.title,
+      description: service.description,
+      keywords: service.keywords,
+      url: `/servicios/${serviceSlug}`,
+      image: 'https://velozzacws.com/brand/velozza_logo_con_fondo_negro_1080.png',
+    });
+  } catch {
+    return {};
+  }
 }
 
 export default async function ServicePage({ params }: Props) {

@@ -42,10 +42,16 @@ export default function SiteAnimations() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Tilt/magnetic are mouse-hover effects only. On touch devices there is no real
+    // mousemove/mouseleave pair — a tap fires a single synthetic mousemove at the touch
+    // point (a "ghost" event), which snaps the card into a skewed transform with nothing
+    // to reset it, reading as a stuck jitter/vibration and interfering with tapping through
+    // to the photo. Coarse-pointer/no-hover devices skip both effects entirely.
+    const supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const cleanups: Array<() => void> = [];
 
     // Tilt
-    if (!reduceMotion) {
+    if (!reduceMotion && supportsHover) {
       document.querySelectorAll('.tilt').forEach((el) => {
         const onMove = (e: Event) => {
           const me = e as MouseEvent;
@@ -74,7 +80,7 @@ export default function SiteAnimations() {
     }
 
     // Magnetic pull — reserve for 1-2 focal elements per screen (primary CTA)
-    if (!reduceMotion) {
+    if (!reduceMotion && supportsHover) {
       document.querySelectorAll('.magnetic').forEach((el) => {
         const onMove = (e: Event) => {
           const me = e as MouseEvent;

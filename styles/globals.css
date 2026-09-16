@@ -615,10 +615,12 @@ a {
   position: relative;
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
 }
-.premium-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(212, 175, 55, 0.45) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(244, 207, 99, 0.12);
+@media (hover: hover) and (pointer: fine) {
+  .premium-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.45) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(244, 207, 99, 0.12);
+  }
 }
 /* Cursor-reactive spotlight — position driven by --spot-x/--spot-y (set on
    mousemove in SiteAnimations.tsx), visibility by --spot-o. Pure CSS, GPU-cheap
@@ -723,8 +725,10 @@ a {
   transition: left 0.7s ease;
   pointer-events: none;
 }
-.shine-hover:hover::before {
-  left: 130%;
+@media (hover: hover) and (pointer: fine) {
+  .shine-hover:hover::before {
+    left: 130%;
+  }
 }
 
 @keyframes velozzaFadeUpGlobal {

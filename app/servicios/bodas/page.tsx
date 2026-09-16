@@ -4,6 +4,7 @@ import { FAQ } from '@/components/seo/FAQ';
 
 export const revalidate = 60;
 import { PremiumIcon } from '@/components/PremiumIcon';
+import { WeddingCarousel } from '@/components/WeddingCarousel';
 import { generateMetadata } from '@/lib/seo/metadata';
 import { serviceSchema } from '@/lib/seo/schema';
 
@@ -97,6 +98,8 @@ const portfolioGroups = [
       { src: '/bodas/boda-novia-ramo-velo.jpg', caption: 'Antes de salir', alt: 'Novia sentada con velo y ramo de flores en un interior cálido', width: 1571, height: 2200 },
       { src: '/bodas/novia-vista-mar.jpg', caption: 'Frente al mar', alt: 'Novia de espaldas contemplando el mar desde una terraza, con un tocado de cristales', width: 1759, height: 2200 },
       { src: '/bodas/novia-lampara-calida.jpg', caption: 'Bajo luz cálida', alt: 'Retrato de la novia bajo una lámpara cálida rodeada de plantas tropicales', width: 1759, height: 2200 },
+      { src: '/bodas/novia-mirada-frontal-mar.jpg', caption: 'Mirada de frente', alt: 'Retrato frontal de la novia con el cabello mojado y vista a las montañas', width: 1466, height: 2200 },
+      { src: '/bodas/novia-espalda-lampara.jpg', caption: 'Silueta bajo la lámpara', alt: 'Novia de espaldas bajo una lámpara cálida, mirando por encima del hombro', width: 1760, height: 2200 },
     ],
   },
   {
@@ -178,13 +181,88 @@ const portfolioGroups = [
       { src: '/bodas/quince-rojo-espalda.jpg', caption: 'Elegancia en rojo', alt: 'Quinceañera con vestido rojo de espalda descubierta bajo las luces', width: 1571, height: 2200 },
     ],
   },
+  {
+    title: 'Jorge y Paola · Ceremonia',
+    subtitle: 'Una boda real contada en blanco y negro, del altar a la salida.',
+    images: [
+      { src: '/bodas/novia-jorge-silueta-ventana.jpg', caption: 'A contraluz', alt: 'Novia de perfil a contraluz junto a una ventana, en blanco y negro', width: 1466, height: 2200 },
+      { src: '/bodas/novia-jorge-perfil-luz.jpg', caption: 'Un respiro antes del sí', alt: 'Retrato de la novia en blanco y negro en un interior luminoso', width: 1466, height: 2200 },
+      { src: '/bodas/novia-jorge-mirada-baja.jpg', caption: 'En calma', alt: 'Novia con la mirada baja, retrato en blanco y negro', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-jorge-manos-altar.jpg', caption: 'De la mano hacia el altar', alt: 'Novios de espaldas tomados de la mano frente al altar de una iglesia', width: 2200, height: 1466 },
+      { src: '/bodas/pareja-jorge-ceremonia-iglesia.jpg', caption: 'Frente al altar', alt: 'Pareja de novios de pie durante la ceremonia religiosa, en blanco y negro', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-jorge-altar-flores.jpg', caption: 'El sí frente a todos', alt: 'Novios en el altar rodeados de flores blancas durante la ceremonia', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-jorge-salida-iglesia.jpg', caption: 'Ya como esposos', alt: 'Pareja de recién casados saliendo de la iglesia', width: 1466, height: 2200 },
+    ],
+  },
+  {
+    title: 'Felipe y Marcela · Luz Cálida',
+    subtitle: 'Preparativos, jardín y fiesta contados con luz dorada de atardecer.',
+    images: [
+      { src: '/bodas/novia-felipe-puerta-madera.jpg', caption: 'Antes de salir', alt: 'Novia con vestido de novia posando frente a una puerta de madera junto a un espejo', width: 1466, height: 2200 },
+      { src: '/bodas/novia-felipe-sonrisa-espejo.jpg', caption: 'Una sonrisa de complicidad', alt: 'Novia sonriendo durante los preparativos frente a un espejo', width: 1466, height: 2200 },
+      { src: '/bodas/novia-felipe-mirada-lateral.jpg', caption: 'Lista para el gran día', alt: 'Retrato lateral de la novia arreglada para la boda', width: 1467, height: 2200 },
+      { src: '/bodas/novia-felipe-satin-abertura.jpg', caption: 'Detalles de satín', alt: 'Novia con vestido de satín con abertura, detalle del diseño', width: 1466, height: 2200 },
+      { src: '/bodas/novia-felipe-retrato-calido.jpg', caption: 'Luz cálida de interior', alt: 'Retrato cálido de la novia en un interior con luz natural', width: 1467, height: 2200 },
+      { src: '/bodas/pareja-felipe-beso-mano-carruaje.jpg', caption: 'Un beso en la mano', alt: 'Novio besando la mano de la novia sobre un carruaje decorado, en blanco y negro', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-felipe-jardin-atardecer.jpg', caption: 'Entre jardín y atardecer', alt: 'Pareja de novios caminando por un jardín durante el atardecer', width: 2200, height: 1466 },
+      { src: '/bodas/pareja-felipe-abrazo-risas.jpg', caption: 'Risas compartidas', alt: 'Novios abrazados riendo en el jardín', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-felipe-mirada-complice.jpg', caption: 'Miradas cómplices', alt: 'Pareja de novios mirándose con complicidad al aire libre', width: 2200, height: 1466 },
+      { src: '/bodas/pareja-felipe-beso-carruaje.jpg', caption: 'El beso del carruaje', alt: 'Novios besándose sobre un carruaje decorado para la boda', width: 2200, height: 1466 },
+      { src: '/bodas/pareja-felipe-caminata-jardin.jpg', caption: 'Caminando juntos', alt: 'Pareja de novios caminando tomados de la mano por el jardín', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-felipe-danza-luz.jpg', caption: 'El primer baile', alt: 'Novios bailando bajo luces cálidas durante la recepción', width: 1467, height: 2200 },
+      { src: '/bodas/pareja-felipe-frente-frente.jpg', caption: 'Frente a frente', alt: 'Novios mirándose frente a frente, retrato íntimo', width: 1466, height: 2200 },
+      { src: '/bodas/pareja-felipe-recepcion-noche.jpg', caption: 'La fiesta continúa', alt: 'Novios celebrando durante la recepción nocturna', width: 1760, height: 2200 },
+    ],
+  },
+  {
+    title: 'Novia · Instantes',
+    subtitle: 'Retratos frescos y naturales, con las montañas siempre de fondo.',
+    images: [
+      { src: '/bodas/novia-instantes-mirada-montana.jpg', caption: 'Frente a las montañas', alt: 'Retrato de novia con vestido blanco y vista a las montañas', width: 1466, height: 2200 },
+      { src: '/bodas/novia-instantes-perfil-suave.jpg', caption: 'Perfil sereno', alt: 'Novia de perfil con expresión serena', width: 1467, height: 2200 },
+      { src: '/bodas/novia-instantes-sonrisa-natural.jpg', caption: 'Una sonrisa natural', alt: 'Novia sonriendo de forma natural al aire libre', width: 1760, height: 2200 },
+      { src: '/bodas/novia-instantes-luz-dorada.jpg', caption: 'Bajo la luz dorada', alt: 'Retrato de la novia bajo luz dorada de atardecer', width: 1760, height: 2200 },
+      { src: '/bodas/novia-instantes-mirada-frontal.jpg', caption: 'Mirada directa', alt: 'Retrato frontal de la novia con mirada segura', width: 1466, height: 2200 },
+      { src: '/bodas/novia-instantes-actitud.jpg', caption: 'Con actitud', alt: 'Novia posando con actitud frente a la cámara', width: 1571, height: 2200 },
+      { src: '/bodas/novia-instantes-perfil-cielo.jpg', caption: 'Entre cielo y perfil', alt: 'Novia de perfil con el cielo despejado de fondo', width: 1466, height: 2200 },
+      { src: '/bodas/novia-instantes-mirada-lateral.jpg', caption: 'Una mirada de lado', alt: 'Retrato lateral de la novia con luz natural', width: 1571, height: 2200 },
+    ],
+  },
+  {
+    title: 'Pareja · Elegancia de Autor',
+    subtitle: 'Saco a medida, corbatín y una historia contada en primer plano.',
+    images: [
+      { src: '/bodas/carrusel-pareja-11.jpg', caption: 'Un beso en la puerta', alt: 'Novio con saco oscuro y corbatín besando la frente de la novia frente a una puerta de vidrio', width: 1200, height: 1800 },
+      { src: '/bodas/carrusel-pareja-09.jpg', caption: 'Un abrazo de espaldas', alt: 'Novia de espaldas abrazada por su pareja con saco oscuro y corbatín', width: 600, height: 899 },
+      { src: '/bodas/carrusel-pareja-07.jpg', caption: 'Frente con frente', alt: 'Novios en blanco y negro frente con frente, él con saco oscuro y corbatín', width: 1200, height: 800 },
+    ],
+  },
+];
+
+const carouselImages = [
+  { src: '/bodas/carrusel-pareja-04.jpg', caption: 'Lo mejor de nuestras bodas y eventos sociales', alt: 'Pareja de novios en un momento de complicidad, destacado del portafolio Velozza', width: 1200, height: 1800 },
+  { src: '/bodas/carrusel-novia-01.jpg', caption: 'Retrato editorial de novia', alt: 'Retrato editorial de novia destacado del portafolio Velozza', width: 1200, height: 1800 },
+  { src: '/bodas/carrusel-pareja-06.jpg', caption: 'Momentos que se sienten cine', alt: 'Pareja de novios en un momento cinematográfico, destacado del portafolio Velozza', width: 1200, height: 1910 },
+  { src: '/bodas/carrusel-novia-03.jpg', caption: 'Dirección de arte en cada sesión', alt: 'Retrato de novia con dirección de arte, destacado del portafolio Velozza', width: 2200, height: 1466 },
+  { src: '/bodas/carrusel-pareja-08.jpg', caption: 'Historias de amor reales', alt: 'Pareja de novios compartiendo un momento real, destacado del portafolio Velozza', width: 1200, height: 1800 },
+  { src: '/bodas/carrusel-novia-05.jpg', caption: 'Elegancia en cada detalle', alt: 'Retrato elegante de novia, destacado del portafolio Velozza', width: 1080, height: 1620 },
+  { src: '/bodas/carrusel-pareja-11.jpg', caption: 'La narrativa que vendemos', alt: 'Pareja de novios en un instante narrativo, destacado del portafolio Velozza', width: 1200, height: 1800 },
+  { src: '/bodas/carrusel-pareja-01.jpg', caption: 'Composición y luz natural', alt: 'Pareja de novios fotografiada con luz natural, destacado del portafolio Velozza', width: 1200, height: 800 },
+  { src: '/bodas/carrusel-novia-02.jpg', caption: 'Cada mirada cuenta una historia', alt: 'Retrato de novia con mirada expresiva, destacado del portafolio Velozza', width: 600, height: 900 },
+  { src: '/bodas/carrusel-pareja-05.jpg', caption: 'Celebraciones que se sienten premium', alt: 'Pareja de novios en una celebración con estética premium, destacado del portafolio Velozza', width: 1200, height: 1800 },
+  { src: '/bodas/carrusel-pareja-03.jpg', caption: 'Retratos con carácter', alt: 'Pareja de novios en un retrato con carácter, destacado del portafolio Velozza', width: 1200, height: 1064 },
+  { src: '/bodas/carrusel-novia-04.jpg', caption: 'La firma visual Velozza', alt: 'Retrato de novia con la firma visual de Velozza, destacado del portafolio Velozza', width: 600, height: 900 },
+  { src: '/bodas/carrusel-pareja-07.jpg', caption: 'Emoción documentada con estilo', alt: 'Pareja de novios en un momento emotivo documentado con estilo, destacado del portafolio Velozza', width: 1200, height: 800 },
+  { src: '/bodas/carrusel-pareja-09.jpg', caption: 'Cada boda, una producción propia', alt: 'Pareja de novios fotografiada como una producción propia, destacado del portafolio Velozza', width: 600, height: 899 },
+  { src: '/bodas/carrusel-pareja-02.jpg', caption: 'Detalles que hacen la diferencia', alt: 'Pareja de novios en un detalle destacado, destacado del portafolio Velozza', width: 600, height: 900 },
+  { src: '/bodas/carrusel-pareja-10.jpg', caption: 'Así se ve la mejor cobertura de bodas', alt: 'Pareja de novios en la mejor cobertura de bodas, destacado del portafolio Velozza', width: 1200, height: 800 },
 ];
 
 const faqs = [
   {
     question: '¿Las tarifas aplican para cualquier zona de Bogotá?',
     answer:
-      'Las tarifas publicadas aplican para eventos dentro de Bogotá, en la parte central. Si la cobertura es fuera de esa zona, se suma un recargo fijo de transporte de $50.000 COP.',
+      'Las tarifas publicadas aplican para eventos dentro de Bogotá. Para coberturas fuera de la ciudad, el transporte (y, si aplica, alojamiento) corre por cuenta del cliente; lo coordinamos juntos antes de confirmar la fecha.',
   },
   {
     question: '¿Puedo personalizar un paquete si mi boda tiene otra estructura?',
@@ -274,26 +352,6 @@ export default function BodasPage() {
                 </figure>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section className="section-shell" style={{ paddingTop: 0 }}>
-          <div className="catalog-announcement panel panel-pad">
-            <div>
-              <div className="eyebrow">Catálogo visual</div>
-              <h2 className="section-title">Para ver el catálogo completo de fotos, da click en este anuncio</h2>
-              <p className="section-lead" style={{ marginBottom: 0 }}>
-                Aquí ves una muestra seleccionada de bodas reales. Si quieres recorrer el portafolio completo con más escenas, más parejas y más momentos del día, entra al anuncio y abre el catálogo visual completo de Velozza.
-              </p>
-            </div>
-            <a
-              className="cta-primary catalog-button"
-              href="https://velozzacreative.myportfolio.com/bodas"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ver portafolio completo
-            </a>
           </div>
         </section>
 
@@ -410,6 +468,14 @@ export default function BodasPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="section-shell" style={{ paddingTop: 0 }}>
+          <WeddingCarousel
+            images={carouselImages}
+            title="Lo mejor de nuestro portafolio en bodas y eventos sociales"
+            subtitle="Un recorrido en movimiento por nuestras bodas más recientes, antes de dar el siguiente paso."
+          />
         </section>
 
         <section className="section-shell" style={{ paddingTop: 0 }}>
