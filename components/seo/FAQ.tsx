@@ -55,6 +55,7 @@ export function FAQ({ items, title = 'Preguntas Frecuentes' }: FAQProps) {
             >
               <button
                 onClick={() => toggleExpand(index)}
+                aria-expanded={!!expanded[index]}
                 style={{
                   width: '100%',
                   padding: '18px 18px',
@@ -65,25 +66,41 @@ export function FAQ({ items, title = 'Preguntas Frecuentes' }: FAQProps) {
                   fontSize: '16px',
                   fontWeight: '700',
                   color: 'var(--text)',
-                  transition: 'all 0.3s ease',
+                  transition: 'background-color 0.3s ease',
                 }}
               >
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-                  <PremiumIcon name={expanded[index] ? 'down' : 'chevron-right'} size={16} />
+                  <PremiumIcon
+                    name="chevron-right"
+                    size={16}
+                    style={{
+                      transform: expanded[index] ? 'rotate(90deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.25s ease',
+                      flexShrink: 0,
+                    }}
+                  />
                   <span>{item.question}</span>
                 </span>
               </button>
-              {expanded[index] && (
-                <div
-                  style={{
-                    padding: '0 18px 18px',
-                    color: 'var(--text-soft)',
-                    lineHeight: '1.6',
-                  }}
-                >
-                  {item.answer}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateRows: expanded[index] ? '1fr' : '0fr',
+                  transition: 'grid-template-rows 0.25s ease',
+                }}
+              >
+                <div style={{ overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      padding: '0 18px 18px',
+                      color: 'var(--text-soft)',
+                      lineHeight: '1.6',
+                    }}
+                  >
+                    {item.answer}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>

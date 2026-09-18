@@ -5,6 +5,7 @@ import { FAQ } from '@/components/seo/FAQ';
 export const revalidate = 60;
 import { PremiumIcon } from '@/components/PremiumIcon';
 import { WeddingCarousel } from '@/components/WeddingCarousel';
+import { PhotobookCarousel } from '@/components/PhotobookCarousel';
 import { generateMetadata } from '@/lib/seo/metadata';
 import { serviceSchema } from '@/lib/seo/schema';
 
@@ -72,6 +73,79 @@ const weddingPackages = [
       'Entrega de 170 a 220 fotos digitales',
       'Revelado premium y entrega digital',
       'Entrega en 21 a 30 días calendario',
+    ],
+  },
+];
+
+const photobookAddons = [
+  {
+    name: 'PhotoBook Clásico',
+    tagline: 'La opción de entrada, con acabado editorial',
+    specs: ['Tamaño 22x28 cm (también en 28x22 vertical, mismo precio)', 'Tapa dura impresa y plastificada', 'Papel satinado', 'Encuadernación tipo Chanel'],
+    images: [
+      { src: '/photobooks/clasico/clasico-01-portada.jpg', alt: 'Portada horizontal del PhotoBook Clásico con foto de boda impresa y laminado satinado', orientation: 'horizontal' as const },
+      { src: '/photobooks/clasico/clasico-05-portada-vertical.jpg', alt: 'Portada vertical del PhotoBook Clásico', orientation: 'vertical' as const },
+      { src: '/photobooks/clasico/clasico-03-paginas.jpg', alt: 'Doble página abierta del PhotoBook Clásico mostrando la distribución real de varias fotos en la hoja', orientation: 'horizontal' as const },
+      { src: '/photobooks/clasico/clasico-06-pagina-vertical.jpg', alt: 'Página vertical del PhotoBook Clásico con distribución de varias fotos', orientation: 'vertical' as const },
+      { src: '/photobooks/clasico/clasico-02-lomo.jpg', alt: 'Detalle del lomo cosido y las hojas del PhotoBook Clásico', orientation: 'horizontal' as const },
+      { src: '/photobooks/clasico/clasico-04-textura.jpg', alt: 'Textura macro del laminado satinado de la portada del PhotoBook Clásico', orientation: 'horizontal' as const },
+      { src: '/photobooks/clasico/clasico-07-contexto.jpg', alt: 'PhotoBook Clásico sobre una mesa mostrando su tamaño real en contexto', orientation: 'vertical' as const },
+      { src: '/photobooks/clasico/clasico-08-cover-atardecer.jpg', alt: 'Portada del PhotoBook Clásico apoyada en una superficie exterior con foto de boda al atardecer', orientation: 'horizontal' as const },
+      { src: '/photobooks/clasico/clasico-09-cover-montanoso.jpg', alt: 'Portada del PhotoBook Clásico con paisaje montañoso al atardecer', orientation: 'horizontal' as const },
+      { src: '/photobooks/clasico/clasico-10-lomo-rincon.jpg', alt: 'Detalle de esquina y lomo del PhotoBook Clásico con paisaje montañoso al atardecer', orientation: 'vertical' as const },
+      { src: '/photobooks/clasico/clasico-11-manos.jpg', alt: 'Manos sosteniendo el PhotoBook Clásico cerrado para mostrar su tamaño real', orientation: 'vertical' as const },
+    ],
+    tiers: [
+      { collection: 'Colección I', capacity: 'hasta 150 fotos · 40 páginas (20 hojas)', price: '$141.500 COP' },
+      { collection: 'Colección II', capacity: 'hasta 170 fotos · 44 páginas (22 hojas)', price: '$151.100 COP' },
+      { collection: 'Colección III', capacity: 'hasta 220 fotos · 56 páginas (28 hojas)', price: '$179.900 COP' },
+    ],
+  },
+  {
+    name: 'PhotoBook Premium',
+    tagline: 'La recomendada: papel fotográfico real y apertura total',
+    specs: ['Tamaño 21x27 cm horizontal (vertical es 31x21 cm, costo distinto)', 'Tapa dura en papel fotográfico plastificado', 'Papel haluro de plata', 'Encuadernación Layflat, apertura 180°'],
+    images: [
+      { src: '/photobooks/premium/premium-01-portada.jpg', alt: 'Portada horizontal del PhotoBook Premium con acabado fotográfico brillante', orientation: 'horizontal' as const },
+      { src: '/photobooks/premium/premium-05-portada-vertical.jpg', alt: 'Portada vertical del PhotoBook Premium', orientation: 'vertical' as const },
+      { src: '/photobooks/premium/premium-03-paginas.jpg', alt: 'Doble página completamente plana del PhotoBook Premium mostrando la distribución real de varias fotos', orientation: 'horizontal' as const },
+      { src: '/photobooks/premium/premium-06-pagina-vertical.jpg', alt: 'Página vertical del PhotoBook Premium con distribución de varias fotos', orientation: 'vertical' as const },
+      { src: '/photobooks/premium/premium-02-lomo.jpg', alt: 'Detalle del mecanismo Layflat y hojas rígidas del PhotoBook Premium', orientation: 'horizontal' as const },
+      { src: '/photobooks/premium/premium-04-textura.jpg', alt: 'Textura macro del acabado fotográfico brillante de la portada del PhotoBook Premium', orientation: 'horizontal' as const },
+      { src: '/photobooks/premium/premium-07-contexto.jpg', alt: 'PhotoBook Premium sobre una mesa mostrando su tamaño real en contexto', orientation: 'vertical' as const },
+      { src: '/photobooks/premium/premium-08-cover-brillante.jpg', alt: 'Portada brillante del PhotoBook Premium apoyada en una superficie con foto de boda al atardecer', orientation: 'horizontal' as const },
+      { src: '/photobooks/premium/premium-09-pagina-abierta.jpg', alt: 'Doble página completamente abierta del PhotoBook Premium con acabado fotográfico brillante', orientation: 'horizontal' as const },
+      { src: '/photobooks/premium/premium-10-esquina.jpg', alt: 'Detalle macro de la esquina brillante del PhotoBook Premium', orientation: 'vertical' as const },
+      { src: '/photobooks/premium/premium-11-manos.jpg', alt: 'Manos sosteniendo el PhotoBook Premium cerrado para mostrar su tamaño real', orientation: 'vertical' as const },
+    ],
+    tiers: [
+      { collection: 'Colección I', capacity: 'hasta 150 fotos · 38 páginas (19 hojas)', price: '$309.350 COP' },
+      { collection: 'Colección II', capacity: 'hasta 170 fotos · 44 páginas (22 hojas)', price: '$344.900 COP' },
+      { collection: 'Colección III', capacity: 'hasta 220 fotos · 56 páginas (28 hojas)', price: '$416.000 COP' },
+    ],
+    featured: true,
+  },
+  {
+    name: 'PhotoBook Lujo · Eco Cuero Cristal',
+    tagline: 'La pieza de exhibición: portada en cuero con foto en cristal',
+    specs: ['Tamaño 21x27 cm horizontal (vertical es 31x21 cm, costo distinto)', 'Tapa dura en eco cuero con foto en acrílico', 'Papel haluro de plata', 'Encuadernación Layflat, apertura 180°'],
+    images: [
+      { src: '/photobooks/lujo/lujo-01-portada.jpg', alt: 'Portada horizontal del PhotoBook Lujo en eco cuero con panel de cristal y foto de boda', orientation: 'horizontal' as const },
+      { src: '/photobooks/lujo/lujo-05-portada-vertical.jpg', alt: 'Portada vertical del PhotoBook Lujo', orientation: 'vertical' as const },
+      { src: '/photobooks/lujo/lujo-03-paginas.jpg', alt: 'Doble página plana del PhotoBook Lujo mostrando la distribución real de varias fotos', orientation: 'horizontal' as const },
+      { src: '/photobooks/lujo/lujo-06-pagina-vertical.jpg', alt: 'Página vertical del PhotoBook Lujo con distribución de varias fotos', orientation: 'vertical' as const },
+      { src: '/photobooks/lujo/lujo-02-lomo.jpg', alt: 'Detalle del lomo en cuero y mecanismo Layflat del PhotoBook Lujo', orientation: 'horizontal' as const },
+      { src: '/photobooks/lujo/lujo-04-textura.jpg', alt: 'Textura macro del cuero y el borde de cristal del PhotoBook Lujo', orientation: 'horizontal' as const },
+      { src: '/photobooks/lujo/lujo-07-contexto.jpg', alt: 'PhotoBook Lujo sobre una mesa mostrando su tamaño real en contexto', orientation: 'vertical' as const },
+      { src: '/photobooks/lujo/lujo-08-cover-cuero.jpg', alt: 'Portada en eco cuero del PhotoBook Lujo con foto de boda al atardecer', orientation: 'horizontal' as const },
+      { src: '/photobooks/lujo/lujo-09-pagina-abierta.jpg', alt: 'Doble página completamente abierta del PhotoBook Lujo con paisaje montañoso al atardecer', orientation: 'horizontal' as const },
+      { src: '/photobooks/lujo/lujo-10-esquina.jpg', alt: 'Detalle macro de la esquina en cuero artesanal del PhotoBook Lujo', orientation: 'vertical' as const },
+      { src: '/photobooks/lujo/lujo-11-manos.jpg', alt: 'Manos sosteniendo el PhotoBook Lujo cerrado para mostrar su tamaño real', orientation: 'vertical' as const },
+    ],
+    tiers: [
+      { collection: 'Colección I', capacity: 'hasta 150 fotos · 38 páginas (19 hojas)', price: '$369.350 COP' },
+      { collection: 'Colección II', capacity: 'hasta 170 fotos · 44 páginas (22 hojas)', price: '$404.900 COP' },
+      { collection: 'Colección III', capacity: 'hasta 220 fotos · 56 páginas (28 hojas)', price: '$476.000 COP' },
     ],
   },
 ];
@@ -335,14 +409,6 @@ export default function BodasPage() {
                   >
                     Cotizar por WhatsApp
                   </a>
-                  <a
-                    className="cta-secondary"
-                    href="https://velozzacreative.myportfolio.com/bodas"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Ver catálogo completo de fotos
-                  </a>
                 </div>
               </div>
 
@@ -429,6 +495,58 @@ export default function BodasPage() {
             <strong>Tiempo de entrega:</strong> todos los paquetes de fotografía y eventos sociales se entregan entre <strong>21 y 30 días calendario</strong> a partir del evento, incluyendo temporada alta. Si necesitas las fotos antes de ese plazo, la entrega prioritaria tiene un valor adicional.
           </p>
 
+        </section>
+
+        <section className="section-shell" style={{ paddingTop: 0 }}>
+          <div className="section-copy">
+            <div className="eyebrow">Adicional</div>
+            <h2 className="section-title">PhotoBook para el recuerdo</h2>
+            <p className="section-lead">
+              Complementa cualquier colección con un libro de fotos físico, impreso por nuestro aliado de laboratorio. Elige entre 3 acabados; el precio ya está calculado para el tope máximo de fotos de cada colección, así que nunca te vas a quedar corto de espacio.
+            </p>
+          </div>
+
+          <div className="package-grid three-up">
+            {photobookAddons.map((book, i) => (
+              <article key={book.name} className={`package-card photobook-card tilt reveal premium-card${book.featured ? ' featured' : ''}`} style={{ transitionDelay: `${i * 0.1}s` }}>
+                {book.featured ? <div className="package-badge">Recomendado</div> : null}
+                <h3>{book.name}</h3>
+                <PhotobookCarousel images={book.images} />
+                <p className="muted" style={{ marginTop: 0 }}>{book.tagline}</p>
+                <ul className="package-list photobook-specs">
+                  {book.specs.map((spec) => (
+                    <li key={spec}>
+                      <PremiumIcon name="check" size={16} />
+                      <span>{spec}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="photobook-tiers">
+                  {book.tiers.map((tier) => (
+                    <div key={tier.collection} className="photobook-tier-row">
+                      <div>
+                        <div className="photobook-tier-name">{tier.collection}</div>
+                        <div className="photobook-tier-capacity">{tier.capacity}</div>
+                      </div>
+                      <div className="photobook-tier-price">{tier.price}</div>
+                    </div>
+                  ))}
+                </div>
+                <a
+                  className="cta-secondary package-action"
+                  href={`https://api.whatsapp.com/send?phone=573193677929&text=${encodeURIComponent(`Hola Velozza, quiero agregar el ${book.name} a mi paquete de boda.`)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Agregar este PhotoBook
+                </a>
+              </article>
+            ))}
+          </div>
+
+          <p className="delivery-note">
+            <strong>Cómo se calcula este precio:</strong> 1 hoja = 2 páginas. El precio de cada colección está calculado con una diagramación estándar de 4 fotos por página (8 por hoja) y cubre el <strong>tope máximo de fotos</strong> que entrega esa colección — si el cliente entrega menos fotos, le sobran páginas; nunca le faltan. Si el cliente pide una diagramación distinta (menos fotos por página, más fotos de página completa), el número real de hojas —y el precio— puede cambiar; en ese caso se recotiza antes de producir. Precio válido para el tamaño horizontal indicado en cada PhotoBook (22x28 cm en Clásico, 21x27 cm en Premium y Lujo). El formato vertical en Clásico cuesta igual (mismo tamaño de papel); en Premium y Lujo el vertical es una talla mayor (31x21 cm) con costo distinto — se cotiza aparte. Impreso y producido por nuestro aliado de laboratorio fotográfico; precio final sujeto a confirmación con el proveedor al momento de producción.
+          </p>
         </section>
 
         <section className="section-shell" style={{ paddingTop: 0 }}>
@@ -642,6 +760,48 @@ export default function BodasPage() {
           background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(17, 17, 17, 0.96));
           border-color: rgba(244, 207, 99, 0.32);
           transform: translateY(-6px);
+        }
+
+        .photobook-card.featured {
+          background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(17, 17, 17, 0.96));
+          border-color: rgba(244, 207, 99, 0.32);
+          transform: translateY(-6px);
+        }
+
+        .photobook-specs {
+          margin-bottom: 20px;
+        }
+
+        .photobook-tiers {
+          display: grid;
+          gap: 10px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(244, 207, 99, 0.16);
+        }
+
+        .photobook-tier-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .photobook-tier-name {
+          color: #efe9d6;
+          font-size: 0.92rem;
+          font-weight: 600;
+        }
+
+        .photobook-tier-capacity {
+          color: rgba(239, 233, 214, 0.6);
+          font-size: 0.78rem;
+        }
+
+        .photobook-tier-price {
+          color: #f4cf63;
+          font-weight: 700;
+          font-size: 1rem;
+          white-space: nowrap;
         }
 
         .delivery-note {

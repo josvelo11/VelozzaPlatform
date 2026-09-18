@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   ArrowRight,
@@ -27,6 +28,7 @@ import {
   Target,
   UserRound,
   Users,
+  X,
   Zap,
 } from 'lucide-react';
 
@@ -61,7 +63,8 @@ export type PremiumIconName =
   | 'sparkles'
   | 'instagram'
   | 'chat'
-  | 'shirt';
+  | 'shirt'
+  | 'close';
 
 const iconMap: Record<PremiumIconName, LucideIcon> = {
   target: Target,
@@ -95,6 +98,7 @@ const iconMap: Record<PremiumIconName, LucideIcon> = {
   instagram: Camera,
   chat: MessageCircle,
   shirt: Shirt,
+  close: X,
 };
 
 interface PremiumIconProps {
@@ -102,10 +106,11 @@ interface PremiumIconProps {
   size?: number;
   strokeWidth?: number;
   className?: string;
+  style?: CSSProperties;
 }
 
-export function PremiumIcon({ name, size = 20, strokeWidth = 1.8, className }: PremiumIconProps) {
+export function PremiumIcon({ name, size = 20, strokeWidth = 1.8, className, style }: PremiumIconProps) {
   const Icon = iconMap[name];
 
-  return <Icon aria-hidden="true" size={size} strokeWidth={strokeWidth} className={className} />;
+  return <Icon aria-hidden="true" size={size} strokeWidth={strokeWidth} className={className} style={style} />;
 }
