@@ -144,6 +144,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
           </a>
           <div className="site-chrome-actions" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
             <a href="/paquetes-bodas" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}><span className="site-chrome-bodas-desktop">Bodas y Eventos Sociales</span><span className="site-chrome-bodas-mobile">Bodas</span></a>
+            <a href="/guia-poses-novias" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Guía de Poses</a>
             <a href="/servicios" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Servicios</a>
             <a href="/blog" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Blog</a>
             <a href="/casos-de-exito" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Casos de éxito</a>
@@ -186,6 +187,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             <div>
               <h4>Recursos</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
+                <li><a href="/guia-poses-novias" style={{ color: '#f0d98a' }}>Guía de Poses para Novias</a></li>
                 <li><a href="/blog" style={{ color: '#f0d98a' }}>Blog</a></li>
                 <li><a href="/formacion-plus" style={{ color: '#f0d98a' }}>Formación Plus</a></li>
                 <li><a href="/ubicaciones" style={{ color: '#f0d98a' }}>Ubicaciones</a></li>
