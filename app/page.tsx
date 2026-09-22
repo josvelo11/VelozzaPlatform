@@ -988,7 +988,7 @@ export default function Home() {
             </div>
             <div>
               <h4>Recursos</h4>
-              <ul><li><Link href="/blog">Recursos</Link></li><li><Link href="/formacion-plus">Formación Plus</Link></li><li><Link href="/#resultados">Resultados</Link></li><li><Link href="/#planes">Planes</Link></li><li><Link href="/servicios/automatizacion-ia">Autoridad de Marca</Link></li></ul>
+              <ul><li><Link href="/guia-poses-novias">Guía de Poses para Novias</Link></li><li><Link href="/blog">Recursos</Link></li><li><Link href="/formacion-plus">Formación Plus</Link></li><li><Link href="/#resultados">Resultados</Link></li><li><Link href="/#planes">Planes</Link></li><li><Link href="/servicios/automatizacion-ia">Autoridad de Marca</Link></li></ul>
             </div>
             <div>
               <h4>Empresa</h4>

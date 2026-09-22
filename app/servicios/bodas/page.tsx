@@ -558,6 +558,9 @@ export default function BodasPage() {
                 <p className="section-lead" style={{ marginBottom: 0 }}>
                   Esta muestra acompaña los paquetes con imágenes reales de nuestro trabajo, organizadas por sesión, para que la decisión de compra tenga claridad visual, estilo y confianza. Dejamos más fotografías aquí para despertar interés y llevar a la gente a ver el catálogo completo.
                 </p>
+                <p className="section-lead" style={{ marginTop: '10px' }}>
+                  ¿No sabes cómo posar el día de tu boda? <Link href="/guia-poses-novias" style={{ color: '#f0d98a' }}>Mira nuestra guía de 70 poses para novias →</Link>
+                </p>
               </div>
               <a
                 className="cta-secondary"
