@@ -19,7 +19,16 @@ export function LeadForm({ source }: { source: string }) {
       setSt(r.ok ? 'ok' : 'err');
     } catch { setSt('err'); }
   }
-  if (st === 'ok') return <p className="pz-ok">¡Listo! Te escribiremos con tu guía de bolsillo y con el portafolio real de Velozza.</p>;
+  if (st === 'ok')
+    return (
+      <p className="pz-ok">
+        ¡Listo!{' '}
+        <a href="/guia-poses-novias/guia-bolsillo-12-poses.pdf" download style={{ color: 'inherit', textDecoration: 'underline' }}>
+          Descarga tu guía de bolsillo aquí
+        </a>
+        . También te escribiremos por correo o WhatsApp con el portafolio real de Velozza.
+      </p>
+    );
   return (
     <form className="pz-form" onSubmit={onSubmit}>
       <input name="name" required placeholder="Tu nombre" aria-label="Tu nombre" />
