@@ -705,6 +705,7 @@ Cada 3-4 meses, toma 6 miniaturas de tus videos más recientes, sepáralas por a
     title: "Mejores poses para posar frente a cámara",
     subtitle: "Fotos seguras que sirven para cualquier sesión",
     icon: "camera",
+    coverFormat: "jpg",
     resumen: "La mayoría de la incomodidad al posar viene de no tener un repertorio — con 5 poses base entrenadas, cualquier sesión de fotos deja de sentirse improvisada.",
     lecciones: [
       {
