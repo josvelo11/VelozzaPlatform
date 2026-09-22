@@ -19,6 +19,7 @@ else
     exit 1
   fi
 
+  # La guarda para que las próximas corridas no la vuelvan a pedir.
   if grep -q "^GEMINI_API_KEY=" "$ENV_FILE" 2>/dev/null; then
     sed -i '' "s/^GEMINI_API_KEY=.*/GEMINI_API_KEY=$GEMINI_API_KEY/" "$ENV_FILE"
   else
@@ -28,15 +29,4 @@ else
 fi
 
 echo ""
-echo "=== Corriendo dry-run (no gasta nada) ==="
-node scripts/generate-course-images.mjs --dry-run
-
-echo ""
-read -p "¿Continuar con la generación real? (s/n): " confirm
-if [ "$confirm" = "s" ] || [ "$confirm" = "S" ]; then
-  echo ""
-  echo "=== Generando imágenes ==="
-  node scripts/generate-course-images.mjs
-else
-  echo "Cancelado, no se generó nada."
-fi
+node scripts/test-gemini-image.mjs
