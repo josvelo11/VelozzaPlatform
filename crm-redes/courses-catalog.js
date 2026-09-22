@@ -907,6 +907,7 @@ Antes de una sesión importante, toma una foto de prueba con el rostro girado ha
   title: "Retrato Personal: cómo prepararte para tu sesión",
   subtitle: "Cómo posar y vestirte sin verte forzado frente al lente",
   icon: "camera",
+  coverFormat: "jpg",
   resumen: "Cómo posar sin verte forzado, qué ponerte y cómo proyectar confianza real frente a la cámara — sin ser modelo ni haberlo hecho antes.",
   lecciones: [
     {

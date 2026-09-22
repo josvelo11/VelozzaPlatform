@@ -17,6 +17,7 @@ export interface FormacionCurso {
   icon: string;
   resumen: string;
   lecciones: FormacionLeccion[];
+  coverFormat?: string; // 'jpg' para cursos ya rehechos con fotografía real; por defecto 'svg' (icono abstracto viejo)
 }
 
 // El catálogo real vive en Pauta Studio (crm-redes/courses-catalog.js) —

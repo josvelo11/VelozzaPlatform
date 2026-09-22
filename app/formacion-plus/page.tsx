@@ -91,7 +91,7 @@ export default async function FormacionPlusPage() {
                 >
                   <div className="course-catalog-thumb">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/formacion/${course.id}.svg`} alt="" />
+                    <img src={`/formacion/${course.id}.${course.coverFormat || 'svg'}`} alt="" />
                   </div>
                   <div className="course-catalog-body">
                     <div className="eyebrow" style={{ alignSelf: 'flex-start', fontSize: '0.68rem' }}>{course.categoria}</div>

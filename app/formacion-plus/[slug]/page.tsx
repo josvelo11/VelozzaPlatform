@@ -51,7 +51,7 @@ export default async function CourseDetailPage({ params }: Props) {
           </div>
           <div className="course-hero-illustration tilt">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/formacion/${course.id}.svg`} alt="" />
+            <img src={`/formacion/${course.id}.${course.coverFormat || 'svg'}`} alt="" />
           </div>
         </div>
 
