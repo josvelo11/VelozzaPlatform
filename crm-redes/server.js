@@ -1215,7 +1215,7 @@ app.get('/api/clientes/tendencias', auth, (req, res) => {
 //  completadas.
 // ---------------------------------------------------------------------------
 const leccionKey = (courseId, leccionId) => `${courseId}:${leccionId}`;
-const serializeCatalog = () => COURSES_CATALOG.map(c => ({ id: c.id, categoria: c.categoria, title: c.title, subtitle: c.subtitle, icon: c.icon, resumen: c.resumen,
+const serializeCatalog = () => COURSES_CATALOG.map(c => ({ id: c.id, categoria: c.categoria, title: c.title, subtitle: c.subtitle, icon: c.icon, resumen: c.resumen, coverFormat: c.coverFormat,
   lecciones: c.lecciones.map(l => ({ id: l.id, titulo: l.titulo, minutos: l.minutos, cuerpo: l.cuerpo, accionables: l.accionables, secciones: l.secciones })) }));
 
 app.get('/api/clientes/cursos', auth, (req, res) => {
