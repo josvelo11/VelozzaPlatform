@@ -380,6 +380,7 @@ Antes de tu próxima sesión, revisa cada accesorio por separado con esta pregun
     title: "Expresión oral",
     subtitle: "Comunicar con claridad, sin sonar ensayado",
     icon: "chat",
+    coverFormat: "jpg",
     resumen: "La claridad vence a la elocuencia casi siempre — la mayoría de la gente que \"no sabe hablar en público\" en realidad solo nunca aprendió una estructura simple para organizar lo que quiere decir.",
     lecciones: [
       {
