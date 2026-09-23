@@ -23,6 +23,7 @@ export const COURSES_CATALOG = [
     title: "Hablar frente a cámara",
     subtitle: "Grábate con seguridad, sin sonar a comercial",
     icon: "video",
+    coverFormat: "jpg",
     resumen: "Lo que separa a alguien que \"se ve incómodo grabando\" de alguien que conecta en cámara no es carisma innato — son 5 hábitos concretos y entrenables.",
     lecciones: [
       {
