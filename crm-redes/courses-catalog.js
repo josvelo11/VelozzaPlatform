@@ -1338,6 +1338,7 @@ Quinto, no traten de "aguantar" una sonrisa larga: sonrían, relájense, vuelvan
   title: "Sesión Boudoir: Guía de Preparación",
   subtitle: "Postura, vestuario y confianza real para tu sesión",
   icon: "star",
+  coverFormat: "jpg",
   resumen: "Postura, vestuario, cuidado de piel y cómo llegar segura frente a cámara — una guía elegante y honesta para que tu sesión se sienta natural, no forzada.",
   lecciones: [
     {
