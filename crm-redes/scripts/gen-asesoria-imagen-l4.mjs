@@ -3,7 +3,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runImageGenJobs } from './lib/image-gen.mjs';
-import { LOOK_FORMAL, LOOK_EDITORIAL, LOOK_SOCIAL, SET_STUDIO, SET_URBAN, SET_DESK, SHOT_WIDE, SHOT_MEDIUM, SINGLE, DIPTYCH } from './asesoria-imagen-style.mjs';
+import { LOOK_FORMAL, LOOK_EDITORIAL, LOOK_SOCIAL, SET_STUDIO, SET_URBAN, SET_DESK, SHOT_WIDE, SINGLE, DIPTYCH } from './asesoria-imagen-style.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = path.join(__dirname, '..', '..', 'public', 'formacion', 'sections', 'asesoria-imagen');
@@ -13,7 +13,7 @@ const jobs = [
     id: 'l4-0',
     ...SINGLE(
       `${LOOK_SOCIAL}, revisando en su tablet la cuadrícula de su perfil de Instagram, una foto en medio del feed rompiendo visiblemente la paleta cuidada del resto, expresión de "esto no encaja", ${SET_DESK}`,
-      SHOT_MEDIUM,
+      SHOT_WIDE,
     ),
   },
   {
@@ -21,7 +21,7 @@ const jobs = [
     ...DIPTYCH(
       'mirando una pantalla con expresión calmada y de aprobación — lo que ve se siente coherente y ordenado',
       'mirando una pantalla con expresión de duda sutil, ligeramente desconcertada — algo se siente desalineado aunque no sepa nombrar exactamente qué',
-      SHOT_MEDIUM,
+      SHOT_WIDE,
     ),
   },
   {
@@ -35,7 +35,7 @@ const jobs = [
     id: 'l4-3',
     ...SINGLE(
       `${LOOK_SOCIAL}, con su laptop mostrando su cuadrícula de Instagram completa, evaluándola de forma objetiva y crítica desde cierta distancia, ${SET_DESK}`,
-      SHOT_MEDIUM,
+      SHOT_WIDE,
     ),
   },
   {
@@ -43,7 +43,7 @@ const jobs = [
     ...DIPTYCH(
       'vistiendo un vestido en el mismo tono exacto y saturado de un logotipo de marca — combinación forzada y demasiado literal',
       `${LOOK_FORMAL} — su paleta marfil/dorado armoniza en temperatura y saturación sin copiar ningún color literalmente, resultado correcto y natural`,
-      SHOT_MEDIUM,
+      SHOT_WIDE,
     ),
   },
   {
@@ -57,7 +57,7 @@ const jobs = [
     id: 'l4-6',
     ...SINGLE(
       `${LOOK_SOCIAL}, drapeando una tela color crudo sobre un fondo doméstico genérico y colocando una planta al lado para elevarlo, transformando el espacio con un par de elementos simples`,
-      SHOT_MEDIUM,
+      SHOT_WIDE,
     ),
   },
 ];

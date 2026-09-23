@@ -24,7 +24,7 @@ export const LOOK_EDITORIAL = 'vistiendo un vestido camisero negro estructurado 
 export const SET_STUDIO = 'en un set de estudio fotográfico editorial con fondo liso color hueso/marfil cálido (nunca negro plano), suelo de concreto pulido reflejando tenuemente la luz, un ventilador de viento sutil moviendo el cabello y la tela';
 export const SET_WINDOW = 'frente a un ventanal de piso a techo en un loft o penthouse minimalista, luz natural de atardecer entrando en un ángulo bajo y cálido, silueta de ciudad desenfocada de fondo, muebles de diseño (silla de autor, mesa de mármol) apenas visibles';
 export const SET_URBAN = 'caminando por una calle urbana de arquitectura elegante (fachadas de piedra clara, ventanales de galerías de arte), luz de media tarde, tráfico y peatones desenfocados de fondo, sensación de editorial de moda callejera';
-export const SET_VANITY = 'sentada frente a un tocador minimalista con espejo circular con marco dorado y luces cálidas tipo camerino, productos de grooming ordenados sobre la superficie de mármol';
+export const SET_VANITY = 'de pie frente a un espejo de cuerpo entero de marco dorado en una habitación tipo camerino, con una repisa de mármol y luces cálidas a un lado con productos de grooming ordenados — el espejo debe reflejar y encuadrar su figura completa, nunca solo el rostro';
 export const SET_DESK = 'en un escritorio de mármol travertino con una laptop abierta, un moodboard con swatches de tela y paleta de color visible de fondo, luz de ventana lateral suave';
 
 // Corrección de piel — v1 pedía "poros, brillo natural en zonas T" sin matizar
@@ -34,17 +34,20 @@ const SKIN = 'Piel retocada a nivel de portada de revista de moda — luminosa, 
 
 export const STYLE_BASE = `Fotografía editorial de revista de moda y negocios de altísimo nivel — piensa Harper's Bazaar o Forbes "40 under 40", NO foto corporativa de stock ni headshot de LinkedIn. Cámara full-frame de alta gama, lente 50mm o 85mm f/1.8-2.2 según el encuadre. Iluminación de tres puntos suave pero con más contraste y carácter que un estudio corporativo plano: key light direccional que esculpe el rostro y el cuerpo con una sombra clara, rim light dorado marcando el contorno. ${SKIN} Postura y mirada seguras, con presencia — nunca neutra ni tímida; esta es una mujer que sabe exactamente cómo se ve y por qué funciona. Grano de sensor fotográfico sutil, NO ilustración, NO render 3D, NO CGI, NO look de IA. Color grading cálido editorial, contraste rico tipo Kodak Portra con negros profundos. Sin texto, sin logotipos, sin marcas de agua.`;
 
-// Encuadres — v1 abusaba del primer plano de rostro. v2 fuerza variedad real:
-// úsalos deliberadamente distintos entre secciones de una misma lección.
-export const SHOT_WIDE = 'plano entero, cuerpo completo visible de pies a cabeza, composición editorial con espacio negativo';
-export const SHOT_3Q = 'plano americano (de las rodillas hacia arriba), postura de cuerpo completa visible';
-export const SHOT_MEDIUM = 'plano medio (de la cintura hacia arriba), énfasis en vestuario y postura, no solo rostro';
-export const SHOT_CLOSE = 'primer plano de rostro y hombros — usar solo cuando la sección sea específicamente sobre grooming/detalle facial, nunca como default';
+// Encuadres — v2.1 (corrección 23 sept, feedback directo de David): plano
+// abierto de cuerpo completo es OBLIGATORIO en TODA imagen de este curso, sin
+// excepción — ni "plano medio" ni primer plano, ni siquiera en la lección de
+// grooming. Motivo: si no se ve el cuerpo completo no se ve la ropa, y el
+// curso es de asesoría de imagen — la ropa/estética ES el mensaje. v2 (previa)
+// permitía SHOT_MEDIUM como default y SHOT_CLOSE en grooming; fue un error,
+// costó regenerar el curso dos veces. SHOT_WIDE es ahora el ÚNICO encuadre
+// usado en los 5 scripts de este curso — no reintroducir MEDIUM/CLOSE aquí.
+export const SHOT_WIDE = 'plano entero de cuerpo completo, de pies a cabeza SIN CORTAR ninguna parte del cuerpo (ni pies, ni manos, ni la cabeza), composición editorial con espacio negativo arriba y abajo para que quepa la figura completa dentro del encuadre';
 
-export const SINGLE = (scene, shot, aspectRatio = '4:5') =>
+export const SINGLE = (scene, shot = SHOT_WIDE, aspectRatio = '4:5') =>
   ({ prompt: `Genera una imagen. Fotografía editorial vertical ${aspectRatio}, ${shot}. ${M}, ${scene}. ${STYLE_BASE}`, aspectRatio });
 
-export const DIPTYCH = (left, right, shot = SHOT_MEDIUM, aspectRatio = '4:5') =>
+export const DIPTYCH = (left, right, shot = SHOT_WIDE, aspectRatio = '4:5') =>
   ({
     prompt: `Genera una imagen. Díptico editorial dividido en dos mitades verticales EXACTAMENTE iguales en tamaño, formato vertical ${aspectRatio} total, ambos paneles ${shot}, MISMA distancia de cámara y altura de encuadre. IZQUIERDA: ${M}, ${left}. DERECHA: la misma mujer, mismo encuadre, ${right}. ${STYLE_BASE}`,
     aspectRatio,
