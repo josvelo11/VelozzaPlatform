@@ -774,7 +774,7 @@ a {
 .course-catalog-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .course-catalog-card:hover .course-catalog-thumb img {
@@ -813,6 +813,7 @@ a {
 .slide-image.is-loaded {
   animation: none;
   background: #0b0b0b;
+  aspect-ratio: auto;
 }
 .slide-image img {
   display: block;
