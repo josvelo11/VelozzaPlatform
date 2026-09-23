@@ -1610,6 +1610,7 @@ Casi todo el mundo —sin excepción de experiencia previa frente a cámara— p
   title: "Sesión de Preboda: cómo prepararte para tu compromiso",
   subtitle: "Fotos de compromiso naturales, no de pose forzada",
   icon: "sparkles",
+  coverFormat: "jpg",
   resumen: "Tu sesión de preboda suele ser la primera vez que posan juntos frente a un fotógrafo profesional — y esas fotos probablemente terminen siendo tu save the date. Cinco lecciones con técnicas concretas: movimiento y poses en exteriores, la luz de la hora dorada, vestuario y color, cómo elegir la locación con plan B, y cómo lograr conexión real frente a cámara.",
   lecciones: [
     {
@@ -1791,6 +1792,7 @@ Fuentes consultadas: [Aftershoot — 50 Photography Prompts for Natural Poses](h
   title: "Día de la Boda: Cómo Prepararte para tu Cobertura Fotográfica",
   subtitle: "Cronograma, poses y fotos familiares sin caos el gran día",
   icon: "instagram",
+  coverFormat: "jpg",
   resumen: "Todo lo que la pareja necesita saber para que el día de la boda rinda en fotos: cómo armar un cronograma que no se rompe, cómo posar para el retrato formal, cómo organizar las fotos familiares sin caos y cómo verse impecables aunque el reloj apriete.",
   lecciones: [
     {
@@ -2025,6 +2027,7 @@ Ni la novia ni el novio deberían estar pendientes de su propio retoque durante 
   title: "Sesión de Quinceañera: Cómo Posar y Brillar en tus Fotos de XV Años",
   subtitle: "Pose, vestido y color para brillar en tus fotos de XV",
   icon: "sparkles",
+  coverFormat: "jpg",
   resumen: "Un mini curso práctico para la quinceañera que va a hacer su sesión de fotos de XV años: por qué te sientes nerviosa frente a la cámara y qué hacer con eso, cómo posar con un vestido de gala lleno de volumen, qué colores y maquillaje sí se ven bien en cámara, y cómo coordinar a tu corte de honor y tu familia sin caos de último minuto.",
   lecciones: [
     {
