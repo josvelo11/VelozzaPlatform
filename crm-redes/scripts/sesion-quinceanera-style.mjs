@@ -1,0 +1,6 @@
+// sesion-quinceanera-style.mjs — protagonista y estilo compartidos por todas
+// las lecciones del curso sesion-quinceanera. Contenido familiar, alegre y
+// completamente formal/vestida — fotografía de celebración de XV años.
+export const M = 'una joven de 15 años, cabello castaño liso largo, piel trigueña, sonrisa alegre y genuina, vistiendo un vestido de gala de quinceañera color verde esmeralda con falda voluminosa de tul y corpiño bordado — vestuario fijo y completamente formal en todas las imágenes de este curso';
+
+export const STYLE = `Fotografía de celebración de quince años hiperrealista de altísimo nivel, estilo editorial festivo, elegante y familiar, comparable a un fotógrafo profesional de eventos sociales de alta gama. Ambiente de salón de fiesta decorado, jardín de finca de eventos, o estudio con telón elegante, luz cálida y favorecedora. Cámara full-frame de alta gama, lente 50-85mm f/2, profundidad de campo suave. Piel con textura real, sin suavizado plástico. Expresión genuina de alegría, energía juvenil, contenido completamente apropiado y familiar — nunca contenido adulto. Grano de sensor fotográfico sutil, NO ilustración, NO render 3D, NO CGI, NO look de IA. Color grading vibrante y cálido. Sin texto, sin logotipos, sin marcas de agua.`;
