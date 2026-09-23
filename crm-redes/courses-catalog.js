@@ -225,6 +225,7 @@ Toma un guion que ya tengas escrito. Subraya la frase que contiene tu punto prin
     title: "Cómo vestirte según tu profesión",
     subtitle: "Lo que tu ropa comunica antes de que digas una palabra",
     icon: "shirt",
+    coverFormat: "jpg",
     resumen: "La ropa es la primera pieza de contenido que tu audiencia procesa — decide en segundos si te percibe como una autoridad en tu área antes de escuchar una sola frase.",
     lecciones: [
       {
