@@ -557,6 +557,7 @@ Los hablantes con mucha experiencia real suelen apoyarse solo en ethos y pathos 
     title: "Guía práctica de asesoría de imagen",
     subtitle: "Construir una imagen coherente con tu marca personal",
     icon: "user",
+    coverFormat: "jpg",
     resumen: "Tu imagen es contenido antes de publicar cualquier contenido — la gente forma una opinión sobre ti con solo ver tu foto de perfil, antes de leer una sola palabra tuya.",
     lecciones: [
       {
