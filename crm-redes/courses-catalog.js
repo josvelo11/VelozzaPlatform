@@ -1139,6 +1139,7 @@ Para retratos con fines profesionales en sectores como salud, legal o finanzas, 
   title: "Sesión de Pareja: Cómo Prepararse para Fotos que se Sientan Reales",
   subtitle: "Fotos que se sientan reales, no posadas",
   icon: "users",
+  coverFormat: "jpg",
   resumen: "Por qué se sienten incómodos frente a la cámara, cómo coordinar su vestuario sin verse disfrazados, y cómo posar como equipo — no como dos personas paradas una junto a la otra — para lograr conexión real en vez de contacto forzado.",
   lecciones: [
     {
