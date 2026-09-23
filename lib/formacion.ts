@@ -31,7 +31,16 @@ export async function getAllCourses(): Promise<FormacionCurso[]> {
     // en producción con "Page changed from static to dynamic at runtime", 500
     // real, porque esas páginas se pre-renderizan estáticas vía
     // generateStaticParams y no toleran un fetch no-store en tiempo real).
-    const res = await fetch(getCrmUrl('/api/clientes/cursos/publico'), {
+    //
+    // ?v=<commit sha> fuerza una clave de caché nueva en cada deploy — sin
+    // esto, el fetch cache de Next (independiente del cache de la página)
+    // puede sobrevivir builds sucesivos y servir datos de antes del deploy
+    // hasta que se cumplan los 3600s completos desde el fetch original, no
+    // desde el redeploy. Pasó justo esto el 23 sept: el catálogo ya estaba
+    // corregido en el CRM pero el sitio siguió sirviendo el dato viejo en
+    // 3 rebuilds seguidos hasta que se agregó este cache-bust.
+    const buildId = process.env.RAILWAY_GIT_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || 'dev';
+    const res = await fetch(getCrmUrl(`/api/clientes/cursos/publico?v=${buildId}`), {
       next: { revalidate: 3600 },
     });
     if (!res.ok) return [];
