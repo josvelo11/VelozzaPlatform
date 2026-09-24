@@ -793,11 +793,17 @@ a {
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   background: #0b0b0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .course-hero-illustration img {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 100%;
+  max-height: 320px;
+  object-fit: contain;
 }
 .slide-image {
   border-radius: 18px;
