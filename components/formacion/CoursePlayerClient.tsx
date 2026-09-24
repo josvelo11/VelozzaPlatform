@@ -16,6 +16,7 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
   const { completed, toggle, ready } = useCourseProgress(curso.id);
   const completedSet = new Set(completed);
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const [listOpen, setListOpen] = useState(false);
 
   if (!ready) return null;
 
@@ -49,13 +50,24 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
           <div className="muted" style={{ fontSize: '0.78rem', marginTop: 8 }}>
             {doneCount}/{total} completadas
           </div>
+          <button type="button" className="sidebar-list-toggle" onClick={() => setListOpen((v) => !v)}>
+            <PremiumIcon name="down" size={13} style={{ transform: listOpen ? 'rotate(180deg)' : 'none' }} />
+            {listOpen ? 'Ocultar lista de lecciones' : 'Ver todas las lecciones'}
+          </button>
         </div>
-        <div>
+        <div className={`lesson-list${listOpen ? ' is-open' : ''}`}>
           {curso.lecciones.map((l, i) => {
             const d = completedSet.has(l.id);
             const active = i === idx;
             return (
-              <div key={l.id} className={`lesson-row${active ? ' active' : ''}`} onClick={() => setActiveIdx(i)}>
+              <div
+                key={l.id}
+                className={`lesson-row${active ? ' active' : ''}`}
+                onClick={() => {
+                  setActiveIdx(i);
+                  setListOpen(false);
+                }}
+              >
                 <span
                   className={`lesson-check${d ? ' done' : ''}`}
                   onClick={(e) => {

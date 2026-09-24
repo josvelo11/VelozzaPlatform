@@ -875,10 +875,6 @@ a {
 .player-layout > * {
   min-width: 0;
 }
-@media (max-width: 860px) {
-  .player-layout { grid-template-columns: 1fr; }
-  .player-sidebar { position: static; }
-}
 .player-sidebar {
   position: sticky;
   top: 24px;
@@ -914,6 +910,42 @@ a {
 .lesson-check.done {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   border-color: transparent;
+}
+
+.sidebar-list-toggle {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .player-layout {
+    grid-template-columns: 1fr;
+  }
+  .player-sidebar {
+    position: static;
+    order: 2;
+  }
+  .sidebar-list-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--accent-strong);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .lesson-list {
+    display: none;
+  }
+  .lesson-list.is-open {
+    display: block;
+  }
 }
 
 @keyframes formacionSlideIn {
