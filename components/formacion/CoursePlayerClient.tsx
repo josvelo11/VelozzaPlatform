@@ -17,6 +17,12 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
   const completedSet = new Set(completed);
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [listOpen, setListOpen] = useState(false);
+  // Cuando el curso ya está 100% completo, por defecto se muestra la pantalla
+  // de felicitaciones. `reviewing` es lo que deja repasar cualquier lección
+  // desde la lista sin quedar atrapado en esa pantalla — antes, una vez
+  // terminado el curso, el panel derecho quedaba bloqueado en "Completaste
+  // el curso" para siempre, sin importar en qué lección hicieras clic.
+  const [reviewing, setReviewing] = useState(false);
 
   if (!ready) return null;
 
@@ -28,6 +34,7 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
   const doneNow = completedSet.has(leccion.id);
   const isLast = idx === total - 1;
   const courseFinished = doneCount === total;
+  const showFinishedScreen = courseFinished && !reviewing;
 
   const markAndContinue = () => {
     if (!doneNow) toggle(leccion.id, true);
@@ -66,6 +73,7 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
                 onClick={() => {
                   setActiveIdx(i);
                   setListOpen(false);
+                  setReviewing(true);
                 }}
               >
                 <span
@@ -98,25 +106,48 @@ export function CoursePlayerClient({ curso, icon }: { curso: FormacionCurso; ico
         </div>
       </div>
 
-      {courseFinished ? (
+      {showFinishedScreen ? (
         <div className="panel panel-pad slide-pane" style={{ textAlign: 'center', padding: '64px 36px' }}>
           <div className="course-finished-badge">
             <PremiumIcon name="check" size={26} />
           </div>
           <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.9rem', color: '#fdfaf1', margin: 0 }}>
-            Completaste el curso
+            ¡Felicidades, completaste el curso!
           </h3>
           <p className="muted" style={{ maxWidth: 440, margin: '12px auto 0' }}>
             {curso.title} — {total} de {total} lecciones. Puedes repasar cualquier lección desde la lista cuando quieras.
           </p>
-          <Link href="/formacion-plus" className="cta-primary" style={{ marginTop: 24, display: 'inline-flex' }}>
-            Volver a Formación Plus
-          </Link>
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginTop: 24, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="player-nav-btn"
+              onClick={() => {
+                setActiveIdx(0);
+                setReviewing(true);
+              }}
+            >
+              Repasar desde el inicio
+            </button>
+            <Link href="/formacion-plus" className="cta-primary" style={{ display: 'inline-flex' }}>
+              Volver a Formación Plus
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="panel panel-pad">
-          <div className="muted" style={{ fontSize: '0.78rem', letterSpacing: '.06em', textTransform: 'uppercase' }}>
-            Lección {idx + 1} de {total}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+            <div className="muted" style={{ fontSize: '0.78rem', letterSpacing: '.06em', textTransform: 'uppercase' }}>
+              Lección {idx + 1} de {total}
+            </div>
+            {courseFinished && (
+              <button
+                type="button"
+                onClick={() => setReviewing(false)}
+                style={{ background: 'none', border: 0, cursor: 'pointer', color: 'var(--accent-strong)', fontSize: '0.78rem', fontWeight: 600 }}
+              >
+                Ver resumen del curso
+              </button>
+            )}
           </div>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.7rem, 3.4vw, 2.4rem)', color: '#fdfaf1', margin: '8px 0 4px' }}>
             {leccion.titulo}
