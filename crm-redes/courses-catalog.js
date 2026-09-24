@@ -706,7 +706,7 @@ Cada 3-4 meses, toma 6 miniaturas de tus videos más recientes, sepáralas por a
   {
     id: "poses-camara",
     categoria: "FOTOGRAFÍA Y POSES",
-    title: "Mejores poses para posar frente a cámara",
+    title: "Mejores poses frente a cámara",
     subtitle: "Fotos seguras que sirven para cualquier sesión",
     icon: "camera",
     coverFormat: "jpg",
@@ -1813,15 +1813,7 @@ Los fotógrafos de boda experimentados no trabajan con un solo cronograma — tr
 
 ## Cómo construirlo esta semana
 
-Calcula el margen hacia atrás desde el evento menos flexible del día — generalmente la ceremonia o la hora dorada — y no hacia adelante desde que empieza el arreglo. Si la ceremonia es a las 4:00pm y no puede moverse, todo lo anterior se planea con colchón integrado, no el colchón "si sobra tiempo". Habla con tu fotógrafo esta semana sobre cuántas agrupaciones familiares vas a necesitar — eso determina cuánto tiempo real hay que bloquear después de la ceremonia — y decide con él si conviene adelantar parte de las fotos antes del evento para descomprimir el resto del día.
-
-## Accionables
-
-- Arma un cronograma "oficial" para invitados y proveedores, y uno "de trabajo" con 30-45 minutos de colchón repartidos dentro de los bloques, no al final del día.
-- Calcula los horarios hacia atrás desde el bloque menos flexible (ceremonia u hora dorada), no hacia adelante desde el inicio del arreglo.
-- Cuenta cuántas agrupaciones familiares vas a necesitar y multiplica por 2-3 minutos cada una para saber el tiempo real que ocupará esa parte del día.
-- Comparte el cronograma de trabajo con tu coordinador de boda y tu fotógrafo, no solo con el salón.
-- Define ahora, no el día del evento, si conviene adelantar fotos antes de la ceremonia para liberar tiempo después.`,
+Calcula el margen hacia atrás desde el evento menos flexible del día — generalmente la ceremonia o la hora dorada — y no hacia adelante desde que empieza el arreglo. Si la ceremonia es a las 4:00pm y no puede moverse, todo lo anterior se planea con colchón integrado, no el colchón "si sobra tiempo". Habla con tu fotógrafo esta semana sobre cuántas agrupaciones familiares vas a necesitar — eso determina cuánto tiempo real hay que bloquear después de la ceremonia — y decide con él si conviene adelantar parte de las fotos antes del evento para descomprimir el resto del día.`,
       accionables: [
         'Arma un cronograma "oficial" para invitados y uno "de trabajo" con 30-45 minutos de colchón repartidos dentro de los bloques.',
         'Calcula los horarios hacia atrás desde el bloque menos flexible del día (ceremonia u hora dorada).',
@@ -1833,7 +1825,6 @@ Calcula el margen hacia atrás desde el evento menos flexible del día — gener
         { titulo: "Por qué el bloque de fotos es el que menos se puede mover", visual: "A timeline bar where every block can slide except one fixed golden-hour block locked in place with a padlock icon, a sunset gradient glowing behind it." },
         { titulo: "La técnica: dos cronogramas, no uno", visual: "Two parallel timeline bars stacked vertically — a clean rounded-hour bar labeled for guests on top, and a second bar below with small hidden buffer segments tucked inside each block." },
         { titulo: "Cómo construirlo esta semana", visual: "A timeline being built backward from a fixed ceremony-block anchor, arrows pointing right-to-left showing earlier blocks placed before it, a small calendar icon in the corner." },
-        { titulo: "Accionables", visual: "A simple checklist icon row of five checkboxes next to abstract calendar and clock icons, representing this week's concrete action list." },
       ],
     },
     {
@@ -1860,12 +1851,7 @@ En vez de intentar comprimir todo el retrato de pareja en un solo bloque, la est
 
 Busca la hora exacta de la puesta de sol para la fecha y ubicación de tu boda — cambia según la época del año y la ciudad — y cuenta 30 a 45 minutos hacia atrás desde ahí para bloquear ese segundo momento de retrato en tu cronograma de trabajo. Habla con tu fotógrafo sobre si un first look tiene sentido para tu horario particular: si tu ceremonia es a media tarde, probablemente sí; si es al atardecer, quizás la hora dorada ya coincide naturalmente con la ceremonia y el orden cambia.
 
-## Accionables
-
-- Decide con tu pareja y tu fotógrafo si van a hacer first look, considerando que no reemplaza el momento del altar, lo complementa.
-- Busca la hora exacta de puesta de sol de tu fecha y ubicación, y bloquea 30-45 minutos antes de esa hora como sesión de retrato de hora dorada, no negociable.
-- Planea dos sesiones de retrato de pareja separadas: una principal y una corta durante la hora dorada.
-- Si haces first look, agenda también ahí las fotos completas del cortejo para liberar tiempo después de la ceremonia.`,
+`,
       accionables: [
         'Decide con tu pareja y tu fotógrafo si harán first look, entendiendo que no reemplaza el momento del altar, lo complementa.',
         'Busca la hora exacta de puesta de sol de tu fecha y ubicación, y bloquea 30-45 minutos antes como sesión de hora dorada no negociable.',
@@ -1878,7 +1864,6 @@ Busca la hora exacta de la puesta de sol para la fecha y ubicación de tu boda �
         { titulo: "La hora dorada no es \"cuando haya tiempo\"", visual: "A narrow glowing sunset window on a timeline bar shrinking as a clock hand sweeps past it, showing the golden-hour block vanishing if it isn't fixed in place." },
         { titulo: "La técnica: dos sesiones de retrato, no una", visual: "Two couple-silhouette portrait sessions on a split timeline — one under flat daylight, one under a warm glowing sunset gradient — labeled as separate but complementary blocks." },
         { titulo: "Cómo planearlo esta semana", visual: "A sunset-lookup icon (sun above a horizon line) feeding into a timeline bar where a 30-45 minute block is counted backward and highlighted before the sunset mark." },
-        { titulo: "Accionables", visual: "A checklist icon row of four checkboxes beside a sunset icon and a calendar icon, representing this week's concrete planning actions." },
       ],
     },
     {
@@ -1905,12 +1890,7 @@ Cuando hay una diferencia de altura notable entre la pareja, pararlos de frente 
 
 La técnica final, y la más simple de aplicar: en vez de mantener una pose estática por varios segundos, se hace la pose y luego se pide un pequeño movimiento — un giro, un paso, una vuelta con la falda — mientras se sigue disparando. Ese movimiento es exactamente cuando la cola del vestido se despliega de forma natural, cuando la luz atraviesa la tela en ángulos distintos, y cuando la expresión deja de ser una sonrisa congelada para volverse una sonrisa real.
 
-## Accionables
-
-- Designa a una persona específica para acomodar la cola del vestido en abanico después de cada cambio de pose durante el retrato formal.
-- Practica dos o tres posiciones de manos frente a un espejo antes del día de la boda.
-- Si hay diferencia de altura notable, planea usar escalones, poses sentadas o posicionamiento en profundidad en vez de posturas forzadas.
-- Pide a tu fotógrafo alternar poses estáticas con pequeños movimientos (giro, paso, vuelta) para que la tela y la expresión se vean naturales.`,
+`,
       accionables: [
         'Designa a una persona específica para acomodar la cola del vestido en abanico después de cada cambio de pose.',
         'Practica dos o tres posiciones de manos frente a un espejo antes del día de la boda.',
@@ -1923,7 +1903,6 @@ La técnica final, y la más simple de aplicar: en vez de mantener una pose est�
         { titulo: "Las manos necesitan instrucción, no improvisación", visual: "A diagram of a couple silhouette with labeled hand-position options — one hand at the waist holding a bouquet outline, the other tucked at a lapel — small directional arrows showing deliberate placement." },
         { titulo: "Balancear la diferencia de altura sin que se note el truco", visual: "Three small diagram panels showing a height-mismatched couple silhouette solved three ways: standing on a step, seated together, and positioned with one figure slightly further back for depth." },
         { titulo: "El movimiento vence a la pose congelada", visual: "A sequence of three couple silhouettes mid-turn, the gown's train and fabric shown flaring outward with motion-blur lines across each frame." },
-        { titulo: "Accionables", visual: "A checklist icon row of four checkboxes beside a small mirror icon and a dress-silhouette icon, representing formal-portrait prep actions." },
       ],
     },
     {
@@ -1950,13 +1929,7 @@ La lista de agrupaciones — con nombres completos, no solo "los tíos" — debe
 
 Apenas termina la ceremonia, el instinto natural de los invitados es moverse hacia el cóctel. Si nadie los detiene, la familia que necesitas para las fotos se dispersa en segundos. La solución es pedirle al oficiante que anuncie, justo al cierre de la ceremonia, que los familiares en la lista de fotos se queden en el lugar — antes de que el resto de invitados empiece a caminar hacia la recepción.
 
-## Accionables
-
-- Arma la lista de agrupaciones familiares con nombres completos, con un máximo de 10-12 grupos por lado.
-- Envía esa lista a tu fotógrafo al menos dos semanas antes de la boda.
-- Designa a una persona por cada lado de la familia que conozca a todos y los vaya a buscar activamente cuando les toque turno.
-- Pide al oficiante que anuncie, al terminar la ceremonia, que la familia de la lista se quede en el lugar antes de que todos caminen hacia el cóctel.
-- Organiza la sesión con el método del embudo: de la agrupación más pequeña a la más grande, y luego restando personas de a una.`,
+`,
       accionables: [
         'Arma la lista de agrupaciones familiares con nombres completos, máximo 10-12 grupos por lado.',
         'Envía la lista a tu fotógrafo al menos dos semanas antes de la boda.',
@@ -1969,7 +1942,6 @@ Apenas termina la ceremonia, el instinto natural de los invitados es moverse hac
         { titulo: "El método del embudo: por qué se organiza así y no al azar", visual: "A funnel diagram starting with two silhouettes at the narrow top and widening downward as more family silhouettes are added row by row toward the full group at the base." },
         { titulo: "Comunicación antes del día: la parte que casi nadie hace", visual: "A checklist document icon with silhouette name tags being handed from a couple silhouette to a photographer-camera icon, a small calendar showing two weeks before the event." },
         { titulo: "El anuncio que evita la fuga masiva", visual: "A silhouette figure gesturing for a cluster of family silhouettes to stay in place, while other guest silhouettes stream away toward a cocktail-glass icon in the background." },
-        { titulo: "Accionables", visual: "A checklist icon row of five checkboxes beside a group-silhouette icon and a small funnel diagram, representing the family-photo action list." },
       ],
     },
     {
@@ -1996,13 +1968,7 @@ En lugar de pedir "relájate", que rara vez funciona en el momento, la técnica 
 
 Ni la novia ni el novio deberían estar pendientes de su propio retoque durante el día — para eso existe un kit de retoque cargado por otra persona (dama de honor, madrina, coordinador), con hojas matificantes, un labial de repuesto, y un cepillo pequeño para el cabello. Ese kit se usa en los minutos muertos entre bloques del cronograma —justo antes de las fotos formales, no después de que ya se disparó la primera tanda. Comer pequeñas porciones de comida a lo largo del día — en vez de saltarse comidas por los nervios — también evita la caída de energía que se nota en el rostro durante las fotos de la tarde-noche, cuando el cuerpo ya lleva horas sin descanso real.
 
-## Accionables
-
-- Elige o pide a tu maquillista un acabado mate o semi-mate pensando en cómo se fotografía, no solo en cómo se ve en persona.
-- Arma un kit de retoque con hojas matificantes, labial y cepillo, y asígnaselo a alguien que no seas tú para cargarlo durante el día.
-- Practica la señal de "exhalar y bajar los hombros" antes de cada pose, para que sea un reflejo automático el día de la boda.
-- Programa el uso del kit de retoque justo antes de cada bloque de fotos formales, no después.
-- Come pequeñas porciones de comida a lo largo del día para evitar la caída de energía en las fotos de la tarde-noche.`,
+`,
       accionables: [
         'Elige un acabado de maquillaje mate o semi-mate pensando en cómo se fotografía, no solo en cómo se ve en persona.',
         'Arma un kit de retoque (hojas matificantes, labial, cepillo) y asígnaselo a otra persona para cargarlo durante el día.',
@@ -2016,7 +1982,6 @@ Ni la novia ni el novio deberían estar pendientes de su propio retoque durante 
         { titulo: "Por qué la tensión se nota tanto como una mala luz", visual: "A silhouette with raised tense shoulders and a clenched-jaw outline marked with small tension lines, beside a relaxed silhouette with lowered shoulders and a soft outline." },
         { titulo: "La técnica: una señal física antes de cada foto formal", visual: "A two-step diagram of a silhouette exhaling with shoulders visibly dropping, a small breath-line icon and downward arrow indicating tension release before a pose." },
         { titulo: "El kit de retoque y por qué alguien más debe cargarlo", visual: "A small pouch icon containing blotting-paper, lipstick, and brush icons carried by a helper silhouette standing just off to the side of the couple silhouette." },
-        { titulo: "Accionables", visual: "A checklist icon row of five checkboxes beside a small touch-up-kit pouch icon and a clock, representing the day-of action list." },
       ],
     },
   ],
@@ -2207,6 +2172,217 @@ El otro factor decisivo es el momento del día en que se toman estas fotos. Las 
         { titulo: "El problema: nadie sabe dónde pararse ni qué se espera de ellos", visual: "A cluttered group of silhouette figures standing in scattered random positions with confused arrows crossing between them and a waiting camera icon." },
         { titulo: "El mecanismo: el orden y el momento del día deciden la calidad de la foto, no solo la pose", visual: "A structured group-formation diagram: a central gala-dress silhouette flanked symmetrically by court silhouettes arranged by height on each side, forming an even sloped line." },
         { titulo: "La técnica: un plan de toma armado antes del día del evento", visual: "A shot-list document icon beside a timeline block scheduled before a small clock labeled 'before guests arrive,' with small group-formation thumbnail icons representing each planned shot." },
+      ],
+    },
+  ],
+},
+
+{
+  id: "tu-paleta-de-poder",
+  categoria: "COLOR Y CONTEXTURA",
+  title: "Tu Paleta de Poder",
+  subtitle: "Los colores y la silueta que te hacen resplandecer, según tu piel real y tu cuerpo real",
+  icon: "sparkles",
+  coverFormat: "jpg",
+  resumen: "Por qué un color te ilumina y el mismo color en otra persona la apaga — y cómo vestir tu contextura para que la ropa trabaje a tu favor, no en tu contra. Sin dietas de armario, sin reglas genéricas de revista.",
+  lecciones: [
+    {
+      id: 'l1',
+      titulo: 'El error real detrás de "ese color no te queda"',
+      minutos: 6,
+      cuerpo: `## El error: elegir por moda, no por ti
+
+Casi toda mujer tiene una prenda colgada en el clóset que compró porque "estaba de moda" o porque le quedó espectacular a alguien en redes, y que cada vez que se la pone la hace ver cansada, sin razón aparente. No es la talla. No es el peso. Es que ese color específico está en guerra con el tono real de tu piel — y nadie te enseñó a distinguir eso de "no me queda bien la ropa" en general.
+
+La buena noticia: no es gusto ni suerte. Es un mecanismo físico medible, y una vez lo entiendes, elegir color deja de ser prueba y error.
+
+## El mecanismo: tu piel tiene una temperatura, no solo un color
+
+Toda piel tiene un tono de superficie (clara, media, morena, trigueña) y, debajo de eso, un **subtono** — la temperatura de fondo que determina si un color se "lleva bien" con tu piel o choca con ella. Hay tres subtonos: frío, cálido y neutro.
+
+Un subtono frío tiene más pigmento hacia el azul-rosado; la piel refleja mejor la luz de colores fríos (plata, blanco puro, joya, fríos saturados). Un subtono cálido tiene más pigmento hacia el amarillo-dorado; refleja mejor colores cálidos (oro, marfil, terrosos). El subtono neutro está en el medio y tolera ambos mundos.
+
+Cuando te pones un color que choca con tu subtono, tu piel no cambia de color — pero la luz que rebota de la tela hacia tu rostro sí lo hace, y esa luz reflejada crea un efecto visual real: sombras grisáceas bajo los ojos, un tono apagado o cetrino en la piel, ojeras que no existen sin esa prenda puesta. Es el mismo principio por el que un vestido amarillo bajo luz de tungsteno se ve distinto que bajo luz de día — solo que aquí la "luz" que rebota hacia tu cara es la tela misma.
+
+## El test de las venas (30 segundos, sin comprar nada)
+
+Mira la cara interna de tu muñeca con luz natural, sin filtro de celular. Si tus venas se ven claramente azules o moradas, tu subtono tiende a frío. Si se ven verdes, tiende a cálido. Si no logras decidir entre azul y verde — se ven como un azul-verdoso ambiguo — probablemente eres neutra.
+
+Este test no es perfecto por sí solo (la luz del ambiente y el grosor de tu piel influyen), por eso se combina con un segundo test.
+
+## El test de la joyería y el blanco
+
+Ponte, una al lado de la otra sobre tu piel, una prenda o tela blanca pura y una color hueso/marfil. Si el blanco puro te ilumina y el hueso te apaga, tiendes a fría. Si es al revés — el hueso te da vida y el blanco puro te ve pálida o dura — tiendes a cálida. Haz lo mismo con joyería dorada vs. plateada: el metal que "desaparece" sobre tu piel (se ve integrado, no forzado) es el tuyo.
+
+Si ambos test te dan resultados mixtos, es una señal real de que eres neutra — no un error en el test.
+
+## Qué hacer con el resultado
+
+Este resultado no es una lista cerrada de colores prohibidos. Es tu punto de partida: al comprar algo cerca del rostro (blusas, vestidos, bufandas, maquillaje), prioriza tonos de tu temperatura. En piezas lejos del rostro (pantalones, zapatos, bolsos) el subtono importa mucho menos porque no reflejan luz hacia tu cara.`,
+      accionables: [
+        'Haz el test de las venas con luz natural, sin filtro de celular, y anota el resultado.',
+        'Haz el test del blanco puro vs. hueso sosteniendo ambas telas junto a tu rostro frente a un espejo con luz de día.',
+        'Repite el mismo test con joyería dorada vs. plateada y anota cuál "desaparece" mejor sobre tu piel.',
+        'Revisa tres prendas de tu clóset que sientes que "no te quedan" y compáralas contra tu subtono — probablemente confirman el patrón.',
+      ],
+      secciones: [
+        { titulo: "El error: elegir por moda, no por ti", visual: "A woman looking at a hanging garment in her closet with a slightly disappointed expression, natural window light, full body shot showing her closet space." },
+        { titulo: "El mecanismo: tu piel tiene una temperatura, no solo un color", visual: "Split diptych: the same woman in a cool-toned jewel blue outfit looking radiant on one side, and in a color that visibly clashes and dulls her complexion on the other, same pose and framing." },
+        { titulo: "El test de las venas", visual: "Close crop-free full body context shot of a woman examining the inside of her wrist in natural window light, soft editorial styling." },
+        { titulo: "El test de la joyería y el blanco", visual: "A woman holding two fabric swatches, pure white and warm ivory, up near her face in front of a mirror, full body framing, soft natural light." },
+        { titulo: "Qué hacer con el resultado", visual: "A woman standing confidently in her closet, now reaching for a garment in her correct color family, warm satisfied expression, full body shot." },
+      ],
+    },
+    {
+      id: 'l2',
+      titulo: 'Tu estación de color: encuentra tu paleta real',
+      minutos: 7,
+      cuerpo: `## El error: coleccionar "colores que me quedan bien" sin sistema
+
+Saber tu subtono (frío/cálido/neutro) es el primer paso, pero no es suficiente por sí solo — dos personas con el mismo subtono frío pueden verse espectaculares en paletas completamente distintas. Falta una segunda variable: cuánto contraste y cuánta intensidad de color soporta tu paisaje natural completo (piel, cabello, ojos) sin que la ropa te apague o te opaque.
+
+## El mecanismo: tres variables, no una
+
+La colorimetría personal cruza tres cosas — temperatura (frío/cálido, lo que ya sacaste en la lección 1), profundidad (qué tan clara u oscura es tu combinación general de piel-cabello-ojos) y saturación (si tu coloración natural es intensa/definida o suave/difuminada). Esas tres variables juntas dan tu "estación" — un atajo con nombre para una paleta completa que ya está balanceada entre sí, en vez de tener que adivinar prenda por prenda.
+
+## Las 4 familias — cuál es la tuya
+
+**Invierno** — subtono frío, alto contraste entre piel-cabello-ojos (piel clara con cabello muy oscuro, o piel morena con cabello negro azabache), coloración intensa. Le sientan los colores puros y fríos: blanco óptico, negro, joya (esmeralda, rubí, zafiro), plata. Los tonos empolvados o terrosos la apagan.
+
+**Verano** — subtono frío, contraste bajo o medio, coloración suave. Le sientan los colores fríos pero empolvados: azul acero, lavanda, rosa polvo, gris perla, blanco roto. Los colores puros o muy saturados le resultan duros.
+
+**Otoño** — subtono cálido, coloración profunda y rica. Le sientan los terrosos y especiados: terracota, mostaza, verde oliva, camel, marrón chocolate, dorado envejecido. El blanco puro y los pasteles fríos la apagan.
+
+**Primavera** — subtono cálido, coloración clara y viva. Le sientan los cálidos frescos y luminosos: coral, durazno, verde manzana, turquesa cálido, dorado claro. Los tonos oscuros o apagados la opacan y envejecen.
+
+## Cómo confirmar tu estación con lo que ya tienes
+
+No necesitas comprar nada para probar esto. Saca 5-6 prendas de tu clóset que sepas con certeza que te favorecen — las que siempre generan un "te ves increíble hoy" sin que te lo propusieras. Ponlas una al lado de la otra: casi siempre van a agruparse dentro de una sola familia. Eso confirma tu estación mejor que cualquier test online genérico, porque es evidencia real de tu propia vida, no una foto de stock.`,
+      accionables: [
+        'Junta 5-6 prendas que sabes con certeza que te favorecen y revisa si comparten familia de color (fría-intensa, fría-suave, cálida-profunda, cálida-clara).',
+        'Con tu resultado de subtono de la lección 1, identifica cuál de las 4 familias coincide.',
+        'Elige un color de tu familia que NO tengas todavía en el clóset y anótalo como tu primera compra intencional.',
+        'Revisa tu maquillaje actual (labial, rubor) y confirma si está en tu familia de color o compitiendo con ella.',
+      ],
+      secciones: [
+        { titulo: "El error: coleccionar colores sin sistema", visual: "A woman standing in front of a closet rail with garments in many unrelated colors clashing visually, slightly overwhelmed expression, full body shot." },
+        { titulo: "El mecanismo: tres variables, no una", visual: "Editorial diagram-style image of a woman with three labeled visual zones softly highlighted (warmth of skin, depth of hair-eyes contrast, intensity of coloring), full body, clean cream background." },
+        { titulo: "Invierno y Verano — las familias frías", visual: "Diptych: left panel the woman in a high-contrast winter palette (true white and jewel tone), right panel in a soft summer palette (dusty lavender and pearl gray), same pose and framing." },
+        { titulo: "Otoño y Primavera — las familias cálidas", visual: "Diptych: left panel the woman in a deep autumn palette (terracotta and olive), right panel in a bright spring palette (coral and warm turquoise), same pose and framing." },
+        { titulo: "Cómo confirmar tu estación con lo que ya tienes", visual: "A woman holding several garments from her own closet up against herself in front of a mirror, comparing them side by side, full body shot, warm natural light." },
+      ],
+    },
+    {
+      id: 'l3',
+      titulo: 'Contraste: por qué la misma prenda se ve distinta en ti que en tu amiga',
+      minutos: 6,
+      cuerpo: `## El error: copiar la paleta de alguien con "tu misma estación"
+
+Te pones exactamente el mismo vestido que a tu amiga le queda perfecto, mismo color, misma estación de color — y en ti no tiene el mismo efecto. No es tu imaginación, y no significa que el sistema de estaciones esté mal. Falta la variable que más se pasa por alto: tu nivel de contraste.
+
+## El mecanismo: el contraste entre tu piel, tu cabello y tus ojos
+
+El contraste mide qué tan diferentes son entre sí los tonos de tu piel, tu cabello y tus ojos — no su color individual, sino la distancia de claridad/oscuridad entre ellos. Una persona de piel clara y cabello negro tiene alto contraste. Una persona de piel morena y cabello del mismo tono castaño oscuro tiene contraste bajo, aunque ambas puedan compartir la misma estación cálida u fría.
+
+Tu ropa necesita replicar aproximadamente ese mismo nivel de contraste para leerse como armoniosa. Por eso el mismo rojo intenso puede verse espectacular en alguien de alto contraste y "demasiado" o "disfrazado" en alguien de contraste bajo — no porque el color esté mal, sino porque la prenda sola está creando más contraste del que tu rostro tiene naturalmente, y el ojo lee esa diferencia como desequilibrio.
+
+## Alto contraste vs. bajo contraste — qué necesita cada uno
+
+Si tienes **alto contraste** (diferencia marcada entre piel-cabello-ojos), tu rostro soporta y hasta necesita prendas de contraste fuerte cerca de la cara: blanco y negro juntos, un color intenso contra piel clara, líneas y patrones definidos. Los looks totalmente monocromáticos y suaves tienden a aplanarte, no a favorecerte.
+
+Si tienes **bajo contraste** (piel y cabello en tonos cercanos), tu rostro se ve mejor con transiciones de color más graduales: tonos intermedios entre tu piel y la prenda, monocromático tonal (varios tonos de la misma familia), evitar el negro puro pegado directamente al rostro porque compite en vez de enmarcar.
+
+## Cómo medir tu propio nivel de contraste
+
+Ponte frente a un espejo con luz natural y compara, a simple vista, qué tan lejos está el tono de tu cabello del tono de tu piel, y qué tan definido se ve el color de tus ojos contra el blanco del ojo. Si la diferencia salta a la vista de inmediato, tu contraste es alto. Si tienes que mirar con atención para notar la diferencia, es bajo o medio. No hay un nivel "mejor" — solo determina qué tanta fuerza puede sostener una prenda cerca de tu rostro sin robarle protagonismo a tu cara.`,
+      accionables: [
+        'Frente a un espejo con luz natural, compara el tono de tu cabello contra el de tu piel y decide si la diferencia es marcada (alto contraste) o sutil (bajo/medio contraste).',
+        'Si eres de alto contraste, prueba una prenda con contraste fuerte cerca del rostro (blanco+negro, o un color intenso) y nota si te sientes más favorecida que con un look monocromático suave.',
+        'Si eres de bajo/medio contraste, prueba un look monocromático tonal (varios tonos de una misma familia) y compáralo con una prenda de contraste fuerte cerca del rostro.',
+        'Anota tu nivel de contraste junto a tu subtono y tu estación — las tres juntas son tu ficha completa de color.',
+      ],
+      secciones: [
+        { titulo: "El error: copiar la paleta de alguien con tu misma estación", visual: "Two women side by side wearing the exact same red dress, one looking radiant and one looking slightly washed out, full body shot, same lighting and framing for both." },
+        { titulo: "El mecanismo: el contraste entre piel, cabello y ojos", visual: "Close-context editorial diagram showing a woman's face with soft highlighted zones marking the tonal distance between hair, skin and eyes, full body framing, clean background." },
+        { titulo: "Alto contraste vs. bajo contraste", visual: "Diptych: left panel a high-contrast woman in a bold black-and-white outfit looking striking, right panel a low-contrast woman in a soft tonal monochrome outfit looking equally striking, both full body." },
+        { titulo: "Cómo medir tu propio nivel de contraste", visual: "A woman standing in front of a mirror in natural light, visually comparing her hair color against her skin tone with her hand near her face, full body shot." },
+      ],
+    },
+    {
+      id: 'l4',
+      titulo: 'Tu contextura: la línea que te favorece',
+      minutos: 7,
+      cuerpo: `## El error: vestirte para "esconder" en vez de para dirigir la mirada
+
+La mayoría de los consejos de "vestir según tu cuerpo" parten de una idea equivocada: esconder lo que no te gusta. Eso produce looks holgados y sin forma que terminan sumando volumen en vez de restarlo. El enfoque real de un asesor de imagen no es esconder — es dirigir la mirada usando líneas, y eso funciona para cualquier contextura, sin excepción.
+
+## El mecanismo: toda silueta se lee por líneas y proporción, no por talla
+
+El ojo humano no mide tu cuerpo en centímetros: lee proporciones relativas entre hombros, cintura y cadera, y sigue las líneas que la ropa dibuja. Una prenda que crea una línea vertical alarga visualmente. Una que marca la cintura crea la ilusión de una proporción equilibrada entre la parte de arriba y de abajo del cuerpo, sin importar la talla real de esa cintura. Una que agrega volumen horizontal en un punto específico "corrige" visualmente una proporción, sumando ancho donde el cuerpo necesita balance y no donde ya sobra.
+
+Esto significa que la misma prenda puede favorecer a una contextura y no a otra — no porque una talla sea "mejor" que otra, sino porque cada contextura necesita una línea distinta para leerse balanceada.
+
+## Las 5 siluetas y su línea de poder
+
+**Reloj de arena** (hombros y cadera de ancho similar, cintura marcada): tu línea de poder ya existe — cualquier prenda que respete o marque tu cintura natural (cinturones, cortes entallados, wrap dresses) te favorece. Evita ocultar la cintura bajo prendas rectas que la disuelven.
+
+**Rectángulo** (hombros, cintura y cadera de ancho similar, poca definición de cintura): tu línea de poder es crear la ilusión de cintura donde no hay una marcada — cinturones, peplum, prendas con costuras curvas o drapeado en la zona media, escote en V para agregar quiebre vertical.
+
+**Triángulo / pera** (cadera más ancha que hombros): tu línea de poder está arriba — detalles, color o textura en hombros y escote (mangas abullonadas, cuellos con volumen, colores claros arriba) para equilibrar visualmente hacia arriba, y líneas verticales o colores oscuros lisos en la parte inferior.
+
+**Triángulo invertido** (hombros más anchos que cadera): tu línea de poder está abajo — faldas o pantalones con volumen o color (palazzo, faldas en A, estampados), y arriba priorizar escotes en V y evitar hombreras o mangas voluminosas que sumen más ancho arriba.
+
+**Óvalo** (peso concentrado en la zona media, hombros y cadera más estrechos que la cintura): tu línea de poder es la vertical continua — prendas con una sola línea de tela de arriba a abajo (vestidos camiseros abiertos, blazers largos sin cerrar, escotes en V profundos) que alargan en vez de cortar la figura a la altura de la cintura.
+
+## Cómo usar el color para reforzar tu línea
+
+El color no solo tiene que ver con tu piel — también dirige la mirada dentro de tu propio cuerpo. Un color más claro o más saturado atrae la vista hacia esa zona; un color oscuro o apagado la retrae. Combina esto con tu línea de poder: si eres triángulo, pon el color de tu estación arriba y un neutro oscuro abajo. Si eres triángulo invertido, exactamente al revés.`,
+      accionables: [
+        'Identifica tu contextura comparando el ancho relativo de tus hombros, cintura y cadera frente a un espejo, sin ropa ajustada que distorsione la comparación.',
+        'Busca en tu clóset una prenda que ya sigas usando seguido y confirma si respeta tu línea de poder — probablemente es una de tus favoritas por esa razón, aunque no lo hubieras notado.',
+        'Elige una prenda de tu paleta de color (de la lección 2) y decide en qué zona de tu cuerpo la vas a usar según tu línea de poder.',
+        'Prueba combinar un color claro o saturado en tu zona de poder con un neutro oscuro en la otra, y compara el efecto frente al espejo.',
+      ],
+      secciones: [
+        { titulo: "El error: vestirte para esconder", visual: "A woman in an oversized shapeless garment looking uncertain in front of a mirror, full body shot, soft natural light." },
+        { titulo: "El mecanismo: líneas y proporción, no talla", visual: "Editorial silhouette diagram of a woman's figure with clean line illustrations overlaid showing a vertical line, a waist-marking line, and a horizontal balance line, minimalist style." },
+        { titulo: "Reloj de arena y Rectángulo", visual: "Silhouette diagram diptych: left a faceless hourglass-shaped silhouette with a belt-marked waistline illustrated, right a faceless rectangle-shaped silhouette with a peplum-curve line illustrated, clean editorial line art on cream background." },
+        { titulo: "Triángulo y Triángulo invertido", visual: "Silhouette diagram diptych: left a faceless pear-shaped silhouette with volume and color illustrated at the shoulder line, right a faceless inverted-triangle silhouette with volume and color illustrated at the hip line, clean editorial line art on cream background." },
+        { titulo: "Óvalo y el uso del color para reforzar tu línea", visual: "A real photographed woman standing full body in front of a mirror wearing an open long blazer creating one continuous vertical line, warm confident expression." },
+      ],
+    },
+    {
+      id: 'l5',
+      titulo: 'Combina color y forma: tu clóset cápsula con intención',
+      minutos: 6,
+      cuerpo: `## El error: comprar pieza por pieza sin sistema
+
+Con tu subtono, tu estación, tu contraste y tu contextura ya identificados, el error más común es seguir comprando como antes: pieza suelta que te gustó en el momento, sin revisar si cruza con lo que ya tienes. El resultado es un clóset lleno pero con poco que realmente combine entre sí.
+
+## El mecanismo: una cápsula funciona porque todo cruza con todo
+
+Un armario cápsula no significa tener menos ropa por tener menos — significa que cada pieza fue elegida para combinar con varias otras, dentro de tu paleta y tu línea de poder. Cuando cada prenda nueva cruza con el 70-80% de lo que ya tienes, el clóset completo rinde muchísimo más que la suma de sus piezas, porque las combinaciones posibles crecen exponencialmente, no de una en una.
+
+## Cómo armar tu cápsula con tu paleta y tu silueta
+
+Empieza por tus neutros base (los que confirmaste en la lección 1 y 2: blanco puro u hueso, negro o marrón chocolate, según tu subtono) y agrégales 2-3 colores de tu estación que uses en tu zona de poder de contextura. Con eso ya tienes la base de una cápsula: neutros que cruzan con todo, y colores de acento que sabes exactamente dónde ubicar en tu cuerpo.
+
+No necesitas reemplazar tu clóset entero de una vez. La próxima vez que compres algo, pregúntate primero: ¿está en mi familia de color?, ¿respeta mi línea de poder?, ¿cruza con al menos tres piezas que ya tengo? Si las tres respuestas son sí, es una compra que multiplica tus combinaciones en vez de sumar una pieza aislada.
+
+## El drape test casero antes de comprar
+
+Antes de comprar una prenda nueva —incluso en línea—, haz el drape test con algo que ya tengas en ese color o uno parecido: sostenla junto a tu rostro frente a un espejo con luz natural, igual que hiciste en la lección 1 con el blanco y el hueso. Si tu piel se ve más viva y despierta con la tela cerca, es tu color. Si se ve más apagada o las ojeras se marcan más, no lo es — sin importar cuánto te guste la prenda en el maniquí o en la modelo de la foto.`,
+      accionables: [
+        'Escribe tu ficha completa: subtono, estación, nivel de contraste y contextura — la vas a usar antes de cada compra de ahora en adelante.',
+        'Revisa tu clóset y separa las piezas que sí cruzan con tres o más prendas de tu familia de color, de las que quedan aisladas sin combinar con nada.',
+        'Define tus 2-3 colores de acento (los de tu estación, ubicados en tu zona de poder de contextura) para las próximas compras.',
+        'La próxima vez que veas algo que te guste, haz el drape test junto a tu rostro antes de comprarlo — incluso si es en línea, pide la muestra de tela o compáralo con algo similar que ya tengas.',
+      ],
+      secciones: [
+        { titulo: "El error: comprar pieza por pieza sin sistema", visual: "A woman looking at a cluttered closet full of garments that visually don't relate to each other in color or style, slightly overwhelmed, full body shot." },
+        { titulo: "El mecanismo: una cápsula funciona porque todo cruza con todo", visual: "An organized closet shot with garments arranged in a coherent color palette, neutrals and 2-3 accent colors, clean editorial styling, full body context of the woman reaching for a piece." },
+        { titulo: "Cómo armar tu cápsula con tu paleta y tu silueta", visual: "The woman laying out several garments on a bed in a coordinated palette, mixing and matching combinations, full body overhead or wide angle shot." },
+        { titulo: "El drape test casero antes de comprar", visual: "The woman holding a fabric swatch up near her face in front of a mirror with natural light, comparing her complexion, full body shot, same setup as lesson 1's drape test for visual continuity." },
       ],
     },
   ],
