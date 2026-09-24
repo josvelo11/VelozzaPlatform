@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '../styles/globals.css';
 import SiteChrome from '@/components/SiteChrome';
 import SiteAnimations from '@/components/SiteAnimations';
+import CookieConsent from '@/components/CookieConsent';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://velozzacws.com'),
@@ -73,6 +74,7 @@ export default function RootLayout({
       <body>
         <SiteAnimations />
         <SiteChrome>{children}</SiteChrome>
+        <CookieConsent />
       </body>
     </html>
   );

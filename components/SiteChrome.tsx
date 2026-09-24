@@ -1,10 +1,16 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import BrandLogo from '@/components/BrandLogo';
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   if (pathname === '/') {
     return <>{children}</>;
@@ -27,6 +33,18 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
           display: inline;
         }
 
+        .site-chrome-toggle-btn {
+          display: none;
+        }
+
+        .site-chrome-actions {
+          display: flex;
+          gap: 20px;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          align-items: center;
+        }
+
         @media (max-width: 980px) {
           .site-chrome-header {
             height: auto !important;
@@ -35,69 +53,63 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
           }
 
           .site-chrome-nav {
-            flex-direction: column;
-            align-items: stretch !important;
+            align-items: center !important;
+            flex-wrap: wrap;
             gap: 10px;
           }
 
-          .site-chrome-nav > a:first-child {
+          .site-chrome-toggle-btn {
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            margin-left: auto;
+            cursor: pointer;
+            background: transparent;
+            border: 0;
+            padding: 0;
+          }
+
+          .site-chrome-toggle-btn span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: #f4f2ec;
           }
 
           .site-chrome-actions {
+            display: none;
             width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            flex-wrap: nowrap !important;
-            justify-content: flex-start !important;
-            padding: 0 2px 4px;
-            gap: 14px !important;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 2px !important;
+            max-height: calc(100vh - 74px);
+            overflow-y: auto;
+            padding: 8px 2px 14px;
+            border-top: 1px solid rgba(201,168,76,0.16);
+            margin-top: 10px;
           }
 
-          .site-chrome-actions::-webkit-scrollbar {
-            display: none;
+          .site-chrome-actions.is-open {
+            display: flex;
           }
 
           .site-chrome-actions a,
           .site-chrome-actions button {
-            flex: 0 0 auto;
-            white-space: nowrap;
+            white-space: normal;
+            width: 100%;
+            padding: 12px 4px !important;
+          }
+
+          .site-chrome-actions a:last-child {
+            padding: 14px !important;
+            text-align: center;
           }
         }
 
         @media (max-width: 760px) {
-          .site-chrome-nav {
-            gap: 12px;
-            padding: 12px 0 14px;
-            align-items: flex-start;
-          }
-
-          .site-chrome-nav > a:first-child {
-            width: 100%;
-          }
-
-          .site-chrome-actions {
-            width: 100%;
-            overflow-x: auto;
-            padding-bottom: 2px;
-            justify-content: flex-start;
-            flex-wrap: nowrap;
-            gap: 12px;
-            -webkit-overflow-scrolling: touch;
-          }
-
-          .site-chrome-actions a,
-          .site-chrome-actions button {
-            white-space: nowrap;
-            flex: 0 0 auto;
-          }
-
-          .site-chrome-actions a:last-child {
-            padding: 12px 18px !important;
-          }
-
           .site-chrome-bodas-mobile {
             display: inline;
           }
@@ -116,33 +128,24 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             grid-template-columns: 1fr !important;
           }
         }
-
-        @media (max-width: 520px) {
-          .site-chrome-nav {
-            gap: 10px;
-          }
-
-          .site-chrome-actions {
-            gap: 10px;
-          }
-
-          .site-chrome-actions a,
-          .site-chrome-actions button {
-            font-size: 10px !important;
-            letter-spacing: .11em !important;
-          }
-
-          .site-chrome-actions a:last-child {
-            padding: 10px 14px !important;
-          }
-        }
       `}</style>
       <header className="site-chrome-header" style={{ position: 'sticky', top: 0, zIndex: 20, height: 74, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(12,12,10,0.94)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(201,168,76,0.16)' }}>
         <nav className="site-shell site-chrome-nav" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <a href="/" aria-label="Velozza Creative Works" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#f4f2ec' }}>
             <BrandLogo variant="transparent" style={{ width: 168 }} priority />
           </a>
-          <div className="site-chrome-actions" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <button
+            type="button"
+            className="site-chrome-toggle-btn"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span style={{ transform: menuOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
+            <span style={{ opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ transform: menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
+          </button>
+          <div className={`site-chrome-actions${menuOpen ? ' is-open' : ''}`}>
             <a href="/paquetes-bodas" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}><span className="site-chrome-bodas-desktop">Bodas y Eventos Sociales</span><span className="site-chrome-bodas-mobile">Bodas</span></a>
             <a href="/guia-poses-novias" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Guía de Poses</a>
             <a href="/servicios" style={{ color: 'rgba(244,242,236,.66)', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase' }}>Servicios</a>
@@ -196,7 +199,10 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
             </div>
           </div>
           <div style={{ borderTop: '1px solid #2a2a22', paddingTop: '20px', textAlign: 'center' }}>
-            <p style={{ color: '#a3a099' }}>&copy; 2025 Velozza Creative Works. Todos los derechos reservados.</p>
+            <p style={{ color: '#a3a099' }}>&copy; 2026 Velozza Creative Works. Todos los derechos reservados.</p>
+            <p style={{ marginTop: '10px' }}>
+              <a href="/politica-de-tratamiento-de-datos" style={{ color: '#a3a099', fontSize: '13px' }}>Política de Tratamiento de Datos</a>
+            </p>
           </div>
         </div>
       </footer>

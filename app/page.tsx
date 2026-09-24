@@ -82,6 +82,9 @@ export default function Home() {
           .cta .ghost:hover { border-color: rgba(26,18,0,.5); background: rgba(26,18,0,.08); }
           .links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
           .links a { color: rgba(244,242,236,.66); text-decoration: none; font-family: Montserrat, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+          .nav-toggle-input { display: none; }
+          .nav-toggle-btn { display: none; }
+          .nav-cta-mobile { display: none; }
           .links a:hover, .footer a:hover, .link:hover { color: #f0d98a; }
           .hero { position: relative; overflow: hidden; }
           .hero-grid { position: relative; z-index: 1; padding: 72px 0 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 54px; align-items: center; }
@@ -366,11 +369,27 @@ export default function Home() {
           @media (max-width: 640px) {
             .nav, .hero-grid, .section, .cta, .footer { padding-left: 0; padding-right: 0; }
             .wrap { width: min(100% - 24px, 1240px); }
-            .nav { height: auto; min-height: 74px; gap: 12px; padding-top: 10px; padding-bottom: 10px; align-items: flex-start; }
+            .nav { height: auto; min-height: 74px; gap: 12px; padding-top: 10px; padding-bottom: 10px; align-items: center; flex-wrap: wrap; }
             .brand { transform: scale(.92); transform-origin: left top; }
-            .links { width: 100%; justify-content: flex-start; gap: 10px 14px; overflow-x: auto; padding-bottom: 2px; }
-            .links li { flex: 0 0 auto; }
-            .button.gold { display: none; }
+            .nav-toggle-btn {
+              display: flex; flex-direction: column; justify-content: center; gap: 5px;
+              width: 40px; height: 40px; margin-left: auto; cursor: pointer; background: transparent; border: 0; padding: 0;
+            }
+            .nav-toggle-btn span { display: block; width: 22px; height: 2px; background: #f4f2ec; transition: transform 200ms ease, opacity 200ms ease; }
+            .nav-toggle-input:checked ~ .nav-toggle-btn span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .nav-toggle-input:checked ~ .nav-toggle-btn span:nth-child(2) { opacity: 0; }
+            .nav-toggle-input:checked ~ .nav-toggle-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+            .links {
+              display: none; width: 100%; order: 3; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 2px;
+              max-height: calc(100vh - 74px); overflow-y: auto; padding: 8px 0 18px;
+              border-top: 1px solid rgba(201,168,76,.16); margin-top: 10px;
+            }
+            .links li { flex: 0 0 auto; width: 100%; }
+            .links a { display: block; padding: 12px 4px; font-size: 13px; }
+            .nav-toggle-input:checked ~ .links { display: flex; }
+            .nav-cta-mobile { display: block; margin-top: 6px; }
+            .nav-cta-mobile a { color: #1a1200; background: linear-gradient(135deg, #f0d98a, #c9a84c); padding: 14px; text-align: center; font-weight: 800; }
+            .button.gold.nav-cta { display: none; }
             .hero-grid { padding-top: 34px; padding-bottom: 28px; }
             .hero-copy { font-size: 14px; margin-bottom: 28px; }
             .actions { width: 100%; }
@@ -463,6 +482,10 @@ export default function Home() {
           <Link href="/" className="brand">
             <BrandLogo variant="transparent" style={{ width: 168 }} priority />
           </Link>
+          <input type="checkbox" id="nav-toggle" className="nav-toggle-input" />
+          <label htmlFor="nav-toggle" className="nav-toggle-btn" aria-label="Abrir menú">
+            <span /><span /><span />
+          </label>
           <ul className="links">
             <li><a href="/servicios">Servicios</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -473,8 +496,9 @@ export default function Home() {
             <li><a href="/contacto">Contacto</a></li>
             <li><a href="/cliente">Cliente</a></li>
             <li><a href="/clientes">Ingresar</a></li>
+            <li className="nav-cta-mobile"><a href="/contacto">Agenda tu Consulta →</a></li>
           </ul>
-          <Link href="/contacto" className="button gold">Agenda tu Consulta →</Link>
+          <Link href="/contacto" className="button gold nav-cta">Agenda tu Consulta →</Link>
         </header>
 
         <section className="hero">
@@ -997,7 +1021,7 @@ export default function Home() {
           </div>
           <div className="wrap bottom">
             <p>© 2026 Velozza Creative Works™. Todos los derechos reservados.</p>
-            <div className="legal"><Link href="/contacto">Política de Privacidad</Link><Link href="/contacto">Términos de Servicio</Link><Link href="/contacto">Aviso Legal</Link></div>
+            <div className="legal"><Link href="/politica-de-tratamiento-de-datos">Política de Tratamiento de Datos</Link><Link href="/contacto">Términos de Servicio</Link><Link href="/contacto">Aviso Legal</Link></div>
           </div>
         </footer>
 

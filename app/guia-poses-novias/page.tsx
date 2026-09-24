@@ -68,9 +68,9 @@ export default function Hub() {
             </article>))}</div></section>
 
         <section className="pz-band" aria-labelledby="lista">
-          <div><div className="eyebrow">Solo aquí</div><h2 id="lista" className="section-title">Arma tu lista y envíasela a tu fotógrafo</h2>
-            <p className="section-lead">Guarda con el corazón las poses que te gustan. Con un toque tienes tu lista lista para enviar por WhatsApp o imprimir, con la frase exacta para pedirlas el día de tu boda.</p>
-            <Link href={`${BASE}/mi-lista`} className="cta-primary">Ir a mi lista</Link></div>
+          <div><div className="eyebrow">Solo aquí</div><h2 id="lista" className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.6rem)' }}>Guarda tus poses favoritas y descarga tu PDF gratis</h2>
+            <p className="section-lead">Toca el corazón en las poses que te gustan. Al armar tu lista, generamos automáticamente un PDF descargable con tu selección, listo para enviar por WhatsApp o imprimir, con la frase exacta para pedirlas el día de tu boda.</p>
+            <Link href={`${BASE}/mi-lista`} className="cta-primary">Ver mi lista y descargar PDF</Link></div>
         </section>
 
         <section className="pz-real" aria-labelledby="real"><div><div className="eyebrow">Así se ve en una boda real</div><h2 id="real" className="section-title">Lo que practicas aquí, lo dirigimos en tu boda</h2>

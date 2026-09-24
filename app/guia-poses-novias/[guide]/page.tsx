@@ -38,6 +38,7 @@ export default async function Guide({ params }: { params: Promise<{ guide: strin
           <p className="pz-answer">{l.quickAnswer}</p><p className="section-lead">{l.intro}</p></header>
         <AiNotice />
         <nav className="pz-toc" aria-label="En esta guía"><strong>En esta guía · {poses.length} poses</strong><ol>{poses.map((p) => <li key={p.n}><a href={`#${p.slug}`}>{p.h1}</a></li>)}</ol></nav>
+        <p className="pz-tip gold" style={{ marginTop: '4px' }}>💛 Toca el corazón en las poses que te gustan: al final arma tu lista y te generamos un <strong>PDF descargable</strong> con tu selección, listo para enviar por WhatsApp a tu fotógrafo. <Link href={`${BASE}/mi-lista`}>Ver mi lista</Link></p>
         {poses.map((p, i) => (
           <article key={p.n} id={p.slug} className="pz-pose">
             <PoseImage pose={p} priority={i < 2} />
