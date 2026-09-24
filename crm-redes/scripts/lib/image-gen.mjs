@@ -42,6 +42,7 @@ async function generateOne({ apiKey, prompt, outPath, aspectRatio = '4:3' }, att
   const part = data.candidates?.[0]?.content?.parts?.find((p) => p.inlineData);
   if (!part) throw new Error('Respuesta sin imagen: ' + JSON.stringify(data).slice(0, 300));
   const rawBytes = Buffer.from(part.inlineData.data, 'base64');
+  fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, rawBytes);
   const rawSize = rawBytes.length;
   compressInPlace(outPath);
