@@ -125,6 +125,14 @@ export function initCronograma(root){
     headTableNamesEl.textContent = state.names;
     scheduleSave();
   });
+  namesEl.addEventListener('focus', function(){
+    if (namesEl.textContent.trim() !== 'Nombre & Nombre') return;
+    var range = document.createRange();
+    range.selectNodeContents(namesEl);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
   dateEl.addEventListener('change', function(){ state.date = dateEl.value; scheduleSave(); updateCountdown(); renderLightBar(); renderTimeline(); });
   cityEl.addEventListener('change', function(){ state.city = cityEl.value; scheduleSave(); renderLightBar(); renderTimeline(); });
 
