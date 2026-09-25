@@ -1,6 +1,6 @@
 export const CB_STYLES = `
 .cb-root{
-  --bg:#0b0906; --bg2:#141109; --bg3:#1a1610; --ink:#f4f2ec; --mut:#a3a099; --mut2:#6f6c62;
+  --bg:#0b0906; --bg2:#141109; --bg3:#1a1610; --ink:#f4f2ec; --mut:#c7c3b8; --mut2:#a6a294;
   --gold:#c9a84c; --gold2:#f0d98a; --goldd:#8a6d24;
   --line:rgba(201,168,76,.22); --line2:rgba(201,168,76,.4);
   --harsh:#e0714a; --blue:#8b9bd9; --night:#4a4a52;
@@ -78,13 +78,21 @@ export const CB_STYLES = `
 
 .cb-root .cb-names-wrap{position:relative}
 
-.cb-root .cb-names-heading{font:italic 500 clamp(32px,6.6vw,54px)/1.05 'Cormorant Garamond',serif}
+.cb-root .cb-names-heading{font:italic 500 clamp(32px,6.6vw,54px)/1.05 'Cormorant Garamond',serif;display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:wrap}
 
-.cb-root .cb-name-field{display:inline-block;min-width:2.4ch;background:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;color:transparent;padding:4px 6px;border-radius:6px}
+.cb-root .cb-name-field{display:inline-block;min-width:9ch;vertical-align:middle;background:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;color:transparent;padding:10px 18px;border-radius:10px;line-height:1.2}
 
-.cb-root .cb-name-field:hover, .cb-root .cb-name-field:focus{background-image:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;box-shadow:0 0 0 1px var(--line2)}
+.cb-root .cb-name-field:empty{border:1.5px dashed var(--line2);background-color:rgba(201,168,76,.05)}
 
-.cb-root .cb-amp{color:var(--goldd);opacity:.75;padding:0 2px}
+.cb-root .cb-name-field:not(:empty){border:1.5px solid transparent}
+
+.cb-root .cb-name-field:empty:before{font-family:'Montserrat',sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:.02em;white-space:nowrap;color:var(--mut)}
+
+.cb-root .cb-name-field:hover, .cb-root .cb-name-field:focus{background-image:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;border-color:var(--gold)}
+
+.cb-root .cb-name-field:empty:hover, .cb-root .cb-name-field:empty:focus{background-color:rgba(201,168,76,.1)}
+
+.cb-root .cb-amp{color:var(--goldd);opacity:.85;padding:0 4px}
 
 .cb-root .cb-edit-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font:600 10.5px 'Montserrat';letter-spacing:.06em;color:var(--mut2)}
 

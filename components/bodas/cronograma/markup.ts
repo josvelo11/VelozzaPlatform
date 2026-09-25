@@ -11,7 +11,7 @@ export const CB_MARKUP = `
   <span class="eyebrow hero-anim" style="animation-delay:.1s">Cronograma del gran día · Velozza Creative Works</span>
   <div class="cb-names-wrap hero-anim" style="animation-delay:.15s">
     <h1 class="cb-names-heading">
-      <span id="brideName" class="cb-name-field" contenteditable="true" data-ph="Novia"></span> <span class="cb-amp">&amp;</span> <span id="groomName" class="cb-name-field" contenteditable="true" data-ph="Novio"></span>
+      <span id="brideName" class="cb-name-field" contenteditable="true" data-ph="Coloca aquí el nombre de la novia"></span> <span class="cb-amp">&amp;</span> <span id="groomName" class="cb-name-field" contenteditable="true" data-ph="Coloca aquí el nombre del novio"></span>
     </h1>
     <div class="cb-edit-hint"><svg class="cb-edit-hint-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Toquen cada nombre para escribir el suyo — toda esta planilla es editable</div>
   </div>
