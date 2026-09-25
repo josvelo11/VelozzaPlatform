@@ -31,6 +31,18 @@ export default function CronogramaBodaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `@media print{
+            html, body{background:#fff !important}
+            header.site-chrome-header, footer.site-chrome-footer,
+            nav[aria-label="Breadcrumb"], [aria-label="Aviso de cookies"],
+            .cb-page-intro{display:none !important}
+            .cb-page-panel{overflow:visible !important;background:none !important;border:0 !important;box-shadow:none !important;padding:0 !important;margin:0 !important}
+            .section-shell{padding:0 !important;margin:0 !important;max-width:none !important}
+          }`,
+        }}
+      />
       <main>
         <Breadcrumb
           items={[
@@ -41,7 +53,7 @@ export default function CronogramaBodaPage() {
           ]}
         />
         <section className="section-shell" style={{ paddingTop: 0 }}>
-          <div style={{ maxWidth: '820px', margin: '0 auto 8px' }} className="reveal">
+          <div style={{ maxWidth: '820px', margin: '0 auto 8px' }} className="reveal cb-page-intro">
             <div className="eyebrow">Herramienta gratuita para nuestros novios</div>
             <h1 className="hero-title" style={{ maxWidth: '18ch', fontSize: 'clamp(2rem, 4.2vw, 3.1rem)' }}>
               Su <span className="text-shimmer">cronograma de boda</span>, hecho por fotógrafos
@@ -51,7 +63,7 @@ export default function CronogramaBodaPage() {
             </p>
           </div>
 
-          <div className="panel reveal" style={{ marginTop: '24px', marginBottom: '48px', overflow: 'hidden', padding: 0 }}>
+          <div className="panel reveal cb-page-panel" style={{ marginTop: '24px', marginBottom: '48px', overflow: 'hidden', padding: 0 }}>
             <CronogramaBodaTool />
           </div>
         </section>
