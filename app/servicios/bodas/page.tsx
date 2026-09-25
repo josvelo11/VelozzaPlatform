@@ -409,6 +409,9 @@ export default function BodasPage() {
                   >
                     Cotizar por WhatsApp
                   </a>
+                  <Link href="/servicios/bodas/cronograma" className="cta-secondary">
+                    Cronograma de boda gratis
+                  </Link>
                 </div>
               </div>
 
