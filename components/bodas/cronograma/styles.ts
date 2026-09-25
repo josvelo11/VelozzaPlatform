@@ -76,7 +76,19 @@ export const CB_STYLES = `
 
 .cb-root .hero .eyebrow{display:block;margin-bottom:16px;position:relative}
 
-.cb-root #names{font:italic 500 clamp(32px,6.6vw,54px)/1.05 'Cormorant Garamond',serif;background:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;color:transparent;padding:4px 10px;position:relative}
+.cb-root .cb-names-wrap{position:relative}
+
+.cb-root .cb-names-heading{font:italic 500 clamp(32px,6.6vw,54px)/1.05 'Cormorant Garamond',serif}
+
+.cb-root .cb-name-field{display:inline-block;min-width:2.4ch;background:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;color:transparent;padding:4px 6px;border-radius:6px}
+
+.cb-root .cb-name-field:hover, .cb-root .cb-name-field:focus{background-image:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#a98a33);-webkit-background-clip:text;background-clip:text;box-shadow:0 0 0 1px var(--line2)}
+
+.cb-root .cb-amp{color:var(--goldd);opacity:.75;padding:0 2px}
+
+.cb-root .cb-edit-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font:600 10.5px 'Montserrat';letter-spacing:.06em;color:var(--mut2)}
+
+.cb-root .cb-edit-hint-icon{width:13px;height:13px;flex:none;color:var(--gold)}
 
 .cb-root .subtitle{color:var(--mut);font-size:13.5px;max-width:42em;margin:12px auto 0;position:relative}
 
@@ -471,9 +483,9 @@ export const CB_STYLES = `
 
   .cb-root .hero:before{display:none !important}
 
-  .cb-root #names, .cb-root .gold-text{-webkit-text-fill-color:var(--gold2) !important}
+  .cb-root .cb-name-field, .cb-root .gold-text{-webkit-text-fill-color:var(--gold2) !important}
 
-  .cb-root .quicknav, .cb-root .hero-controls, .cb-root .mode-toggle, .cb-root .add-row, .cb-root .copy-row, .cb-root .icon-btn, .cb-root .row-actions, .cb-root .save-pill, .cb-root .save-actions, .cb-root .pdf-hint, .cb-root .wa-btn, .cb-root .live-badge, .cb-root .table-editor, .cb-root .light-bar-wrap .light-key, .cb-root .gc-field-tables .lbl2, .cb-root .rm, .cb-root .header-nav{display:none !important}
+  .cb-root .quicknav, .cb-root .hero-controls, .cb-root .mode-toggle, .cb-root .add-row, .cb-root .copy-row, .cb-root .icon-btn, .cb-root .row-actions, .cb-root .save-pill, .cb-root .save-actions, .cb-root .pdf-hint, .cb-root .wa-btn, .cb-root .live-badge, .cb-root .table-editor, .cb-root .light-bar-wrap .light-key, .cb-root .gc-field-tables .lbl2, .cb-root .rm, .cb-root .header-nav, .cb-root .cb-edit-hint, .cb-root .demo-link{display:none !important}
 
   .cb-root .table-circle, .cb-root .table-rect{box-shadow:none !important}
 

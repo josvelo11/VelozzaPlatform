@@ -50,13 +50,22 @@ export function initCronograma(root){
 
   var saved = loadState();
   var state = saved || {
-    names:'Nombre & Nombre', date:defaultDate(), city:'bogota', mode:'work',
+    brideName:'', groomName:'', date:defaultDate(), city:'bogota', mode:'work',
     schedule: JSON.parse(JSON.stringify(DEFAULT_SCHEDULE)),
     crew: JSON.parse(JSON.stringify(DEFAULT_CREW)),
     guestCount: 80, perTable: 8, tableLabels: [], tableGuests: [],
     headCapacity: 2, headGuests: [],
     menu: JSON.parse(JSON.stringify(DEFAULT_MENU)), menuNotes: ''
   };
+  if (state.names && !state.brideName && !state.groomName) {
+    var nameParts = state.names.split(/\s*&\s*/);
+    state.brideName = nameParts[0] === 'Nombre' ? '' : (nameParts[0] || '');
+    state.groomName = nameParts[1] === 'Nombre' ? '' : (nameParts[1] || '');
+    delete state.names;
+  }
+  if (state.brideName == null) state.brideName = '';
+  if (state.groomName == null) state.groomName = '';
+  function displayNames(){ return (state.brideName || 'Novia') + ' & ' + (state.groomName || 'Novio'); }
   if (!state.crew) state.crew = JSON.parse(JSON.stringify(DEFAULT_CREW));
   if (!state.mode) state.mode = 'work';
   if (!state.layoutMode) state.layoutMode = 'round';
@@ -70,7 +79,8 @@ export function initCronograma(root){
   if (state.menuNotes == null) state.menuNotes = '';
   if (state.tableCount == null) state.tableCount = Math.ceil(state.guestCount / Math.max(1,state.perTable));
 
-  var namesEl = document.getElementById('names');
+  var brideNameEl = document.getElementById('brideName');
+  var groomNameEl = document.getElementById('groomName');
   var headTableNamesEl = document.getElementById('headTableNames');
   var dateEl = document.getElementById('weddingDate');
   var cityEl = document.getElementById('city');
@@ -101,8 +111,9 @@ export function initCronograma(root){
   var addCourseBtn = document.getElementById('addCourse');
   var menuNotesEl = document.getElementById('menuNotes');
 
-  namesEl.textContent = state.names;
-  headTableNamesEl.textContent = state.names;
+  brideNameEl.textContent = state.brideName;
+  groomNameEl.textContent = state.groomName;
+  headTableNamesEl.textContent = displayNames();
   dateEl.value = state.date;
   cityEl.value = state.city;
   guestCountEl.value = state.guestCount;
@@ -120,18 +131,15 @@ export function initCronograma(root){
     showSaved._t = setTimeout(function(){ savePill.classList.remove('show'); }, 1600);
   }
 
-  namesEl.addEventListener('input', function(){
-    state.names = namesEl.textContent.trim() || 'Nombre & Nombre';
-    headTableNamesEl.textContent = state.names;
+  brideNameEl.addEventListener('input', function(){
+    state.brideName = brideNameEl.textContent.trim();
+    headTableNamesEl.textContent = displayNames();
     scheduleSave();
   });
-  namesEl.addEventListener('focus', function(){
-    if (namesEl.textContent.trim() !== 'Nombre & Nombre') return;
-    var range = document.createRange();
-    range.selectNodeContents(namesEl);
-    var sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
+  groomNameEl.addEventListener('input', function(){
+    state.groomName = groomNameEl.textContent.trim();
+    headTableNamesEl.textContent = displayNames();
+    scheduleSave();
   });
   dateEl.addEventListener('change', function(){ state.date = dateEl.value; scheduleSave(); updateCountdown(); renderLightBar(); renderTimeline(); });
   cityEl.addEventListener('change', function(){ state.city = cityEl.value; scheduleSave(); renderLightBar(); renderTimeline(); });
@@ -295,7 +303,7 @@ export function initCronograma(root){
     var inputs = timelineEl.querySelectorAll('.activity'); var last = inputs[inputs.length-1]; if (last) last.focus();
   });
   copyBtn.addEventListener('click', function(){
-    var lines = ['CRONOGRAMA — ' + (state.names||''), state.date || '', ''];
+    var lines = ['CRONOGRAMA — ' + displayNames(), state.date || '', ''];
     state.schedule.forEach(function(item){
       if (!item.time && !item.activity) return;
       lines.push((item.time||'--:--') + '  ' + (item.activity||''));
@@ -659,7 +667,8 @@ export function initCronograma(root){
   loadDemoBtn.addEventListener('click', function(){
     var demoDate = new Date(); demoDate.setMonth(demoDate.getMonth()+4); demoDate.setDate(13);
 
-    state.names = 'Valentina & Sebastián';
+    state.brideName = 'Valentina';
+    state.groomName = 'Sebastián';
     state.date = demoDate.toISOString().slice(0,10);
     state.city = 'bogota';
     state.headCapacity = 6;
@@ -698,8 +707,9 @@ export function initCronograma(root){
     ];
     state.menuNotes = '6 menús vegetarianos, 2 sin gluten (avisar en la mesa 3), 8 menús infantiles.';
 
-    namesEl.textContent = state.names;
-    headTableNamesEl.textContent = state.names;
+    brideNameEl.textContent = state.brideName;
+    groomNameEl.textContent = state.groomName;
+    headTableNamesEl.textContent = displayNames();
     dateEl.value = state.date;
     cityEl.value = state.city;
     guestCountEl.value = state.guestCount;
