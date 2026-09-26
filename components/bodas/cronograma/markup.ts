@@ -15,7 +15,7 @@ export const CB_MARKUP = `
     </h1>
     <div class="cb-edit-hint"><svg class="cb-edit-hint-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Toquen cada nombre para escribir el suyo — toda esta planilla es editable</div>
   </div>
-  <p class="subtitle hero-anim" style="animation-delay:.2s">Su planilla personal, construida por fotógrafos — no una plantilla genérica de wedding planner. Editen cada dato con su información real.</p>
+  <p class="subtitle hero-anim" style="animation-delay:.2s">Su planilla personal, construida por fotógrafos con el detalle técnico del día a día en cámara. Editen cada dato con su información real.</p>
   <button type="button" id="loadDemoBtn" class="demo-link hero-anim" style="animation-delay:.22s">Ver un ejemplo lleno de una boda</button>
   <div class="hero-controls hero-anim" style="animation-delay:.25s">
     <span class="lbl">Fecha</span>
@@ -47,7 +47,7 @@ export const CB_MARKUP = `
       <div>
         <span class="eyebrow">Calculado para su fecha y ciudad</span>
         <h2>La <em class="gold-text">luz</em> de su día</h2>
-        <p>La hora dorada real no es "como a las 5" — depende de su fecha y su ciudad exacta. Esto es lo que un wedding planner no calcula y nosotros sí, porque de esto vivimos.</p>
+        <p>La hora dorada real no es "como a las 5" — depende de su fecha y su ciudad exacta. Este es el detalle técnico que calculamos con precisión, porque de esto vivimos.</p>
       </div>
     </div>
     <div class="light-bar-wrap">
