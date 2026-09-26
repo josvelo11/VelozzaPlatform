@@ -5,7 +5,7 @@ author: "Juan Pérez"
 date: "2025-06-22"
 category: "Personal Branding"
 tags: ["personal branding", "linkedin", "autoridad", "estrategia"]
-image: "/blog/personal-branding-2025.jpg"
+image: "/founder-fulllength.jpg"
 readTime: 8
 ---
 

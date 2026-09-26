@@ -133,7 +133,7 @@ export function PhotobookCarousel({ images }: PhotobookCarouselProps) {
               onClick={() => setLightboxOpen(true)}
               aria-label={`Ampliar imagen: ${img.alt}`}
             >
-              <img src={img.src} alt={img.alt} loading={i === 0 ? 'eager' : 'lazy'} draggable={false} />
+              <img src={img.src} alt={img.alt} loading="eager" draggable={false} />
             </button>
           ))}
         </div>

@@ -5,7 +5,7 @@ author: "María López"
 date: "2025-06-20"
 category: "SEO"
 tags: ["SEO", "Google", "tendencias", "2025", "algoritmo"]
-image: "/blog/seo-tendencias-2025.jpg"
+image: "/photoshoot-3.jpg"
 readTime: 10
 ---
 
