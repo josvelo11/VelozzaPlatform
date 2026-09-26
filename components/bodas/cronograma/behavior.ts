@@ -425,7 +425,12 @@ export function initCronograma(root){
       else { x = W-padX; y = (H-padY) - (d-leftLen-botLen); }
 
       var unit = document.createElement('div'); unit.className='table-unit'; unit.style.animationDelay=(i*0.04)+'s';
-      unit.style.left = x+'px'; unit.style.top = y+'px';
+      // this layout positions tables with plain left/top (no centering transform:
+      // the entrance animation already animates transform:scale(), and CSS lets
+      // only one "transform" source win — the animation always overrides a
+      // static transform, so translate(-50%,-50%) here would silently be
+      // dropped once the entrance animation finishes). Center by math instead.
+      unit.style.left = (x-52)+'px'; unit.style.top = (y-52)+'px';
       for (var c=0;c<chairCount;c++){
         var ang = (2*Math.PI*c/chairCount) - Math.PI/2;
         var chair = document.createElement('div'); chair.className='chair';

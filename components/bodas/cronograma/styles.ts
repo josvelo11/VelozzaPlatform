@@ -324,7 +324,7 @@ export const CB_STYLES = `
 
 .cb-root .tables-grid.layout-u{position:relative;width:100%;max-width:680px;height:340px;margin:0 auto}
 
-.cb-root .tables-grid.layout-u .table-unit{position:absolute;transform:translate(-50%,-50%)}
+.cb-root .tables-grid.layout-u .table-unit{position:absolute}
 
 
 .cb-root .tables-grid.layout-rows{display:flex;justify-content:center;align-items:flex-start;gap:0;max-width:none;width:100%}
