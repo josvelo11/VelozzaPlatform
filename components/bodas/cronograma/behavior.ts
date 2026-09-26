@@ -22,7 +22,7 @@ export function initCronograma(root){
     {time:'13:30', activity:'First look (opcional)', note:'No reemplaza el altar, lo complementa.', margin:15, critical:false},
     {time:'14:30', activity:'Traslado al lugar de la ceremonia', note:'', margin:20, critical:false},
     {time:'15:00', activity:'Ceremonia', note:'El bloque menos flexible del día — todo lo demás se calcula desde aquí.', margin:15, critical:true},
-    {time:'15:45', activity:'Fotos familiares', note:'Shot list ya enviada al fotógrafo, máx. 10-12 grupos por lado.', margin:20, critical:true},
+    {time:'15:45', activity:'Fotos familiares', note:'Shot list ya enviada al fotógrafo, máx. 4 personas por lado.', margin:20, critical:true},
     {time:'16:15', activity:'Retrato formal de pareja', note:'', margin:10, critical:false},
     {time:'16:45', activity:'Cóctel de bienvenida', note:'', margin:0, critical:false},
     {time:'17:30', activity:'Hora dorada — retratos de pareja', note:'No negociable: se calcula desde la puesta de sol real.', margin:10, critical:true},

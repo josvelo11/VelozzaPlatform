@@ -366,7 +366,7 @@ export const CB_STYLES = `
 
 .cb-root .table-circle .tc{font:600 8px 'Montserrat';color:var(--mut2);margin-top:2px}
 
-.cb-root .chair{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--line2);z-index:1}
+.cb-root .chair{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:.7;z-index:1}
 
 .cb-root .table-label{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9.5px;color:var(--mut2);white-space:nowrap;min-width:60px;text-align:center;max-width:104px;overflow:hidden;text-overflow:ellipsis}
 
@@ -565,11 +565,9 @@ export const CB_STYLES = `
 
   .cb-root .aisle .al{transform:translate(-50%,-50%) rotate(0deg)}
 
-  .cb-root .mode-toggle{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .cb-root .mode-toggle{max-width:100%;flex-wrap:wrap;justify-content:center;border-radius:14px;gap:4px}
 
-  .cb-root .mode-toggle::-webkit-scrollbar{display:none}
-
-  .cb-root .mode-toggle button{white-space:nowrap}
+  .cb-root .mode-toggle button{white-space:normal;flex:1 1 auto;text-align:center}
 
 }
 `;

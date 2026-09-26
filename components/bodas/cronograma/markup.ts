@@ -214,7 +214,7 @@ export const CB_MARKUP = `
         <li>Calculen los horarios hacia atrás desde lo menos flexible: la ceremonia.</li></ul>
       </div>
       <div class="tip"><div class="n">02</div><h3>Fotos familiares sin caos</h3>
-        <ul><li>Lista con nombres completos, máximo 10-12 grupos por lado.</li>
+        <ul><li>Lista con nombres completos, siguiendo la misma regla: máximo 4 personas por lado.</li>
         <li>Envíenla a su fotógrafo al menos dos semanas antes.</li></ul>
       </div>
       <div class="tip"><div class="n">03</div><h3>Para verse bien todo el día</h3>
@@ -227,7 +227,7 @@ export const CB_MARKUP = `
       </div>
       <div class="tip"><div class="n">05</div><h3>Si el clima cambia</h3>
         <ul><li>Definan con su coordinador un plan B techado con al menos una semana de margen.</li>
-        <li>Pidan a su fotógrafo llevar equipo para lluvia — no cancela la sesión exterior.</li></ul>
+        <li>Tengan a la mano sombrillas o capas transparentes — se ven bien en fotos y salvan la sesión exterior.</li></ul>
       </div>
       <div class="tip"><div class="n">06</div><h3>El día siguiente</h3>
         <ul><li>Descansen antes de revisar fotos — la primera mirada rinde más con la cabeza fresca.</li>
