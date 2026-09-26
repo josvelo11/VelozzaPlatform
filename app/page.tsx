@@ -487,6 +487,7 @@ export default function Home() {
             <span /><span /><span />
           </label>
           <ul className="links">
+            <li><a href="/paquetes-bodas">Bodas y Eventos Sociales</a></li>
             <li><a href="/servicios">Servicios</a></li>
             <li><a href="/blog">Blog</a></li>
             <li><a href="/casos-de-exito">Casos de éxito</a></li>

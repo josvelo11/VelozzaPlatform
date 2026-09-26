@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Breadcrumb } from '@/components/seo/Breadcrumb';
 import { FAQ } from '@/components/seo/FAQ';
 
@@ -583,12 +584,31 @@ export default function BodasPage() {
                 </div>
                 <div className="portfolio-grid">
                   {group.images.map((image, i) => (
-                    <figure key={image.src} className="portfolio-card tilt reveal shine-hover" style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
-                      <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" draggable={false} />
+                    <figure key={image.src} className={`portfolio-card tilt reveal shine-hover${i >= 4 ? ' portfolio-card-extra' : ''}`} style={{ transitionDelay: `${(i % 6) * 0.06}s` }}>
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 33vw"
+                        loading="lazy"
+                        draggable={false}
+                        style={{ width: '100%', height: 'auto' }}
+                      />
                       <figcaption>{image.caption}</figcaption>
                     </figure>
                   ))}
                 </div>
+                {group.images.length > 4 && (
+                  <a
+                    className="portfolio-more-mobile"
+                    href="https://velozzacreative.myportfolio.com/bodas"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Ver las {group.images.length - 4} fotos restantes de esta sesión en el catálogo →
+                  </a>
+                )}
               </div>
             ))}
           </div>
@@ -898,6 +918,10 @@ export default function BodasPage() {
           border-top: 1px solid rgba(244, 207, 99, 0.14);
         }
 
+        .portfolio-more-mobile {
+          display: none;
+        }
+
         @media (max-width: 1100px) {
           .bodas-hero-title {
             max-width: 12ch;
@@ -976,6 +1000,20 @@ export default function BodasPage() {
 
           .portfolio-grid {
             columns: 1;
+          }
+
+          .portfolio-card-extra {
+            display: none;
+          }
+
+          .portfolio-more-mobile {
+            display: inline-block;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            color: #f4cf63;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: underline;
           }
 
           .bodas-hero-title {
