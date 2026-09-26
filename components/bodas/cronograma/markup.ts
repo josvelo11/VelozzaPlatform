@@ -15,7 +15,7 @@ export const CB_MARKUP = `
     </h1>
     <div class="cb-edit-hint"><svg class="cb-edit-hint-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Toquen cada nombre para escribir el suyo — toda esta planilla es editable</div>
   </div>
-  <p class="subtitle hero-anim" style="animation-delay:.2s">Su planilla personal, construida por fotógrafos con el detalle técnico del día a día en cámara. Editen cada dato con su información real.</p>
+  <p class="subtitle hero-anim" style="animation-delay:.2s">Su planilla personal, construida por Agencia Velozza con el detalle técnico del día a día en cámara. Editen cada dato con su información real.</p>
   <button type="button" id="loadDemoBtn" class="demo-link hero-anim" style="animation-delay:.22s">Ver un ejemplo lleno de una boda</button>
   <div class="hero-controls hero-anim" style="animation-delay:.25s">
     <span class="lbl">Fecha</span>

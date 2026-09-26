@@ -56,7 +56,7 @@ export default function CronogramaBodaPage() {
           <div style={{ maxWidth: '820px', margin: '0 auto 8px' }} className="reveal cb-page-intro">
             <div className="eyebrow">Herramienta gratuita para nuestros novios</div>
             <h1 className="hero-title" style={{ maxWidth: '18ch', fontSize: 'clamp(2rem, 4.2vw, 3.1rem)' }}>
-              Su <span className="text-shimmer">cronograma de boda</span>, hecho por fotógrafos
+              Su <span className="text-shimmer">cronograma de boda</span>, hecho por Agencia Velozza
             </h1>
             <p className="hero-copy" style={{ maxWidth: '58ch' }}>
               Editen cada campo con la información real de su día: horarios, mesas, menú y equipo. Todo se guarda en este navegador y queda listo para imprimir o compartir.
