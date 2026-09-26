@@ -401,10 +401,21 @@ export function initCronograma(root){
   function renderULayout(count, per){
     tablesGridEl.className = 'tables-grid layout-u';
     var W = tablesGridEl.clientWidth || 680, H = 340;
-    var padX = 64, padY = 54;
+    var compact = W < 420;
+    var padX = compact ? 34 : 64, padY = compact ? 30 : 54;
     var leftLen = H - padY*2, botLen = W - padX*2, rightLen = H - padY*2;
     var total = leftLen + botLen + rightLen;
-    var chairCount = Math.min(per, 10);
+    // shrink the visual footprint of each table when many of them have to
+    // share a short perimeter (mobile), so neighbors never overlap
+    var minStep = count > 1 ? total / (count - 1) : total;
+    var circleSize = compact ? 40 : 60;
+    var radius = compact ? 20 : 42;
+    if (minStep < radius * 2 + 16) {
+      var shrink = Math.max(0.55, minStep / (radius * 2 + 16));
+      circleSize = Math.round(circleSize * shrink);
+      radius = Math.round(radius * shrink);
+    }
+    var chairCount = Math.min(per, compact ? 8 : 10);
     for (var i=0;i<count;i++){
       var t = count>1 ? i/(count-1) : 0.5;
       var d = t*total;
@@ -415,16 +426,16 @@ export function initCronograma(root){
 
       var unit = document.createElement('div'); unit.className='table-unit'; unit.style.animationDelay=(i*0.04)+'s';
       unit.style.left = x+'px'; unit.style.top = y+'px';
-      var radius = 42;
       for (var c=0;c<chairCount;c++){
         var ang = (2*Math.PI*c/chairCount) - Math.PI/2;
         var chair = document.createElement('div'); chair.className='chair';
-        chair.style.left = (48 + radius*Math.cos(ang) - 3.5) + 'px';
-        chair.style.top = (48 + radius*Math.sin(ang) - 3.5) + 'px';
+        chair.style.left = (52 + radius*Math.cos(ang) - 3.5) + 'px';
+        chair.style.top = (52 + radius*Math.sin(ang) - 3.5) + 'px';
         unit.appendChild(chair);
       }
       var circle = document.createElement('div'); circle.className='table-circle'+(editingTable===i?' editing':'');
-      circle.style.width='60px'; circle.style.height='60px';
+      circle.style.width=circleSize+'px'; circle.style.height=circleSize+'px';
+      if (compact) { circle.style.fontSize='11px'; }
       var tn = document.createElement('div'); tn.className='tn'; tn.textContent=(i+1);
       var filled = (state.tableGuests[i]||[]).length;
       var tc = document.createElement('div'); tc.className='tc'; tc.textContent = filled+'/'+per;
