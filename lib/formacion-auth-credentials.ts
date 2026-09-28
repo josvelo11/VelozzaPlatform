@@ -3,10 +3,11 @@
 // middleware.ts (runtime Edge), porque node:crypto no existe ahí.
 //
 // Las contraseñas NO se guardan en texto plano: cada usuario tiene un salt +
-// hash generados con scrypt. Por ahora son 2 usuarios fijos (acceso de
-// agencia + la clienta Dalia); si el catálogo de clientes con acceso crece,
-// esto debería moverse a una tabla real (Supabase, igual que el resto de la
-// plataforma) en vez de esta lista embebida.
+// hash generados con scrypt. Convención de contraseña para clientes de boda:
+// su propia cédula (sin puntos) — así lo pidió David, fácil de recordar y de
+// entregar en el PDF de bienvenida. Si el catálogo de clientes con acceso
+// crece, esto debería moverse a una tabla real (Supabase, igual que el resto
+// de la plataforma) en vez de esta lista embebida.
 import crypto from 'node:crypto';
 
 const FORMACION_USERS: Record<string, { salt: string; hash: string }> = {
@@ -17,6 +18,15 @@ const FORMACION_USERS: Record<string, { salt: string; hash: string }> = {
   dalia: {
     salt: '6db753673bd0ac89f7a6a47be65bf528',
     hash: '3282866a9e161dc255ad1890525879f2536dcad639ee1b4e849691feb34ed0989088008d98edaefca36355a3041d4f288143aff482596380f464bc00ed9c9259',
+  },
+  // Contrato n.º 015 — David Alejandro Martínez Blanco y Gina Paola Perilla Contreras, boda 12-dic-2026.
+  martinez: {
+    salt: '451a80c3edf9afc94246401fc6c1cb3d',
+    hash: '2787bb2be05ced71e345478deff658ffafb55c31ecbd8ccc9a013332dbc51734d5861468efc7c029e0878f9a503b46506c580bfc80ea7870456066ca003fe4e2',
+  },
+  perilla: {
+    salt: '14efd6bed626afb9b56296c7cb768e0f',
+    hash: '6422521eb9d3ca7633dc43e9703a7b354102795e35fc2424e4bc44927e74ff3526bda19a87f31f3b7f3cd414f9536440dbb186c685e8e2cb993ff3a903bdc509',
   },
 };
 
