@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifyFormacionSession } from '@/lib/formacion-auth';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -48,6 +49,26 @@ export async function middleware(request: NextRequest) {
 
   if (isLegacyPortalRoute) {
     return NextResponse.redirect(new URL('/clientes', request.url));
+  }
+
+  // Formación Plus: contenido exclusivo para clientes, protegido por cookie
+  // firmada (HMAC), no por una cookie sin firmar como el portal legado de
+  // arriba — ver lib/formacion-auth.ts.
+  const isFormacionRoute = pathname === '/formacion-plus' || pathname.startsWith('/formacion-plus/');
+  const formacionLoginRoutes = ['/formacion-plus/login', '/api/formacion-plus/login'];
+  const isFormacionLoginRoute = formacionLoginRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + '/')
+  );
+
+  if (isFormacionRoute && !isFormacionLoginRoute) {
+    const token = request.cookies.get('formacion_session')?.value;
+    const username = await verifyFormacionSession(token);
+
+    if (!username) {
+      const loginUrl = new URL('/formacion-plus/login', request.url);
+      loginUrl.searchParams.set('next', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   return NextResponse.next();
